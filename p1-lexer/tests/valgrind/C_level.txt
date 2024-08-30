@@ -1,0 +1,50 @@
+==2681829== Memcheck, a memory error detector
+==2681829== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2681829== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2681829== Command: ../decaf inputs/clevel.decaf
+==2681829== 
+Invalid token!
+==2681829== 
+==2681829== HEAP SUMMARY:
+==2681829==     in use at exit: 34,280 bytes in 286 blocks
+==2681829==   total heap usage: 382 allocs, 96 frees, 49,484 bytes allocated
+==2681829== 
+==2681829== 2,464 (16 direct, 2,448 indirect) bytes in 1 blocks are definitely lost in loss record 199 of 205
+==2681829==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2681829==    by 0x109B80: TokenQueue_new (token.c:67)
+==2681829==    by 0x1093F2: lex (p1-lexer.c:9)
+==2681829==    by 0x10A031: main (main.c:93)
+==2681829== 
+==2681829== 5,808 (64 direct, 5,744 indirect) bytes in 1 blocks are definitely lost in loss record 202 of 205
+==2681829==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2681829==    by 0x1098FF: Regex_new (token.c:5)
+==2681829==    by 0x109408: lex (p1-lexer.c:12)
+==2681829==    by 0x10A031: main (main.c:93)
+==2681829== 
+==2681829== 7,684 (64 direct, 7,620 indirect) bytes in 1 blocks are definitely lost in loss record 203 of 205
+==2681829==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2681829==    by 0x1098FF: Regex_new (token.c:5)
+==2681829==    by 0x10941E: lex (p1-lexer.c:13)
+==2681829==    by 0x10A031: main (main.c:93)
+==2681829== 
+==2681829== 8,528 (64 direct, 8,464 indirect) bytes in 1 blocks are definitely lost in loss record 204 of 205
+==2681829==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2681829==    by 0x1098FF: Regex_new (token.c:5)
+==2681829==    by 0x109434: lex (p1-lexer.c:14)
+==2681829==    by 0x10A031: main (main.c:93)
+==2681829== 
+==2681829== 9,796 (64 direct, 9,732 indirect) bytes in 1 blocks are definitely lost in loss record 205 of 205
+==2681829==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2681829==    by 0x1098FF: Regex_new (token.c:5)
+==2681829==    by 0x10944A: lex (p1-lexer.c:15)
+==2681829==    by 0x10A031: main (main.c:93)
+==2681829== 
+==2681829== LEAK SUMMARY:
+==2681829==    definitely lost: 272 bytes in 5 blocks
+==2681829==    indirectly lost: 34,008 bytes in 281 blocks
+==2681829==      possibly lost: 0 bytes in 0 blocks
+==2681829==    still reachable: 0 bytes in 0 blocks
+==2681829==         suppressed: 0 bytes in 0 blocks
+==2681829== 
+==2681829== For lists of detected and suppressed errors, rerun with: -s
+==2681829== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 0 from 0)
