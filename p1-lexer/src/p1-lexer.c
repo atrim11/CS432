@@ -41,6 +41,8 @@ TokenQueue* lex (const char* text)
     /* clean up */
     Regex_free(whitespace);
     Regex_free(letter);
+    Regex_free(symbol);
+    Regex_free(num);
  
     return tokens;
 }
