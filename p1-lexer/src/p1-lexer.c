@@ -1,7 +1,7 @@
 /**
  * @file p1-lexer.c
  * @brief Compiler phase 1: lexer
- * Authors: Aidan Trimmer & Walker Todd
+ * Authors: Aidan Trimmer and Walker Todd
  */
 #include "p1-lexer.h"
 
@@ -12,7 +12,7 @@ TokenQueue* lex (const char* text)
     /* compile regular expressions */
     Regex* whitespace = Regex_new("^[ \n]");
     Regex* letter = Regex_new("^([a-zA-Z][a-zA-Z_0-9]*)");
-    Regex* symbol = Regex_new("^([*]|[+]|[(]|[)])");
+    Regex* symbol = Regex_new("^([*+()])");
     Regex* num = Regex_new("^(0|[1-9][0-9]*)");
     int line = 1;
     /* read and handle input */
