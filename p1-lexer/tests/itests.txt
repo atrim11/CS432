@@ -1,5 +1,5 @@
 D_level                        pass
-C_level                        FAIL (see outputs/C_level.diff for details)
+C_level                        pass
 B_add                          FAIL (see outputs/B_add.diff for details)
 Memory leak(s) found. See files listed below for details.
   - valgrind/B_add.txt
@@ -8,12 +8,11 @@ Memory leak(s) found. See files listed below for details.
   - valgrind/B_add.txt
   - valgrind/B_add.txt
   - valgrind/B_add.txt
-  - valgrind/C_level.txt
-  - valgrind/C_level.txt
-  - valgrind/C_level.txt
-  - valgrind/C_level.txt
-  - valgrind/C_level.txt
-  - valgrind/C_level.txt
+  - valgrind/B_add.txt
+  - valgrind/B_add.txt
+  - valgrind/B_add.txt
+  - valgrind/B_add.txt
+  - valgrind/B_add.txt
 No uninitialized value found.
 ========================================
  NOTICE: THIS TESTSUITE IS INCOMPLETE.
