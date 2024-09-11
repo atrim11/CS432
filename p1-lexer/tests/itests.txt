@@ -13,6 +13,12 @@ Memory leak(s) found. See files listed below for details.
   - valgrind/B_add.txt
   - valgrind/B_add.txt
   - valgrind/B_add.txt
+  - valgrind/B_add.txt
+  - valgrind/B_add.txt
+  - valgrind/C_level.txt
+  - valgrind/C_level.txt
+  - valgrind/D_level.txt
+  - valgrind/D_level.txt
 No uninitialized value found.
 ========================================
  NOTICE: THIS TESTSUITE IS INCOMPLETE.

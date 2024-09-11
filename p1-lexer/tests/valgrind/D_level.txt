@@ -1,20 +1,31 @@
-==682826== Memcheck, a memory error detector
-==682826== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==682826== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==682826== Command: ../decaf inputs/dlevel.decaf
-==682826== 
+==1264879== Memcheck, a memory error detector
+==1264879== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1264879== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1264879== Command: ../decaf inputs/dlevel.decaf
+==1264879== 
 SYMBOL   [line 001]  (
 SYMBOL   [line 001]  )
 SYMBOL   [line 001]  +
 SYMBOL   [line 001]  *
 DECLIT   [line 001]  123
 ID       [line 001]  id
-==682826== 
-==682826== HEAP SUMMARY:
-==682826==     in use at exit: 0 bytes in 0 blocks
-==682826==   total heap usage: 598 allocs, 598 frees, 64,932 bytes allocated
-==682826== 
-==682826== All heap blocks were freed -- no leaks are possible
-==682826== 
-==682826== For lists of detected and suppressed errors, rerun with: -s
-==682826== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1264879== 
+==1264879== HEAP SUMMARY:
+==1264879==     in use at exit: 1,944 bytes in 41 blocks
+==1264879==   total heap usage: 792 allocs, 751 frees, 82,504 bytes allocated
+==1264879== 
+==1264879== 1,944 (64 direct, 1,880 indirect) bytes in 1 blocks are definitely lost in loss record 37 of 37
+==1264879==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1264879==    by 0x109C36: Regex_new (token.c:5)
+==1264879==    by 0x109502: lex (p1-lexer.c:27)
+==1264879==    by 0x10A368: main (main.c:93)
+==1264879== 
+==1264879== LEAK SUMMARY:
+==1264879==    definitely lost: 64 bytes in 1 blocks
+==1264879==    indirectly lost: 1,880 bytes in 40 blocks
+==1264879==      possibly lost: 0 bytes in 0 blocks
+==1264879==    still reachable: 0 bytes in 0 blocks
+==1264879==         suppressed: 0 bytes in 0 blocks
+==1264879== 
+==1264879== For lists of detected and suppressed errors, rerun with: -s
+==1264879== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
