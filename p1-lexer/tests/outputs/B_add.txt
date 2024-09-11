@@ -1,0 +1,11 @@
+KEYWORD  [line 001]  def
+KEYWORD  [line 001]  int
+KEYWORD  [line 001]  main()
+{
+	int
+KEYWORD  [line 001]  a;
+	a = 4 + 5;
+	return
+ID       [line 001]  a
+SYMBOL   [line 001]  ;
+SYMBOL   [line 002]  }

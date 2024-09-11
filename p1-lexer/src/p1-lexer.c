@@ -23,7 +23,8 @@ TokenQueue* lex (const char* text)
     Regex* hex = Regex_new("^(0x[0-9a-fA-F]+)");
     Regex* num = Regex_new("^(0|[1-9][0-9]*)");
     Regex* str_lit = Regex_new("^\"([^\"]*)\"");
-    Regex* keyword = Regex_new("^(int|def|return)");
+    // Im not sure why but when the ^ is removed from the keyword regex it starts printing again
+    Regex* keyword = Regex_new("(int|def|return)");
     Regex* comment = Regex_new("^//.*");
     Regex* illegal = Regex_new("^(for)");
     int line = 1;

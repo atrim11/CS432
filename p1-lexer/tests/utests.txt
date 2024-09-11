@@ -1,4 +1,3 @@
 Running suite(s): Default
-90%: Checks: 21, Failures: 2, Errors: 0
-public.c:44:F:Public:B_invalid_for:0: Assertion 'invalid_tokens("for")' failed
+95%: Checks: 21, Failures: 1, Errors: 0
 public.c:55:F:Public:A_keyword_id:0: Assertion 'valid_1token("int3", ID, "int3")' failed
