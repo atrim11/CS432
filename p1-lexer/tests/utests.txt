@@ -1,3 +1,2 @@
 Running suite(s): Default
-95%: Checks: 21, Failures: 1, Errors: 0
-public.c:55:F:Public:A_keyword_id:0: Assertion 'valid_1token("int3", ID, "int3")' failed
+100%: Checks: 21, Failures: 0, Errors: 0

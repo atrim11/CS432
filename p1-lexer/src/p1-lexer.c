@@ -26,10 +26,11 @@ TokenQueue* lex (const char* text)
     // Im not sure why but when the ^ is removed from the keyword regex it starts printing again
     Regex* keyword = Regex_new("(int|def|return)");
     Regex* comment = Regex_new("^//.*");
-    Regex* illegal = Regex_new("^(for)");
+    Regex* illegal = Regex_new("(for)");
     int line = 1;
     /* read and handle input */
     char match[MAX_TOKEN_LEN];
+    char temp[MAX_TOKEN_LEN];
     while (*text != '\0') {
         
         /* match regular expressions */
@@ -48,12 +49,14 @@ TokenQueue* lex (const char* text)
         } else if (Regex_match(str_lit, text, match)) {
             TokenQueue_add(tokens, Token_new(STRLIT, match, line));
             // finding a keyword literal
-        } else if (Regex_match(keyword, text, match)) {
-            TokenQueue_add(tokens, Token_new(KEY, match, line));
-        } else if (Regex_match(illegal, text, match)){
-            Error_throw_printf("Invalid token!");
-        } else if (Regex_match(letter, text, match)) {
-            TokenQueue_add(tokens, Token_new(ID, match, line));
+        }else if (Regex_match(letter, text, match)) {
+            if (Regex_match(keyword, match, temp) && strcmp(match, temp) == 0) {
+                TokenQueue_add(tokens, Token_new(KEY, temp, line));
+            } else if (Regex_match(illegal, match, temp)  && strcmp(match, temp) == 0){
+                Error_throw_printf("Invalid token!");
+            } else {
+                TokenQueue_add(tokens, Token_new(ID, match, line));
+            }
             // Should we check for keywords as well?
             // I think we may need to instead of having the keyword and illegal before this should be in this if else
 
@@ -64,10 +67,10 @@ TokenQueue* lex (const char* text)
         } else if (Regex_match(comment, text, match)) {
             // skip comments
         } else {
-
+            //printf(text);
             // This is causing a memory leak for some reason
             Error_throw_printf("Invalid token!");
-            // printf("Invalid token!\n");
+            //printf("Invalid token!\n");
             // print hte invalid token
             // printf("%s\n", tokens->head->text);
             // printf("%s\n", text);
@@ -90,6 +93,7 @@ TokenQueue* lex (const char* text)
     Regex_free(new_line);
     Regex_free(keyword);
     Regex_free(illegal);
+    Regex_free(comment);
 
  
     return tokens;
