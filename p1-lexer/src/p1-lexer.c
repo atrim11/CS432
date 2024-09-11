@@ -25,6 +25,7 @@ TokenQueue* lex (const char* text)
     Regex* str_lit = Regex_new("^\"([^\"]*)\"");
     Regex* keyword = Regex_new("^(int|def|return)");
     Regex* comment = Regex_new("^//.*");
+    Regex* illegal = Regex_new("^(for)");
     int line = 1;
     /* read and handle input */
     char match[MAX_TOKEN_LEN];
@@ -44,13 +45,16 @@ TokenQueue* lex (const char* text)
         } else if (Regex_match(double_symbol, text, match)) {
             TokenQueue_add(tokens, Token_new(SYM, match, line));
         } else if (Regex_match(str_lit, text, match)) {
-                TokenQueue_add(tokens, Token_new(STRLIT, match, line));
+            TokenQueue_add(tokens, Token_new(STRLIT, match, line));
             // finding a keyword literal
         } else if (Regex_match(keyword, text, match)) {
             TokenQueue_add(tokens, Token_new(KEY, match, line));
+        } else if (Regex_match(illegal, text, match)){
+            Error_throw_printf("Invalid token!");
         } else if (Regex_match(letter, text, match)) {
             TokenQueue_add(tokens, Token_new(ID, match, line));
             // Should we check for keywords as well?
+            // I think we may need to instead of having the keyword and illegal before this should be in this if else
 
         } else if (Regex_match(symbol, text, match)) {
             TokenQueue_add(tokens, Token_new(SYM, match, line));
@@ -84,6 +88,7 @@ TokenQueue* lex (const char* text)
     Regex_free(extra_symbol);
     Regex_free(new_line);
     Regex_free(keyword);
+    Regex_free(illegal);
 
  
     return tokens;
