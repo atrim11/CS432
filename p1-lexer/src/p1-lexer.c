@@ -13,7 +13,7 @@ TokenQueue* lex (const char* text)
     TokenQueue* tokens = TokenQueue_new();
  
     /* compile regular expressions */
-    Regex* whitespace = Regex_new("^[ ]");
+    Regex* whitespace = Regex_new("^[ \t]+");
     Regex* new_line = Regex_new("^\n");
     Regex* letter = Regex_new("^([a-zA-Z][a-zA-Z_0-9]*)");
     // We need to add [] to the symbol regex for some reason its not catching them
@@ -24,7 +24,7 @@ TokenQueue* lex (const char* text)
     Regex* num = Regex_new("^(0|[1-9][0-9]*)");
     Regex* str_lit = Regex_new("^\"([^\"]*)\"");
     // Im not sure why but when the ^ is removed from the keyword regex it starts printing again
-    Regex* keyword = Regex_new("(int|def|return)");
+    Regex* keyword = Regex_new("^(int|def|return)");
     Regex* comment = Regex_new("^//.*");
     Regex* illegal = Regex_new("(for)");
     int line = 1;
@@ -70,11 +70,11 @@ TokenQueue* lex (const char* text)
             //printf(text);
             // This is causing a memory leak for some reason
             Error_throw_printf("Invalid token!");
-            //printf("Invalid token!\n");
+            // printf("Invalid token!\n");
+            // printf("%d\n", line);
             // print hte invalid token
             // printf("%s\n", tokens->head->text);
-            // printf("%s\n", text);
-            
+            // printf("%s", text);
         }
  
         /* skip matched text to look for next token */
