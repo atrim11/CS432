@@ -2,4 +2,3 @@ def main() { return 1; }
 
 
 int x = 42 + 5;
-

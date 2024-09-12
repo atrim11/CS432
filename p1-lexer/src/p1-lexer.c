@@ -24,9 +24,10 @@ TokenQueue* lex (const char* text)
     Regex* num = Regex_new("^(0|[1-9][0-9]*)");
     Regex* str_lit = Regex_new("^\"([^\"]*)\"");
     // Im not sure why but when the ^ is removed from the keyword regex it starts printing again
-    Regex* keyword = Regex_new("^(int|def|return)");
+    Regex* keyword = Regex_new("^(def|if|else|while|return|break|continue|int|bool|void|true|false)");
     Regex* comment = Regex_new("^//.*");
-    Regex* illegal = Regex_new("(for)");
+    // Adding reserved words as illegal
+    Regex* reserved = Regex_new("^(for|callout|class|interface|extends|implements|new|this|string|float|double|null)");
     int line = 1;
     /* read and handle input */
     char match[MAX_TOKEN_LEN];
@@ -52,8 +53,8 @@ TokenQueue* lex (const char* text)
         }else if (Regex_match(letter, text, match)) {
             if (Regex_match(keyword, match, temp) && strcmp(match, temp) == 0) {
                 TokenQueue_add(tokens, Token_new(KEY, temp, line));
-            } else if (Regex_match(illegal, match, temp)  && strcmp(match, temp) == 0){
-                Error_throw_printf("Invalid token!");
+            } else if (Regex_match(reserved, match, temp)  && strcmp(match, temp) == 0){
+                Error_throw_printf("Resvered Word found at line %d", line, line);
             } else {
                 TokenQueue_add(tokens, Token_new(ID, match, line));
             }
@@ -92,7 +93,7 @@ TokenQueue* lex (const char* text)
     Regex_free(extra_symbol);
     Regex_free(new_line);
     Regex_free(keyword);
-    Regex_free(illegal);
+    Regex_free(reserved);
     Regex_free(comment);
 
  

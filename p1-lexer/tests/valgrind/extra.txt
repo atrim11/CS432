@@ -1,8 +1,8 @@
-==2454206== Memcheck, a memory error detector
-==2454206== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2454206== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2454206== Command: ../decaf inputs/extra.decaf
-==2454206== 
+==105760== Memcheck, a memory error detector
+==105760== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==105760== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==105760== Command: ../decaf inputs/extra.decaf
+==105760== 
 KEYWORD  [line 001]  def
 ID       [line 001]  main
 SYMBOL   [line 001]  (
@@ -19,12 +19,12 @@ DECLIT   [line 004]  42
 SYMBOL   [line 004]  +
 DECLIT   [line 004]  5
 SYMBOL   [line 004]  ;
-==2454206== 
-==2454206== HEAP SUMMARY:
-==2454206==     in use at exit: 0 bytes in 0 blocks
-==2454206==   total heap usage: 925 allocs, 925 frees, 122,036 bytes allocated
-==2454206== 
-==2454206== All heap blocks were freed -- no leaks are possible
-==2454206== 
-==2454206== For lists of detected and suppressed errors, rerun with: -s
-==2454206== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==105760== 
+==105760== HEAP SUMMARY:
+==105760==     in use at exit: 0 bytes in 0 blocks
+==105760==   total heap usage: 1,597 allocs, 1,597 frees, 181,144 bytes allocated
+==105760== 
+==105760== All heap blocks were freed -- no leaks are possible
+==105760== 
+==105760== For lists of detected and suppressed errors, rerun with: -s
+==105760== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
