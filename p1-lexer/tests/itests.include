@@ -6,4 +6,5 @@
 run_test    D_level                     "inputs/dlevel.decaf"
 run_test    C_level                     "inputs/clevel.decaf"
 run_test    B_add                       "inputs/add.decaf"
+run_test    extra                       "inputs/extra.decaf"
 
