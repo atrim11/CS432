@@ -2,6 +2,7 @@
  * @file p1-lexer.c
  * @brief Compiler phase 1: lexer
  * Authors: Aidan Trimmer and Walker Todd
+ * AI was used to try and and think of more edge cases while testing code.
  */
 #include "p1-lexer.h"
 
