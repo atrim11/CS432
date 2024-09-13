@@ -18,20 +18,7 @@ TEST_INVALID(D_invalid_symbol,   "^")
 TEST_INVALID(D_invalid_id,       "_true")
 TEST_2TOKENS(D_multi_tokens,     "foo*", ID, "foo", SYM, "*")
 // Added Tests
-// TEST_LAB1(Lab_symbol,   "\(",    SYM,    "\(")
-// TEST_LAB2(Lab_symbol2,   "\)",    SYM,    "\)")
-// TEST_LAB3(Lab_symbol_inv,   "@")
-// TEST_LAB4(Lab_symbol_inv2,   "$")
-// TEST_LAB5(Lab_dec,   "42", DECLIT, "42")
-// TEST_LAB6(Lab_dec2,   "1337", DECLIT, "1337")
-// TEST_LAB7(Lab_dec_inv,   "03")
-// TEST_LAB8(Lab_dec_inv2,   "0x31af")
-// TEST_LAB9(Lab_dec_inv3,   "-123")
-// TEST_LAB10(Lab_id,   "strangely_long_var_name", ID, "strangely_long_var_name")
-// TEST_LAB11(Lab_id2,   "bar05", ID, "bar05")
-// TEST_LAB12(Lab_id_inv,   "bar.baz")
-// TEST_LAB13(Lab_id2_inv,   "_foo")
-// TEST_LAB14(Lab_id3_inv,   "4score")
+
 
 
 TEST_1TOKEN (C_string,           "\"hi\"",  STRLIT, "\"hi\"")
@@ -54,6 +41,28 @@ TEST_TOKENS (B_multi_tokens2, "def foo;", 3, multi_tokens2)
 TEST_0TOKENS(A_comments,         "// test")
 TEST_1TOKEN (A_keyword_id,       "int3",    ID,     "int3")
 TEST_2TOKENS(A_multi_dec_dec,    "0123",    DECLIT, "0", DECLIT, "123")
+
+// Added Tests
+TEST_1TOKEN(Lab_symbol,   "\(",    SYM,    "\(")
+TEST_1TOKEN(Lab_symbol2,   "\)",    SYM,    "\)")
+TEST_INVALID(Lab_symbol_inv,   "@")
+TEST_INVALID(Lab_symbol_inv2,   "$")
+TEST_1TOKEN(Lab_dec,   "42", DECLIT, "42")
+TEST_1TOKEN(Lab_dec2,   "1337", DECLIT, "1337")
+TEST_1TOKEN(Lab_id,   "strangely_long_var_name", ID, "strangely_long_var_name")
+TEST_1TOKEN(Lab_id2,   "bar05", ID, "bar05")
+TEST_INVALID(Lab_id_inv,   "bar.baz")
+TEST_INVALID(Lab_id2_inv,   "_foo")
+TEST_INVALID (Lab_reserved_word, "class")
+TEST_INVALID(Lab_reserved_word_interface, "interface")
+TEST_1TOKEN (Lab_valid_mixed_case, "Foo", ID, "Foo")
+TEST_1TOKEN(Lab_valid_hex, "0x1A3f", HEXLIT, "0x1A3f")
+TEST_1TOKEN(Lab_valid_less_equal, "<=", SYM, "<=")
+TEST_1TOKEN(Lab_valid_not_equal, "!=", SYM, "!=")
+TEST_0TOKENS(Lab_comment_single, "// This is a comment")
+TEST_1TOKEN(Lab_valid_bool_true, "true", KEY, "true")
+TEST_1TOKEN(Lab_valid_bool_false, "false", KEY, "false")
+TEST_2TOKENS(Lab_negative_number, "-123", SYM, "-", DECLIT, "123")
 
 #endif
 
@@ -84,6 +93,29 @@ void public_tests (Suite *s)
     TEST(A_comments);
     TEST(A_keyword_id);
     TEST(A_multi_dec_dec);
+    // Added Tests
+    TEST(Lab_symbol);
+    TEST(Lab_reserved_word_interface);
+    TEST(Lab_symbol2);
+    TEST(Lab_valid_mixed_case);
+    TEST(Lab_valid_hex);
+    TEST(Lab_valid_less_equal);
+    TEST(Lab_valid_not_equal);
+    TEST(Lab_comment_single);
+    TEST(Lab_valid_bool_true);
+    TEST(Lab_valid_bool_false);
+    TEST(Lab_negative_number);
+    TEST(Lab_symbol_inv);
+    TEST(Lab_symbol_inv2);
+    TEST(Lab_dec);
+    TEST(Lab_dec2);
+    TEST(Lab_id);
+    TEST(Lab_id2);
+    TEST(Lab_id_inv);
+    TEST(Lab_id2_inv);
+    TEST(Lab_reserved_word);
+    TEST(Lab_reserved_word_interface);
+    TEST(Lab_valid_mixed_case);
     suite_add_tcase (s, tc);
 }
 
