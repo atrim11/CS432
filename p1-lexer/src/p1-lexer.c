@@ -64,7 +64,7 @@ TokenQueue* lex (const char* text)
         } else if (Regex_match(comment, text, match)) {
             // skip comments
         } else {
-            Error_throw_printf("Invalid token!");
+            Error_throw_printf("Invalid token at line %d", line);
         }
 
         /* skip matched text to look for next token */
