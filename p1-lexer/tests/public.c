@@ -63,6 +63,12 @@ TEST_0TOKENS(Lab_comment_single, "// This is a comment")
 TEST_1TOKEN(Lab_valid_bool_true, "true", KEY, "true")
 TEST_1TOKEN(Lab_valid_bool_false, "false", KEY, "false")
 TEST_2TOKENS(Lab_negative_number, "-123", SYM, "-", DECLIT, "123")
+// Test if while gets caught and one digit hex numbers
+
+TEST_1TOKEN(Lab_valid_while, "while", KEY, "while")
+TEST_1TOKEN(Lab_valid_hex_single_digit, "0x1", HEXLIT, "0x1")
+TEST_1TOKEN(Lab_another_valid_hex_single_digit, "0x2", HEXLIT, "0x2")
+TEST_1TOKEN(Lab_another_valid_hex_single_digit2, "0x3", HEXLIT, "0x3")
 
 #endif
 
@@ -116,6 +122,13 @@ void public_tests (Suite *s)
     TEST(Lab_reserved_word);
     TEST(Lab_reserved_word_interface);
     TEST(Lab_valid_mixed_case);
+    TEST(Lab_valid_hex);
+    TEST(Lab_valid_while);
+    TEST(Lab_valid_hex_single_digit);
+    TEST(Lab_another_valid_hex_single_digit);
+    TEST(Lab_another_valid_hex_single_digit2);
+
+
     suite_add_tcase (s, tc);
 }
 

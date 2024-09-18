@@ -1,8 +1,8 @@
-==3455025== Memcheck, a memory error detector
-==3455025== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3455025== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3455025== Command: ../decaf inputs/extra.decaf
-==3455025== 
+==3707410== Memcheck, a memory error detector
+==3707410== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3707410== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3707410== Command: ../decaf inputs/extra.decaf
+==3707410== 
 KEYWORD  [line 001]  def
 ID       [line 001]  main
 SYMBOL   [line 001]  (
@@ -19,12 +19,48 @@ DECLIT   [line 004]  42
 SYMBOL   [line 004]  +
 DECLIT   [line 004]  5
 SYMBOL   [line 004]  ;
-==3455025== 
-==3455025== HEAP SUMMARY:
-==3455025==     in use at exit: 0 bytes in 0 blocks
-==3455025==   total heap usage: 1,530 allocs, 1,530 frees, 171,488 bytes allocated
-==3455025== 
-==3455025== All heap blocks were freed -- no leaks are possible
-==3455025== 
-==3455025== For lists of detected and suppressed errors, rerun with: -s
-==3455025== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+KEYWORD  [line 007]  def
+ID       [line 007]  foo
+SYMBOL   [line 007]  (
+SYMBOL   [line 007]  )
+SYMBOL   [line 007]  {
+KEYWORD  [line 008]  while
+SYMBOL   [line 008]  (
+DECLIT   [line 008]  1
+SYMBOL   [line 008]  )
+SYMBOL   [line 008]  {
+KEYWORD  [line 009]  return
+DECLIT   [line 009]  1
+SYMBOL   [line 009]  ;
+SYMBOL   [line 010]  }
+KEYWORD  [line 011]  return
+DECLIT   [line 011]  1
+SYMBOL   [line 011]  ;
+SYMBOL   [line 012]  }
+KEYWORD  [line 014]  def
+ID       [line 014]  bar
+SYMBOL   [line 014]  (
+SYMBOL   [line 014]  )
+SYMBOL   [line 014]  {
+KEYWORD  [line 015]  if
+SYMBOL   [line 015]  (
+DECLIT   [line 015]  1
+SYMBOL   [line 015]  )
+SYMBOL   [line 015]  {
+KEYWORD  [line 016]  return
+DECLIT   [line 016]  1
+SYMBOL   [line 016]  ;
+SYMBOL   [line 017]  }
+KEYWORD  [line 018]  return
+DECLIT   [line 018]  1
+SYMBOL   [line 018]  ;
+SYMBOL   [line 019]  }
+==3707410== 
+==3707410== HEAP SUMMARY:
+==3707410==     in use at exit: 0 bytes in 0 blocks
+==3707410==   total heap usage: 1,676 allocs, 1,676 frees, 201,932 bytes allocated
+==3707410== 
+==3707410== All heap blocks were freed -- no leaks are possible
+==3707410== 
+==3707410== For lists of detected and suppressed errors, rerun with: -s
+==3707410== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

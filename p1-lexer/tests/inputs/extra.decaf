@@ -2,3 +2,18 @@ def main() { return 1; }
 
 
 int x = 42 + 5;
+
+
+def foo() {
+    while (1) {
+        return 1;
+    }
+    return 1;
+}
+
+def bar() {
+    if (1) {
+        return 1;
+    }
+    return 1;
+}
