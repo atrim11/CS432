@@ -1,0 +1,16 @@
+Running suite(s): Default
+53%: Checks: 30, Failures: 10, Errors: 4
+public.c:32:F:Public:D_trivial:0: Assertion 'ast->program.variables->size == 2' failed: ast->program.variables->size == 0, 2 == 2
+public.c:65:F:Public:D_invalid_vardecl_no_type:0: Assertion 'invalid_program("a")' failed
+public.c:66:F:Public:D_invalid_vardecl_no_semicolon:0: Assertion 'invalid_program("int a")' failed
+public.c:67:F:Public:D_invalid_parens:0: Assertion 'invalid_program("()")' failed
+public.c:68:F:Public:D_invalid_brackets:0: Assertion 'invalid_program("[]")' failed
+public.c:69:F:Public:D_invalid_braces:0: Assertion 'invalid_program("{}")' failed
+public.c:70:F:Public:D_invalid_broken_assign:0: Assertion 'invalid_program("b=")' failed
+public.c:71:F:Public:C_invalid_return_break:0: Assertion 'invalid_program("def int main () { " "return break;" " }")' failed
+public.c:78:E:Public:C_declit:0: (after this point) Received signal 11 (Segmentation fault)
+public.c:79:E:Public:C_hexlit:0: (after this point) Received signal 11 (Segmentation fault)
+public.c:80:E:Public:C_strlit:0: (after this point) Received signal 11 (Segmentation fault)
+public.c:72:F:Public:B_invalid_add:0: Assertion 'invalid_program("def int main () { return " "3++8" " ; }")' failed
+public.c:81:E:Public:A_newline:0: (after this point) Received signal 11 (Segmentation fault)
+private.c:10:F:Private:A_null_token_queue:0: Assertion '0' failed
