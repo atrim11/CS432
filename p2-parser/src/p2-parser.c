@@ -1,6 +1,7 @@
 /**
  * @file p2-parser.c
  * @brief Compiler phase 2: parser
+ * @Author: Aidan Trimmer & Walker Todd
  */
 
 #include "p2-parser.h"
@@ -144,6 +145,19 @@ void parse_id (TokenQueue* input, char* buffer)
 }
 
 /*
+* Parse Var Decl  
+*/
+ASTNode* parse_vardecl(TokenQueue* input)
+{
+    DecafType temp = parse_type(input);
+    char buffer[MAX_ID_LEN];
+    parse_id(input, buffer);
+    match_and_discard_next_token(input, SYM, ";");
+    return VarDeclNode_new(buffer, temp, false, 0,0);
+
+}
+
+/*
  * node-level parsing functions
  */
 
@@ -151,7 +165,10 @@ ASTNode* parse_program (TokenQueue* input)
 {
     NodeList* vars = NodeList_new();
     NodeList* funcs = NodeList_new();
-
+    while (!TokenQueue_is_empty(input)) {
+        NodeList_add(vars, parse_vardecl(input)); 
+    }
+    // NodeList_add(vars, VarDeclNode_new("test", INT, false, 0,0));
     return ProgramNode_new(vars, funcs);
 }
 
@@ -159,3 +176,4 @@ ASTNode* parse (TokenQueue* input)
 {
     return parse_program(input);
 }
+
