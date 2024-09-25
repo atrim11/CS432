@@ -1,0 +1,97 @@
+Program → (VarDecl | FuncDecl)*
+VarDecl → Type ID ('[' DEC ']')? ';'
+FuncDecl → def Type ID '(' Params? ')' Block
+Params → Type ID (',' Type ID)*
+Block → '{' VarDecl* Stmt* '}'
+Stmt → Loc '=' Expr ';'
+      | FuncCall ';'
+      | if '(' Expr ')' Block (else Block)?
+      | while '(' Expr ')' Block
+      | return Expr? ';'
+      | break ';'
+      | continue ';'
+Expr → BinExpr
+BinExpr → UnaryExpr BinExpr'
+BinExpr' → BINOP UnaryExpr BinExpr' | ε
+UnaryExpr → UNOP BaseExpr | BaseExpr
+BaseExpr → '(' Expr ')' 
+         | Loc 
+         | FuncCall 
+         | Lit
+Loc → ID ('[' Expr ']')?
+FuncCall → ID '(' Args? ')'
+Args → Expr (',' Expr)*
+Lit → DEC | HEX | STR | true | false
+
+
+---------------------------------
+
+# Program
+Program -> (VarDecl | FuncDecl)*
+
+# Variable Declarations
+VarDecl -> Type ID VarDecl'
+VarDecl' -> '[' DEC ']' ';' | ';'
+
+# Types
+Type -> 'int' | 'bool' | 'void'
+
+# Function Declarations
+FuncDecl -> 'def' Type ID '(' Params? ')' Block
+
+# Parameters
+Params -> Param (',' Param)*
+Param -> Type ID
+
+# Block (List of variable declarations and statements)
+Block -> '{' VarDecl* Stmt* '}'
+
+# Statements
+Stmt -> Loc '=' Expr ';'
+     | FuncCall ';'
+     | 'if' '(' Expr ')' Block ElseBlock?
+     | 'while' '(' Expr ')' Block
+     | 'return' Expr? ';'
+     | 'break' ';'
+     | 'continue' ';'
+
+ElseBlock -> 'else' Block | ε
+
+# Expressions
+Expr -> BinExpr
+
+BinExpr -> UnaryExpr BinExpr'
+BinExpr' -> BINOP UnaryExpr BinExpr' | ε
+
+# Unary Expressions
+UnaryExpr -> UNOP BaseExpr | BaseExpr
+
+# Base Expressions (Atomic expressions)
+BaseExpr -> '(' Expr ')' | Loc | FuncCall | Lit
+
+# Location (Variables or arrays)
+Loc -> ID Loc'
+Loc' -> '[' Expr ']' | ε
+
+# Function Calls
+FuncCall -> ID '(' Args? ')'
+
+# Arguments for function calls
+Args -> Expr (',' Expr)*
+
+# Literals (Constants)
+Lit -> DEC | HEX | STR | 'true' | 'false'
+
+# Operator precedence (from highest to lowest)
+# UNOP -> '!' | '-'
+# BINOP -> '==' | '!=' | '<' | '<=' | '>' | '>=' | '+' | '-' | '*' | '/' | '%' | '&&' | '||'
+
+# Tokens
+ID -> [a-zA-Z][a-zA-Z0-9_]*
+DEC -> [0-9]+
+HEX -> 0x[0-9a-fA-F]+
+STR -> '\"' .*? '\"'
+
+# BINOP and UNOP definitions
+BINOP -> '==' | '!=' | '<' | '<=' | '>' | '>=' | '+' | '-' | '*' | '/' | '%' | '&&' | '||'
+UNOP -> '!' | '-'
