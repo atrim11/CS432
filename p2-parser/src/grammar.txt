@@ -1,0 +1,47 @@
+Program → DeclList
+DeclList → Decl DeclList' | ε
+DeclList' → Decl DeclList' | ε
+Decl → VarDecl | FuncDecl
+VarDecl → Type ID VarDecl'
+VarDecl' → '[' DEC ']' ';' | ';'
+Type → 'int' | 'bool' | 'void'
+FuncDecl → 'def' Type ID '(' ParamsOpt ')' Block
+ParamsOpt → Params | ε
+Params → Type ID Params'
+Params' → ',' Type ID Params' | ε
+Block → '{' VarDeclList StmtList '}'
+VarDeclList → VarDecl VarDeclList' | ε
+VarDeclList' → VarDecl VarDeclList' | ε
+StmtList → Stmt StmtList' | ε
+StmtList' → Stmt StmtList' | ε
+Stmt → Loc '=' Expr ';' 
+      | FuncCall ';' 
+      | 'if' '(' Expr ')' Block ElseOpt 
+      | 'while' '(' Expr ')' Block 
+      | 'return' ExprOpt ';' 
+      | 'break' ';' 
+      | 'continue' ';'
+ElseOpt → 'else' Block | ε
+ExprOpt → Expr | ε
+Expr → OrExpr
+OrExpr → AndExpr OrExpr' 
+OrExpr' → '||' AndExpr OrExpr' | ε
+AndExpr → EqExpr AndExpr' 
+AndExpr' → '&&' EqExpr AndExpr' | ε
+EqExpr → RelExpr EqExpr'
+EqExpr' → ('==' | '!=') RelExpr EqExpr' | ε
+RelExpr → AddExpr RelExpr' 
+RelExpr' → ('<' | '<=' | '>' | '>=') AddExpr RelExpr' | ε
+AddExpr → MulExpr AddExpr' 
+AddExpr' → ('+' | '-') MulExpr AddExpr' | ε
+MulExpr → UnaryExpr MulExpr'
+MulExpr' → ('*' | '/' | '%') UnaryExpr MulExpr' | ε
+UnaryExpr → ('-' | '!') BaseExpr | BaseExpr
+BaseExpr → '(' Expr ')' | Loc | FuncCall | Lit
+Loc → ID Loc'
+Loc' → '[' Expr ']' | ε
+FuncCall → ID '(' ArgsOpt ')'
+ArgsOpt → Args | ε
+Args → Expr Args'
+Args' → ',' Expr Args' | ε
+Lit → DEC | HEX | STR | 'true' | 'false'
