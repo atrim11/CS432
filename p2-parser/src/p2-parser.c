@@ -200,6 +200,7 @@ ASTNode* parse_loc (TokenQueue* input) {
 //     return node;
 // }
 
+
 /**
  * @brief Parse and return a block of statements
  * 
@@ -210,10 +211,20 @@ ASTNode* parse_loc (TokenQueue* input) {
 ASTNode* parse_stmts (TokenQueue* input) {
 
    if (check_next_token(input, KEY, "break")) {
+        match_and_discard_next_token(input, KEY, "break");
+        match_and_discard_next_token(input, SYM, ";");
+        return BreakNode_new(get_next_token_line(input));
 
    } else if (check_next_token(input, KEY, "return ")) {
-
-   } else if (check_next_token(input, KEY, "continue"))
+        match_and_discard_next_token(input, KEY, "return");
+        ASTNode* expr = parse(input);
+        match_and_discard_next_token(input, SYM, ";");
+        return ReturnNode_new(expr, get_next_token_line(input));
+   } else if (check_next_token(input, KEY, "continue")) {
+        match_and_discard_next_token(input, KEY, "continue");
+        match_and_discard_next_token(input, SYM, ";");
+        return ContinueNode_new(get_next_token_line(input));
+   }
 
 }
 
@@ -234,19 +245,10 @@ ASTNode* parse_block (TokenQueue* input) {
     match_and_discard_next_token(input, SYM, "{");
     // check if its an int void or bool
     while (!check_next_token(input, SYM, "}")) {
-        if (check_next_token_type(input, KEY)) {
+        if (check_next_token(input, KEY, "int") || check_next_token(input, KEY, "bool") || check_next_token(input, KEY, "void")) {
             NodeList_add(vars, parse_vardecl(input));
-        } else {
-            NodeList_add(stmts, parse(input));
         }
-    }
-
-    while (!check_next_token(input, SYM, "}")) {
-        if (check_next_token_type(input, KEY)) {
-            NodeList_add(vars, parse_vardecl(input));
-        } else {
-            NodeList_add(stmts, parse(input));
-        }
+        
     }
 
     match_and_discard_next_token(input, SYM, "}");
