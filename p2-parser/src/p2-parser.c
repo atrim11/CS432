@@ -144,6 +144,7 @@ void parse_id (TokenQueue* input, char* buffer)
     Token_free(token);
 }
 
+
 /*
 * Parse Var Decl  
 */
@@ -157,6 +158,121 @@ ASTNode* parse_vardecl(TokenQueue* input)
 
 }
 
+ASTNode* parse_loc (TokenQueue* input) {
+    char buffer[MAX_ID_LEN];
+    parse_id(input, buffer);
+
+    if (check_next_token(input, SYM, "[")) {
+        match_and_discard_next_token(input, SYM, "[");
+        ASTNode* index = parse(input);
+        match_and_discard_next_token(input, SYM, "]");
+        return LocationNode_new(buffer, index, get_next_token_line(input));
+    } else {
+        return LocationNode_new(buffer, NULL, get_next_token_line(input));
+    }
+}
+
+// ASTNode* parse_lit (TokenQueue* input) {
+//     if (TokenQueue_is_empty(input)) {
+//         Error_throw_printf("Unexpected end of input (expected literal)\n");
+//     }
+//     Token* token = TokenQueue_remove(input);
+//     ASTNode* node = NULL;
+//     switch (token->type) {
+     
+//         // case LITERAL:
+//         //     node = LiteralNode_new_bool(token -> text, token->line);
+//         //     break;
+//         case STRLIT:
+//             node = LiteralNode_new_string(token->text, token->line);
+//             break;
+
+//         case DECLIT:
+//             node = LiteralNode_new_int(atoi(token->text), token->line);
+//             break;
+//         case HEXLIT:
+//             node = LiteralNode_new_int(strtol(token->text, NULL, 16), token->line);
+//             break;
+//         default:
+//             Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, token->line);
+//     }
+//     Token_free(token);
+//     return node;
+// }
+
+/**
+ * @brief Parse and return a block of statements
+ * 
+ * @param input Token queue to modify
+ * @returns Parsed block of statements
+ * 
+ */
+ASTNode* parse_stmts (TokenQueue* input) {
+
+   if (check_next_token(input, KEY, "break")) {
+
+   } else if (check_next_token(input, KEY, "return ")) {
+
+   } else if (check_next_token(input, KEY, "continue"))
+
+}
+
+/**
+ * @brief Parse and return a block of statements
+ * 
+ * @param input Token queue to modify
+ * @returns Parsed block of statements
+ */
+ASTNode* parse_block (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected '{')\n");
+    }
+    
+    NodeList* vars = NodeList_new();
+    NodeList* stmts = NodeList_new();
+    int line = get_next_token_line(input);
+    match_and_discard_next_token(input, SYM, "{");
+    // check if its an int void or bool
+    while (!check_next_token(input, SYM, "}")) {
+        if (check_next_token_type(input, KEY)) {
+            NodeList_add(vars, parse_vardecl(input));
+        } else {
+            NodeList_add(stmts, parse(input));
+        }
+    }
+
+    while (!check_next_token(input, SYM, "}")) {
+        if (check_next_token_type(input, KEY)) {
+            NodeList_add(vars, parse_vardecl(input));
+        } else {
+            NodeList_add(stmts, parse(input));
+        }
+    }
+
+    match_and_discard_next_token(input, SYM, "}");
+    return BlockNode_new(vars, stmts, line);
+}
+
+ASTNode* parse_funcdecl (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected 'def')\n");
+    }
+    int line = get_next_token_line(input);
+    match_and_discard_next_token(input, KEY, "def");
+    DecafType return_type = parse_type(input);
+    char buffer[MAX_ID_LEN];
+    parse_id(input, buffer);
+    // ParameterList* params = ParameterList_new();
+    // ignore paramters for c level
+
+    match_and_discard_next_token(input, SYM, "(");
+    match_and_discard_next_token(input, SYM, ")");
+
+    return FuncDeclNode_new(buffer, return_type, NULL, parse_block(input), line);
+}
+
+
+
 /*
  * node-level parsing functions
  */
@@ -166,8 +282,13 @@ ASTNode* parse_program (TokenQueue* input)
     NodeList* vars = NodeList_new();
     NodeList* funcs = NodeList_new();
     while (!TokenQueue_is_empty(input)) {
-        NodeList_add(vars, parse_vardecl(input)); 
+        if (check_next_token(input, KEY, "def")) {
+            NodeList_add(funcs, parse_funcdecl(input));
+        } else {
+            NodeList_add(vars, parse_vardecl(input));
+        }
     }
+       
     // NodeList_add(vars, VarDeclNode_new("test", INT, false, 0,0));
     return ProgramNode_new(vars, funcs);
 }
