@@ -335,17 +335,21 @@ ASTNode* parse_expr (TokenQueue* input) {
 
 
 ASTNode* parse_funcCall (TokenQueue* input) {
+    printf("Parsing Func Call\n");
+    int line = get_next_token_line(input);
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
     match_and_discard_next_token(input, SYM, "(");
     NodeList* args = NodeList_new();
-    while (!check_next_token(input, SYM, ")")) {
+    if (!check_next_token(input, SYM, ")")) {
         NodeList_add(args, parse_expr(input));
-        if (check_next_token(input, SYM, ",")) {
-            match_and_discard_next_token(input, SYM, ",");
+        while (check_next_token(input, SYM, ",")) {
+            discard_next_token(input);
+            NodeList_add(args, parse_expr(input));
         }
     }
     match_and_discard_next_token(input, SYM, ")");
+
     return FuncCallNode_new(buffer, args, get_next_token_line(input));
 }
 
@@ -363,11 +367,13 @@ ASTNode* parse_block (TokenQueue* input);
  */
 ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
+        printf("hello\n");
 
     if (check_next_token_type(input, ID)){
         if (check_next_token(input, SYM, "(")) {
             return parse_funcCall(input);
         } else {
+            printf("Parsing Location\n");
             ASTNode* loc = parse_loc(input);
             match_and_discard_next_token(input, SYM, "=");
             ASTNode* expr = parse_expr(input);
@@ -468,11 +474,22 @@ ASTNode* parse_funcdecl (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
 
-
     match_and_discard_next_token(input, SYM, "(");
 
     // parse_params
-    // ignore paramters for c level
+    ParameterList* params = ParameterList_new();
+    if (!check_next_token(input, SYM, ")")) {
+        DecafType param_type = parse_type(input);
+        char param_buffer[MAX_ID_LEN];
+        parse_id(input, param_buffer);
+        ParameterList_add_new(params, param_buffer, param_type);
+        while (check_next_token(input, SYM, ",")) {
+            discard_next_token(input);
+            param_type = parse_type(input);
+            parse_id(input, param_buffer);
+            ParameterList_add_new(params, param_buffer, param_type);
+        }
+    }
 
     match_and_discard_next_token(input, SYM, ")");
 
@@ -487,6 +504,7 @@ ASTNode* parse_funcdecl (TokenQueue* input) {
 
 ASTNode* parse_program (TokenQueue* input)
 {
+
     NodeList* vars = NodeList_new();
     NodeList* funcs = NodeList_new();
     while (!TokenQueue_is_empty(input)) {
@@ -503,6 +521,7 @@ ASTNode* parse_program (TokenQueue* input)
 
 ASTNode* parse (TokenQueue* input)
 {
+
     return parse_program(input);
 }
 

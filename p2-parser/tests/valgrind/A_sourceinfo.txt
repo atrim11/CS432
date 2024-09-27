@@ -1,176 +1,187 @@
-==4115018== Memcheck, a memory error detector
-==4115018== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==4115018== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==4115018== Command: ../decaf inputs/add.decaf
-==4115018== 
-==4115018== Invalid read of size 1
-==4115018==    at 0x484F226: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x48D6D97: __printf_buffer (vfprintf-process-arg.c:435)
-==4115018==    by 0x48FBD80: __vsnprintf_internal (vsnprintf.c:96)
-==4115018==    by 0x48FBD80: vsnprintf (vsnprintf.c:103)
-==4115018==    by 0x10EFB3: Error_throw_printf (main.c:30)
-==4115018==    by 0x10A0AF: parse_lit (p2-parser.c:286)
-==4115018==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
-==4115018==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
-==4115018==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
-==4115018==    by 0x10A2C6: parse_expr (p2-parser.c:332)
-==4115018==    by 0x10A633: parse_stmts (p2-parser.c:393)
-==4115018==    by 0x10A918: parse_block (p2-parser.c:444)
-==4115018==    by 0x10AA68: parse_funcdecl (p2-parser.c:479)
-==4115018==  Address 0x4acb5a4 is 4 bytes inside a block of size 272 free'd
-==4115018==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10ECB5: Token_free (token.c:62)
-==4115018==    by 0x10A08B: parse_lit (p2-parser.c:285)
-==4115018==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
-==4115018==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
-==4115018==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
-==4115018==    by 0x10A2C6: parse_expr (p2-parser.c:332)
-==4115018==    by 0x10A633: parse_stmts (p2-parser.c:393)
-==4115018==    by 0x10A918: parse_block (p2-parser.c:444)
-==4115018==    by 0x10AA68: parse_funcdecl (p2-parser.c:479)
-==4115018==    by 0x10AAF3: parse_program (p2-parser.c:494)
-==4115018==    by 0x10AB69: parse (p2-parser.c:506)
-==4115018==  Block was alloc'd at
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10EC22: Token_new (token.c:51)
-==4115018==    by 0x10F713: lex (p1-lexer.c:87)
-==4115018==    by 0x10F193: main (main.c:95)
-==4115018== 
-==4115018== Invalid read of size 1
-==4115018==    at 0x484F234: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x48D6D97: __printf_buffer (vfprintf-process-arg.c:435)
-==4115018==    by 0x48FBD80: __vsnprintf_internal (vsnprintf.c:96)
-==4115018==    by 0x48FBD80: vsnprintf (vsnprintf.c:103)
-==4115018==    by 0x10EFB3: Error_throw_printf (main.c:30)
-==4115018==    by 0x10A0AF: parse_lit (p2-parser.c:286)
-==4115018==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
-==4115018==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
-==4115018==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
-==4115018==    by 0x10A2C6: parse_expr (p2-parser.c:332)
-==4115018==    by 0x10A633: parse_stmts (p2-parser.c:393)
-==4115018==    by 0x10A918: parse_block (p2-parser.c:444)
-==4115018==    by 0x10AA68: parse_funcdecl (p2-parser.c:479)
-==4115018==  Address 0x4acb5a5 is 5 bytes inside a block of size 272 free'd
-==4115018==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10ECB5: Token_free (token.c:62)
-==4115018==    by 0x10A08B: parse_lit (p2-parser.c:285)
-==4115018==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
-==4115018==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
-==4115018==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
-==4115018==    by 0x10A2C6: parse_expr (p2-parser.c:332)
-==4115018==    by 0x10A633: parse_stmts (p2-parser.c:393)
-==4115018==    by 0x10A918: parse_block (p2-parser.c:444)
-==4115018==    by 0x10AA68: parse_funcdecl (p2-parser.c:479)
-==4115018==    by 0x10AAF3: parse_program (p2-parser.c:494)
-==4115018==    by 0x10AB69: parse (p2-parser.c:506)
-==4115018==  Block was alloc'd at
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10EC22: Token_new (token.c:51)
-==4115018==    by 0x10F713: lex (p1-lexer.c:87)
-==4115018==    by 0x10F193: main (main.c:95)
-==4115018== 
-==4115018== Invalid read of size 1
-==4115018==    at 0x4852EE0: memmove (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x48CCD77: memcpy (string_fortified.h:29)
-==4115018==    by 0x48CCD77: __printf_buffer_write (Xprintf_buffer_write.c:39)
-==4115018==    by 0x48D550B: __printf_buffer (vfprintf-process-arg.c:501)
-==4115018==    by 0x48FBD80: __vsnprintf_internal (vsnprintf.c:96)
-==4115018==    by 0x48FBD80: vsnprintf (vsnprintf.c:103)
-==4115018==    by 0x10EFB3: Error_throw_printf (main.c:30)
-==4115018==    by 0x10A0AF: parse_lit (p2-parser.c:286)
-==4115018==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
-==4115018==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
-==4115018==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
-==4115018==    by 0x10A2C6: parse_expr (p2-parser.c:332)
-==4115018==    by 0x10A633: parse_stmts (p2-parser.c:393)
-==4115018==    by 0x10A918: parse_block (p2-parser.c:444)
-==4115018==  Address 0x4acb5a4 is 4 bytes inside a block of size 272 free'd
-==4115018==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10ECB5: Token_free (token.c:62)
-==4115018==    by 0x10A08B: parse_lit (p2-parser.c:285)
-==4115018==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
-==4115018==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
-==4115018==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
-==4115018==    by 0x10A2C6: parse_expr (p2-parser.c:332)
-==4115018==    by 0x10A633: parse_stmts (p2-parser.c:393)
-==4115018==    by 0x10A918: parse_block (p2-parser.c:444)
-==4115018==    by 0x10AA68: parse_funcdecl (p2-parser.c:479)
-==4115018==    by 0x10AAF3: parse_program (p2-parser.c:494)
-==4115018==    by 0x10AB69: parse (p2-parser.c:506)
-==4115018==  Block was alloc'd at
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10EC22: Token_new (token.c:51)
-==4115018==    by 0x10F713: lex (p1-lexer.c:87)
-==4115018==    by 0x10F193: main (main.c:95)
-==4115018== 
+==4155531== Memcheck, a memory error detector
+==4155531== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==4155531== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==4155531== Command: ../decaf inputs/add.decaf
+==4155531== 
+==4155531== Invalid read of size 1
+==4155531==    at 0x484F226: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x48D6D97: __printf_buffer (vfprintf-process-arg.c:435)
+==4155531==    by 0x48FBD80: __vsnprintf_internal (vsnprintf.c:96)
+==4155531==    by 0x48FBD80: vsnprintf (vsnprintf.c:103)
+==4155531==    by 0x10F109: Error_throw_printf (main.c:30)
+==4155531==    by 0x10A0AF: parse_lit (p2-parser.c:286)
+==4155531==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
+==4155531==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
+==4155531==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
+==4155531==    by 0x10A2C6: parse_expr (p2-parser.c:332)
+==4155531==    by 0x10A68D: parse_stmts (p2-parser.c:399)
+==4155531==    by 0x10A972: parse_block (p2-parser.c:450)
+==4155531==    by 0x10ABBE: parse_funcdecl (p2-parser.c:496)
+==4155531==  Address 0x4acb5a4 is 4 bytes inside a block of size 272 free'd
+==4155531==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10EE0B: Token_free (token.c:62)
+==4155531==    by 0x10A08B: parse_lit (p2-parser.c:285)
+==4155531==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
+==4155531==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
+==4155531==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
+==4155531==    by 0x10A2C6: parse_expr (p2-parser.c:332)
+==4155531==    by 0x10A68D: parse_stmts (p2-parser.c:399)
+==4155531==    by 0x10A972: parse_block (p2-parser.c:450)
+==4155531==    by 0x10ABBE: parse_funcdecl (p2-parser.c:496)
+==4155531==    by 0x10AC49: parse_program (p2-parser.c:512)
+==4155531==    by 0x10ACBF: parse (p2-parser.c:525)
+==4155531==  Block was alloc'd at
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10ED78: Token_new (token.c:51)
+==4155531==    by 0x10F869: lex (p1-lexer.c:87)
+==4155531==    by 0x10F2E9: main (main.c:95)
+==4155531== 
+==4155531== Invalid read of size 1
+==4155531==    at 0x484F234: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x48D6D97: __printf_buffer (vfprintf-process-arg.c:435)
+==4155531==    by 0x48FBD80: __vsnprintf_internal (vsnprintf.c:96)
+==4155531==    by 0x48FBD80: vsnprintf (vsnprintf.c:103)
+==4155531==    by 0x10F109: Error_throw_printf (main.c:30)
+==4155531==    by 0x10A0AF: parse_lit (p2-parser.c:286)
+==4155531==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
+==4155531==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
+==4155531==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
+==4155531==    by 0x10A2C6: parse_expr (p2-parser.c:332)
+==4155531==    by 0x10A68D: parse_stmts (p2-parser.c:399)
+==4155531==    by 0x10A972: parse_block (p2-parser.c:450)
+==4155531==    by 0x10ABBE: parse_funcdecl (p2-parser.c:496)
+==4155531==  Address 0x4acb5a5 is 5 bytes inside a block of size 272 free'd
+==4155531==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10EE0B: Token_free (token.c:62)
+==4155531==    by 0x10A08B: parse_lit (p2-parser.c:285)
+==4155531==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
+==4155531==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
+==4155531==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
+==4155531==    by 0x10A2C6: parse_expr (p2-parser.c:332)
+==4155531==    by 0x10A68D: parse_stmts (p2-parser.c:399)
+==4155531==    by 0x10A972: parse_block (p2-parser.c:450)
+==4155531==    by 0x10ABBE: parse_funcdecl (p2-parser.c:496)
+==4155531==    by 0x10AC49: parse_program (p2-parser.c:512)
+==4155531==    by 0x10ACBF: parse (p2-parser.c:525)
+==4155531==  Block was alloc'd at
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10ED78: Token_new (token.c:51)
+==4155531==    by 0x10F869: lex (p1-lexer.c:87)
+==4155531==    by 0x10F2E9: main (main.c:95)
+==4155531== 
+==4155531== Invalid read of size 1
+==4155531==    at 0x4852EE0: memmove (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x48CCD77: memcpy (string_fortified.h:29)
+==4155531==    by 0x48CCD77: __printf_buffer_write (Xprintf_buffer_write.c:39)
+==4155531==    by 0x48D550B: __printf_buffer (vfprintf-process-arg.c:501)
+==4155531==    by 0x48FBD80: __vsnprintf_internal (vsnprintf.c:96)
+==4155531==    by 0x48FBD80: vsnprintf (vsnprintf.c:103)
+==4155531==    by 0x10F109: Error_throw_printf (main.c:30)
+==4155531==    by 0x10A0AF: parse_lit (p2-parser.c:286)
+==4155531==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
+==4155531==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
+==4155531==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
+==4155531==    by 0x10A2C6: parse_expr (p2-parser.c:332)
+==4155531==    by 0x10A68D: parse_stmts (p2-parser.c:399)
+==4155531==    by 0x10A972: parse_block (p2-parser.c:450)
+==4155531==  Address 0x4acb5a4 is 4 bytes inside a block of size 272 free'd
+==4155531==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10EE0B: Token_free (token.c:62)
+==4155531==    by 0x10A08B: parse_lit (p2-parser.c:285)
+==4155531==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
+==4155531==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
+==4155531==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
+==4155531==    by 0x10A2C6: parse_expr (p2-parser.c:332)
+==4155531==    by 0x10A68D: parse_stmts (p2-parser.c:399)
+==4155531==    by 0x10A972: parse_block (p2-parser.c:450)
+==4155531==    by 0x10ABBE: parse_funcdecl (p2-parser.c:496)
+==4155531==    by 0x10AC49: parse_program (p2-parser.c:512)
+==4155531==    by 0x10ACBF: parse (p2-parser.c:525)
+==4155531==  Block was alloc'd at
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10ED78: Token_new (token.c:51)
+==4155531==    by 0x10F869: lex (p1-lexer.c:87)
+==4155531==    by 0x10F2E9: main (main.c:95)
+==4155531== 
 Invalid literal 'a' on line 5
+hello
+Parsing Location
 Token: +
 Token: +
 Binary Expression: 5
 Token: ;
-==4115018== 
-==4115018== HEAP SUMMARY:
-==4115018==     in use at exit: 1,888 bytes in 10 blocks
-==4115018==   total heap usage: 1,734 allocs, 1,724 frees, 192,784 bytes allocated
-==4115018== 
-==4115018== 24 bytes in 1 blocks are definitely lost in loss record 1 of 10
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10D818: NodeList_new (ast.c:44)
-==4115018==    by 0x10AABC: parse_program (p2-parser.c:490)
-==4115018==    by 0x10AB69: parse (p2-parser.c:506)
-==4115018==    by 0x10F1A9: main (main.c:98)
-==4115018== 
-==4115018== 24 bytes in 1 blocks are definitely lost in loss record 2 of 10
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10D818: NodeList_new (ast.c:44)
-==4115018==    by 0x10AAC5: parse_program (p2-parser.c:491)
-==4115018==    by 0x10AB69: parse (p2-parser.c:506)
-==4115018==    by 0x10F1A9: main (main.c:98)
-==4115018== 
-==4115018== 272 bytes in 1 blocks are definitely lost in loss record 3 of 10
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10EC22: Token_new (token.c:51)
-==4115018==    by 0x10F8CB: lex (p1-lexer.c:102)
-==4115018==    by 0x10F193: main (main.c:95)
-==4115018== 
-==4115018== 304 bytes in 1 blocks are definitely lost in loss record 8 of 10
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10DB4D: ASTNode_new (ast.c:61)
-==4115018==    by 0x10E69B: LiteralNode_new_int (ast.c:364)
-==4115018==    by 0x109F54: parse_lit (p2-parser.c:259)
-==4115018==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
-==4115018==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
-==4115018==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
-==4115018==    by 0x10A25E: parse_binaryexpression (p2-parser.c:324)
-==4115018==    by 0x10A2C6: parse_expr (p2-parser.c:332)
-==4115018==    by 0x10A494: parse_stmts (p2-parser.c:373)
-==4115018==    by 0x10A918: parse_block (p2-parser.c:444)
-==4115018==    by 0x10AA68: parse_funcdecl (p2-parser.c:479)
-==4115018== 
-==4115018== 328 (24 direct, 304 indirect) bytes in 1 blocks are definitely lost in loss record 9 of 10
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10D818: NodeList_new (ast.c:44)
-==4115018==    by 0x10A87A: parse_block (p2-parser.c:434)
-==4115018==    by 0x10AA68: parse_funcdecl (p2-parser.c:479)
-==4115018==    by 0x10AAF3: parse_program (p2-parser.c:494)
-==4115018==    by 0x10AB69: parse (p2-parser.c:506)
-==4115018==    by 0x10F1A9: main (main.c:98)
-==4115018== 
-==4115018== 936 (24 direct, 912 indirect) bytes in 1 blocks are definitely lost in loss record 10 of 10
-==4115018==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4115018==    by 0x10D818: NodeList_new (ast.c:44)
-==4115018==    by 0x10A883: parse_block (p2-parser.c:435)
-==4115018==    by 0x10AA68: parse_funcdecl (p2-parser.c:479)
-==4115018==    by 0x10AAF3: parse_program (p2-parser.c:494)
-==4115018==    by 0x10AB69: parse (p2-parser.c:506)
-==4115018==    by 0x10F1A9: main (main.c:98)
-==4115018== 
-==4115018== LEAK SUMMARY:
-==4115018==    definitely lost: 672 bytes in 6 blocks
-==4115018==    indirectly lost: 1,216 bytes in 4 blocks
-==4115018==      possibly lost: 0 bytes in 0 blocks
-==4115018==    still reachable: 0 bytes in 0 blocks
-==4115018==         suppressed: 0 bytes in 0 blocks
-==4115018== 
-==4115018== For lists of detected and suppressed errors, rerun with: -s
-==4115018== ERROR SUMMARY: 9 errors from 9 contexts (suppressed: 0 from 0)
+hello
+==4155531== 
+==4155531== HEAP SUMMARY:
+==4155531==     in use at exit: 1,912 bytes in 11 blocks
+==4155531==   total heap usage: 1,735 allocs, 1,724 frees, 192,808 bytes allocated
+==4155531== 
+==4155531== 24 bytes in 1 blocks are definitely lost in loss record 1 of 11
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10D96E: NodeList_new (ast.c:44)
+==4155531==    by 0x10AC12: parse_program (p2-parser.c:508)
+==4155531==    by 0x10ACBF: parse (p2-parser.c:525)
+==4155531==    by 0x10F2FF: main (main.c:98)
+==4155531== 
+==4155531== 24 bytes in 1 blocks are definitely lost in loss record 2 of 11
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10D96E: NodeList_new (ast.c:44)
+==4155531==    by 0x10AC1B: parse_program (p2-parser.c:509)
+==4155531==    by 0x10ACBF: parse (p2-parser.c:525)
+==4155531==    by 0x10F2FF: main (main.c:98)
+==4155531== 
+==4155531== 24 bytes in 1 blocks are definitely lost in loss record 3 of 11
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10DABA: ParameterList_new (ast.c:45)
+==4155531==    by 0x10AA9D: parse_funcdecl (p2-parser.c:480)
+==4155531==    by 0x10AC49: parse_program (p2-parser.c:512)
+==4155531==    by 0x10ACBF: parse (p2-parser.c:525)
+==4155531==    by 0x10F2FF: main (main.c:98)
+==4155531== 
+==4155531== 272 bytes in 1 blocks are definitely lost in loss record 4 of 11
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10ED78: Token_new (token.c:51)
+==4155531==    by 0x10FA21: lex (p1-lexer.c:102)
+==4155531==    by 0x10F2E9: main (main.c:95)
+==4155531== 
+==4155531== 304 bytes in 1 blocks are definitely lost in loss record 9 of 11
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10DCA3: ASTNode_new (ast.c:61)
+==4155531==    by 0x10E7F1: LiteralNode_new_int (ast.c:364)
+==4155531==    by 0x109F54: parse_lit (p2-parser.c:259)
+==4155531==    by 0x10A0DD: parse_baseExpr (p2-parser.c:296)
+==4155531==    by 0x10A1CE: parse_unaryExpr (p2-parser.c:308)
+==4155531==    by 0x10A1F0: parse_binaryexpression (p2-parser.c:314)
+==4155531==    by 0x10A25E: parse_binaryexpression (p2-parser.c:324)
+==4155531==    by 0x10A2C6: parse_expr (p2-parser.c:332)
+==4155531==    by 0x10A4EE: parse_stmts (p2-parser.c:379)
+==4155531==    by 0x10A972: parse_block (p2-parser.c:450)
+==4155531==    by 0x10ABBE: parse_funcdecl (p2-parser.c:496)
+==4155531== 
+==4155531== 328 (24 direct, 304 indirect) bytes in 1 blocks are definitely lost in loss record 10 of 11
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10D96E: NodeList_new (ast.c:44)
+==4155531==    by 0x10A8D4: parse_block (p2-parser.c:440)
+==4155531==    by 0x10ABBE: parse_funcdecl (p2-parser.c:496)
+==4155531==    by 0x10AC49: parse_program (p2-parser.c:512)
+==4155531==    by 0x10ACBF: parse (p2-parser.c:525)
+==4155531==    by 0x10F2FF: main (main.c:98)
+==4155531== 
+==4155531== 936 (24 direct, 912 indirect) bytes in 1 blocks are definitely lost in loss record 11 of 11
+==4155531==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4155531==    by 0x10D96E: NodeList_new (ast.c:44)
+==4155531==    by 0x10A8DD: parse_block (p2-parser.c:441)
+==4155531==    by 0x10ABBE: parse_funcdecl (p2-parser.c:496)
+==4155531==    by 0x10AC49: parse_program (p2-parser.c:512)
+==4155531==    by 0x10ACBF: parse (p2-parser.c:525)
+==4155531==    by 0x10F2FF: main (main.c:98)
+==4155531== 
+==4155531== LEAK SUMMARY:
+==4155531==    definitely lost: 696 bytes in 7 blocks
+==4155531==    indirectly lost: 1,216 bytes in 4 blocks
+==4155531==      possibly lost: 0 bytes in 0 blocks
+==4155531==    still reachable: 0 bytes in 0 blocks
+==4155531==         suppressed: 0 bytes in 0 blocks
+==4155531== 
+==4155531== For lists of detected and suppressed errors, rerun with: -s
+==4155531== ERROR SUMMARY: 10 errors from 10 contexts (suppressed: 0 from 0)
