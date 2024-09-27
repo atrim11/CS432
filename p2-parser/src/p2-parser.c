@@ -5,10 +5,79 @@
  */
 
 #include "p2-parser.h"
-
+bool check_next_token (TokenQueue* input, TokenType type, const char* text);
 /*
  * helper functions
  */
+
+BinaryOpType helper_get_binary_op_type (TokenQueue* Input) 
+{
+    Token* token = TokenQueue_peek(Input);
+    printf("Token: %s\n", token->text);
+    if (strcmp(token->text, "||") == 0) {
+        return OROP;
+    } else if (strcmp(token->text, "&&") == 0) {
+        return ANDOP;
+    } else if (strcmp(token->text, "==") == 0) {
+        return EQOP;
+    } else if (strcmp(token->text, "!=") == 0) {
+        return NEQOP;
+    } else if (strcmp(token->text, "<") == 0) {
+        return LTOP;
+    } else if (strcmp(token->text, "<=") == 0) {
+        return LEOP;
+    } else if (strcmp(token->text, ">=") == 0) {
+        return GEOP;
+    } else if (strcmp(token->text, ">") == 0) {
+        return GTOP;
+    } else if (strcmp(token->text, "+") == 0) {
+        return ADDOP;
+    } else if (strcmp(token->text, "-") == 0) {
+        return SUBOP;
+    } else if (strcmp(token->text, "*") == 0) {
+        return MULOP;
+    } else if (strcmp(token->text, "/") == 0) {
+        return DIVOP;
+    } else if (strcmp(token->text, "%") == 0) {
+        return MODOP;
+    } else {
+        Error_throw_printf("Invalid binary operator '%s' on line %d\n", TokenQueue_peek(Input)->text, get_next_token_line(Input));
+    }
+}
+
+bool isBinOP(TokenQueue* Input) {
+    Token* token = TokenQueue_peek(Input);
+    printf("Token: %s\n", token->text);
+    if (strcmp(token->text, "||") == 0) {
+        return true;
+    } else if (strcmp(token->text, "&&") == 0) {
+        return true;
+    } else if (strcmp(token->text, "==") == 0) {
+        return true;
+    } else if (strcmp(token->text, "!=") == 0) {
+        return true;
+    } else if (strcmp(token->text, "<") == 0) {
+        return true;
+    } else if (strcmp(token->text, "<=") == 0) {
+        return true;
+    } else if (strcmp(token->text, ">=") == 0) {
+        return true;
+    } else if (strcmp(token->text, ">") == 0) {
+        return true;
+    } else if (strcmp(token->text, "+") == 0) {
+        return true;
+    } else if (strcmp(token->text, "-") == 0) {
+        return true;
+    } else if (strcmp(token->text, "*") == 0) {
+        return true;
+    } else if (strcmp(token->text, "/") == 0) {
+        return true;
+    } else if (strcmp(token->text, "%") == 0) {
+        return true;
+    } else {
+        false;
+    }
+}
 
 /**
  * @brief Look up the source line of the next token in the queue.
@@ -218,54 +287,49 @@ ASTNode* parse_lit(TokenQueue* input)
     }
 
     Token_free(token);
-    return node;
+    return node; 
 }
 
 
 ASTNode* parse_baseExpr (TokenQueue* input) {
-    // if (check_next_token(input, SYM, "(")) {
-    //     match_and_discard_next_token(input, SYM, "(");
-    //     ASTNode* expr = parse_expr(input);
-    //     match_and_discard_next_token(input, SYM, ")");
-    //     return expr;
-    // } else if (check_next_token_type(input, ID)){
-    //     if(check_next_token(input, SYM, "[")) {
-    //         return parse_loc(input);
-    //     } else if (check_next_token(input, SYM, "(")) {
-    //         return parse_funcCall(input);
-    //     }
-    // }
+    
     return parse_lit(input);
 }
 
 ASTNode* parse_unaryExpr (TokenQueue* input) {
-    // if (check_next_token(input, SYM, "-") || check_next_token(input, SYM, "!")) {
-    //     int line = get_next_token_line(input);
-
-    //     Token* token = TokenQueue_remove(input);
-    //     UnaryOpType operator = token;
-        
-    //     ASTNode* child = parse_unaryExpr(input);
-    //     return UnaryOpNode_new(operator, child, line);
-    // } else {
-    //     return parse_loc(input);
-    // }
-    return parse_baseExpr(input);
+    Token* token = TokenQueue_peek(input);
+    if (strcmp(token->text, "-") == 0) {
+        match_and_discard_next_token(input, SYM, "-");
+        return UnaryOpNode_new(NEGOP, parse_baseExpr(input), get_next_token_line(input));
+    } else if (strcmp(token->text, "!") == 0) {
+        match_and_discard_next_token(input, SYM, "!");
+        return UnaryOpNode_new(NOTOP, parse_baseExpr(input), get_next_token_line(input));
+    } else {
+        return parse_baseExpr(input);
+    }
+    
 }
 
 ASTNode* parse_binaryexpression (TokenQueue* input) {
-    // if (check_next_token(input, SYM, "+") || check_next_token(input, SYM, "-") || check_next_token(input, SYM, "*") || check_next_token(input, SYM, "/") || check_next_token(input, SYM, "%") || check_next_token(input, SYM, "<") || check_next_token(input, SYM, ">") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, "==") || check_next_token(input, SYM, "!=") || check_next_token(input, SYM, "&&") || check_next_token(input, SYM, "||")) {
-    //     int line = get_next_token_line(input);
-
-    //     Token* token = TokenQueue_remove(input);
-    //     BinaryOpType operator = token;
-
-    //     ASTNode* left = parse_binaryexpression(input);
-    //     ASTNode* right = parse_binaryexpression(input);
-    //     return BinaryOpNode_new(operator, left, right, line);
-    // } else {
-        return parse_unaryExpr(input);
-
+    ASTNode* leftExpr = parse_unaryExpr(input);
+    
+    if (!isBinOP(input)) {
+        return leftExpr;
+    } else {
+        ASTNode* exp = NULL;  
+        while (!check_next_token(input, SYM, ";")) {
+                BinaryOpType operatorToken = helper_get_binary_op_type(input);
+                TokenQueue_remove(input);
+                printf("Binary Expression 2\n");
+                 
+                printf("Binary Expression: %s\n", TokenQueue_peek(input)->text);
+                ASTNode* rightExpr = parse_binaryexpression(input);
+                exp = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+                match_and_discard_next_token(input, SYM, ";");
+        }
+    
+        return exp;
+    }
 }
 
 
