@@ -351,6 +351,9 @@ ASTNode* parse_funcCall (TokenQueue* input) {
 
 
 
+ASTNode* parse_block (TokenQueue* input);
+
+
 /**
  * @brief Parse and return a block of statements
  * 
@@ -362,11 +365,15 @@ ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
 
     if (check_next_token_type(input, ID)){
-        ASTNode* loc = parse_loc(input);
-        match_and_discard_next_token(input, SYM, "=");
-        ASTNode* expr = parse_expr(input);
-        match_and_discard_next_token(input, SYM, ";");
-        return AssignmentNode_new(loc, expr, get_next_token_line(input));
+        if (check_next_token(input, SYM, "(")) {
+            return parse_funcCall(input);
+        } else {
+            ASTNode* loc = parse_loc(input);
+            match_and_discard_next_token(input, SYM, "=");
+            ASTNode* expr = parse_expr(input);
+            match_and_discard_next_token(input, SYM, ";");
+            return AssignmentNode_new(loc, expr, get_next_token_line(input));
+        }
     } else if (check_next_token(input, KEY, "break")) {
         match_and_discard_next_token(input, KEY, "break");
         match_and_discard_next_token(input, SYM, ";");
@@ -386,6 +393,30 @@ ASTNode* parse_stmts (TokenQueue* input) {
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ";");
         return ReturnNode_new(expr, get_next_token_line(input));
+    } else if (check_next_token(input, KEY, "while")) {
+        match_and_discard_next_token(input, KEY, "while");
+        match_and_discard_next_token(input, SYM, "(");
+        ASTNode* condition = parse_expr(input);
+        match_and_discard_next_token(input, SYM, ")");
+        ASTNode* body = parse_block(input);
+        return WhileLoopNode_new(condition, body, get_next_token_line(input));
+        // checking for funccall
+    
+    } else if (check_next_token(input, KEY, "if")) {
+        match_and_discard_next_token(input, KEY, "if");
+        match_and_discard_next_token(input, SYM, "(");
+        ASTNode* condition = parse_expr(input);
+        match_and_discard_next_token(input, SYM, ")");
+        ASTNode* if_block = parse_block(input);
+        ASTNode* else_block = NULL;
+        if (check_next_token(input, KEY, "else")) {
+            
+            match_and_discard_next_token(input, KEY, "else");
+            match_and_discard_next_token(input, SYM, "{");
+            else_block = parse_block(input);
+            match_and_discard_next_token(input, SYM, "}");
+        }
+        return ConditionalNode_new(condition, if_block, else_block, get_next_token_line(input));
     }
     return NULL;
 }

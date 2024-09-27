@@ -4,6 +4,8 @@ Token: ;
 Token: ;
 Token: ;
 Token: ;
+Token: )
+Token: )
 Token: +
 Token: +
 Binary Expression: 7
@@ -16,10 +18,8 @@ Token: ;
 Token: +
 Token: +
 Binary Expression: +
-80%: Checks: 30, Failures: 3, Errors: 3
+86%: Checks: 30, Failures: 3, Errors: 1
 public.c:52:F:Public:B_param_func:0: Assertion 'valid_program("def int foo(int a, bool b) { }")' failed
-public.c:53:E:Public:B_conditional:0: (after this point) Test timeout expired
-public.c:54:E:Public:B_whileloop:0: (after this point) Test timeout expired
 public.c:58:F:Public:A_arrays:0: Assertion 'valid_program("int a[5]; def int main() { a[1] = 7; return a[1]; }")' failed
 public.c:81:F:Public:A_newline:0: Assertion 'value == "ab\nc"' failed: value == "ab\nc", "ab\nc" == "ab
 c"
