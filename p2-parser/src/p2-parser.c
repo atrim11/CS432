@@ -172,26 +172,31 @@ ASTNode* parse_loc (TokenQueue* input) {
 }
 
 ASTNode* parse_unaryExpr (TokenQueue* input) {
-    if (check_next_token(input, SYM, "-") || check_next_token(input, SYM, "!")) {
-        int line = get_next_token_line(input);
-        Token* token = TokenQueue_remove(input);
-        ASTNode* child = parse_unaryExpr(input);
-        return UnaryOpNode_new(token, child, line);
-    } else {
-        return parse_loc(input);
-    }
+    // if (check_next_token(input, SYM, "-") || check_next_token(input, SYM, "!")) {
+    //     int line = get_next_token_line(input);
+
+    //     Token* token = TokenQueue_remove(input);
+    //     UnaryOpType operator = token;
+        
+    //     ASTNode* child = parse_unaryExpr(input);
+    //     return UnaryOpNode_new(operator, child, line);
+    // } else {
+    //     return parse_loc(input);
+    // }
 }
 
 ASTNode* parse_binaryexpression (TokenQueue* input) {
-    if (check_next_token(input, SYM, "+") || check_next_token(input, SYM, "-") || check_next_token(input, SYM, "*") || check_next_token(input, SYM, "/") || check_next_token(input, SYM, "%") || check_next_token(input, SYM, "<") || check_next_token(input, SYM, ">") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, "==") || check_next_token(input, SYM, "!=") || check_next_token(input, SYM, "&&") || check_next_token(input, SYM, "||")) {
-        int line = get_next_token_line(input);
-        Token* token = TokenQueue_remove(input);
-        ASTNode* left = parse_binaryexpression(input);
-        ASTNode* right = parse_binaryexpression(input);
-        return BinaryOpNode_new(token, left, right, line);
-    } else {
-        return parse_unaryExpr(input);;
-    }
+    // if (check_next_token(input, SYM, "+") || check_next_token(input, SYM, "-") || check_next_token(input, SYM, "*") || check_next_token(input, SYM, "/") || check_next_token(input, SYM, "%") || check_next_token(input, SYM, "<") || check_next_token(input, SYM, ">") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, "==") || check_next_token(input, SYM, "!=") || check_next_token(input, SYM, "&&") || check_next_token(input, SYM, "||")) {
+    //     int line = get_next_token_line(input);
+
+    //     Token* token = TokenQueue_remove(input);
+    //     BinaryOpType operator = token;
+
+    //     ASTNode* left = parse_binaryexpression(input);
+    //     ASTNode* right = parse_binaryexpression(input);
+    //     return BinaryOpNode_new(operator, left, right, line);
+    // } else {
+        return parse_unaryExpr(input);
 
 }
 
@@ -201,33 +206,33 @@ ASTNode* parse_expr (TokenQueue* input) {
 }
 
 
-// ASTNode* parse_lit (TokenQueue* input) {
-//     if (TokenQueue_is_empty(input)) {
-//         Error_throw_printf("Unexpected end of input (expected literal)\n");
-//     }
-//     Token* token = TokenQueue_remove(input);
-//     ASTNode* node = NULL;
-//     switch (token->type) {
+ASTNode* parse_lit (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected literal)\n");
+    }
+    Token* token = TokenQueue_remove(input);
+    ASTNode* node = NULL;
+    switch (token->type) {
      
-//         // case LITERAL:
-//         //     node = LiteralNode_new_bool(token -> text, token->line);
-//         //     break;
-//         case STRLIT:
-//             node = LiteralNode_new_string(token->text, token->line);
-//             break;
+        // case LITERAL:
+        //     node = LiteralNode_new_bool(token -> text, token->line);
+        //     break;
+        case STRLIT:
+            node = LiteralNode_new_string(token->text, token->line);
+            break;
 
-//         case DECLIT:
-//             node = LiteralNode_new_int(atoi(token->text), token->line);
-//             break;
-//         case HEXLIT:
-//             node = LiteralNode_new_int(strtol(token->text, NULL, 16), token->line);
-//             break;
-//         default:
-//             Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, token->line);
-//     }
-//     Token_free(token);
-//     return node;
-// }
+        case DECLIT:
+            node = LiteralNode_new_int(atoi(token->text), token->line);
+            break;
+        case HEXLIT:
+            node = LiteralNode_new_int(strtol(token->text, NULL, 16), token->line);
+            break;
+        default:
+            Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, token->line);
+    }
+    Token_free(token);
+    return node;
+}
 ASTNode* parse_funcCall (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
@@ -274,7 +279,7 @@ ASTNode* parse_stmts (TokenQueue* input) {
         match_and_discard_next_token(input, SYM, "=");
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ";");
-        return AssignNode_new(loc, expr, get_next_token_line(input));
+        return AssignmentNode_new(loc, expr, get_next_token_line(input));
     } else if (check_next_token(input, KEY, "break")) {
         match_and_discard_next_token(input, KEY, "break");
         match_and_discard_next_token(input, SYM, ";");
@@ -306,7 +311,7 @@ ASTNode* parse_block (TokenQueue* input) {
     NodeList* stmts = NodeList_new();
     int line = get_next_token_line(input);
     // check if its an int void or bool
-    while (check_next_token(input, KEY, "int") || check_next_token(input, KEY, "bool")) {
+    while (check_next_token(input, KEY, "int") || check_next_token(input, KEY, "bool") || check_next_token(input, KEY, "void")) {
             NodeList_add(vars, parse_vardecl(input));
         } 
 
@@ -320,12 +325,12 @@ ASTNode* parse_block (TokenQueue* input) {
     return BlockNode_new(vars, stmts, line);
 }
 
-ASTNode* parse_param (TokenQueue* input) {
-    DecafType type = parse_type(input);
-    char buffer[MAX_ID_LEN];
-    parse_id(input, buffer);
-    return ParamNode_new(buffer, type, get_next_token_line(input));
-}
+// ASTNode* parse_param (TokenQueue* input) {
+//     DecafType type = parse_type(input);
+//     char buffer[MAX_ID_LEN];
+//     parse_id(input, buffer);
+//     return ParamNode_new(buffer, type, get_next_token_line(input));
+// }
 
 
 
