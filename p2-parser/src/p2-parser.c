@@ -200,6 +200,32 @@ ASTNode* parse_loc (TokenQueue* input) {
 //     return node;
 // }
 
+// ASTNode* parse_unaryExpr (TokenQueue* input) {
+//     if (check_next_token(input, SYM, "-") || check_next_token(input, SYM, "!")) {
+//         Token* token = TokenQueue_remove(input);
+//         ASTNode* child = parse_unaryExpr(input);
+//         return UnaryOpNode_new(token->text, child, token->line);
+//     } else {
+//         return parse_loc(input);
+//     }
+// }
+
+// ASTNode* parse_binaryexpression (TokenQueue* input) {
+//     ASTNode* left = parse_unaryExpr(input);
+//     if (check_next_token(input, SYM, "+") || check_next_token(input, SYM, "-") || check_next_token(input, SYM, "*") || check_next_token(input, SYM, "/") || check_next_token(input, SYM, "%") || check_next_token(input, SYM, "<") || check_next_token(input, SYM, ">") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, "==") || check_next_token(input, SYM, "!=") || check_next_token(input, SYM, "&&") || check_next_token(input, SYM, "||")) {
+//         Token* token = TokenQueue_remove(input);
+//         ASTNode* right = parse_expr(input);
+//         return BinaryOpNode_new(token->text, left, right, token->line);
+//     } else {
+//         return left;
+//     }
+
+// }
+
+// ASTNode* parse_expr (TokenQueue* input) {
+//     return parse_binaryexpression(input);
+// }
+
 
 /**
  * @brief Parse and return a block of statements
@@ -224,7 +250,16 @@ ASTNode* parse_stmts (TokenQueue* input) {
         match_and_discard_next_token(input, KEY, "continue");
         match_and_discard_next_token(input, SYM, ";");
         return ContinueNode_new(get_next_token_line(input));
+   } else if (check_next_token(input, KEY, "while")) {
+        match_and_discard_next_token(input, KEY, "while");
+        match_and_discard_next_token(input, SYM, "(");
+        ASTNode* cond = parse_expr(input);
+        match_and_discard_next_token(input, SYM, ")");
+        ASTNode* body = parse_block(input);
+        return WhileNode_new(cond, body, get_next_token_line(input));
    }
+
+   
 
 }
 
