@@ -316,19 +316,14 @@ ASTNode* parse_binaryexpression (TokenQueue* input) {
     if (!isBinOP(input)) {
         return leftExpr;
     } else {
-        ASTNode* exp = NULL;  
         while (!check_next_token(input, SYM, ";")) {
-                BinaryOpType operatorToken = helper_get_binary_op_type(input);
-                TokenQueue_remove(input);
-                printf("Binary Expression 2\n");
-                 
-                printf("Binary Expression: %s\n", TokenQueue_peek(input)->text);
-                ASTNode* rightExpr = parse_binaryexpression(input);
-                exp = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
-                match_and_discard_next_token(input, SYM, ";");
+            BinaryOpType operatorToken = helper_get_binary_op_type(input);
+            TokenQueue_remove(input);
+                
+            printf("Binary Expression: %s\n", TokenQueue_peek(input)->text);
+            ASTNode* rightExpr = parse_binaryexpression(input);
+            return BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input)); 
         }
-    
-        return exp;
     }
 }
 
