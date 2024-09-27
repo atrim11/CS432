@@ -222,10 +222,37 @@ ASTNode* parse_loc (TokenQueue* input) {
 
 // }
 
-// ASTNode* parse_expr (TokenQueue* input) {
-//     return parse_binaryexpression(input);
-// }
+ASTNode* parse_expr (TokenQueue* input) {
+    return NULL;
+}
 
+
+/**
+ * @brief Parse and return a block of statements
+ * 
+ * @param input Token queue to modify
+ * @returns Parsed block of statements
+ */
+ASTNode* parse_block (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected '{')\n");
+    }
+    
+    NodeList* vars = NodeList_new();
+    NodeList* stmts = NodeList_new();
+    int line = get_next_token_line(input);
+    match_and_discard_next_token(input, SYM, "{");
+    // check if its an int void or bool
+    while (!check_next_token(input, SYM, "}")) {
+        if (check_next_token(input, KEY, "int") || check_next_token(input, KEY, "bool") || check_next_token(input, KEY, "void")) {
+            NodeList_add(vars, parse_vardecl(input));
+        }
+        
+    }
+
+    match_and_discard_next_token(input, SYM, "}");
+    return BlockNode_new(vars, stmts, line);
+}
 
 /**
  * @brief Parse and return a block of statements
@@ -256,39 +283,13 @@ ASTNode* parse_stmts (TokenQueue* input) {
         ASTNode* cond = parse_expr(input);
         match_and_discard_next_token(input, SYM, ")");
         ASTNode* body = parse_block(input);
-        return WhileNode_new(cond, body, get_next_token_line(input));
+        return WhileLoopNode_new(cond, body, get_next_token_line(input));
    }
 
    
 
 }
 
-/**
- * @brief Parse and return a block of statements
- * 
- * @param input Token queue to modify
- * @returns Parsed block of statements
- */
-ASTNode* parse_block (TokenQueue* input) {
-    if (TokenQueue_is_empty(input)) {
-        Error_throw_printf("Unexpected end of input (expected '{')\n");
-    }
-    
-    NodeList* vars = NodeList_new();
-    NodeList* stmts = NodeList_new();
-    int line = get_next_token_line(input);
-    match_and_discard_next_token(input, SYM, "{");
-    // check if its an int void or bool
-    while (!check_next_token(input, SYM, "}")) {
-        if (check_next_token(input, KEY, "int") || check_next_token(input, KEY, "bool") || check_next_token(input, KEY, "void")) {
-            NodeList_add(vars, parse_vardecl(input));
-        }
-        
-    }
-
-    match_and_discard_next_token(input, SYM, "}");
-    return BlockNode_new(vars, stmts, line);
-}
 
 ASTNode* parse_funcdecl (TokenQueue* input) {
     if (TokenQueue_is_empty(input)) {
