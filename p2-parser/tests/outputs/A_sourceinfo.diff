@@ -1,11 +1,10 @@
---- outputs/A_sourceinfo.txt	2024-09-27 17:22:28.653534402 -0400
+--- outputs/A_sourceinfo.txt	2024-09-27 17:28:25.348703262 -0400
 +++ expected/A_sourceinfo.txt	2024-09-20 13:58:55.681658550 -0400
-@@ -1,7 +1,11 @@
+@@ -1,6 +1,11 @@
 -hello
 -Parsing Location
 -Token: +
 -Token: +
--Binary Expression: 5
 -Token: ;
 -hello
 +Program [line 1]

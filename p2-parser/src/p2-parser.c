@@ -320,7 +320,7 @@ ASTNode* parse_binaryexpression (TokenQueue* input) {
             BinaryOpType operatorToken = helper_get_binary_op_type(input);
             TokenQueue_remove(input);
                 
-            printf("Binary Expression: %s\n", TokenQueue_peek(input)->text);
+            // printf("Binary Expression: %s\n", TokenQueue_peek(input)->text);
             ASTNode* rightExpr = parse_binaryexpression(input);
             return BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input)); 
         }
@@ -459,7 +459,6 @@ ASTNode* parse_block (TokenQueue* input) {
 // }
 
 
-
 ASTNode* parse_funcdecl (TokenQueue* input) {
     if (TokenQueue_is_empty(input)) {
         Error_throw_printf("Unexpected end of input (expected 'def')\n");
@@ -500,7 +499,6 @@ ASTNode* parse_funcdecl (TokenQueue* input) {
 
 ASTNode* parse_program (TokenQueue* input)
 {
-
     NodeList* vars = NodeList_new();
     NodeList* funcs = NodeList_new();
     while (!TokenQueue_is_empty(input)) {
@@ -517,6 +515,10 @@ ASTNode* parse_program (TokenQueue* input)
 
 ASTNode* parse (TokenQueue* input)
 {
+    // Private:A_null_token_queue:0: (after this point) Received signal 11 (Segmentation fault)
+    if (input == NULL) {
+        Error_throw_printf("Null Input\n");
+    }
 
     return parse_program(input);
 }
