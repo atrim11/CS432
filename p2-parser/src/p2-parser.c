@@ -171,6 +171,63 @@ ASTNode* parse_loc (TokenQueue* input) {
     } 
 }
 
+/* 
+* Parse Lit
+*/
+ASTNode* parse_lit(TokenQueue* input)
+{
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected literal)\n");
+    }
+
+    Token* token = TokenQueue_remove(input);
+    int line = get_next_token_line(input);
+
+    ASTNode* node = NULL;
+
+    if (token->type == DECLIT) {
+        int temp = atoi(token->text);
+        node = LiteralNode_new_int(temp, line);
+
+    } else if (token->type == HEXLIT) {
+        int temp = strtol(token->text, NULL, 16);
+        node = LiteralNode_new_int(temp, line);
+
+    } else if (strcmp(token->text, "true") == 0) {
+        node = LiteralNode_new_bool(true, line);
+
+    } else if (strcmp(token->text, "false") == 0) {
+        node = LiteralNode_new_bool(false, line);
+
+    } else if (token->type == STRLIT) {
+        node = LiteralNode_new_string(token->text, line);
+
+    } else {
+        Token_free(token);
+        Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, line);
+    }
+
+    Token_free(token);
+    return node;
+}
+
+
+ASTNode* parse_baseExpr (TokenQueue* input) {
+    // if (check_next_token(input, SYM, "(")) {
+    //     match_and_discard_next_token(input, SYM, "(");
+    //     ASTNode* expr = parse_expr(input);
+    //     match_and_discard_next_token(input, SYM, ")");
+    //     return expr;
+    // } else if (check_next_token_type(input, ID)){
+    //     if(check_next_token(input, SYM, "[")) {
+    //         return parse_loc(input);
+    //     } else if (check_next_token(input, SYM, "(")) {
+    //         return parse_funcCall(input);
+    //     }
+    // }
+    return parse_lit(input);
+}
+
 ASTNode* parse_unaryExpr (TokenQueue* input) {
     // if (check_next_token(input, SYM, "-") || check_next_token(input, SYM, "!")) {
     //     int line = get_next_token_line(input);
@@ -183,6 +240,7 @@ ASTNode* parse_unaryExpr (TokenQueue* input) {
     // } else {
     //     return parse_loc(input);
     // }
+    return parse_baseExpr(input);
 }
 
 ASTNode* parse_binaryexpression (TokenQueue* input) {
@@ -206,33 +264,7 @@ ASTNode* parse_expr (TokenQueue* input) {
 }
 
 
-ASTNode* parse_lit (TokenQueue* input) {
-    if (TokenQueue_is_empty(input)) {
-        Error_throw_printf("Unexpected end of input (expected literal)\n");
-    }
-    Token* token = TokenQueue_remove(input);
-    ASTNode* node = NULL;
-    switch (token->type) {
-     
-        // case LITERAL:
-        //     node = LiteralNode_new_bool(token -> text, token->line);
-        //     break;
-        case STRLIT:
-            node = LiteralNode_new_string(token->text, token->line);
-            break;
 
-        case DECLIT:
-            node = LiteralNode_new_int(atoi(token->text), token->line);
-            break;
-        case HEXLIT:
-            node = LiteralNode_new_int(strtol(token->text, NULL, 16), token->line);
-            break;
-        default:
-            Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, token->line);
-    }
-    Token_free(token);
-    return node;
-}
 ASTNode* parse_funcCall (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
@@ -246,21 +278,6 @@ ASTNode* parse_funcCall (TokenQueue* input) {
     }
     match_and_discard_next_token(input, SYM, ")");
     return FuncCallNode_new(buffer, args, get_next_token_line(input));
-}
-
-ASTNode* parse_baseExpr (TokenQueue* input) {
-    if (check_next_token(input, SYM, "(")) {
-        match_and_discard_next_token(input, SYM, "(");
-        ASTNode* expr = parse_expr(input);
-        match_and_discard_next_token(input, SYM, ")");
-        return expr;
-    } else if (check_next_token_type(input, ID)){
-        if(check_next_token(input, SYM, "[")) {
-            return parse_loc(input);
-        } else if (check_next_token(input, SYM, "(")) {
-            return parse_funcCall(input);
-        }
-    }
 }
 
 
