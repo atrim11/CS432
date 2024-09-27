@@ -335,21 +335,17 @@ ASTNode* parse_expr (TokenQueue* input) {
 
 
 ASTNode* parse_funcCall (TokenQueue* input) {
-    printf("Parsing Func Call\n");
-    int line = get_next_token_line(input);
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
     match_and_discard_next_token(input, SYM, "(");
     NodeList* args = NodeList_new();
-    if (!check_next_token(input, SYM, ")")) {
+    while (!check_next_token(input, SYM, ")")) {
         NodeList_add(args, parse_expr(input));
-        while (check_next_token(input, SYM, ",")) {
-            discard_next_token(input);
-            NodeList_add(args, parse_expr(input));
+        if (check_next_token(input, SYM, ",")) {
+            match_and_discard_next_token(input, SYM, ",");
         }
     }
     match_and_discard_next_token(input, SYM, ")");
-
     return FuncCallNode_new(buffer, args, get_next_token_line(input));
 }
 
