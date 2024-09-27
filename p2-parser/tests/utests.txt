@@ -1,6 +1,5 @@
 Running suite(s): Default
-63%: Checks: 30, Failures: 8, Errors: 3
-public.c:50:F:Public:C_return:0: Assertion 'valid_program("def int main () { " "return;" " }")' failed
+66%: Checks: 30, Failures: 7, Errors: 3
 public.c:80:F:Public:C_strlit:0: Assertion 'value == "abc"' failed: value == ""abc"", "abc" == "abc"
 public.c:52:F:Public:B_param_func:0: Assertion 'valid_program("def int foo(int a, bool b) { }")' failed
 public.c:53:E:Public:B_conditional:0: (after this point) Test timeout expired

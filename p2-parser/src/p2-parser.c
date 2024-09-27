@@ -200,6 +200,7 @@ ASTNode* parse_lit(TokenQueue* input)
         node = LiteralNode_new_bool(false, line);
 
     } else if (token->type == STRLIT) {
+        match_and_discard_next_token(input, SYM, ";");
         node = LiteralNode_new_string(token->text, line);
 
     } else {
@@ -291,6 +292,7 @@ ASTNode* parse_funcCall (TokenQueue* input) {
  */
 ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
+
     if (check_next_token_type(input, ID)){
         ASTNode* loc = parse_loc(input);
         match_and_discard_next_token(input, SYM, "=");
@@ -306,7 +308,13 @@ ASTNode* parse_stmts (TokenQueue* input) {
         match_and_discard_next_token(input, SYM, ";");
         return ContinueNode_new(get_next_token_line(input));
     } else if (check_next_token(input, KEY, "return")) {
+
         match_and_discard_next_token(input, KEY, "return");
+        // Checking if the next token is a semicolon or if its not we need ot parse expression
+        if (check_next_token(input, SYM, ";")) {
+            match_and_discard_next_token(input, SYM, ";");
+            return ReturnNode_new(NULL, get_next_token_line(input));
+        }
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ";");
         return ReturnNode_new(expr, get_next_token_line(input));
