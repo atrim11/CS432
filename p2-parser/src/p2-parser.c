@@ -200,8 +200,17 @@ ASTNode* parse_lit(TokenQueue* input)
         node = LiteralNode_new_bool(false, line);
 
     } else if (token->type == STRLIT) {
-        match_and_discard_next_token(input, SYM, ";");
-        node = LiteralNode_new_string(token->text, line);
+        char* temp = token->text;
+        if (temp[0] == '"') {
+            temp++;
+        } 
+        if (temp[strlen(temp) - 1] == '"') {
+            temp[strlen(temp) - 1] = '\0';
+        }
+        
+
+        node = LiteralNode_new_string(temp, line);
+
 
     } else {
         Token_free(token);
