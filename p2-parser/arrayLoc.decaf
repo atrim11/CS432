@@ -1,0 +1,5 @@
+int a[10];
+
+def int main() {
+    a[0] = 1;
+}

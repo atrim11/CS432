@@ -6,6 +6,9 @@
 
 #include "p2-parser.h"
 bool check_next_token (TokenQueue* input, TokenType type, const char* text);
+ASTNode* parse_lit(TokenQueue* input);
+ASTNode* parse_expr(TokenQueue* input);
+ASTNode* parse(TokenQueue* input);
 /*
  * helper functions
  */
@@ -13,7 +16,6 @@ bool check_next_token (TokenQueue* input, TokenType type, const char* text);
 BinaryOpType helper_get_binary_op_type (TokenQueue* Input) 
 {
     Token* token = TokenQueue_peek(Input);
-    printf("Token: %s\n", token->text);
     if (strcmp(token->text, "||") == 0) {
         return OROP;
     } else if (strcmp(token->text, "&&") == 0) {
@@ -47,7 +49,6 @@ BinaryOpType helper_get_binary_op_type (TokenQueue* Input)
 
 bool isBinOP(TokenQueue* Input) {
     Token* token = TokenQueue_peek(Input);
-    printf("Token: %s\n", token->text);
     if (strcmp(token->text, "||") == 0) {
         return true;
     } else if (strcmp(token->text, "&&") == 0) {
@@ -224,17 +225,46 @@ ASTNode* parse_vardecl(TokenQueue* input)
     DecafType temp = parse_type(input);
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
+    if (token_str_eq(TokenQueue_peek(input)->text, "[")) {
+        match_and_discard_next_token(input, SYM, "[");
+        if (check_next_token(input, SYM, "]")) {
+            match_and_discard_next_token(input, SYM, "]");
+            match_and_discard_next_token(input, SYM, ";");
+            return VarDeclNode_new(buffer, temp, true, 0, get_next_token_line(input));
+        } else {
+            int size_int = atoi(TokenQueue_remove(input)->text);
+            match_and_discard_next_token(input, SYM, "]");
+            match_and_discard_next_token(input, SYM, ";");
+            return VarDeclNode_new(buffer, temp, true, size_int, get_next_token_line(input));
+        }
+    }
     match_and_discard_next_token(input, SYM, ";");
-    return VarDeclNode_new(buffer, temp, false, 0, line);
+    return VarDeclNode_new(buffer, temp, false, 0, get_next_token_line(input));
 }
+
+// if (check_next_token(input, SYM, "[")) {
+//         match_and_discard_next_token(input, SYM, "[");
+//         if (check_next_token(input, SYM, "]")) {
+//             match_and_discard_next_token(input, SYM, "]");
+//             match_and_discard_next_token(input, SYM, ";");
+//             return VarDeclNode_new(buffer, temp, true, 0, line);
+//         } else {
+//             ASTNode* size = parse_lit(input);
+//             match_and_discard_next_token(input, SYM, "]");
+//             match_and_discard_next_token(input, SYM, ";");
+//             return VarDeclNode_new(buffer, temp, true, size, line);
+//         }
+//     } else {
+//         match_and_discard_next_token(input, SYM, ";");
+//         return VarDeclNode_new(buffer, temp, false, 0, line);
+//     }
 
 ASTNode* parse_loc (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
-
     if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
-        ASTNode* index = parse(input);
+        ASTNode* index = parse_lit(input);
         match_and_discard_next_token(input, SYM, "]");
         return LocationNode_new(buffer, index, get_next_token_line(input));
     } 
@@ -363,13 +393,11 @@ ASTNode* parse_block (TokenQueue* input);
  */
 ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
-        printf("hello\n");
 
     if (check_next_token_type(input, ID)){
         if (check_next_token(input, SYM, "(")) {
             return parse_funcCall(input);
         } else {
-            printf("Parsing Location\n");
             ASTNode* loc = parse_loc(input);
             match_and_discard_next_token(input, SYM, "=");
             ASTNode* expr = parse_expr(input);
