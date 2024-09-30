@@ -224,20 +224,28 @@ ASTNode* parse_vardecl(TokenQueue* input)
 
     DecafType temp = parse_type(input);
     char buffer[MAX_ID_LEN];
+
     parse_id(input, buffer);
     if (token_str_eq(TokenQueue_peek(input)->text, "[")) {
+
         match_and_discard_next_token(input, SYM, "[");
         if (check_next_token(input, SYM, "]")) {
+
             match_and_discard_next_token(input, SYM, "]");
             match_and_discard_next_token(input, SYM, ";");
             return VarDeclNode_new(buffer, temp, true, 0, get_next_token_line(input));
         } else {
+
             int size_int = atoi(TokenQueue_remove(input)->text);
+
             match_and_discard_next_token(input, SYM, "]");
             match_and_discard_next_token(input, SYM, ";");
+
             return VarDeclNode_new(buffer, temp, true, size_int, get_next_token_line(input));
         }
-    }
+        // Variable assignment
+    } else 
+
     match_and_discard_next_token(input, SYM, ";");
     return VarDeclNode_new(buffer, temp, false, 0, get_next_token_line(input));
 }
@@ -264,7 +272,15 @@ ASTNode* parse_loc (TokenQueue* input) {
     parse_id(input, buffer);
     if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
-        ASTNode* index = parse_lit(input);
+        ASTNode* index = parse_expr(input);
+        // ArrayAssignment checker
+        if (check_next_token(input, SYM, "[")) {
+            match_and_discard_next_token(input, SYM, "[");
+            ASTNode* index2 = parse_expr(input);
+            match_and_discard_next_token(input, SYM, "]");
+            match_and_discard_next_token(input, SYM, "]");
+            return LocationNode_new(buffer, BinaryOpNode_new(ADDOP, index, index2, get_next_token_line(input)), get_next_token_line(input));
+        }
         match_and_discard_next_token(input, SYM, "]");
         return LocationNode_new(buffer, index, get_next_token_line(input));
     } 
@@ -393,17 +409,23 @@ ASTNode* parse_block (TokenQueue* input);
  */
 ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
+    char buffer[MAX_ID_LEN];
 
     if (check_next_token_type(input, ID)){
-        if (check_next_token(input, SYM, "(")) {
-            return parse_funcCall(input);
-        } else {
-            ASTNode* loc = parse_loc(input);
+        parse_id(input, buffer);
+        // Assignment checker
+        if (check_next_token(input, SYM, "[")) {
+            ASTNode* assignemnt_loc = parse_loc(input);
             match_and_discard_next_token(input, SYM, "=");
-            ASTNode* expr = parse_expr(input);
+            ASTNode* assignment_val = parse_expr(input);
             match_and_discard_next_token(input, SYM, ";");
-            return AssignmentNode_new(loc, expr, get_next_token_line(input));
-        }
+            return AssignmentNode_new(assignemnt_loc, assignment_val, get_next_token_line(input));
+        // Function checker
+        } else if (check_next_token(input, SYM, "(")) {
+            ASTNode* funccall = parse_funcCall(input);
+            match_and_discard_next_token(input, SYM, ";");
+            return funccall;
+        } 
     } else if (check_next_token(input, KEY, "break")) {
         match_and_discard_next_token(input, KEY, "break");
         match_and_discard_next_token(input, SYM, ";");
@@ -516,7 +538,7 @@ ASTNode* parse_funcdecl (TokenQueue* input) {
 
     match_and_discard_next_token(input, SYM, ")");
 
-    return FuncDeclNode_new(buffer, return_type, NULL, parse_block(input), line);
+    return FuncDeclNode_new(buffer, return_type, params, parse_block(input), line);
 }
 
 
@@ -536,7 +558,7 @@ ASTNode* parse_program (TokenQueue* input)
             NodeList_add(vars, parse_vardecl(input));
         }
     }
-       
+
     // NodeList_add(vars, VarDeclNode_new("test", INT, false, 0,0));
     return ProgramNode_new(vars, funcs);
 }

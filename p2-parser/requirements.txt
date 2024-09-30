@@ -1,0 +1,45 @@
+Grade	Description	Requirements
+A	Exceptional	
+Correct associativity and precedence
+Handle all edge cases correctly
+No compiler warnings or memory leaks
+Report descriptive error messages w/ debug info (assessed manually)
+All of the below
+
+|----------------------------------------------------------------------|
+
+
+
+B	Good	
+Parse function declarations w/ parameters
+Parse conditionals and while loops
+Parse binary and unary expressions
+Parse base expressions (including subexpressions and function calls)
+Include source code line info
+Reject invalid programs with the above components
+All of the below
+
+|----------------------------------------------------------------------|
+
+
+C	Satisfactory	
+Parse function declarations w/o parameters
+Parse blocks, assignments, breaks, continues, and returns
+Parse base expressions (literals and locations)
+Parse array variable declarations and locations
+Reject invalid programs with the above components
+All of the below
+
+|----------------------------------------------------------------------|
+
+
+D	Deficient	
+Parse types and identifiers
+Parse variable declarations w/o arrays
+Reject invalid programs with the above components
+
+|----------------------------------------------------------------------|
+
+
+F	Unacceptable	
+Some evidence of a good-faith attempt
