@@ -220,12 +220,15 @@ void parse_id (TokenQueue* input, char* buffer)
 */
 ASTNode* parse_vardecl(TokenQueue* input)
 {
-    int line = get_next_token_line(input);
-
+    printf("Parsing Var Decl\n");
+    
+    
     DecafType temp = parse_type(input);
+        
     char buffer[MAX_ID_LEN];
 
     parse_id(input, buffer);
+    int line = get_next_token_line(input);
     if (token_str_eq(TokenQueue_peek(input)->text, "[")) {
 
         match_and_discard_next_token(input, SYM, "[");
@@ -233,7 +236,7 @@ ASTNode* parse_vardecl(TokenQueue* input)
 
             match_and_discard_next_token(input, SYM, "]");
             match_and_discard_next_token(input, SYM, ";");
-            return VarDeclNode_new(buffer, temp, true, 0, get_next_token_line(input));
+            return VarDeclNode_new(buffer, temp, true, 0, line);
         } else {
 
             int size_int = atoi(TokenQueue_remove(input)->text);
@@ -241,13 +244,13 @@ ASTNode* parse_vardecl(TokenQueue* input)
             match_and_discard_next_token(input, SYM, "]");
             match_and_discard_next_token(input, SYM, ";");
 
-            return VarDeclNode_new(buffer, temp, true, size_int, get_next_token_line(input));
+            return VarDeclNode_new(buffer, temp, true, size_int, line);
         }
         // Variable assignment
-    } else 
-
-    match_and_discard_next_token(input, SYM, ";");
-    return VarDeclNode_new(buffer, temp, false, 0, get_next_token_line(input));
+    } else {
+        match_and_discard_next_token(input, SYM, ";");
+        return VarDeclNode_new(buffer, temp, false, 0, line);
+    }
 }
 
 // if (check_next_token(input, SYM, "[")) {
