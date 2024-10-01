@@ -5,10 +5,79 @@
  */
 
 #include "p2-parser.h"
-
+bool check_next_token (TokenQueue* input, TokenType type, const char* text);
 /*
  * helper functions
  */
+
+BinaryOpType helper_get_binary_op_type (TokenQueue* Input) 
+{
+    Token* token = TokenQueue_peek(Input);
+    printf("Token: %s\n", token->text);
+    if (strcmp(token->text, "||") == 0) {
+        return OROP;
+    } else if (strcmp(token->text, "&&") == 0) {
+        return ANDOP;
+    } else if (strcmp(token->text, "==") == 0) {
+        return EQOP;
+    } else if (strcmp(token->text, "!=") == 0) {
+        return NEQOP;
+    } else if (strcmp(token->text, "<") == 0) {
+        return LTOP;
+    } else if (strcmp(token->text, "<=") == 0) {
+        return LEOP;
+    } else if (strcmp(token->text, ">=") == 0) {
+        return GEOP;
+    } else if (strcmp(token->text, ">") == 0) {
+        return GTOP;
+    } else if (strcmp(token->text, "+") == 0) {
+        return ADDOP;
+    } else if (strcmp(token->text, "-") == 0) {
+        return SUBOP;
+    } else if (strcmp(token->text, "*") == 0) {
+        return MULOP;
+    } else if (strcmp(token->text, "/") == 0) {
+        return DIVOP;
+    } else if (strcmp(token->text, "%") == 0) {
+        return MODOP;
+    } else {
+        Error_throw_printf("Invalid binary operator '%s' on line %d\n", TokenQueue_peek(Input)->text, get_next_token_line(Input));
+    }
+}
+
+bool isBinOP(TokenQueue* Input) {
+    Token* token = TokenQueue_peek(Input);
+    printf("Token: %s\n", token->text);
+    if (strcmp(token->text, "||") == 0) {
+        return true;
+    } else if (strcmp(token->text, "&&") == 0) {
+        return true;
+    } else if (strcmp(token->text, "==") == 0) {
+        return true;
+    } else if (strcmp(token->text, "!=") == 0) {
+        return true;
+    } else if (strcmp(token->text, "<") == 0) {
+        return true;
+    } else if (strcmp(token->text, "<=") == 0) {
+        return true;
+    } else if (strcmp(token->text, ">=") == 0) {
+        return true;
+    } else if (strcmp(token->text, ">") == 0) {
+        return true;
+    } else if (strcmp(token->text, "+") == 0) {
+        return true;
+    } else if (strcmp(token->text, "-") == 0) {
+        return true;
+    } else if (strcmp(token->text, "*") == 0) {
+        return true;
+    } else if (strcmp(token->text, "/") == 0) {
+        return true;
+    } else if (strcmp(token->text, "%") == 0) {
+        return true;
+    } else {
+        false;
+    }
+}
 
 /**
  * @brief Look up the source line of the next token in the queue.
@@ -218,54 +287,44 @@ ASTNode* parse_lit(TokenQueue* input)
     }
 
     Token_free(token);
-    return node;
+    return node; 
 }
 
 
 ASTNode* parse_baseExpr (TokenQueue* input) {
-    // if (check_next_token(input, SYM, "(")) {
-    //     match_and_discard_next_token(input, SYM, "(");
-    //     ASTNode* expr = parse_expr(input);
-    //     match_and_discard_next_token(input, SYM, ")");
-    //     return expr;
-    // } else if (check_next_token_type(input, ID)){
-    //     if(check_next_token(input, SYM, "[")) {
-    //         return parse_loc(input);
-    //     } else if (check_next_token(input, SYM, "(")) {
-    //         return parse_funcCall(input);
-    //     }
-    // }
+    
     return parse_lit(input);
 }
 
 ASTNode* parse_unaryExpr (TokenQueue* input) {
-    // if (check_next_token(input, SYM, "-") || check_next_token(input, SYM, "!")) {
-    //     int line = get_next_token_line(input);
-
-    //     Token* token = TokenQueue_remove(input);
-    //     UnaryOpType operator = token;
-        
-    //     ASTNode* child = parse_unaryExpr(input);
-    //     return UnaryOpNode_new(operator, child, line);
-    // } else {
-    //     return parse_loc(input);
-    // }
-    return parse_baseExpr(input);
+    Token* token = TokenQueue_peek(input);
+    if (strcmp(token->text, "-") == 0) {
+        match_and_discard_next_token(input, SYM, "-");
+        return UnaryOpNode_new(NEGOP, parse_baseExpr(input), get_next_token_line(input));
+    } else if (strcmp(token->text, "!") == 0) {
+        match_and_discard_next_token(input, SYM, "!");
+        return UnaryOpNode_new(NOTOP, parse_baseExpr(input), get_next_token_line(input));
+    } else {
+        return parse_baseExpr(input);
+    }
+    
 }
 
 ASTNode* parse_binaryexpression (TokenQueue* input) {
-    // if (check_next_token(input, SYM, "+") || check_next_token(input, SYM, "-") || check_next_token(input, SYM, "*") || check_next_token(input, SYM, "/") || check_next_token(input, SYM, "%") || check_next_token(input, SYM, "<") || check_next_token(input, SYM, ">") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, "==") || check_next_token(input, SYM, "!=") || check_next_token(input, SYM, "&&") || check_next_token(input, SYM, "||")) {
-    //     int line = get_next_token_line(input);
-
-    //     Token* token = TokenQueue_remove(input);
-    //     BinaryOpType operator = token;
-
-    //     ASTNode* left = parse_binaryexpression(input);
-    //     ASTNode* right = parse_binaryexpression(input);
-    //     return BinaryOpNode_new(operator, left, right, line);
-    // } else {
-        return parse_unaryExpr(input);
-
+    ASTNode* leftExpr = parse_unaryExpr(input);
+    
+    if (!isBinOP(input)) {
+        return leftExpr;
+    } else {
+        while (!check_next_token(input, SYM, ";")) {
+            BinaryOpType operatorToken = helper_get_binary_op_type(input);
+            TokenQueue_remove(input);
+                
+            // printf("Binary Expression: %s\n", TokenQueue_peek(input)->text);
+            ASTNode* rightExpr = parse_binaryexpression(input);
+            return BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input)); 
+        }
+    }
 }
 
 
@@ -292,6 +351,9 @@ ASTNode* parse_funcCall (TokenQueue* input) {
 
 
 
+ASTNode* parse_block (TokenQueue* input);
+
+
 /**
  * @brief Parse and return a block of statements
  * 
@@ -301,12 +363,19 @@ ASTNode* parse_funcCall (TokenQueue* input) {
  */
 ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
+        printf("hello\n");
+
     if (check_next_token_type(input, ID)){
-        ASTNode* loc = parse_loc(input);
-        match_and_discard_next_token(input, SYM, "=");
-        ASTNode* expr = parse_expr(input);
-        match_and_discard_next_token(input, SYM, ";");
-        return AssignmentNode_new(loc, expr, get_next_token_line(input));
+        if (check_next_token(input, SYM, "(")) {
+            return parse_funcCall(input);
+        } else {
+            printf("Parsing Location\n");
+            ASTNode* loc = parse_loc(input);
+            match_and_discard_next_token(input, SYM, "=");
+            ASTNode* expr = parse_expr(input);
+            match_and_discard_next_token(input, SYM, ";");
+            return AssignmentNode_new(loc, expr, get_next_token_line(input));
+        }
     } else if (check_next_token(input, KEY, "break")) {
         match_and_discard_next_token(input, KEY, "break");
         match_and_discard_next_token(input, SYM, ";");
@@ -316,10 +385,40 @@ ASTNode* parse_stmts (TokenQueue* input) {
         match_and_discard_next_token(input, SYM, ";");
         return ContinueNode_new(get_next_token_line(input));
     } else if (check_next_token(input, KEY, "return")) {
+
         match_and_discard_next_token(input, KEY, "return");
+        // Checking if the next token is a semicolon or if its not we need ot parse expression
+        if (check_next_token(input, SYM, ";")) {
+            match_and_discard_next_token(input, SYM, ";");
+            return ReturnNode_new(NULL, get_next_token_line(input));
+        }
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ";");
         return ReturnNode_new(expr, get_next_token_line(input));
+    } else if (check_next_token(input, KEY, "while")) {
+        match_and_discard_next_token(input, KEY, "while");
+        match_and_discard_next_token(input, SYM, "(");
+        ASTNode* condition = parse_expr(input);
+        match_and_discard_next_token(input, SYM, ")");
+        ASTNode* body = parse_block(input);
+        return WhileLoopNode_new(condition, body, get_next_token_line(input));
+        // checking for funccall
+    
+    } else if (check_next_token(input, KEY, "if")) {
+        match_and_discard_next_token(input, KEY, "if");
+        match_and_discard_next_token(input, SYM, "(");
+        ASTNode* condition = parse_expr(input);
+        match_and_discard_next_token(input, SYM, ")");
+        ASTNode* if_block = parse_block(input);
+        ASTNode* else_block = NULL;
+        if (check_next_token(input, KEY, "else")) {
+            
+            match_and_discard_next_token(input, KEY, "else");
+            match_and_discard_next_token(input, SYM, "{");
+            else_block = parse_block(input);
+            match_and_discard_next_token(input, SYM, "}");
+        }
+        return ConditionalNode_new(condition, if_block, else_block, get_next_token_line(input));
     }
     return NULL;
 }
@@ -360,7 +459,6 @@ ASTNode* parse_block (TokenQueue* input) {
 // }
 
 
-
 ASTNode* parse_funcdecl (TokenQueue* input) {
     if (TokenQueue_is_empty(input)) {
         Error_throw_printf("Unexpected end of input (expected 'def')\n");
@@ -371,11 +469,22 @@ ASTNode* parse_funcdecl (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
 
-
     match_and_discard_next_token(input, SYM, "(");
 
     // parse_params
-    // ignore paramters for c level
+    ParameterList* params = ParameterList_new();
+    if (!check_next_token(input, SYM, ")")) {
+        DecafType param_type = parse_type(input);
+        char param_buffer[MAX_ID_LEN];
+        parse_id(input, param_buffer);
+        ParameterList_add_new(params, param_buffer, param_type);
+        while (check_next_token(input, SYM, ",")) {
+            discard_next_token(input);
+            param_type = parse_type(input);
+            parse_id(input, param_buffer);
+            ParameterList_add_new(params, param_buffer, param_type);
+        }
+    }
 
     match_and_discard_next_token(input, SYM, ")");
 
@@ -406,6 +515,10 @@ ASTNode* parse_program (TokenQueue* input)
 
 ASTNode* parse (TokenQueue* input)
 {
+    // Private:A_null_token_queue:0: (after this point) Received signal 11 (Segmentation fault)
+    if (input == NULL) {
+        Error_throw_printf("Null Input\n");
+    }
+
     return parse_program(input);
 }
-

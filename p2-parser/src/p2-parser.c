@@ -269,7 +269,7 @@ ASTNode* parse_vardecl(TokenQueue* input)
 
 ASTNode* parse_loc (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
-    parse_id(input, buffer);
+    //parse_id(input, buffer);
     if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
         ASTNode* index = parse_expr(input);
@@ -414,8 +414,11 @@ ASTNode* parse_stmts (TokenQueue* input) {
     if (check_next_token_type(input, ID)){
         parse_id(input, buffer);
         // Assignment checker
+        
         if (check_next_token(input, SYM, "[")) {
+            
             ASTNode* assignemnt_loc = parse_loc(input);
+            printf("Parsing Location\n");
             match_and_discard_next_token(input, SYM, "=");
             ASTNode* assignment_val = parse_expr(input);
             match_and_discard_next_token(input, SYM, ";");
