@@ -1,91 +1,32 @@
 Running suite(s): Default
 parsing statments: a
 Parsing Location
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
 parsing statments: break
 parsing statments: continue
 parsing statments: return
 parsing statments: return
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
 parsing statments: return
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 parsing statments: return
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
 parsing statments: return
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 parsing statments: return
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 parsing statments: if
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 parsing statments: while
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 parsing statments: return
-Binary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
 parsing statments: return
-Binary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 parsing statments: return
-Unary Expression:
-Parsing Literal in Base Expression
 Token Type: 1
 parsing statments: return
-Binary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 parsing statments: a
 Parsing Location
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
 parsing statments: return
-Unary Expression:
-Parsing Base Expression
-Parsing Location in base expression
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
 parsing statments: return
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 100%: Checks: 30, Failures: 0, Errors: 0

@@ -1,17 +1,8 @@
 parsing statments: a
 Parsing Location
-Binary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
-Unary Expression:
-Parsing Base Expression
-Parsing Literal in Base Expression
 Token Type: 1
 parsing statments: return
-Unary Expression:
-Parsing Base Expression
-Parsing Location in base expression
 Program [line 1]
   FuncDecl name="main" return_type=int parameters={} [line 1]
     Block [line 3]
