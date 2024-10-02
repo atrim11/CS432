@@ -481,41 +481,9 @@ ASTNode* parse_bin_disjunction (TokenQueue* input) {
     return leftExpr;
 }
 
-// ASTNode* parse_binaryexpression (TokenQueue* input) {
-//     printf("Parsing Binary Expression: %s\n", TokenQueue_peek(input)->text);
-//     if (!isBinOP(input)) {
-//         //printf("Unary Expression:\n");
-//         return parse_unaryExpr(input);
-//     } else {
-//         while (!check_next_token(input, SYM, ";")) {
-//             //printf("Binary Expression:\n");
-//             ASTNode* leftExpr = parse_unaryExpr(input);
-//             BinaryOpType operatorToken = helper_get_binary_op_type(input);
-//             TokenQueue_remove(input);
-                
-//             // printf("Binary Expression: %s\n", TokenQueue_peek(input)->text);
-//             ASTNode* rightExpr = parse_binaryexpression(input);
-//             return BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input)); 
-//         }
-//     }
-
-// }
-
-
-
-
-
-
-// ASTNode* parse_binaryexpression (TokenQueue* input) {
-    
-
-// }
-
-
 ASTNode* parse_expr (TokenQueue* input) {
     return parse_bin_disjunction(input);
 }
-
 
 
 ASTNode* parse_funcCall (TokenQueue* input) {
@@ -553,6 +521,8 @@ Token* peek_2_ahead(TokenQueue* input) {
  * 
  */
 ASTNode* parse_stmts (TokenQueue* input) {
+    int line = get_next_token_line(input);
+    printf("parsing statments: %d\n", line);
     // Assignment
     char buffer[MAX_ID_LEN];            
     Token* token = peek_2_ahead(input);
@@ -564,7 +534,7 @@ ASTNode* parse_stmts (TokenQueue* input) {
         match_and_discard_next_token(input, SYM, "=");
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ";");
-        return AssignmentNode_new(loc, expr, get_next_token_line(input));
+        return AssignmentNode_new(loc, expr, line);
         // also check if hte last token wasnt if
     } else if (token->type == SYM && strcmp(token->text, "(") == 0  && !check_next_token(input, KEY, "if") && !check_next_token(input, KEY, "while")) {
         printf("Parsing FuncCall\n");
@@ -574,29 +544,29 @@ ASTNode* parse_stmts (TokenQueue* input) {
     } else if (check_next_token(input, KEY, "break")) {
         match_and_discard_next_token(input, KEY, "break");
         match_and_discard_next_token(input, SYM, ";");
-        return BreakNode_new(get_next_token_line(input));
+        return BreakNode_new(line);
     } else if (check_next_token(input, KEY, "continue")) {
         match_and_discard_next_token(input, KEY, "continue");
         match_and_discard_next_token(input, SYM, ";");
-        return ContinueNode_new(get_next_token_line(input));
+        return ContinueNode_new(line);
     } else if (check_next_token(input, KEY, "return")) {
 
         match_and_discard_next_token(input, KEY, "return");
         // Checking if the next token is a semicolon or if its not we need ot parse expression
         if (check_next_token(input, SYM, ";")) {
             match_and_discard_next_token(input, SYM, ";");
-            return ReturnNode_new(NULL, get_next_token_line(input));
+            return ReturnNode_new(NULL, line);
         }
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ";");
-        return ReturnNode_new(expr, get_next_token_line(input));
+        return ReturnNode_new(expr, line);
     } else if (check_next_token(input, KEY, "while")) {
         match_and_discard_next_token(input, KEY, "while");
         match_and_discard_next_token(input, SYM, "(");
         ASTNode* condition = parse_expr(input);
         match_and_discard_next_token(input, SYM, ")");
         ASTNode* body = parse_block(input);
-        return WhileLoopNode_new(condition, body, get_next_token_line(input));
+        return WhileLoopNode_new(condition, body, line);
         // checking for funccall
     
     } else if (check_next_token(input, KEY, "if")) {
@@ -610,7 +580,7 @@ ASTNode* parse_stmts (TokenQueue* input) {
             match_and_discard_next_token(input, KEY, "else");
             else_block = parse_block(input);
         }
-        return ConditionalNode_new(condition, if_block, else_block, get_next_token_line(input));
+        return ConditionalNode_new(condition, if_block, else_block, line);
     }
 
     return NULL;
@@ -624,11 +594,12 @@ ASTNode* parse_stmts (TokenQueue* input) {
  * @returns Parsed block of statements
  */
 ASTNode* parse_block (TokenQueue* input) {
+    int line = get_next_token_line(input);
     match_and_discard_next_token(input, SYM, "{");
 
     NodeList* vars = NodeList_new();
     NodeList* stmts = NodeList_new();
-    int line = get_next_token_line(input);
+    
     // check if its an int void or bool
     while (check_next_token(input, KEY, "int") || check_next_token(input, KEY, "bool") || check_next_token(input, KEY, "void")) {
             NodeList_add(vars, parse_vardecl(input));
