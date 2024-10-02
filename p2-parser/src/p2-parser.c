@@ -46,9 +46,10 @@ BinaryOpType helper_get_binary_op_type (TokenQueue* Input)
         Error_throw_printf("Invalid binary operator '%s' on line %d\n", TokenQueue_peek(Input)->text, get_next_token_line(Input));
     }
 }
+Token* peek_2_ahead(TokenQueue* input);
 
 bool isBinOP(TokenQueue* Input) {
-    Token* token = TokenQueue_peek(Input);
+    Token* token = peek_2_ahead(Input);
     if (strcmp(token->text, "||") == 0) {
         return true;
     } else if (strcmp(token->text, "&&") == 0) {
@@ -305,6 +306,7 @@ ASTNode* parse_lit(TokenQueue* input)
     ASTNode* node = NULL;
 
     if (token->type == DECLIT) {
+        printf("Token Type: %d\n", token->type);
         int temp = atoi(token->text);
         node = LiteralNode_new_int(temp, line);
 
@@ -331,7 +333,7 @@ ASTNode* parse_lit(TokenQueue* input)
     } else {
         Token_free(token);
         // print out the token type
-        printf("Token Type: %d\n", token->type);
+        // printf("Token Type: %d\n", token->type);
         Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, line);
 
     }
@@ -343,26 +345,27 @@ ASTNode* parse_lit(TokenQueue* input)
 ASTNode* parse_funcCall (TokenQueue* input);
 
 ASTNode* parse_baseExpr (TokenQueue* input) {
-     Token* token = peek_2_ahead(input);
+    Token* token = peek_2_ahead(input);
+    char buffer[MAX_ID_LEN];
     if (check_next_token(input, SYM, "(")) {
         match_and_discard_next_token(input, SYM, "(");
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ")");
         return expr;
-    } else if ((token->type == SYM && strcmp(token->text, "=") == 0)  || strcmp(token->text, "[") == 0) {
-        printf("Parsing Location\n");
+    } else if (check_next_token_type(input, ID)) {
+        // printf("Token Type: %d\n", input->head->type);
+        // printf("Token Text: %s\n", input->head->text);
+        // printf("next token: %s\n", token->text);
+        if (strcmp(token->text, "(") == 0) {
+            printf("Parsing FuncCall in baseexpression\n");
+            ASTNode* func = parse_funcCall(input);
+            return func;
+        }
+        printf("Parsing Location in base expression\n");
         ASTNode* loc = parse_loc(input);
-        match_and_discard_next_token(input, SYM, "=");
-        ASTNode* expr = parse_expr(input);
-        match_and_discard_next_token(input, SYM, ";");
-        return AssignmentNode_new(loc, expr, get_next_token_line(input));
-        // also check if hte last token wasnt if
-    } else if (token->type == SYM && strcmp(token->text, "(") == 0  && !check_next_token(input, KEY, "if") && !check_next_token(input, KEY, "while")) {
-        printf("Parsing FuncCall\n");
-        ASTNode* func = parse_funcCall(input);
-        match_and_discard_next_token(input, SYM, ";");
-        return func;
+        return loc;
     } else {
+        printf("Parsing Literal in Base Expression\n");
         return parse_lit(input);
     }
 }
@@ -376,18 +379,21 @@ ASTNode* parse_unaryExpr (TokenQueue* input) {
         match_and_discard_next_token(input, SYM, "!");
         return UnaryOpNode_new(NOTOP, parse_baseExpr(input), get_next_token_line(input));
     } else {
+        printf("Parsing Base Expression\n");
         return parse_baseExpr(input);
     }
     
 }
 
 ASTNode* parse_binaryexpression (TokenQueue* input) {
-    ASTNode* leftExpr = parse_unaryExpr(input);
     
     if (!isBinOP(input)) {
-        return leftExpr;
+        printf("Unary Expression:\n");
+        return parse_unaryExpr(input);
     } else {
         while (!check_next_token(input, SYM, ";")) {
+            printf("Binary Expression:\n");
+            ASTNode* leftExpr = parse_unaryExpr(input);
             BinaryOpType operatorToken = helper_get_binary_op_type(input);
             TokenQueue_remove(input);
                 
@@ -419,8 +425,6 @@ ASTNode* parse_funcCall (TokenQueue* input) {
     match_and_discard_next_token(input, SYM, ")");
     return FuncCallNode_new(buffer, args, get_next_token_line(input));
 }
-
-
 
 ASTNode* parse_block (TokenQueue* input);
 

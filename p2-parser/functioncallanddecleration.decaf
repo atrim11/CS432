@@ -1,5 +1,4 @@
-def int main() {
-    int a;
-    a = 4 + 5;
-    foo(10);
+def int add(int x, int y)
+{
+    return x + y;
 }
