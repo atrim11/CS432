@@ -178,7 +178,6 @@ DecafType parse_type (TokenQueue* input)
         Error_throw_printf("Unexpected end of input (expected type)\n");
     }
     Token* token = TokenQueue_remove(input);
-    // printf("%s\n", token->text);
     if (token->type != KEY) {
         Error_throw_printf("Invalid type '%s' on line %d\n", token->text, get_next_token_line(input));
     }
@@ -240,7 +239,7 @@ ASTNode* parse_vardecl(TokenQueue* input)
     int line = get_next_token_line(input);
 
     bool is_array = false;
-    int array_length = 0;
+    int array_length = 1;
     if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
         Token* token = TokenQueue_remove(input);
@@ -306,7 +305,6 @@ ASTNode* parse_lit(TokenQueue* input)
     ASTNode* node = NULL;
 
     if (token->type == DECLIT) {
-        printf("Token Type: %d\n", token->type);
         int temp = atoi(token->text);
         node = LiteralNode_new_int(temp, line);
 
@@ -363,8 +361,6 @@ ASTNode* parse_lit(TokenQueue* input)
         node = LiteralNode_new_string(temp, line);
     } else {
         Token_free(token);
-        // print out the token type
-        // printf("Token Type: %d\n", token->type);
         Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, line);
 
     }
@@ -384,9 +380,6 @@ ASTNode* parse_baseExpr (TokenQueue* input) {
         match_and_discard_next_token(input, SYM, ")");
         return expr;
     } else if (check_next_token_type(input, ID)) {
-        // printf("Token Type: %d\n", input->head->type);
-        // printf("Token Text: %s\n", input->head->text);
-        // printf("next token: %s\n", token->text);
         if (strcmp(token->text, "(") == 0) {
             //printf("Parsing FuncCall in baseexpression\n");
             ASTNode* func = parse_funcCall(input);
@@ -522,14 +515,14 @@ Token* peek_2_ahead(TokenQueue* input) {
  */
 ASTNode* parse_stmts (TokenQueue* input) {
     int line = get_next_token_line(input);
-    printf("parsing statments: %d\n", line);
+    //printf("parsing statments: %d\n", line);
     // Assignment
     char buffer[MAX_ID_LEN];            
     Token* token = peek_2_ahead(input);
     
-    printf("parsing statments: %s\n", TokenQueue_peek(input)->text);
+    //printf("parsing statments: %s\n", TokenQueue_peek(input)->text);
     if ((token->type == SYM && strcmp(token->text, "=") == 0)  || strcmp(token->text, "[") == 0) {
-        printf("Parsing Location\n");
+        //printf("Parsing Location\n");
         ASTNode* loc = parse_loc(input);
         match_and_discard_next_token(input, SYM, "=");
         ASTNode* expr = parse_expr(input);
@@ -537,7 +530,7 @@ ASTNode* parse_stmts (TokenQueue* input) {
         return AssignmentNode_new(loc, expr, line);
         // also check if hte last token wasnt if
     } else if (token->type == SYM && strcmp(token->text, "(") == 0  && !check_next_token(input, KEY, "if") && !check_next_token(input, KEY, "while")) {
-        printf("Parsing FuncCall\n");
+        //printf("Parsing FuncCall\n");
         ASTNode* func = parse_funcCall(input);
         match_and_discard_next_token(input, SYM, ";");
         return func;
