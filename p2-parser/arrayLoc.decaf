@@ -1,15 +1,6 @@
-int a[10];
+int a[5]; 
+def int main() { 
+    a[1] = 7; 
+    return a[1]; 
+    }
 
-
-    def int main () { 
-        int a; 
-        a = 5; 
-        foo(10);
-        }
-
-
-        def int main () { 
-            if (true) { 
-
-            } 
-            }

@@ -216,7 +216,17 @@ void parse_id (TokenQueue* input, char* buffer)
 
 ASTNode* parse_vardecl(TokenQueue* input)
 {
-    DecafType temp = parse_type(input);
+    DecafType temp;
+    // this is wrong
+    // for example like this
+    //     int a[10];
+    // a[0] = 5;
+    // the second line it thinks a should be int when it can be a 
+
+    //checking next token type if its a key or not
+    if (TokenQueue_peek(input)->type == KEY) {
+        temp = parse_type(input);
+    }
         
     char buffer[MAX_ID_LEN];
 
@@ -230,17 +240,25 @@ ASTNode* parse_vardecl(TokenQueue* input)
             match_and_discard_next_token(input, SYM, "]");
             match_and_discard_next_token(input, SYM, ";");
             return VarDeclNode_new(buffer, temp, true, 0, line);
-        } else {
+        } else if(peek_2_ahead(input)->type == DECLIT) {
 
             int size_int = atoi(TokenQueue_remove(input)->text);
 
             match_and_discard_next_token(input, SYM, "]");
+            if (check_next_token(input, SYM, ";")) {
+                match_and_discard_next_token(input, SYM, ";");
+                return VarDeclNode_new(buffer, temp, true, size_int, line);
+            }
+            // Variable assignment
+            match_and_discard_next_token(input, SYM, "=");
+            printf("Parsing Location\n");
+            ASTNode* expr = parse_expr(input);
             match_and_discard_next_token(input, SYM, ";");
-
             return VarDeclNode_new(buffer, temp, true, size_int, line);
         }
         // Variable assignment
     } else {
+        printf("Parsing VarDecl\n");
         match_and_discard_next_token(input, SYM, ";");
         return VarDeclNode_new(buffer, temp, false, 0, line);
     }

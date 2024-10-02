@@ -1,5 +1,5 @@
 def int main() {
-    int a = 4 + 5;
-    foo(a);
-    
+    int a;
+    a = 4 + 5;
+    foo(10);
 }

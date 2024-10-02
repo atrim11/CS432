@@ -177,6 +177,7 @@ DecafType parse_type (TokenQueue* input)
         Error_throw_printf("Unexpected end of input (expected type)\n");
     }
     Token* token = TokenQueue_remove(input);
+    // printf("%s\n", token->text);
     if (token->type != KEY) {
         Error_throw_printf("Invalid type '%s' on line %d\n", token->text, get_next_token_line(input));
     }
@@ -214,28 +215,40 @@ void parse_id (TokenQueue* input, char* buffer)
     Token_free(token);
 }
 
+Token* peek_2_ahead(TokenQueue* input);
+ASTNode* parse_stmts (TokenQueue* input);
 
 /*
 * Parse Var Decl  
 */
 ASTNode* parse_vardecl(TokenQueue* input)
 {
+    // this is wrong
+    // for example like this
+    //     int a[10];
+    // a[0] = 5;
+    // the second line it thinks a should be int when it can be a 
+
+    //checking next token type if its a key or not
+
     DecafType temp = parse_type(input);
-    int size = 0;
+
     char buffer[MAX_ID_LEN];
-    bool is_array = false;
+
     parse_id(input, buffer);
     int line = get_next_token_line(input);
+
+    bool is_array = false;
+    int array_length = 0;
     if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
-        
-        Token* size_token = TokenQueue_remove(input);
-        size = atoi(size_token->text);
-        match_and_discard_next_token(input, SYM, "]");
+        Token* token = TokenQueue_remove(input);
+        array_length = atoi(token->text);
         is_array = true;
+        match_and_discard_next_token(input, SYM, "]");
     }
     match_and_discard_next_token(input, SYM, ";");
-    return VarDeclNode_new(buffer, temp, is_array, size, line);
+    return VarDeclNode_new(buffer, temp, is_array, array_length, line);
 }
 
 // if (check_next_token(input, SYM, "[")) {
@@ -410,10 +423,10 @@ Token* peek_2_ahead(TokenQueue* input) {
 ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
     char buffer[MAX_ID_LEN];            
-            Token* token = peek_2_ahead(input);
+    Token* token = peek_2_ahead(input);
     
-    printf("%s\n", TokenQueue_peek(input)->text);
-    if (token->type == SYM && strcmp(token->text, "=") == 0) {
+    printf("parsing statments: %s\n", TokenQueue_peek(input)->text);
+    if ((token->type == SYM && strcmp(token->text, "=") == 0)  || strcmp(token->text, "[") == 0) {
         printf("Parsing Location\n");
         ASTNode* loc = parse_loc(input);
         match_and_discard_next_token(input, SYM, "=");
