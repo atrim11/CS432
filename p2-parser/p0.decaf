@@ -1,0 +1,154 @@
+// Name - Walker Todd
+// Date - 8/30/2024
+// Class - CS432
+// Assignment - p0
+// I used AI assist to write test cases for the functions and a little bit of help with the Triangle function.
+// Returns the factorial of n (i.e., "n!"). For example, "fact(3)" should return 6. You may assume 1 ≤ n ≤ 10.
+def int fact(int n) {
+    if (n == 1) {
+        return 1;
+    } else {
+        return n * fact(n - 1);
+    }
+}
+
+// Returns the nth Fibonacci number (0, 1, 1, 2, 3, 5, etc.).
+// Thus, "fib(1)" should return 1 and "fib(4)" should return 3. You may assume 0 ≤ n ≤ 25.
+def int fib(int n) {
+    if (n == 0) {
+        return 0;
+    }
+    if (n == 1) {
+        return 1;
+    } else {
+        return fib(n - 1) + fib(n - 2);
+    }
+}
+
+// Returns true if n is prime, and false otherwise. Performance is not a concern, so you may use a naive algorithm.
+// You may assume 0 ≤ n ≤ 600.
+def bool is_prime(int n) {
+    int index;
+    if (n < 2) {
+        return false;
+    }
+    index = 2;
+    while (index < n) {
+        if (n % index == 0) {
+            return false;
+        }
+        index = index + 1;
+    }
+    return true;
+}
+
+// Returns the greatest common divisor of a and b. For example, "gcd(8,12)" should return 4.
+// Performance is not a concern, so you may use a naive algorithm. You may assume 1 ≤ a, b ≤ 200.
+def int gcd(int a, int b) {
+    int i;
+    int gcd;
+    gcd = 1;
+    i = 1;
+    while (i <= a && i <= b) {
+        if (a % i == 0 && b % i == 0) {
+            gcd = i;
+        }
+        i = i + 1;
+    }
+    return gcd;
+}
+
+// Returns the sum of len numbers from an array called nums. For example,
+//"sum_nums(0)" should return 0 regardless of the contents of nums, and "sum_nums(2)"
+// should return the sum of the first two numbers. You may assume the array size does not exceed 100.
+int nums[100];
+
+def int sum_nums(int len) {
+    int sum;
+    int i;
+
+    sum = 0;
+    i = 0;
+    while (i < len) {
+        sum = sum + nums[i];
+        i = i + 1;
+    }
+    return sum;
+}
+
+// Sorts len numbers from an array called nums in ascending numerical order.
+// Sorting should be done in-place, and if the array is actually larger than len, none of the elements past the first len should be modified.
+// Performance is not a concern, so you may use any sorting algorithm you wish. You may assume the array size does not exceed 100.
+def void sort_nums(int len) {
+    // Going for the good ol' fashioned bubble sort :)
+    int i;
+    int j;
+    int temp;
+    i = 0;
+    while (i < len) {
+        j = 0;
+        while (j < len - i - 1) {
+            if (nums[j] > nums[j + 1]) {
+                temp = nums[j];
+                nums[j] = nums[j + 1];
+                nums[j + 1] = temp;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    return;
+}
+
+// Draws a simple text-based triangle using hash marks ('#'). The base of the triangle should be base characters long, and the
+// triangle should be oriented upwards from the base. Each level of the triangle should decrease in width by two characters
+// per level (one on each side). Every line should end with a newline character ('\n'),
+// but there should be no extra whitespace above or below the triangle or on its right side. You may assume 1 ≤ base ≤ 100.
+// 
+// This example triangle is the worst thing ever to mimic
+//  ##
+// ####
+def void draw_triangle(int base) {
+    int i;
+    int j;
+    int k;
+    int spaces;
+    int hash;
+
+    // Figured this out with the help of AI assist
+    if (base % 2 == 0) {
+        hash = 2;
+    } else {
+        hash = 1;
+    }
+
+    spaces = (base - hash) / 2;
+
+    while (hash <= base) {
+        // Printing our spaces
+        j = 0;
+        while (j < spaces) {
+            print_str(" ");
+            j = j + 1;
+        }
+
+        // Printing our hash marks
+        k = 0;
+        while (k < hash) {
+            print_str("#");
+            k = k + 1;
+        }
+
+        print_str("\n");
+
+        spaces = spaces - 1;
+        hash = hash + 2;
+    }
+
+    return;
+}
+
+
+def int main() {
+    return 0;
+}

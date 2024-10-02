@@ -329,11 +329,12 @@ ASTNode* parse_lit(TokenQueue* input)
         
 
         node = LiteralNode_new_string(temp, line);
-
-
     } else {
         Token_free(token);
+        // print out the token type
+        printf("Token Type: %d\n", token->type);
         Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, line);
+
     }
 
     Token_free(token);
