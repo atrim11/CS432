@@ -11,9 +11,6 @@ Token Type: 1
 parsing statments: return
 Unary Expression:
 Parsing Base Expression
-Token Type: 0
-Token Text: a
-next token: ;
 Parsing Location in base expression
 Program [line 1]
   FuncDecl name="main" return_type=int parameters={} [line 1]

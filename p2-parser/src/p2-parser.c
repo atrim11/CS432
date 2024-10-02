@@ -329,6 +329,37 @@ ASTNode* parse_lit(TokenQueue* input)
             temp[strlen(temp) - 1] = '\0';
         }
         
+        for (int i = 0; i < strlen(temp); i++) {
+            if (temp[i] == '\n' || temp[i] == '\r') {
+                // Unescaped newlines or carriage returns are not allowed
+                Error_throw_printf("Error: Unescaped newline or carriage return in string literal on line %d\n", line);
+            }
+            
+            if (temp[i] == '\\') {
+                if (temp[i + 1] == 'n') {
+                    temp[i] = '\n';
+                } else if (temp[i + 1] == 't') {
+                    temp[i] = '\t';
+                } else if (temp[i + 1] == 'r') {
+                    temp[i] = '\r';
+                } else if (temp[i + 1] == '0') {
+                    temp[i] = '\0';
+                } else if (temp[i + 1] == '\\') {
+                    temp[i] = '\\';
+                } else if (temp[i + 1] == '"') {
+                    temp[i] = '"';
+                } else {
+                    // Invalid escape sequence
+                    Error_throw_printf("Error: Invalid escape sequence \\%c\n on line %d\n", temp[i + 1], line);
+                }
+                
+                // Shift the rest of the string to the left to remove the extra character
+                for (int j = i + 1; j < strlen(temp); j++) {
+                    temp[j] = temp[j + 1];
+                }
+            }
+        }
+
         node = LiteralNode_new_string(temp, line);
     } else {
         Token_free(token);
