@@ -149,6 +149,681 @@ def void draw_triangle(int base) {
 }
 
 
+
+
+
+
 def int main() {
+    print_str("Testing fact function:\n");
+
+    print_str("fact(1) = ");
+    print_int(fact(1));
+    print_str("\n");  // Expected: 1
+
+    print_str("fact(2) = ");
+    print_int(fact(2));
+    print_str("\n");  // Expected: 2
+
+    print_str("fact(3) = ");
+    print_int(fact(3));
+    print_str("\n");  // Expected: 6
+
+    print_str("fact(4) = ");
+    print_int(fact(4));
+    print_str("\n");  // Expected: 24
+
+    print_str("fact(5) = ");
+    print_int(fact(5));
+    print_str("\n");  // Expected: 120
+
+    print_str("fact(6) = ");
+    print_int(fact(6));
+    print_str("\n");  // Expected: 720
+
+    print_str("fact(7) = ");
+    print_int(fact(7));
+    print_str("\n");  // Expected: 5040
+
+    print_str("fact(8) = ");
+    print_int(fact(8));
+    print_str("\n");  // Expected: 40320
+
+    print_str("fact(9) = ");
+    print_int(fact(9));
+    print_str("\n");  // Expected: 362880
+
+    print_str("fact(10) = ");
+    print_int(fact(10));
+    print_str("\n");  // Expected: 3628800
+
+    print_str("----------------\n");
+
+    print_str("Testing fib function:\n");
+
+    print_str("fib(0) = ");
+    print_int(fib(0));
+    print_str("\n");  // Expected: 0
+
+    print_str("fib(1) = ");
+    print_int(fib(1));
+    print_str("\n");  // Expected: 1
+
+    print_str("fib(2) = ");
+    print_int(fib(2));
+    print_str("\n");  // Expected: 1
+
+    print_str("fib(3) = ");
+    print_int(fib(3));
+    print_str("\n");  // Expected: 2
+
+    print_str("fib(4) = ");
+    print_int(fib(4));
+    print_str("\n");  // Expected: 3
+
+    print_str("fib(5) = ");
+    print_int(fib(5));
+    print_str("\n");  // Expected: 5
+
+    print_str("fib(6) = ");
+    print_int(fib(6));
+    print_str("\n");  // Expected: 8
+
+    print_str("fib(7) = ");
+    print_int(fib(7));
+    print_str("\n");  // Expected: 13
+
+    print_str("fib(8) = ");
+    print_int(fib(8));
+    print_str("\n");  // Expected: 21
+
+    print_str("fib(9) = ");
+    print_int(fib(9));
+    print_str("\n");  // Expected: 34
+
+    print_str("fib(10) = ");
+    print_int(fib(10));
+    print_str("\n");  // Expected: 55
+
+    print_str("fib(11) = ");
+    print_int(fib(11));
+    print_str("\n");  // Expected: 89
+
+    print_str("fib(12) = ");
+    print_int(fib(12));
+    print_str("\n");  // Expected: 144
+
+    print_str("fib(13) = ");
+    print_int(fib(13));
+    print_str("\n");  // Expected: 233
+
+    print_str("fib(14) = ");
+    print_int(fib(14));
+    print_str("\n");  // Expected: 377
+
+    print_str("fib(15) = ");
+    print_int(fib(15));
+    print_str("\n");  // Expected: 610
+
+    print_str("fib(16) = ");
+    print_int(fib(16));
+    print_str("\n");  // Expected: 987
+
+    print_str("fib(17) = ");
+    print_int(fib(17));
+    print_str("\n");  // Expected: 1597
+
+    print_str("fib(18) = ");
+    print_int(fib(18));
+    print_str("\n");  // Expected: 2584
+
+    print_str("fib(19) = ");
+    print_int(fib(19));
+    print_str("\n");  // Expected: 4181
+
+    print_str("fib(20) = ");
+    print_int(fib(20));
+    print_str("\n");  // Expected: 6765
+
+    print_str("fib(21) = ");
+    print_int(fib(21));
+    print_str("\n");  // Expected: 10946
+
+    print_str("fib(22) = ");
+    print_int(fib(22));
+    print_str("\n");  // Expected: 17711
+
+    print_str("fib(23) = ");
+    print_int(fib(23));
+    print_str("\n");  // Expected: 28657
+
+    print_str("fib(24) = ");
+    print_int(fib(24));
+    print_str("\n");  // Expected: 46368
+
+    print_str("fib(25) = ");
+    print_int(fib(25));
+    print_str("\n");  // Expected: 75025
+
+    print_str("----------------\n");
+
+    print_str("Testing is_prime function:\n");
+
+    print_str("is_prime(0) = ");
+    print_bool(is_prime(0));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(1) = ");
+    print_bool(is_prime(1));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(2) = ");
+    print_bool(is_prime(2));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(3) = ");
+    print_bool(is_prime(3));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(4) = ");
+    print_bool(is_prime(4));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(5) = ");
+    print_bool(is_prime(5));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(6) = ");
+    print_bool(is_prime(6));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(7) = ");
+    print_bool(is_prime(7));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(8) = ");
+    print_bool(is_prime(8));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(9) = ");
+    print_bool(is_prime(9));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(10) = ");
+    print_bool(is_prime(10));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(11) = ");
+    print_bool(is_prime(11));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(13) = ");
+    print_bool(is_prime(13));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(17) = ");
+    print_bool(is_prime(17));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(19) = ");
+    print_bool(is_prime(19));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(23) = ");
+    print_bool(is_prime(23));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(25) = ");
+    print_bool(is_prime(25));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(29) = ");
+    print_bool(is_prime(29));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(31) = ");
+    print_bool(is_prime(31));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(37) = ");
+    print_bool(is_prime(37));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(41) = ");
+    print_bool(is_prime(41));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(43) = ");
+    print_bool(is_prime(43));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(47) = ");
+    print_bool(is_prime(47));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(53) = ");
+    print_bool(is_prime(53));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(59) = ");
+    print_bool(is_prime(59));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(61) = ");
+    print_bool(is_prime(61));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(67) = ");
+    print_bool(is_prime(67));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(71) = ");
+    print_bool(is_prime(71));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(73) = ");
+    print_bool(is_prime(73));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(79) = ");
+    print_bool(is_prime(79));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(83) = ");
+    print_bool(is_prime(83));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(89) = ");
+    print_bool(is_prime(89));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(97) = ");
+    print_bool(is_prime(97));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(100) = ");
+    print_bool(is_prime(100));
+    print_str("\n");  // Expected: false
+
+    print_str("is_prime(101) = ");
+    print_bool(is_prime(101));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(103) = ");
+    print_bool(is_prime(103));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(107) = ");
+    print_bool(is_prime(107));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(109) = ");
+    print_bool(is_prime(109));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(113) = ");
+    print_bool(is_prime(113));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(127) = ");
+    print_bool(is_prime(127));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(131) = ");
+    print_bool(is_prime(131));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(137) = ");
+    print_bool(is_prime(137));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(139) = ");
+    print_bool(is_prime(139));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(149) = ");
+    print_bool(is_prime(149));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(151) = ");
+    print_bool(is_prime(151));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(157) = ");
+    print_bool(is_prime(157));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(163) = ");
+    print_bool(is_prime(163));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(167) = ");
+    print_bool(is_prime(167));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(173) = ");
+    print_bool(is_prime(173));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(179) = ");
+    print_bool(is_prime(179));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(181) = ");
+    print_bool(is_prime(181));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(191) = ");
+    print_bool(is_prime(191));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(193) = ");
+    print_bool(is_prime(193));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(197) = ");
+    print_bool(is_prime(197));
+    print_str("\n");  // Expected: true
+
+    print_str("is_prime(199) = ");
+    print_bool(is_prime(199));
+    print_str("\n");  // Expected: true
+
+    print_str("----------------\n");
+
+    print_str("Testing gcd function:\n");
+
+    print_str("gcd(1, 1) = ");
+    print_int(gcd(1, 1));
+    print_str("\n");  // Expected: 1
+
+    print_str("gcd(2, 2) = ");
+    print_int(gcd(2, 2));
+    print_str("\n");  // Expected: 2
+
+    print_str("gcd(3, 3) = ");
+    print_int(gcd(3, 3));
+    print_str("\n");  // Expected: 3
+
+    print_str("gcd(6, 9) = ");
+    print_int(gcd(6, 9));
+    print_str("\n");  // Expected: 3
+
+    print_str("gcd(10, 15) = ");
+    print_int(gcd(10, 15));
+    print_str("\n");  // Expected: 5
+
+    print_str("gcd(14, 28) = ");
+    print_int(gcd(14, 28));
+    print_str("\n");  // Expected: 14
+
+    print_str("gcd(56, 98) = ");
+    print_int(gcd(56, 98));
+    print_str("\n");  // Expected: 14
+
+    print_str("gcd(60, 48) = ");
+    print_int(gcd(60, 48));
+    print_str("\n");  // Expected: 12
+
+    print_str("gcd(101, 103) = ");
+    print_int(gcd(101, 103));
+    print_str("\n");  // Expected: 1
+
+    print_str("gcd(150, 200) = ");
+    print_int(gcd(150, 200));
+    print_str("\n");  // Expected: 50
+
+    print_str("gcd(200, 250) = ");
+    print_int(gcd(200, 250));
+    print_str("\n");  // Expected: 50
+
+    print_str("gcd(1, 200) = ");
+    print_int(gcd(1, 200));
+    print_str("\n");  // Expected: 1
+
+    print_str("gcd(200, 1) = ");
+    print_int(gcd(200, 1));
+    print_str("\n");  // Expected: 1
+
+    print_str("----------------\n");
+
+    print_str("Testing sum_nums function:\n");
+
+    // Test with an empty array
+    print_str("sum_nums(0) = ");
+    print_int(sum_nums(0));
+    print_str("\n");  // Expected: 0
+
+    nums[0] = 1;
+    nums[1] = 2;
+    nums[2] = 3;
+    nums[3] = 4;
+    nums[4] = 5;
+    print_str("sum_nums(1) = ");
+    print_int(sum_nums(1));
+    print_str("\n");  // Expected: 1
+
+    print_str("sum_nums(2) = ");
+    print_int(sum_nums(2));
+    print_str("\n");  // Expected: 3
+
+    print_str("sum_nums(3) = ");
+    print_int(sum_nums(3));
+    print_str("\n");  // Expected: 6
+
+    print_str("sum_nums(4) = ");
+    print_int(sum_nums(4));
+    print_str("\n");  // Expected: 10
+
+    print_str("sum_nums(5) = ");
+    print_int(sum_nums(5));
+    print_str("\n");  // Expected: 15
+
+    print_str("sum_nums(6) = ");
+    print_int(sum_nums(6));
+    print_str("\n");  // Expected: 21
+
+    print_str("sum_nums(10) = ");
+    nums[0] = 1;
+    nums[1] = 2;
+    nums[2] = 3;
+    nums[3] = 4;
+    nums[4] = 5;
+    nums[5] = 6;
+    nums[6] = 7;
+    nums[7] = 8;
+    nums[8] = 9;
+    nums[9] = 10;
+    print_int(sum_nums(10));
+    print_str("\n");  // Expected: 55
+
+    nums[0] = 0;
+    nums[1] = 1;
+    nums[2] = 2;
+    nums[3] = 3;
+    nums[4] = 4;
+    nums[5] = 5;
+    nums[6] = 6;
+    nums[7] = 7;
+    nums[8] = 8;
+    nums[9] = 9;
+    nums[10] = 10;
+    nums[11] = 11;
+    nums[12] = 12;
+    nums[13] = 13;
+    nums[14] = 14;
+    nums[15] = 15;
+    nums[16] = 16;
+    nums[17] = 17;
+    nums[18] = 18;
+    nums[19] = 19;
+    print_str("sum_nums(20) = ");
+    print_int(sum_nums(20));
+    print_str("\n");  // Expected: 190
+
+    print_str("----------------\n");
+
+    print_str("Testing sort_nums function:\n");
+
+    nums[0] = 5;
+    nums[1] = 4;
+    nums[2] = 3;
+    nums[3] = 2;
+    nums[4] = 1;
+    sort_nums(5);
+    print_str("sort_nums(5) = ");
+    print_int(nums[0]);
+    print_str(", ");
+    print_int(nums[1]);
+    print_str(", ");
+    print_int(nums[2]);
+    print_str(", ");
+    print_int(nums[3]);
+    print_str(", ");
+    print_int(nums[4]);
+    print_str("\n");  // Expected: 1, 2, 3, 4, 5
+
+    nums[0] = 1;
+    nums[1] = 2;
+    nums[2] = 3;
+    nums[3] = 4;
+    nums[4] = 5;
+    sort_nums(5);
+    print_str("sort_nums(5) = ");
+    print_int(nums[0]);
+    print_str(", ");
+    print_int(nums[1]);
+    print_str(", ");
+    print_int(nums[2]);
+    print_str(", ");
+    print_int(nums[3]);
+    print_str(", ");
+    print_int(nums[4]);
+    print_str("\n");  // Expected: 1, 2, 3, 4, 5
+
+    nums[0] = 5;
+    nums[1] = 1;
+    nums[2] = 3;
+    nums[3] = 1;
+    nums[4] = 5;
+    sort_nums(5);
+    print_str("sort_nums(5) = ");
+    print_int(nums[0]);
+    print_str(", ");
+    print_int(nums[1]);
+    print_str(", ");
+    print_int(nums[2]);
+    print_str(", ");
+    print_int(nums[3]);
+    print_str(", ");
+    print_int(nums[4]);
+    print_str("\n");  // Expected: 1, 1, 3, 5, 5
+
+    // Edge
+    nums[0] = 7;
+    nums[1] = 7;
+    nums[2] = 7;
+    nums[3] = 7;
+    nums[4] = 7;
+    sort_nums(5);
+    print_str("sort_nums(5) = ");
+    print_int(nums[0]);
+    print_str(", ");
+    print_int(nums[1]);
+    print_str(", ");
+    print_int(nums[2]);
+    print_str(", ");
+    print_int(nums[3]);
+    print_str(", ");
+    print_int(nums[4]);
+    print_str("\n");  // Expected: 7, 7, 7, 7, 7
+
+    nums[0] = 100;
+    nums[1] = 50;
+    nums[2] = 75;
+    nums[3] = 25;
+    nums[4] = 0;
+    nums[5] = 10;
+    nums[6] = 90;
+    nums[7] = 60;
+    nums[8] = 80;
+    nums[9] = 40;
+    sort_nums(10);
+    print_str("sort_nums(10) = ");
+    print_int(nums[0]);
+    print_str(", ");
+    print_int(nums[1]);
+    print_str(", ");
+    print_int(nums[2]);
+    print_str(", ");
+    print_int(nums[3]);
+    print_str(", ");
+    print_int(nums[4]);
+    print_str(", ");
+    print_int(nums[5]);
+    print_str(", ");
+    print_int(nums[6]);
+    print_str(", ");
+    print_int(nums[7]);
+    print_str(", ");
+    print_int(nums[8]);
+    print_str(", ");
+    print_int(nums[9]);
+    print_str("\n");  // Expected: 0, 10, 25, 40, 50, 60, 75, 80, 90, 100
+
+    print_str("----------------\n");
+
+    print_str("Testing draw_triangle function:\n");
+
+    print_str("draw_triangle(1):\n");
+    draw_triangle(1);
+    print_str("\n");  // Expected: #
+    
+    print_str("draw_triangle(2):\n");
+    draw_triangle(2);
+    print_str("\n");  // Expected: " ## "
+
+    print_str("draw_triangle(3):\n");
+    draw_triangle(3);
+    print_str("\n");  // Expected: " # \n ###"
+    
+    print_str("draw_triangle(4):\n");
+    draw_triangle(4);
+    print_str("\n");  // Expected: " ## \n ####"
+
+    print_str("draw_triangle(5):\n");
+    draw_triangle(5);
+    print_str("\n");  // Expected: "  # \n ###\n#####"
+    
+    print_str("draw_triangle(6):\n");
+    draw_triangle(6);
+    print_str("\n");  // Expected: "  ## \n ####"
+    
+    print_str("draw_triangle(7):\n");
+    draw_triangle(7);
+    print_str("\n");  // Expected: "   # \n  ###\n #####\n#######"
+
+    // Larger triangles
+    print_str("draw_triangle(9):\n");
+    draw_triangle(9);
+    print_str("\n");  // Expected: "      # \n     ###\n    #####\n   #######\n  #########"
+
+    print_str("draw_triangle(10):\n");
+    draw_triangle(10);
+    print_str("\n");  // Expected: "      ## \n     ####\n    ######\n   ########"
+
+    print_str("draw_triangle(11):\n");
+    draw_triangle(11);
+    print_str("\n");  // Expected: "       # \n      ###\n     #####\n    #######\n   #########"
+
+    print_str("draw_triangle(15):\n");
+    draw_triangle(15);
+    print_str("\n");  // Expected: "       # \n      ###\n     #####\n    #######\n   #########\n  ###########\n#############"
+
+    print_str("draw_triangle(20):\n");
+    draw_triangle(20);
+    print_str("\n");  // Expected: "        ## \n       ####\n      ######\n     ########\n    ##########\n   ############"
+
+    print_str("----------------\n");
+    
     return 0;
 }
