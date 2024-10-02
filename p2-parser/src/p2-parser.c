@@ -327,7 +327,6 @@ ASTNode* parse_lit(TokenQueue* input)
             temp[strlen(temp) - 1] = '\0';
         }
         
-
         node = LiteralNode_new_string(temp, line);
     } else {
         Token_free(token);
@@ -341,10 +340,31 @@ ASTNode* parse_lit(TokenQueue* input)
     return node; 
 }
 
+ASTNode* parse_funcCall (TokenQueue* input);
 
 ASTNode* parse_baseExpr (TokenQueue* input) {
-    
-    return parse_lit(input);
+     Token* token = peek_2_ahead(input);
+    if (check_next_token(input, SYM, "(")) {
+        match_and_discard_next_token(input, SYM, "(");
+        ASTNode* expr = parse_expr(input);
+        match_and_discard_next_token(input, SYM, ")");
+        return expr;
+    } else if ((token->type == SYM && strcmp(token->text, "=") == 0)  || strcmp(token->text, "[") == 0) {
+        printf("Parsing Location\n");
+        ASTNode* loc = parse_loc(input);
+        match_and_discard_next_token(input, SYM, "=");
+        ASTNode* expr = parse_expr(input);
+        match_and_discard_next_token(input, SYM, ";");
+        return AssignmentNode_new(loc, expr, get_next_token_line(input));
+        // also check if hte last token wasnt if
+    } else if (token->type == SYM && strcmp(token->text, "(") == 0  && !check_next_token(input, KEY, "if") && !check_next_token(input, KEY, "while")) {
+        printf("Parsing FuncCall\n");
+        ASTNode* func = parse_funcCall(input);
+        match_and_discard_next_token(input, SYM, ";");
+        return func;
+    } else {
+        return parse_lit(input);
+    }
 }
 
 ASTNode* parse_unaryExpr (TokenQueue* input) {
@@ -476,11 +496,8 @@ ASTNode* parse_stmts (TokenQueue* input) {
         ASTNode* if_block = parse_block(input);
         ASTNode* else_block = NULL;
         if (check_next_token(input, KEY, "else")) {
-            
             match_and_discard_next_token(input, KEY, "else");
-            match_and_discard_next_token(input, SYM, "{");
             else_block = parse_block(input);
-            match_and_discard_next_token(input, SYM, "}");
         }
         return ConditionalNode_new(condition, if_block, else_block, get_next_token_line(input));
     }
