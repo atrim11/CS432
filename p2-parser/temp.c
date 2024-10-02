@@ -214,18 +214,36 @@ void parse_id (TokenQueue* input, char* buffer)
 }
 
 
-/*
-* Parse Var Decl  
-*/
 ASTNode* parse_vardecl(TokenQueue* input)
 {
-    int line = get_next_token_line(input);
-
     DecafType temp = parse_type(input);
+        
     char buffer[MAX_ID_LEN];
+
     parse_id(input, buffer);
-    match_and_discard_next_token(input, SYM, ";");
-    return VarDeclNode_new(buffer, temp, false, 0, line);
+    int line = get_next_token_line(input);
+    if (token_str_eq(TokenQueue_peek(input)->text, "[")) {
+
+        match_and_discard_next_token(input, SYM, "[");
+        if (check_next_token(input, SYM, "]")) {
+
+            match_and_discard_next_token(input, SYM, "]");
+            match_and_discard_next_token(input, SYM, ";");
+            return VarDeclNode_new(buffer, temp, true, 0, line);
+        } else {
+
+            int size_int = atoi(TokenQueue_remove(input)->text);
+
+            match_and_discard_next_token(input, SYM, "]");
+            match_and_discard_next_token(input, SYM, ";");
+
+            return VarDeclNode_new(buffer, temp, true, size_int, line);
+        }
+        // Variable assignment
+    } else {
+        match_and_discard_next_token(input, SYM, ";");
+        return VarDeclNode_new(buffer, temp, false, 0, line);
+    }
 }
 
 ASTNode* parse_loc (TokenQueue* input) {
@@ -365,16 +383,19 @@ ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
         printf("hello\n");
 
-    if (check_next_token_type(input, ID)){
-        if (check_next_token(input, SYM, "(")) {
-            return parse_funcCall(input);
-        } else {
+    if (check_next_token(input, ID, buffer)) {
+        Token* token = peek_2_ahead(input);
+        // Assignment checker
+        printf("Assignment Checker: %s\n", token->text);
+        if (token->type == SYM && strcmp(token->text, "=") == 0) {
             printf("Parsing Location\n");
             ASTNode* loc = parse_loc(input);
             match_and_discard_next_token(input, SYM, "=");
             ASTNode* expr = parse_expr(input);
             match_and_discard_next_token(input, SYM, ";");
             return AssignmentNode_new(loc, expr, get_next_token_line(input));
+        } else if (token->type == SYM && strcmp(token->text, "(") == 0) {
+            return parse_funcCall(input);
         }
     } else if (check_next_token(input, KEY, "break")) {
         match_and_discard_next_token(input, KEY, "break");

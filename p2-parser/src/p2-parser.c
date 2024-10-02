@@ -220,37 +220,22 @@ void parse_id (TokenQueue* input, char* buffer)
 */
 ASTNode* parse_vardecl(TokenQueue* input)
 {
-    printf("Parsing Var Decl\n");
-    
-    
     DecafType temp = parse_type(input);
-        
+    int size = 0;
     char buffer[MAX_ID_LEN];
-
+    bool is_array = false;
     parse_id(input, buffer);
     int line = get_next_token_line(input);
-    if (token_str_eq(TokenQueue_peek(input)->text, "[")) {
-
+    if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
-        if (check_next_token(input, SYM, "]")) {
-
-            match_and_discard_next_token(input, SYM, "]");
-            match_and_discard_next_token(input, SYM, ";");
-            return VarDeclNode_new(buffer, temp, true, 0, line);
-        } else {
-
-            int size_int = atoi(TokenQueue_remove(input)->text);
-
-            match_and_discard_next_token(input, SYM, "]");
-            match_and_discard_next_token(input, SYM, ";");
-
-            return VarDeclNode_new(buffer, temp, true, size_int, line);
-        }
-        // Variable assignment
-    } else {
-        match_and_discard_next_token(input, SYM, ";");
-        return VarDeclNode_new(buffer, temp, false, 0, line);
+        
+        Token* size_token = TokenQueue_remove(input);
+        size = atoi(size_token->text);
+        match_and_discard_next_token(input, SYM, "]");
+        is_array = true;
     }
+    match_and_discard_next_token(input, SYM, ";");
+    return VarDeclNode_new(buffer, temp, is_array, size, line);
 }
 
 // if (check_next_token(input, SYM, "[")) {
@@ -272,7 +257,8 @@ ASTNode* parse_vardecl(TokenQueue* input)
 
 ASTNode* parse_loc (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
-    //parse_id(input, buffer);
+    parse_id(input, buffer);
+
     if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
         ASTNode* index = parse_expr(input);
@@ -287,6 +273,8 @@ ASTNode* parse_loc (TokenQueue* input) {
         match_and_discard_next_token(input, SYM, "]");
         return LocationNode_new(buffer, index, get_next_token_line(input));
     } 
+    
+    return LocationNode_new(buffer, NULL, get_next_token_line(input));
 }
 
 /* 
@@ -402,6 +390,15 @@ ASTNode* parse_funcCall (TokenQueue* input) {
 
 ASTNode* parse_block (TokenQueue* input);
 
+//  method to peek 2 ahead to see if the next one is either a [ or (
+//  if it is then we know its a loc or funccall
+//  if its not then we know its an assignment
+// queue->head->next
+Token* peek_2_ahead(TokenQueue* input) {
+    Token* token = TokenQueue_peek(input);
+    return token->next;
+}
+
 
 /**
  * @brief Parse and return a block of statements
@@ -412,26 +409,23 @@ ASTNode* parse_block (TokenQueue* input);
  */
 ASTNode* parse_stmts (TokenQueue* input) {
     // Assignment
-    char buffer[MAX_ID_LEN];
-
-    if (check_next_token_type(input, ID)){
-        parse_id(input, buffer);
-        // Assignment checker
-        
-        if (check_next_token(input, SYM, "[")) {
-            
-            ASTNode* assignemnt_loc = parse_loc(input);
-            printf("Parsing Location\n");
-            match_and_discard_next_token(input, SYM, "=");
-            ASTNode* assignment_val = parse_expr(input);
-            match_and_discard_next_token(input, SYM, ";");
-            return AssignmentNode_new(assignemnt_loc, assignment_val, get_next_token_line(input));
-        // Function checker
-        } else if (check_next_token(input, SYM, "(")) {
-            ASTNode* funccall = parse_funcCall(input);
-            match_and_discard_next_token(input, SYM, ";");
-            return funccall;
-        } 
+    char buffer[MAX_ID_LEN];            
+            Token* token = peek_2_ahead(input);
+    
+    printf("%s\n", TokenQueue_peek(input)->text);
+    if (token->type == SYM && strcmp(token->text, "=") == 0) {
+        printf("Parsing Location\n");
+        ASTNode* loc = parse_loc(input);
+        match_and_discard_next_token(input, SYM, "=");
+        ASTNode* expr = parse_expr(input);
+        match_and_discard_next_token(input, SYM, ";");
+        return AssignmentNode_new(loc, expr, get_next_token_line(input));
+        // also check if hte last token wasnt if
+    } else if (token->type == SYM && strcmp(token->text, "(") == 0  && !check_next_token(input, KEY, "if") && !check_next_token(input, KEY, "while")) {
+        printf("Parsing FuncCall\n");
+        ASTNode* func = parse_funcCall(input);
+        match_and_discard_next_token(input, SYM, ";");
+        return func;
     } else if (check_next_token(input, KEY, "break")) {
         match_and_discard_next_token(input, KEY, "break");
         match_and_discard_next_token(input, SYM, ";");
@@ -476,6 +470,7 @@ ASTNode* parse_stmts (TokenQueue* input) {
         }
         return ConditionalNode_new(condition, if_block, else_block, get_next_token_line(input));
     }
+
     return NULL;
 }
 

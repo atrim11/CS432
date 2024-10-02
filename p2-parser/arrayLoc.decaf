@@ -1,5 +1,15 @@
 int a[10];
 
-def int main() {
-    a[0] = 1;
-}
+
+    def int main () { 
+        int a; 
+        a = 5; 
+        foo(10);
+        }
+
+
+        def int main () { 
+            if (true) { 
+
+            } 
+            }
