@@ -623,13 +623,25 @@ bool check_extra_semi (TokenQueue* input) {
     return false;
 }
 
-bool check_extra_brace (TokenQueue* input) {
+bool check_extra_brace_close (TokenQueue* input) {
     if (TokenQueue_is_empty(input)) {
         return false;
     }
     
     Token* token = TokenQueue_peek(input);
-    if (strcmp(token->text, "}") == 0  || strcmp(token->text, "{") == 0) {
+    if (strcmp(token->text, "}") == 0) {
+        return true;
+    }
+    return false;
+}
+
+bool check_extra_brace_open (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        return false;
+    }
+    
+    Token* token = TokenQueue_peek(input);
+    if (strcmp(token->text, "{") == 0) {
         return true;
     }
     return false;
@@ -748,7 +760,7 @@ ASTNode* parse_block (TokenQueue* input) {
     }
     int line = get_next_token_line(input);
     match_and_discard_next_token(input, SYM, "{");
-    if (check_extra_brace(input)) {
+    if (check_extra_brace_open(input)) {
         Error_throw_printf("Unexpected brace on line %d\n", line);
     }
 
@@ -757,8 +769,8 @@ ASTNode* parse_block (TokenQueue* input) {
     
     // check if its an int void or bool
     while (check_next_token(input, KEY, "int") || check_next_token(input, KEY, "bool") || check_next_token(input, KEY, "void")) {
-            NodeList_add(vars, parse_vardecl(input));
-        } 
+        NodeList_add(vars, parse_vardecl(input));
+    } 
 
     // This is causing an infinite loop
     while (!check_next_token(input, SYM, "}")) {
@@ -767,18 +779,9 @@ ASTNode* parse_block (TokenQueue* input) {
 
 
     match_and_discard_next_token(input, SYM, "}");
-    if (check_extra_brace(input)) {
-        Error_throw_printf("Unexpected brace on line %d\n", line);
-    }
     return BlockNode_new(vars, stmts, line);
 }
 
-// ASTNode* parse_param (TokenQueue* input) {
-//     DecafType type = parse_type(input);
-//     char buffer[MAX_ID_LEN];
-//     parse_id(input, buffer);
-//     return ParamNode_new(buffer, type, get_next_token_line(input));
-// }
 
 
 ASTNode* parse_funcdecl (TokenQueue* input) {
