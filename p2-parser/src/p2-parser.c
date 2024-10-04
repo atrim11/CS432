@@ -249,7 +249,6 @@ ASTNode* parse_vardecl(TokenQueue* input)
         match_and_discard_next_token(input, SYM, "]");
     }
     match_and_discard_next_token(input, SYM, ";");
-    printf("Checking for extra semicolon?\n");
     if (check_extra_semi(input)) {
         Error_throw_printf("Unexpected semicolon on line %d\n", line);
     }
@@ -301,7 +300,7 @@ ASTNode* parse_loc (TokenQueue* input) {
 ASTNode* parse_lit(TokenQueue* input)
 {
     if (TokenQueue_is_empty(input)) {
-        Error_throw_printf("Unexpected end of input (expected literal)\n");
+        Error_throw_printf("Unexpected end of input (expected literal) on line %d\n", get_next_token_line(input) - 1);
     }
 
     Token* token = TokenQueue_remove(input);
@@ -578,6 +577,9 @@ ASTNode* parse_stmts (TokenQueue* input) {
         // Checking if the next token is a semicolon or if its not we need ot parse expression
         if (check_next_token(input, SYM, ";")) {
             match_and_discard_next_token(input, SYM, ";");
+            if (check_extra_semi(input)) {
+                Error_throw_printf("Unexpected semicolon on line %d\n", line);
+            }
             return ReturnNode_new(NULL, line);
         }
         ASTNode* expr = parse_expr(input);
