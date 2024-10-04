@@ -1,4 +1,7 @@
 A_sourceinfo                   pass
+A_givenTest                    pass
+subExpr                        pass
+T_funcCall                     pass
 No memory leak found.
 No uninitialized value found.
 ========================================

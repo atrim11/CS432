@@ -1,0 +1,20 @@
+def int multiply(int x, int y) {
+    return x * y;
+}
+
+def int subtract(int x, int y) {
+    return x - y;
+}
+
+def int main() {
+    int a;
+    int b;
+    int result;
+    a = 10;
+    b = 5;
+    
+    // Using subexpressions and function calls
+    result = multiply(a, subtract(a, b)) + (b * 2);
+    
+    return result;
+}

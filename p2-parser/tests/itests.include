@@ -4,4 +4,6 @@
 #    <ARGS>     command-line arguments to test
 
 run_test    A_sourceinfo                "inputs/add.decaf"
-
+run_test    A_givenTest                 "inputs/givenTest.decaf"
+run_test    subExpr                     "inputs/subexpression_function_call.decaf"
+run_test    T_funcCall                  "inputs/functioncallanddecleration.decaf"

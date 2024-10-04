@@ -2,10 +2,11 @@
  * @file p2-parser.c
  * @brief Compiler phase 2: parser
  * @Author: Aidan Trimmer & Walker Todd
+ * AI was used to help with testing, and filling in redamentary/repetitive code
  */
 
 #include "p2-parser.h"
-bool check_next_token (TokenQueue* input, TokenType type, const char* text);
+// declaring functions that will be used
 ASTNode* parse_lit(TokenQueue* input);
 ASTNode* parse_expr(TokenQueue* input);
 ASTNode* parse(TokenQueue* input);
@@ -15,10 +16,12 @@ ASTNode* parse_stmts (TokenQueue* input);
 Token* peek_2_ahead(TokenQueue* input);
 bool check_extra_semi (TokenQueue* input);
 bool check_extra_brace (TokenQueue* input);
+bool check_next_token (TokenQueue* input, TokenType type, const char* text);
+int get_next_token_line (TokenQueue* input);
 
 
 /**
- * @brief 
+ * @brief a helper function to check if the next token is a binary operator
  * 
  * @param Input 
  * @return BinaryOpType 
@@ -55,10 +58,12 @@ BinaryOpType helper_get_binary_op_type (TokenQueue* Input)
     } else {
         Error_throw_printf("Invalid binary operator '%s' on line %d\n", TokenQueue_peek(Input)->text, get_next_token_line(Input));
     }
+    Error_throw_printf("Invalid binary operator '%s' on line %d\n", TokenQueue_peek(Input)->text, get_next_token_line(Input));
+    return -1;
 }
 
 /**
- * @brief 
+ * @brief a helper function to check if the next token is a binary operator
  * 
  * @param Input 
  * @return true 
@@ -66,35 +71,22 @@ BinaryOpType helper_get_binary_op_type (TokenQueue* Input)
  */
 bool isBinOP(TokenQueue* Input) {
     Token* token = peek_2_ahead(Input);
-    if (strcmp(token->text, "||") == 0) {
+    if (strcmp(token->text, "||") == 0 ||
+        strcmp(token->text, "&&") == 0 ||
+        strcmp(token->text, "==") == 0 ||
+        strcmp(token->text, "!=") == 0 ||
+        strcmp(token->text, "<") == 0 ||
+        strcmp(token->text, "<=") == 0 ||
+        strcmp(token->text, ">=") == 0 ||
+        strcmp(token->text, ">") == 0 ||
+        strcmp(token->text, "+") == 0 ||
+        strcmp(token->text, "-") == 0 ||
+        strcmp(token->text, "*") == 0 ||
+        strcmp(token->text, "/") == 0 ||
+        strcmp(token->text, "%") == 0) {
         return true;
-    } else if (strcmp(token->text, "&&") == 0) {
-        return true;
-    } else if (strcmp(token->text, "==") == 0) {
-        return true;
-    } else if (strcmp(token->text, "!=") == 0) {
-        return true;
-    } else if (strcmp(token->text, "<") == 0) {
-        return true;
-    } else if (strcmp(token->text, "<=") == 0) {
-        return true;
-    } else if (strcmp(token->text, ">=") == 0) {
-        return true;
-    } else if (strcmp(token->text, ">") == 0) {
-        return true;
-    } else if (strcmp(token->text, "+") == 0) {
-        return true;
-    } else if (strcmp(token->text, "-") == 0) {
-        return true;
-    } else if (strcmp(token->text, "*") == 0) {
-        return true;
-    } else if (strcmp(token->text, "/") == 0) {
-        return true;
-    } else if (strcmp(token->text, "%") == 0) {
-        return true;
-    } else {
-        false;
     }
+    return false;
 }
 
 /**
@@ -233,7 +225,7 @@ void parse_id (TokenQueue* input, char* buffer)
 
 
 /**
- * @brief 
+ * @brief parse var declaration
  * 
  * @param input 
  * @return ASTNode* 
@@ -241,7 +233,6 @@ void parse_id (TokenQueue* input, char* buffer)
 ASTNode* parse_vardecl(TokenQueue* input)
 {
     DecafType temp = parse_type(input);
-
     char buffer[MAX_ID_LEN];
 
     parse_id(input, buffer);
@@ -266,7 +257,7 @@ ASTNode* parse_vardecl(TokenQueue* input)
 }
 
 /**
- * @brief 
+ * @brief parse location
  * 
  * @param input 
  * @return ASTNode* 
@@ -295,7 +286,7 @@ ASTNode* parse_loc (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse literals
  * 
  * @param input 
  * @return ASTNode* 
@@ -306,50 +297,44 @@ ASTNode* parse_lit(TokenQueue* input)
         Error_throw_printf("Unexpected end of input (expected literal) on line %d\n", get_next_token_line(input) - 1);
     }
     int line = get_next_token_line(input);
-
     Token* token = TokenQueue_remove(input);
-
     ASTNode* node = NULL;
 
-    if (token->type == DECLIT) {
-        // printf("Token Type: %d\n", token->type);
+    if (token->type == DECLIT) { // Decimal 
         int temp = atoi(token->text);
         node = LiteralNode_new_int(temp, line);
-
-    } else if (token->type == HEXLIT) {
+    
+    } else if (token->type == HEXLIT) { // Hexadecimal 
         int temp = strtol(token->text, NULL, 16);
         node = LiteralNode_new_int(temp, line);
-
-    } else if (strcmp(token->text, "true") == 0) {
+    
+    } else if (strcmp(token->text, "true") == 0) { // true
         node = LiteralNode_new_bool(true, line);
 
-    } else if (strcmp(token->text, "false") == 0) {
+    } else if (strcmp(token->text, "false") == 0) { // false 
         node = LiteralNode_new_bool(false, line);
 
-    } else if (token->type == STRLIT) {
+    } else if (token->type == STRLIT) { // String
         char* temp = token->text;
+        // Remove quotes
         if (temp[0] == '"') {
             temp++;
         } 
         if (temp[strlen(temp) - 1] == '"') {
             temp[strlen(temp) - 1] = '\0';
         }
-        
+        // Check for escape sequences
         for (int i = 0; i < strlen(temp); i++) {
             if (temp[i] == '\n' || temp[i] == '\r') {
                 // Unescaped newlines or carriage returns are not allowed
                 Error_throw_printf("Error: Unescaped newline or carriage return in string literal on line %d\n", line);
             }
-            
+            // Check for escape sequences
             if (temp[i] == '\\') {
                 if (temp[i + 1] == 'n') {
                     temp[i] = '\n';
                 } else if (temp[i + 1] == 't') {
                     temp[i] = '\t';
-                } else if (temp[i + 1] == 'r') {
-                    temp[i] = '\r';
-                } else if (temp[i + 1] == '0') {
-                    temp[i] = '\0';
                 } else if (temp[i + 1] == '\\') {
                     temp[i] = '\\';
                 } else if (temp[i + 1] == '"') {
@@ -358,7 +343,6 @@ ASTNode* parse_lit(TokenQueue* input)
                     // Invalid escape sequence
                     Error_throw_printf("Error: Invalid escape sequence \\%c\n on line %d\n", temp[i + 1], line);
                 }
-                
                 // Shift the rest of the string to the left to remove the extra character
                 for (int j = i + 1; j < strlen(temp); j++) {
                     temp[j] = temp[j + 1];
@@ -367,10 +351,10 @@ ASTNode* parse_lit(TokenQueue* input)
         }
 
         node = LiteralNode_new_string(temp, line);
+    
     } else {
         Token_free(token);
         Error_throw_printf("Invalid literal '%s' on line %d\n", token->text, line);
-
     }
 
     Token_free(token);
@@ -378,14 +362,13 @@ ASTNode* parse_lit(TokenQueue* input)
 }
 
 /**
- * @brief 
+ * @brief base expression
  * 
  * @param input 
  * @return ASTNode* 
  */
 ASTNode* parse_baseExpr (TokenQueue* input) {
     Token* token = peek_2_ahead(input);
-    char buffer[MAX_ID_LEN];
     if (check_next_token(input, SYM, "(")) {
         match_and_discard_next_token(input, SYM, "(");
         ASTNode* expr = parse_expr(input);
@@ -393,21 +376,18 @@ ASTNode* parse_baseExpr (TokenQueue* input) {
         return expr;
     } else if (check_next_token_type(input, ID)) {
         if (strcmp(token->text, "(") == 0) {
-            //printf("Parsing FuncCall in baseexpression\n");
             ASTNode* func = parse_funcCall(input);
             return func;
         }
-        //printf("Parsing Location in base expression\n");
         ASTNode* loc = parse_loc(input);
         return loc;
     } else {
-        //printf("Parsing Literal in Base Expression\n");
         return parse_lit(input);
     }
 }
 
 /**
- * @brief 
+ * @brief parse unary expression
  * 
  * @param input 
  * @return ASTNode* 
@@ -417,20 +397,19 @@ ASTNode* parse_unaryExpr (TokenQueue* input) {
         Error_throw_printf("Unexpected end of input (expected expression)\n");
     }
     Token* token = TokenQueue_peek(input);
-    if (strcmp(token->text, "-") == 0) {
+    if (strcmp(token->text, "-") == 0) { // Negative
         match_and_discard_next_token(input, SYM, "-");
         return UnaryOpNode_new(NEGOP, parse_baseExpr(input), get_next_token_line(input));
-    } else if (strcmp(token->text, "!") == 0) {
+    } else if (strcmp(token->text, "!") == 0) { // Not
         match_and_discard_next_token(input, SYM, "!");
         return UnaryOpNode_new(NOTOP, parse_baseExpr(input), get_next_token_line(input));
     } else {
-        //printf("Parsing Base Expression\n");
         return parse_baseExpr(input);
     }
 }
 
 /**
- * @brief 
+ * @brief parse binary multiplication 
  * 
  * @param input 
  * @return ASTNode* 
@@ -452,7 +431,7 @@ ASTNode* parse_bin_mul (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary div /
  * 
  * @param input 
  * @return ASTNode* 
@@ -475,7 +454,7 @@ ASTNode* parse_bin_div (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary mod %
  * 
  * @param input 
  * @return ASTNode* 
@@ -494,7 +473,7 @@ ASTNode* parse_bin_mod (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary add +
  * 
  * @param input 
  * @return ASTNode* 
@@ -513,7 +492,7 @@ ASTNode* parse_bin_add (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary subtract -
  * 
  * @param input 
  * @return ASTNode* 
@@ -535,7 +514,7 @@ ASTNode* parse_bin_subtract (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary less than <
  * 
  * @param input 
  * @return ASTNode* 
@@ -557,7 +536,7 @@ ASTNode* parse_bin_less_than (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary less than or equal to <= 
  * 
  * @param input 
  * @return ASTNode* 
@@ -575,7 +554,7 @@ ASTNode* parse_bin_less_than_eq (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary greater than or equal to >=
  * 
  * @param input 
  * @return ASTNode* 
@@ -593,7 +572,7 @@ ASTNode* parse_bin_greater_than_eq (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary greater than >
  * 
  * @param input 
  * @return ASTNode* 
@@ -611,7 +590,7 @@ ASTNode* parse_bin_greater_than (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary equals ==
  * 
  * @param input 
  * @return ASTNode* 
@@ -629,7 +608,7 @@ ASTNode* parse_bin_equals (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary not equals !=
  * 
  * @param input 
  * @return ASTNode* 
@@ -647,7 +626,7 @@ ASTNode* parse_bin_not_eq (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary conjunction &&
  * 
  * @param input 
  * @return ASTNode* 
@@ -664,7 +643,7 @@ ASTNode* parse_bin_conjunction (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse binary disjunction ||
  * 
  * @param input 
  * @return ASTNode* 
@@ -684,7 +663,7 @@ ASTNode* parse_bin_disjunction (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse expression
  * 
  * @param input 
  * @return ASTNode* 
@@ -694,7 +673,7 @@ ASTNode* parse_expr (TokenQueue* input) {
 }
 
 /**
- * @brief 
+ * @brief parse function call
  * 
  * @param input 
  * @return ASTNode* 
@@ -796,8 +775,7 @@ ASTNode* parse_stmts (TokenQueue* input) {
     if (TokenQueue_is_empty(input)) {
         Error_throw_printf("Unexpected end of input (expected statement)\n");
     }
-    int line = get_next_token_line(input);
-    char buffer[MAX_ID_LEN];            
+    int line = get_next_token_line(input);         
     Token* token = peek_2_ahead(input);
     // assignment
     if ((token->type == SYM && strcmp(token->text, "=") == 0)  || strcmp(token->text, "[") == 0) { 
@@ -943,13 +921,14 @@ ASTNode* parse_funcdecl (TokenQueue* input) {
     ParameterList* params = ParameterList_new();
     // if it is not the end of the params
     if (!check_next_token(input, SYM, ")")) {
+        // parse the first param 
         DecafType param_type = parse_type(input);
         char param_buffer[MAX_ID_LEN];
         parse_id(input, param_buffer);
         ParameterList_add_new(params, param_buffer, param_type);
         // Checking for multiple params
         while (check_next_token(input, SYM, ",")) {
-            discard_next_token(input);
+            discard_next_token(input); // remove the comma
             param_type = parse_type(input);
             parse_id(input, param_buffer);
             ParameterList_add_new(params, param_buffer, param_type);

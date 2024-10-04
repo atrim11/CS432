@@ -1,0 +1,51 @@
+==966594== Memcheck, a memory error detector
+==966594== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==966594== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==966594== Command: ../decaf inputs/subexpression_function_call.decaf
+==966594== 
+Program [line 1]
+  FuncDecl name="multiply" return_type=int parameters={x:int,y:int} [line 1]
+    Block [line 1]
+      Return [line 2]
+        Binaryop op="*" [line 2]
+          Location name="x" [line 2]
+          Location name="y" [line 2]
+  FuncDecl name="subtract" return_type=int parameters={x:int,y:int} [line 5]
+    Block [line 5]
+      Return [line 6]
+        Binaryop op="-" [line 6]
+          Location name="x" [line 6]
+          Location name="y" [line 6]
+  FuncDecl name="main" return_type=int parameters={} [line 9]
+    Block [line 9]
+      VarDecl name="a" type=int is_array=no array_length=1 [line 10]
+      VarDecl name="b" type=int is_array=no array_length=1 [line 11]
+      VarDecl name="result" type=int is_array=no array_length=1 [line 12]
+      Assignment [line 13]
+        Location name="a" [line 13]
+        Literal type=int value=10 [line 13]
+      Assignment [line 14]
+        Location name="b" [line 14]
+        Literal type=int value=5 [line 14]
+      Assignment [line 17]
+        Location name="result" [line 17]
+        Binaryop op="+" [line 17]
+          FuncCall name="multiply" [line 17]
+            Location name="a" [line 17]
+            FuncCall name="subtract" [line 17]
+              Location name="a" [line 17]
+              Location name="b" [line 17]
+          Binaryop op="*" [line 17]
+            Location name="b" [line 17]
+            Literal type=int value=2 [line 17]
+      Return [line 19]
+        Location name="result" [line 19]
+==966594== 
+==966594== HEAP SUMMARY:
+==966594==     in use at exit: 0 bytes in 0 blocks
+==966594==   total heap usage: 2,028 allocs, 2,028 frees, 246,596 bytes allocated
+==966594== 
+==966594== All heap blocks were freed -- no leaks are possible
+==966594== 
+==966594== For lists of detected and suppressed errors, rerun with: -s
+==966594== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
