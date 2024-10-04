@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "optional": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "p2-parser.h": "c"
     }
 }
