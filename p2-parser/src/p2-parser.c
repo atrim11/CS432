@@ -413,6 +413,9 @@ ASTNode* parse_baseExpr (TokenQueue* input) {
  * @return ASTNode* 
  */
 ASTNode* parse_unaryExpr (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected expression)\n");
+    }
     Token* token = TokenQueue_peek(input);
     if (strcmp(token->text, "-") == 0) {
         match_and_discard_next_token(input, SYM, "-");
@@ -433,6 +436,9 @@ ASTNode* parse_unaryExpr (TokenQueue* input) {
  * @return ASTNode* 
  */
 ASTNode* parse_bin_mul (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected expression)\n");
+    }
     int line = get_next_token_line(input);
 
     ASTNode* leftExpr = parse_unaryExpr(input);
@@ -452,8 +458,12 @@ ASTNode* parse_bin_mul (TokenQueue* input) {
  * @return ASTNode* 
  */
 ASTNode* parse_bin_div (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected expression)\n");
+    }
+    int line = get_next_token_line(input);
+
     ASTNode* leftExpr = parse_bin_mul(input);
-        int line = get_next_token_line(input);
 
     while (check_next_token(input, SYM, "/")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
@@ -509,6 +519,9 @@ ASTNode* parse_bin_add (TokenQueue* input) {
  * @return ASTNode* 
  */
 ASTNode* parse_bin_subtract (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected expression)\n");
+    }
     int line = get_next_token_line(input);
 
     ASTNode* leftExpr = parse_bin_add(input);
@@ -528,6 +541,9 @@ ASTNode* parse_bin_subtract (TokenQueue* input) {
  * @return ASTNode* 
  */
 ASTNode* parse_bin_less_than (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected expression)\n");
+    }
     int line = get_next_token_line(input);
 
     ASTNode* leftExpr = parse_bin_subtract(input);
@@ -654,6 +670,9 @@ ASTNode* parse_bin_conjunction (TokenQueue* input) {
  * @return ASTNode* 
  */
 ASTNode* parse_bin_disjunction (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected expression)\n");
+    }
     int line = get_next_token_line(input);
     ASTNode* leftExpr = parse_bin_conjunction(input);
     while (check_next_token(input, SYM, "||")) {
@@ -681,6 +700,9 @@ ASTNode* parse_expr (TokenQueue* input) {
  * @return ASTNode* 
  */
 ASTNode* parse_funcCall (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected function call)\n");
+    }
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
     match_and_discard_next_token(input, SYM, "(");
@@ -771,6 +793,9 @@ bool check_extra_brace_open (TokenQueue* input) {
  * 
  */
 ASTNode* parse_stmts (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        Error_throw_printf("Unexpected end of input (expected statement)\n");
+    }
     int line = get_next_token_line(input);
     char buffer[MAX_ID_LEN];            
     Token* token = peek_2_ahead(input);

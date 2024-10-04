@@ -1,23 +1,7 @@
 digraph AST {
-5 [shape=box, label="Literal value=1"];
-9 [shape=box, label="Literal value=2"];
-10 [shape=box, label="Literal value=3"];
-8 [shape=box, label="BinaryOp op='-'"];
-8 -> 9;
-8 -> 10;
-11 [shape=box, label="Literal value=4"];
-7 [shape=box, label="BinaryOp op='%'"];
-7 -> 8;
-7 -> 11;
-13 [shape=box, label="Literal value=5"];
-14 [shape=box, label="Literal value=6"];
-12 [shape=box, label="BinaryOp op='*'"];
-12 -> 13;
-12 -> 14;
-6 [shape=box, label="BinaryOp op='/'"];
-6 -> 7;
-6 -> 12;
-4 [shape=box, label="BinaryOp op='+'"];
+5 [shape=box, label="Location name='x'"];
+6 [shape=box, label="Location name='y'"];
+4 [shape=box, label="BinaryOp op='/'"];
 4 -> 5;
 4 -> 6;
 3 [shape=box, label="Return"];
