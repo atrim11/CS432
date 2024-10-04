@@ -218,6 +218,7 @@ void parse_id (TokenQueue* input, char* buffer)
 Token* peek_2_ahead(TokenQueue* input);
 ASTNode* parse_stmts (TokenQueue* input);
 bool check_extra_semi (TokenQueue* input);
+bool check_extra_brace (TokenQueue* input);
 
 /*
 * Parse Var Decl  
@@ -238,12 +239,12 @@ ASTNode* parse_vardecl(TokenQueue* input)
 
     parse_id(input, buffer);
     int line = get_next_token_line(input);
-
+    Token* token = NULL;
     bool is_array = false;
     int array_length = 1;
     if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
-        Token* token = TokenQueue_remove(input);
+        token = TokenQueue_remove(input);
         array_length = atoi(token->text);
         is_array = true;
         match_and_discard_next_token(input, SYM, "]");
@@ -252,6 +253,8 @@ ASTNode* parse_vardecl(TokenQueue* input)
     if (check_extra_semi(input)) {
         Error_throw_printf("Unexpected semicolon on line %d\n", line);
     }
+    Token_free(token);
+    
     return VarDeclNode_new(buffer, temp, is_array, array_length, line);
 }
 
@@ -418,7 +421,7 @@ ASTNode* parse_bin_mul (TokenQueue* input) {
     ASTNode* leftExpr = parse_unaryExpr(input);
     while (check_next_token(input, SYM, "*") || check_next_token(input, SYM, "/") || check_next_token(input, SYM, "%")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
-        TokenQueue_remove(input);
+        discard_next_token(input);
         ASTNode* rightExpr = parse_unaryExpr(input);
         leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
     }
@@ -429,7 +432,7 @@ ASTNode* parse_bin_add (TokenQueue* input) {
     ASTNode* leftExpr = parse_bin_mul(input);
     while (check_next_token(input, SYM, "+") || check_next_token(input, SYM, "-")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
-        TokenQueue_remove(input);
+        discard_next_token(input);
         ASTNode* rightExpr = parse_bin_mul(input);
         leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
     }
@@ -440,7 +443,7 @@ ASTNode* parse_bin_rel (TokenQueue* input) {
     ASTNode* leftExpr = parse_bin_add(input);
     while (check_next_token(input, SYM, "<") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, ">")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
-        TokenQueue_remove(input);
+        discard_next_token(input);
         ASTNode* rightExpr = parse_bin_add(input);
         leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
     }
@@ -451,7 +454,7 @@ ASTNode* parse_bin_eq (TokenQueue* input) {
     ASTNode* leftExpr = parse_bin_rel(input);
     while (check_next_token(input, SYM, "==") || check_next_token(input, SYM, "!=")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
-        TokenQueue_remove(input);
+        discard_next_token(input);
         ASTNode* rightExpr = parse_bin_rel(input);
         leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
     }
@@ -522,6 +525,17 @@ bool check_extra_semi (TokenQueue* input) {
     return false;
 }
 
+bool check_extra_brace (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        return false;
+    }
+    
+    Token* token = TokenQueue_peek(input);
+    if (strcmp(token->text, "}") == 0) {
+        return true;
+    }
+    return false;
+}
 
 /**
  * @brief Parse and return a block of statements
@@ -607,11 +621,13 @@ ASTNode* parse_stmts (TokenQueue* input) {
         if (check_next_token(input, KEY, "else")) {
             match_and_discard_next_token(input, KEY, "else");
             else_block = parse_block(input);
-            if (NodeList_is_empty(else_block)) {
-                Error_throw_printf("Empty else block on line %d\n", line);
-            }
+            // if (NodeList_is_empty(else_block)) {
+            //     Error_throw_printf("Empty else block on line %d\n", line);
+            // }
         }
         return ConditionalNode_new(condition, if_block, else_block, line);
+    } else {
+        Error_throw_printf("Invalid statement \"%s\" on line %d\n", TokenQueue_peek(input)->text, line);
     }
 
     return NULL;
@@ -671,11 +687,13 @@ ASTNode* parse_funcdecl (TokenQueue* input) {
 
     // parse_params
     ParameterList* params = ParameterList_new();
+    // if it is not the end of the params
     if (!check_next_token(input, SYM, ")")) {
         DecafType param_type = parse_type(input);
         char param_buffer[MAX_ID_LEN];
         parse_id(input, param_buffer);
         ParameterList_add_new(params, param_buffer, param_type);
+        // Checking for multiple params
         while (check_next_token(input, SYM, ",")) {
             discard_next_token(input);
             param_type = parse_type(input);
