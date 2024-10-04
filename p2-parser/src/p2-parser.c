@@ -251,7 +251,7 @@ ASTNode* parse_vardecl(TokenQueue* input)
     }
     match_and_discard_next_token(input, SYM, ";");
     if (check_extra_semi(input)) {
-        Error_throw_printf("Unexpected semicolon on line %d\n", line);
+        Error_throw_printf("Unexpected semicolon on line %d\n", get_next_token_line(input));
     }
     Token_free(token);
     
@@ -278,6 +278,7 @@ ASTNode* parse_vardecl(TokenQueue* input)
 ASTNode* parse_loc (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
     parse_id(input, buffer);
+    int line = get_next_token_line(input);
 
     if (check_next_token(input, SYM, "[")) {
         match_and_discard_next_token(input, SYM, "[");
@@ -288,13 +289,13 @@ ASTNode* parse_loc (TokenQueue* input) {
             ASTNode* index2 = parse_expr(input);
             match_and_discard_next_token(input, SYM, "]");
             match_and_discard_next_token(input, SYM, "]");
-            return LocationNode_new(buffer, BinaryOpNode_new(ADDOP, index, index2, get_next_token_line(input)), get_next_token_line(input));
+            return LocationNode_new(buffer, BinaryOpNode_new(ADDOP, index, index2, line), line);
         }
         match_and_discard_next_token(input, SYM, "]");
-        return LocationNode_new(buffer, index, get_next_token_line(input));
+        return LocationNode_new(buffer, index, line);
     } 
     
-    return LocationNode_new(buffer, NULL, get_next_token_line(input));
+    return LocationNode_new(buffer, NULL, line);
 }
 
 /* 
@@ -305,9 +306,9 @@ ASTNode* parse_lit(TokenQueue* input)
     if (TokenQueue_is_empty(input)) {
         Error_throw_printf("Unexpected end of input (expected literal) on line %d\n", get_next_token_line(input) - 1);
     }
+    int line = get_next_token_line(input);
 
     Token* token = TokenQueue_remove(input);
-    int line = get_next_token_line(input);
 
     ASTNode* node = NULL;
 
@@ -417,103 +418,165 @@ ASTNode* parse_unaryExpr (TokenQueue* input) {
 }
 
 
+
 ASTNode* parse_bin_mul (TokenQueue* input) {
+    int line = get_next_token_line(input);
+
     ASTNode* leftExpr = parse_unaryExpr(input);
     while (check_next_token(input, SYM, "*")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
         ASTNode* rightExpr = parse_unaryExpr(input);
-        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
+    }
+    return leftExpr;
+}
+
+
+ASTNode* parse_bin_div (TokenQueue* input) {
+    ASTNode* leftExpr = parse_bin_mul(input);
+        int line = get_next_token_line(input);
+
+    while (check_next_token(input, SYM, "/")) {
+        BinaryOpType operatorToken = helper_get_binary_op_type(input);
+        discard_next_token(input);
+        ASTNode* rightExpr = parse_bin_mul(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
     }
     return leftExpr;
 }
 
 ASTNode* parse_bin_mod (TokenQueue* input) {
-    ASTNode* leftExpr = parse_bin_mul(input);
+    ASTNode* leftExpr = parse_bin_div(input);
+        int line = get_next_token_line(input);
+
     while (check_next_token(input, SYM, "%")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
-        ASTNode* rightExpr = parse_bin_mul(input);
-        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+        ASTNode* rightExpr = parse_bin_div(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
     }
     return leftExpr;
 }
-
-ASTNode* parse_bin_div (TokenQueue* input) {
-    ASTNode* leftExpr = parse_bin_mod(input);
-    while (check_next_token(input, SYM, "/")) {
-        BinaryOpType operatorToken = helper_get_binary_op_type(input);
-        discard_next_token(input);
-        ASTNode* rightExpr = parse_bin_mod(input);
-        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
-    }
-    return leftExpr;
-}
-
-
 
 ASTNode* parse_bin_add (TokenQueue* input) {
-    ASTNode* leftExpr = parse_bin_div(input);
+        int line = get_next_token_line(input);
+
+    ASTNode* leftExpr = parse_bin_mod(input);
     while (check_next_token(input, SYM, "+")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
-        ASTNode* rightExpr = parse_bin_div(input);
-        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+        ASTNode* rightExpr = parse_bin_mod(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
     }
     return leftExpr;
 }
 
+
 ASTNode* parse_bin_subtract (TokenQueue* input) {
+    int line = get_next_token_line(input);
+
     ASTNode* leftExpr = parse_bin_add(input);
     while (check_next_token(input, SYM, "-")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
         ASTNode* rightExpr = parse_bin_add(input);
-        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
     }
     return leftExpr;
 }
+ASTNode* parse_bin_less_than (TokenQueue* input) {
+    int line = get_next_token_line(input);
 
-ASTNode* parse_bin_rel (TokenQueue* input) {
     ASTNode* leftExpr = parse_bin_subtract(input);
-    while (check_next_token(input, SYM, "<") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, ">")) {
+    while (check_next_token(input, SYM, "<") ) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
         ASTNode* rightExpr = parse_bin_subtract(input);
-        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
     }
     return leftExpr;
 }
 
-ASTNode* parse_bin_eq (TokenQueue* input) {
-    ASTNode* leftExpr = parse_bin_rel(input);
-    while (check_next_token(input, SYM, "==") || check_next_token(input, SYM, "!=")) {
+ASTNode* parse_bin_less_than_eq (TokenQueue* input) {
+    int line = get_next_token_line(input);
+    ASTNode* leftExpr = parse_bin_less_than(input);
+    while (check_next_token(input, SYM, "<=")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
-        ASTNode* rightExpr = parse_bin_rel(input);
-        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+        ASTNode* rightExpr = parse_bin_less_than(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
     }
     return leftExpr;
 }
 
+ASTNode* parse_bin_greater_than_eq (TokenQueue* input) {
+    int line = get_next_token_line(input);
+    ASTNode* leftExpr = parse_bin_less_than_eq(input);
+    while (check_next_token(input, SYM, ">=")) {
+        BinaryOpType operatorToken = helper_get_binary_op_type(input);
+        discard_next_token(input);
+        ASTNode* rightExpr = parse_bin_less_than_eq(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
+    }
+    return leftExpr;
+}
+
+ASTNode* parse_bin_greater_than (TokenQueue* input) {
+    int line = get_next_token_line(input);
+    ASTNode* leftExpr = parse_bin_greater_than_eq(input);
+    while (check_next_token(input, SYM, ">")) {
+        BinaryOpType operatorToken = helper_get_binary_op_type(input);
+        discard_next_token(input);
+        ASTNode* rightExpr = parse_bin_greater_than_eq(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
+    }
+    return leftExpr;
+}
+
+
+ASTNode* parse_bin_equals (TokenQueue* input) {
+    int line = get_next_token_line(input);
+    ASTNode* leftExpr = parse_bin_greater_than(input);
+    while (check_next_token(input, SYM, "==")) {
+        BinaryOpType operatorToken = helper_get_binary_op_type(input);
+        discard_next_token(input);
+        ASTNode* rightExpr = parse_bin_greater_than(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
+    }
+    return leftExpr;
+}
+
+ASTNode* parse_bin_not_eq (TokenQueue* input) {
+    int line = get_next_token_line(input);
+    ASTNode* leftExpr = parse_bin_equals(input);
+    while (check_next_token(input, SYM, "!=")) {
+        BinaryOpType operatorToken = helper_get_binary_op_type(input);
+        discard_next_token(input);
+        ASTNode* rightExpr = parse_bin_equals(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, line);
+    }
+    return leftExpr;
+}
 
 ASTNode* parse_bin_conjunction (TokenQueue* input) {
-    ASTNode* leftExpr = parse_bin_eq(input);
+    int line = get_next_token_line(input);
+    ASTNode* leftExpr = parse_bin_not_eq(input);
     while (check_next_token(input, SYM, "&&")) {
         match_and_discard_next_token(input, SYM, "&&");
-        ASTNode* rightExpr = parse_bin_eq(input);
-        leftExpr = BinaryOpNode_new(ANDOP, leftExpr, rightExpr, get_next_token_line(input));
+        ASTNode* rightExpr = parse_bin_not_eq(input);
+        leftExpr = BinaryOpNode_new(ANDOP, leftExpr, rightExpr, line);
     }
     return leftExpr;
 }
 
-
 ASTNode* parse_bin_disjunction (TokenQueue* input) {
+    int line = get_next_token_line(input);
     ASTNode* leftExpr = parse_bin_conjunction(input);
     while (check_next_token(input, SYM, "||")) {
         match_and_discard_next_token(input, SYM, "||");
         ASTNode* rightExpr = parse_bin_conjunction(input);
-        leftExpr = BinaryOpNode_new(OROP, leftExpr, rightExpr, get_next_token_line(input));
+        leftExpr = BinaryOpNode_new(OROP, leftExpr, rightExpr, line);
     }
     return leftExpr;
 }
@@ -521,7 +584,6 @@ ASTNode* parse_bin_disjunction (TokenQueue* input) {
 ASTNode* parse_expr (TokenQueue* input) {
     return parse_bin_disjunction(input);
 }
-
 
 ASTNode* parse_funcCall (TokenQueue* input) {
     char buffer[MAX_ID_LEN];
