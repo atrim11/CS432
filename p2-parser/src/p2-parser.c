@@ -217,6 +217,7 @@ void parse_id (TokenQueue* input, char* buffer)
 
 Token* peek_2_ahead(TokenQueue* input);
 ASTNode* parse_stmts (TokenQueue* input);
+bool check_extra_semi (TokenQueue* input);
 
 /*
 * Parse Var Decl  
@@ -248,6 +249,10 @@ ASTNode* parse_vardecl(TokenQueue* input)
         match_and_discard_next_token(input, SYM, "]");
     }
     match_and_discard_next_token(input, SYM, ";");
+    printf("Checking for extra semicolon?\n");
+    if (check_extra_semi(input)) {
+        Error_throw_printf("Unexpected semicolon on line %d\n", line);
+    }
     return VarDeclNode_new(buffer, temp, is_array, array_length, line);
 }
 
@@ -506,6 +511,18 @@ Token* peek_2_ahead(TokenQueue* input) {
     return token->next;
 }
 
+bool check_extra_semi (TokenQueue* input) {
+    if (TokenQueue_is_empty(input)) {
+        return false;
+    }
+    
+    Token* token = TokenQueue_peek(input);
+    if (strcmp(token->text, ";") == 0) {
+        return true;
+    }
+    return false;
+}
+
 
 /**
  * @brief Parse and return a block of statements
@@ -528,20 +545,32 @@ ASTNode* parse_stmts (TokenQueue* input) {
         match_and_discard_next_token(input, SYM, "=");
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ";");
+        if (check_extra_semi(input)) {
+            Error_throw_printf("Unexpected semicolon on line %d\n", line);
+        }
         return AssignmentNode_new(loc, expr, line);
         // also check if hte last token wasnt if
     } else if (token->type == SYM && strcmp(token->text, "(") == 0  && !check_next_token(input, KEY, "if") && !check_next_token(input, KEY, "while")) {
         //printf("Parsing FuncCall\n");
         ASTNode* func = parse_funcCall(input);
         match_and_discard_next_token(input, SYM, ";");
+        if (check_extra_semi(input)) {
+            Error_throw_printf("Unexpected semicolon on line %d\n", line);
+        }
         return func;
     } else if (check_next_token(input, KEY, "break")) {
         match_and_discard_next_token(input, KEY, "break");
         match_and_discard_next_token(input, SYM, ";");
+        if (check_extra_semi(input)) {
+            Error_throw_printf("Unexpected semicolon on line %d\n", line);
+        }
         return BreakNode_new(line);
     } else if (check_next_token(input, KEY, "continue")) {
         match_and_discard_next_token(input, KEY, "continue");
         match_and_discard_next_token(input, SYM, ";");
+        if (check_extra_semi(input)) {
+            Error_throw_printf("Unexpected semicolon on line %d\n", line);
+        }
         return ContinueNode_new(line);
     } else if (check_next_token(input, KEY, "return")) {
 
@@ -553,6 +582,9 @@ ASTNode* parse_stmts (TokenQueue* input) {
         }
         ASTNode* expr = parse_expr(input);
         match_and_discard_next_token(input, SYM, ";");
+        if (check_extra_semi(input)) {
+            Error_throw_printf("Unexpected semicolon on line %d\n", line);
+        }
         return ReturnNode_new(expr, line);
     } else if (check_next_token(input, KEY, "while")) {
         match_and_discard_next_token(input, KEY, "while");
@@ -573,6 +605,9 @@ ASTNode* parse_stmts (TokenQueue* input) {
         if (check_next_token(input, KEY, "else")) {
             match_and_discard_next_token(input, KEY, "else");
             else_block = parse_block(input);
+            if (NodeList_is_empty(else_block)) {
+                Error_throw_printf("Empty else block on line %d\n", line);
+            }
         }
         return ConditionalNode_new(condition, if_block, else_block, line);
     }
