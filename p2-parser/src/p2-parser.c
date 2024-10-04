@@ -718,6 +718,10 @@ ASTNode* parse_stmts (TokenQueue* input) {
         ASTNode* else_block = NULL;
         if (check_next_token(input, KEY, "else")) {
             match_and_discard_next_token(input, KEY, "else");
+            Token* token = peek_2_ahead(input);
+            if (strcmp(token->text, "}") == 0) {
+                Error_throw_printf("Empty else block on line %d\n", line);
+            }
             else_block = parse_block(input);
             // if (NodeList_is_empty(else_block)) {
             //     Error_throw_printf("Empty else block on line %d\n", line);
