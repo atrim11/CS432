@@ -1,5 +1,5 @@
 def int add(int x, int y)
 {
-    int ;
-    
+    return 1 + (2 - 3) % 4 / 5 * 6;
+
 }

@@ -419,7 +419,7 @@ ASTNode* parse_unaryExpr (TokenQueue* input) {
 
 ASTNode* parse_bin_mul (TokenQueue* input) {
     ASTNode* leftExpr = parse_unaryExpr(input);
-    while (check_next_token(input, SYM, "*") || check_next_token(input, SYM, "/") || check_next_token(input, SYM, "%")) {
+    while (check_next_token(input, SYM, "*")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
         ASTNode* rightExpr = parse_unaryExpr(input);
@@ -428,9 +428,9 @@ ASTNode* parse_bin_mul (TokenQueue* input) {
     return leftExpr;
 }
 
-ASTNode* parse_bin_add (TokenQueue* input) {
+ASTNode* parse_bin_mod (TokenQueue* input) {
     ASTNode* leftExpr = parse_bin_mul(input);
-    while (check_next_token(input, SYM, "+") || check_next_token(input, SYM, "-")) {
+    while (check_next_token(input, SYM, "%")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
         ASTNode* rightExpr = parse_bin_mul(input);
@@ -439,12 +439,47 @@ ASTNode* parse_bin_add (TokenQueue* input) {
     return leftExpr;
 }
 
-ASTNode* parse_bin_rel (TokenQueue* input) {
+ASTNode* parse_bin_div (TokenQueue* input) {
+    ASTNode* leftExpr = parse_bin_mod(input);
+    while (check_next_token(input, SYM, "/")) {
+        BinaryOpType operatorToken = helper_get_binary_op_type(input);
+        discard_next_token(input);
+        ASTNode* rightExpr = parse_bin_mod(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+    }
+    return leftExpr;
+}
+
+
+
+ASTNode* parse_bin_add (TokenQueue* input) {
+    ASTNode* leftExpr = parse_bin_div(input);
+    while (check_next_token(input, SYM, "+")) {
+        BinaryOpType operatorToken = helper_get_binary_op_type(input);
+        discard_next_token(input);
+        ASTNode* rightExpr = parse_bin_div(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+    }
+    return leftExpr;
+}
+
+ASTNode* parse_bin_subtract (TokenQueue* input) {
     ASTNode* leftExpr = parse_bin_add(input);
-    while (check_next_token(input, SYM, "<") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, ">")) {
+    while (check_next_token(input, SYM, "-")) {
         BinaryOpType operatorToken = helper_get_binary_op_type(input);
         discard_next_token(input);
         ASTNode* rightExpr = parse_bin_add(input);
+        leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
+    }
+    return leftExpr;
+}
+
+ASTNode* parse_bin_rel (TokenQueue* input) {
+    ASTNode* leftExpr = parse_bin_subtract(input);
+    while (check_next_token(input, SYM, "<") || check_next_token(input, SYM, "<=") || check_next_token(input, SYM, ">=") || check_next_token(input, SYM, ">")) {
+        BinaryOpType operatorToken = helper_get_binary_op_type(input);
+        discard_next_token(input);
+        ASTNode* rightExpr = parse_bin_subtract(input);
         leftExpr = BinaryOpNode_new(operatorToken, leftExpr, rightExpr, get_next_token_line(input));
     }
     return leftExpr;
@@ -460,6 +495,7 @@ ASTNode* parse_bin_eq (TokenQueue* input) {
     }
     return leftExpr;
 }
+
 
 ASTNode* parse_bin_conjunction (TokenQueue* input) {
     ASTNode* leftExpr = parse_bin_eq(input);
