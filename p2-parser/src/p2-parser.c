@@ -629,7 +629,7 @@ bool check_extra_brace (TokenQueue* input) {
     }
     
     Token* token = TokenQueue_peek(input);
-    if (strcmp(token->text, "}") == 0) {
+    if (strcmp(token->text, "}") == 0  || strcmp(token->text, "{") == 0) {
         return true;
     }
     return false;
@@ -748,6 +748,9 @@ ASTNode* parse_block (TokenQueue* input) {
     }
     int line = get_next_token_line(input);
     match_and_discard_next_token(input, SYM, "{");
+    if (check_extra_brace(input)) {
+        Error_throw_printf("Unexpected brace on line %d\n", line);
+    }
 
     NodeList* vars = NodeList_new();
     NodeList* stmts = NodeList_new();
@@ -764,6 +767,9 @@ ASTNode* parse_block (TokenQueue* input) {
 
 
     match_and_discard_next_token(input, SYM, "}");
+    if (check_extra_brace(input)) {
+        Error_throw_printf("Unexpected brace on line %d\n", line);
+    }
     return BlockNode_new(vars, stmts, line);
 }
 
