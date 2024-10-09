@@ -8,6 +8,7 @@
 void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_main(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node);
 
 /**
  * @brief State/data for static analysis visitor
@@ -102,6 +103,7 @@ ErrorList* analyze (ASTNode* tree)
     v->previsit_vardecl = AnalysisVisitor_check_vardecl;
     v->postvisit_location = AnalysisVisitor_check_location;
     v->postvisit_funcdecl = AnalysisVisitor_check_main;
+    v->previsit_program = AnalysisVisitor_check_mainExistProgram;
 
     /* BOILERPLATE: TODO: register analysis callbacks */
     
@@ -117,7 +119,7 @@ ErrorList* analyze (ASTNode* tree)
 void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node)
 {
     DecafType type = GET_INFERRED_TYPE(node);
-    if (type == VOID) {
+    if (type == VOID || node->vardecl.type == VOID) {
         ErrorList_printf(ERROR_LIST, "Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
     }
 }
@@ -136,15 +138,20 @@ void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
 
 void AnalysisVisitor_check_main(NodeVisitor* visitor, ASTNode* node)
 {
-    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, "main");
+    Symbol* symbol = lookup_symbol(node, "main");
     if (symbol != NULL) {
-        if (symbol->type != VOID) {
-            ErrorList_printf(ERROR_LIST, "Main function must return void on line %d", node->source_line);
-        }
         if (symbol->parameters->size != 0) {
             ErrorList_printf(ERROR_LIST, "Main function must have no parameters on line %d", node->source_line);
         }
     } else {
+        ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
+    }
+}
+
+void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
+{
+    Symbol* symbol = lookup_symbol(node, "main");
+    if (symbol == NULL) {
         ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
     }
 }

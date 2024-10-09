@@ -1,2 +1,1 @@
 Symbol 'a' undefined on line 3
-Main function must return void on line 1

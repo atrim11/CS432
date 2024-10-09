@@ -1,4 +1,3 @@
 ERROR: No 'type' attribute
 Symbol 'a' is an array on line 4
 Symbol 'a' is an array on line 5
-Main function must return void on line 1
