@@ -1,8 +1,13 @@
 /**
  * @file p3-analysis.c
  * @brief Compiler phase 3: static analysis
+ * @name Aidan Trimmer & Walker Todd
  */
 #include "p3-analysis.h"
+
+void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_check_main(NodeVisitor* visitor, ASTNode* node);
 
 /**
  * @brief State/data for static analysis visitor
@@ -15,6 +20,8 @@ typedef struct AnalysisData
     ErrorList* errors;
 
     /* BOILERPLATE: TODO: add any new desired state information (and clean it up in AnalysisData_free) */
+
+
 
 } AnalysisData;
 
@@ -40,6 +47,7 @@ void AnalysisData_free (AnalysisData* data)
 {
     /* free everything in data that is allocated on the heap except the error
      * list; it needs to be returned after the analysis is complete */
+
 
     /* free "data" itself */
     free(data);
@@ -91,8 +99,12 @@ ErrorList* analyze (ASTNode* tree)
     NodeVisitor* v = NodeVisitor_new();
     v->data = (void*)AnalysisData_new();
     v->dtor = (Destructor)AnalysisData_free;
+    v->previsit_vardecl = AnalysisVisitor_check_vardecl;
+    v->postvisit_location = AnalysisVisitor_check_location;
+    v->postvisit_funcdecl = AnalysisVisitor_check_main;
 
     /* BOILERPLATE: TODO: register analysis callbacks */
+    
 
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
@@ -101,3 +113,38 @@ ErrorList* analyze (ASTNode* tree)
     return errors;
 }
 
+// Write a visitor method for vardelc nodes to check the nodes type isnt VOID, If so reprot an error using a call like this.  ErrorList_printf()
+void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node)
+{
+    DecafType type = GET_INFERRED_TYPE(node);
+    if (type == VOID) {
+        ErrorList_printf(ERROR_LIST, "Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
+    }
+}
+
+void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
+{
+    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, node->location.name);
+    if (symbol != NULL) {
+        if (node->location.index != NULL) {
+                ErrorList_printf(ERROR_LIST, "Symbol '%s' is not an array on line %d", node->location.name, node->source_line);
+        } else {
+                ErrorList_printf(ERROR_LIST, "Symbol '%s' is an array on line %d", node->location.name, node->source_line);
+        }
+    }
+}
+
+void AnalysisVisitor_check_main(NodeVisitor* visitor, ASTNode* node)
+{
+    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, "main");
+    if (symbol != NULL) {
+        if (symbol->type != VOID) {
+            ErrorList_printf(ERROR_LIST, "Main function must return void on line %d", node->source_line);
+        }
+        if (symbol->parameters->size != 0) {
+            ErrorList_printf(ERROR_LIST, "Main function must have no parameters on line %d", node->source_line);
+        }
+    } else {
+        ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
+    }
+}

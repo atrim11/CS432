@@ -1,0 +1,21 @@
+--- outputs/B_add.txt	2024-10-09 14:20:17.745216841 -0400
++++ expected/B_add.txt	2024-10-04 14:44:00.492109360 -0400
+@@ -1,4 +1,14 @@
+-ERROR: No 'type' attribute
+-Symbol 'a' is an array on line 4
+-Symbol 'a' is an array on line 5
+-Main function must return void on line 1
++Program [line 1]
++SYM TABLE:
++ print_int : (int) -> void
++ print_bool : (bool) -> void
++ print_str : (str) -> void
++ main : () -> int
++
++  FuncDecl name="main" return_type=int parameters={} [line 1]
++  SYM TABLE:
++
++    Block [line 2]
++    SYM TABLE:
++     a : int
++

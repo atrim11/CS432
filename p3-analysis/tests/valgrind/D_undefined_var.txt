@@ -1,0 +1,16 @@
+==4087621== Memcheck, a memory error detector
+==4087621== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==4087621== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==4087621== Command: ../decaf inputs/undefined_var.decaf
+==4087621== 
+Symbol 'a' undefined on line 3
+Main function must return void on line 1
+==4087621== 
+==4087621== HEAP SUMMARY:
+==4087621==     in use at exit: 0 bytes in 0 blocks
+==4087621==   total heap usage: 1,721 allocs, 1,721 frees, 193,312 bytes allocated
+==4087621== 
+==4087621== All heap blocks were freed -- no leaks are possible
+==4087621== 
+==4087621== For lists of detected and suppressed errors, rerun with: -s
+==4087621== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

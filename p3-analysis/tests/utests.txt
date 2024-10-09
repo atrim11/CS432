@@ -1,0 +1,13 @@
+Running suite(s): Default
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+69%: Checks: 13, Failures: 3, Errors: 1
+public.c:17:F:Public:D_trivial:0: Assertion 'valid_program("def int main () { " "return 0;" " }")' failed
+public.c:25:F:Public:D_invalid_no_main:0: Assertion 'invalid_program("int a;")' failed
+public.c:18:F:Public:C_assign:0: Assertion 'valid_program("def int main () { " "int i; i = 3; return 0;" " }")' failed
+private.c:5:E:Private:A_null_tree:0: (after this point) Received signal 11 (Segmentation fault)

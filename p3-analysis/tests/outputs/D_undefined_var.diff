@@ -1,0 +1,5 @@
+--- outputs/D_undefined_var.txt	2024-10-09 14:20:16.759166820 -0400
++++ expected/D_undefined_var.txt	2024-10-04 14:44:00.493109411 -0400
+@@ -1,2 +1 @@
+ Symbol 'a' undefined on line 3
+-Main function must return void on line 1
