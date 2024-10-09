@@ -7,7 +7,7 @@
 
 void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node);
-void AnalysisVisitor_check_main(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node);
 
 /**
@@ -101,8 +101,8 @@ ErrorList* analyze (ASTNode* tree)
     v->data = (void*)AnalysisData_new();
     v->dtor = (Destructor)AnalysisData_free;
     v->previsit_vardecl = AnalysisVisitor_check_vardecl;
-    v->postvisit_location = AnalysisVisitor_check_location;
-    v->postvisit_funcdecl = AnalysisVisitor_check_main;
+    v->previsit_location = AnalysisVisitor_check_location;
+    v->previsit_funcdecl = AnalysisVisitor_check_funcDecl;
     v->previsit_program = AnalysisVisitor_check_mainExistProgram;
 
     /* BOILERPLATE: TODO: register analysis callbacks */
@@ -136,7 +136,7 @@ void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
-void AnalysisVisitor_check_main(NodeVisitor* visitor, ASTNode* node)
+void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node)
 {
     Symbol* symbol = lookup_symbol(node, "main");
     if (symbol != NULL) {
