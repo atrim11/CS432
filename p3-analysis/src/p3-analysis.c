@@ -118,8 +118,6 @@ ErrorList* analyze (ASTNode* tree)
 // Write a visitor method for vardelc nodes to check the nodes type isnt VOID, If so reprot an error using a call like this.  ErrorList_printf()
 void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node)
 {
-    // DecafType type = GET_INFERRED_TYPE(node);
-    //if (type == VOID || node->vardecl.type == VOID) {
     if (node->vardecl.type == VOID) {
         ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
     }
@@ -151,7 +149,7 @@ void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node)
 
 void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
 {
-    // you can make a variable named main - FUCK OFF
+    // you can make a variable named main 
     Symbol* symbol = lookup_symbol(node, "main");
     if (symbol == NULL) {
         ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);

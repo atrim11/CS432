@@ -1,15 +1,15 @@
-==1035596== Memcheck, a memory error detector
-==1035596== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1035596== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1035596== Command: ../decaf inputs/void_in.decaf
-==1035596== 
+==1054109== Memcheck, a memory error detector
+==1054109== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1054109== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1054109== Command: ../decaf inputs/void_in.decaf
+==1054109== 
 Invalid: Variable 'c' declared as void on line 5
-==1035596== 
-==1035596== HEAP SUMMARY:
-==1035596==     in use at exit: 0 bytes in 0 blocks
-==1035596==   total heap usage: 1,800 allocs, 1,800 frees, 202,920 bytes allocated
-==1035596== 
-==1035596== All heap blocks were freed -- no leaks are possible
-==1035596== 
-==1035596== For lists of detected and suppressed errors, rerun with: -s
-==1035596== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1054109== 
+==1054109== HEAP SUMMARY:
+==1054109==     in use at exit: 0 bytes in 0 blocks
+==1054109==   total heap usage: 1,800 allocs, 1,800 frees, 202,920 bytes allocated
+==1054109== 
+==1054109== All heap blocks were freed -- no leaks are possible
+==1054109== 
+==1054109== For lists of detected and suppressed errors, rerun with: -s
+==1054109== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
