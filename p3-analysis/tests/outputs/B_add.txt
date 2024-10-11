@@ -1,3 +1,2 @@
-ERROR: No 'type' attribute
 Symbol 'a' is an array on line 4
 Symbol 'a' is an array on line 5

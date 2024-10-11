@@ -1,8 +1,4 @@
 Running suite(s): Default
-ERROR: No 'type' attribute
-ERROR: No 'type' attribute
-ERROR: No 'type' attribute
-ERROR: No 'type' attribute
 46%: Checks: 13, Failures: 6, Errors: 1
 public.c:18:F:Public:C_assign:0: Assertion 'valid_program("def int main () { " "int i; i = 3; return 0;" " }")' failed
 public.c:28:F:Public:C_invalid_break:0: Assertion 'invalid_program("def int main () { " "break; return 0;" " }")' failed

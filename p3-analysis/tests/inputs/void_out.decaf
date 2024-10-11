@@ -1,0 +1,6 @@
+void i;
+bool b;
+def int main() {
+    int j;
+    bool c;
+}

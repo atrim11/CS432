@@ -5,4 +5,6 @@
 
 run_test    D_undefined_var             "inputs/undefined_var.decaf"
 run_test    B_add                       "inputs/add.decaf"
-
+run_test    void_in                     "inputs/void_in.decaf"
+run_test    void_out                    "inputs/void_out.decaf"
+run_test    good                        "inputs/good.decaf"

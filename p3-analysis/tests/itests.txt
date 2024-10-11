@@ -1,5 +1,8 @@
 D_undefined_var                pass
 B_add                          FAIL (see outputs/B_add.diff for details)
+void_in                        pass
+void_out                       pass
+good                           FAIL (see outputs/good.diff for details)
 No memory leak found.
 No uninitialized value found.
 ========================================

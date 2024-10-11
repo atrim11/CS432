@@ -1,0 +1,6 @@
+int i;
+bool b;
+def int main() {
+    int j;
+    void c;
+}
