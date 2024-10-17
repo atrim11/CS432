@@ -1,11 +1,11 @@
-def int add(void x, int y)
+def int add(int x, int y)
 {
     return x + y;
 }
 
 def int main()
 {
-    int main;
+    int a;
     a = 3;
     return add(a, 2);
 }

@@ -1,8 +1,14 @@
 D_undefined_var                pass
-B_add                          FAIL (see outputs/B_add.diff for details)
+B_add                          pass
 void_in                        pass
 void_out                       pass
-good                           FAIL (see outputs/good.diff for details)
+good                           pass
+given_test                     FAIL (see outputs/given_test.diff for details)
+array_correct                  pass
+array_access_noindex           pass
+array_notarray_index           pass
+array_index_bad_type           pass
+array_size_zero                pass
 No memory leak found.
 No uninitialized value found.
 ========================================

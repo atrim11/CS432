@@ -1,0 +1,5 @@
+int arr[10];
+
+def int main() {
+    arr = 5;  // Error: 'arr' must be accessed with an index
+}

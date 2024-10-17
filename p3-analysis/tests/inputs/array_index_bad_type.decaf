@@ -1,0 +1,5 @@
+int arr[10];
+
+def int main() {
+    arr["hello"] = 5;  // Error: index must be of type INT
+}

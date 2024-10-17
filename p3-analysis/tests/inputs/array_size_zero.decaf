@@ -1,0 +1,5 @@
+int arr[0];  // Error: 'arr' declared with size zero
+
+def int main() {
+    return 0;
+}

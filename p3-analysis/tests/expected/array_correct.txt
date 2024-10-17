@@ -4,11 +4,11 @@ SYM TABLE:
  print_bool : (bool) -> void
  print_str : (str) -> void
  main : () -> int
+ arr : int [10]
 
-  FuncDecl name="main" return_type=int parameters={} [line 1]
+  FuncDecl name="main" return_type=int parameters={} [line 3]
   SYM TABLE:
 
-    Block [line 2]
+    Block [line 3]
     SYM TABLE:
-     a : int
 

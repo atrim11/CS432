@@ -115,26 +115,77 @@ ErrorList* analyze (ASTNode* tree)
     return errors;
 }
 
-// Write a visitor method for vardelc nodes to check the nodes type isnt VOID, If so reprot an error using a call like this.  ErrorList_printf()
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node)
 {
     if (node->vardecl.type == VOID) {
         ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
     }
+
+    // Check if the variable is an array and if the array size is 0
+    if (node->vardecl.is_array && node->vardecl.array_length == 0) {
+        ErrorList_printf(ERROR_LIST, "Array '%s' on line %d must have positive non-zero length", node->vardecl.name, node->source_line);
+    }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
 {
+    // Look up the symbol for the location
     Symbol* symbol = lookup_symbol_with_reporting(visitor, node, node->location.name);
+
+    // If the symbol exists, check if it's an array or not
     if (symbol != NULL) {
+        // If the symbol is being indexed (array access)
         if (node->location.index != NULL) {
-                ErrorList_printf(ERROR_LIST, "Symbol '%s' is not an array on line %d", node->location.name, node->source_line);
-        } else {
-                ErrorList_printf(ERROR_LIST, "Symbol '%s' is an array on line %d", node->location.name, node->source_line);
+            // Check if the symbol is an array
+            if (symbol->symbol_type != ARRAY_SYMBOL) {
+                ErrorList_printf(ERROR_LIST, "Non-array '%s' accessed as an array on line %d", node->location.name, node->source_line);
+            }
+
+            // Now check the type of the index (must be INT)
+            ASTNode* index_node = node->location.index;
+
+            // Check if the index is a literal and of type INT
+            if (index_node->type == LITERAL) {
+                if (index_node->literal.type != INT) {
+                    ErrorList_printf(ERROR_LIST, "Type mismatch: int expected but found non-integer type on line %d", node->source_line);
+                }
+            } else {
+                // If it's not a literal, we must check if the type is inferred correctly
+                // You may have a helper function to ensure type inference (e.g., from a previous phase)
+                DecafType index_type = GET_INFERRED_TYPE(index_node);
+                if (index_type != INT) {
+                    ErrorList_printf(ERROR_LIST, "Array index for '%s' must be of type INT on line %d", node->location.name, node->source_line);
+                }
+            }
+        } else if (symbol->symbol_type == ARRAY_SYMBOL) {
+            // If the symbol is an array but is not being indexed
+            ErrorList_printf(ERROR_LIST, "Array '%s' accessed without index on line %d", node->location.name, node->source_line);
         }
     }
 }
 
+
+
+
+
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node)
 {
     Symbol* symbol = lookup_symbol(node, "main");
@@ -147,6 +198,12 @@ void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
 {
     // you can make a variable named main 
@@ -155,6 +212,7 @@ void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
         ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
     }
 }
+
 
 // 
 // every possible thing needs to be tested 

@@ -5,5 +5,8 @@
 tricky corner cases -> int main; declared
 Scalar symbols
 
+# To Dump Output
+./decaf P0/P0.decaf --fdump-tables
 
-## We need to figure out how to get the expected decaf response
+## 
+
