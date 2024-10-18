@@ -9,6 +9,13 @@ array_access_noindex           pass
 array_notarray_index           pass
 array_index_bad_type           pass
 array_size_zero                pass
+loops_valid                    pass
+loops_valid_double             pass
+loops_invalid                  pass
+loops_invalid_if               pass
+loops_invalid_func             pass
+loops_invalid_cont             pass
+loops_invalid_cont_func        pass
 No memory leak found.
 No uninitialized value found.
 ========================================

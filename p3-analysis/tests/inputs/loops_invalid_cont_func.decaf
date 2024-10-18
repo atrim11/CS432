@@ -1,0 +1,8 @@
+def int foo() {
+    continue;  // Invalid: continue outside of a loop
+    return 0;
+}
+
+def int main() {
+    return 0;
+}

@@ -9,6 +9,10 @@ void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_check_break(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_check_continue(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node);
 
 /**
  * @brief State/data for static analysis visitor
@@ -21,7 +25,7 @@ typedef struct AnalysisData
     ErrorList* errors;
 
     /* BOILERPLATE: TODO: add any new desired state information (and clean it up in AnalysisData_free) */
-
+    int loop_depth;
 
 
 } AnalysisData;
@@ -105,8 +109,12 @@ ErrorList* analyze (ASTNode* tree)
     v->previsit_funcdecl = AnalysisVisitor_check_funcDecl;
     v->previsit_program = AnalysisVisitor_check_mainExistProgram;
 
-    /* BOILERPLATE: TODO: register analysis callbacks */
-    
+    // Adding breaks for loops
+    v->previsit_break = AnalysisVisitor_check_break;
+    v->previsit_continue = AnalysisVisitor_check_continue;
+    v->previsit_whileloop = AnalysisVisitor_check_whileloop;
+    v->postvisit_whileloop = AnalysisVisitor_exit_whileloop;
+
 
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
@@ -177,9 +185,6 @@ void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
 }
 
 
-
-
-
 /**
  * @brief 
  * 
@@ -213,6 +218,50 @@ void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+void AnalysisVisitor_check_break(NodeVisitor* visitor, ASTNode* node)
+{
+    // Debugging: print current loop depth
+    //printf("Checking break: current loop depth = %d\n", DATA->loop_depth);
 
-// 
-// every possible thing needs to be tested 
+    // If loop_depth is 0, it means we're not inside any loops
+    if (DATA->loop_depth == 0) {
+        ErrorList_printf(ERROR_LIST, "Invalid 'break' outside loop on line %d", node->source_line);
+    }
+}
+
+void AnalysisVisitor_check_continue(NodeVisitor* visitor, ASTNode* node)
+{
+    // Debugging: print current loop depth
+    //printf("Checking continue: current loop depth = %d\n", DATA->loop_depth);
+
+    // If loop_depth is 0, it means we're not inside any loops
+    if (DATA->loop_depth == 0) {
+        ErrorList_printf(ERROR_LIST, "Invalid 'continue' outside loop on line %d", node->source_line);
+    }
+}
+
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
+void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node)
+{
+    // Increment the loop depth to indicate we're inside a loop
+    DATA->loop_depth++;
+    //printf("Entering loop: current loop depth = %d\n", DATA->loop_depth); // Debugging statement
+}
+
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
+void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node)
+{
+    // Decrement the loop depth when leaving the loop
+    DATA->loop_depth--;
+    //printf("Exiting loop: current loop depth = %d\n", DATA->loop_depth); // Debugging statement
+}

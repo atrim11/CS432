@@ -1,0 +1,6 @@
+def int main () { 
+    while (true) { 
+        break;  // Valid: break inside a loop
+    }
+    return 0; 
+}

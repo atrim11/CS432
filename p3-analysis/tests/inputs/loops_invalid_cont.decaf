@@ -1,0 +1,4 @@
+def int main () { 
+    continue;  // Invalid: continue outside of a loop
+    return 0; 
+}
