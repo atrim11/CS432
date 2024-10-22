@@ -12,7 +12,7 @@ array_size_zero                pass
 loops_valid                    pass
 loops_valid_double             pass
 loops_invalid                  pass
-loops_invalid_if               pass
+loops_invalid_if               FAIL (see outputs/loops_invalid_if.diff for details)
 loops_invalid_func             pass
 loops_invalid_cont             pass
 loops_invalid_cont_func        pass

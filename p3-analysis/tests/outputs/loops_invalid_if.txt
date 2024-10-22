@@ -1,1 +1,3 @@
+ERROR: No 'type' attribute
+Type mismatch: condition must be of type bool on line 2
 Invalid 'break' outside loop on line 3

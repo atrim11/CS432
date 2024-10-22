@@ -13,6 +13,8 @@ void AnalysisVisitor_check_break(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_continue(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_check_conditional(NodeVisitor* visitor, ASTNode* node);
+void type_mismatch_variable_check(NodeVisitor* visitor, Symbol* symbol, ASTNode* node);
 
 /**
  * @brief State/data for static analysis visitor
@@ -115,12 +117,24 @@ ErrorList* analyze (ASTNode* tree)
     v->previsit_whileloop = AnalysisVisitor_check_whileloop;
     v->postvisit_whileloop = AnalysisVisitor_exit_whileloop;
 
+    // Adding conditional check
+    v->previsit_conditional = AnalysisVisitor_check_conditional;
+
 
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
     ErrorList* errors = ((AnalysisData*)v->data)->errors;
     NodeVisitor_free(v);
     return errors;
+}
+
+void AnalysisVisitor_check_conditional(NodeVisitor* visitor, ASTNode* node)
+{
+    // Check if the conditional expression is of type BOOL
+    DecafType cond_type = GET_INFERRED_TYPE(node->conditional.condition);
+    if (cond_type != BOOL) {
+        ErrorList_printf(ERROR_LIST, "Type mismatch: condition must be of type bool on line %d", node->source_line);
+    }
 }
 
 /**
@@ -139,6 +153,17 @@ void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node)
     if (node->vardecl.is_array && node->vardecl.array_length == 0) {
         ErrorList_printf(ERROR_LIST, "Array '%s' on line %d must have positive non-zero length", node->vardecl.name, node->source_line);
     }
+}
+
+void type_mismatch_variable_check(NodeVisitor* visitor, Symbol* symbol, ASTNode* node) {
+        DecafType var_type = symbol->symbol_type; // The declared type of the variable
+        DecafType value_type = GET_INFERRED_TYPE(node->location.index); // Inferred type of the assigned value
+
+        // Check if there's a mismatch between variable type and assigned value type
+        if (var_type != value_type) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: variable '%s' declared as %s but assigned %s on line %d",
+                             node->location.name, DecafType_to_string(var_type), DecafType_to_string(value_type), node->source_line);
+        }
 }
 
 /**
