@@ -3,7 +3,7 @@ B_add                          pass
 void_in                        pass
 void_out                       pass
 good                           pass
-given_test                     FAIL (see outputs/given_test.diff for details)
+given_test                     pass
 array_correct                  pass
 array_access_noindex           pass
 array_notarray_index           pass

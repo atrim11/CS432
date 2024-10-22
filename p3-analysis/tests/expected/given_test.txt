@@ -20,3 +20,4 @@ SYM TABLE:
     Block [line 7]
     SYM TABLE:
      a : int
+

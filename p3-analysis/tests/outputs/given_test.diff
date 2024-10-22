@@ -1,7 +1,0 @@
---- outputs/given_test.txt	2024-10-18 16:46:18.537068509 -0400
-+++ expected/given_test.txt	2024-10-17 16:29:19.896509457 -0400
-@@ -20,4 +20,3 @@
-     Block [line 7]
-     SYM TABLE:
-      a : int
--
