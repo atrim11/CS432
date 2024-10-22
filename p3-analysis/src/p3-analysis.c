@@ -154,7 +154,13 @@ void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node)
         ErrorList_printf(ERROR_LIST, "Array '%s' on line %d must have positive non-zero length", node->vardecl.name, node->source_line);
     }
 }
-
+/**
+ * @brief Helper Function for checking for type mismatching
+ * 
+ * @param visitor 
+ * @param symbol 
+ * @param node 
+ */
 void type_mismatch_variable_check(NodeVisitor* visitor, Symbol* symbol, ASTNode* node) {
         DecafType var_type = symbol->symbol_type; // The declared type of the variable
         DecafType value_type = GET_INFERRED_TYPE(node->location.index); // Inferred type of the assigned value
@@ -179,6 +185,7 @@ void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
 
     // If the symbol exists, check if it's an array or not
     if (symbol != NULL) {
+
         // If the symbol is being indexed (array access)
         if (node->location.index != NULL) {
             // Check if the symbol is an array
@@ -202,6 +209,7 @@ void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
                     ErrorList_printf(ERROR_LIST, "Array index for '%s' must be of type INT on line %d", node->location.name, node->source_line);
                 }
             }
+
         } else if (symbol->symbol_type == ARRAY_SYMBOL) {
             // If the symbol is an array but is not being indexed
             ErrorList_printf(ERROR_LIST, "Array '%s' accessed without index on line %d", node->location.name, node->source_line);
@@ -218,14 +226,14 @@ void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
  */
 void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node)
 {
-    Symbol* symbol = lookup_symbol(node, "main");
-    if (symbol != NULL) {
-        if (symbol->parameters->size != 0) {
+    // fixme: check corrently for main and not lookup symbol because someone could name their variable main
+    if (strcmp(node->funcdecl.name, "main") == 0) {
+        // Check if the main function has no parameters
+        if (node->funcdecl.parameters->size != 0) {
             ErrorList_printf(ERROR_LIST, "Main function must have no parameters on line %d", node->source_line);
         }
-    } else {
-        ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
     }
+
 }
 
 /**
