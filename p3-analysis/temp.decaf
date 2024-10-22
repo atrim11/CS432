@@ -2,5 +2,8 @@ int x;
 
 def int main() { 
     x = false; 
+    if (1){
+        return 0;
+    }
     return 0; 
 }

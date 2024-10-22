@@ -1,5 +1,4 @@
 Running suite(s): Default
-ERROR: No 'type' attribute
 53%: Checks: 13, Failures: 5, Errors: 1
 public.c:29:F:Public:C_var_type_mismatch:0: Assertion 'invalid_program("int x; def int main() { x=false; return 0; }")' failed
 public.c:31:F:Public:B_invalid_dup_var_global:0: Assertion 'invalid_program("def int main () { " "int a; bool b; int a; return 0;" " }")' failed

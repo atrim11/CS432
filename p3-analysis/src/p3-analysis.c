@@ -134,23 +134,30 @@ ErrorList* analyze (ASTNode* tree)
 
 void AnalysisVisitor_check_return(NodeVisitor* visitor, ASTNode* node) {
     // Check if a function return type is the same as the function return type which is declared in the func
-    if (node->funcreturn.value != NULL) {
-        // DecafType return_type = GET_INFERRED_TYPE(node->funcreturn.value);
-        // DecafType declared_return_type = node->funcdecl.return_type;
 
-        // if (return_type != declared_return_type) {
-        //     ErrorList_printf(ERROR_LIST, "Type mismatch: function return type is %s but declared as %s on line %d",
-        //                      DecafType_to_string(return_type), DecafType_to_string(declared_return_type), node->source_line);
-        // }
-    }
+    // if (node->funcreturn.value != NULL) {
+        
+    //     // DecafType return_type = GET_INFERRED_TYPE(node->funcreturn.value);
+    //     // printf("return type: %s\n", DecafType_to_string(return_type));
+    //     DecafType declared_return_type = node->funcdecl.return_type;
+
+    //     if (return_type != declared_return_type) {
+    //         ErrorList_printf(ERROR_LIST, "Type mismatch: function return type is %s but declared as %s on line %d",
+    //                          DecafType_to_string(return_type), DecafType_to_string(declared_return_type), node->source_line);
+    //     }
+    // }
 }
 
 void AnalysisVisitor_check_conditional(NodeVisitor* visitor, ASTNode* node)
 {
+    // printf("Checking conditional %d\n", node->conditional.if_block->block.variables->size);
     // Check if the conditional expression is of type BOOL
-    DecafType cond_type = GET_INFERRED_TYPE(node->conditional.condition);
-    if (cond_type != BOOL) {
-        ErrorList_printf(ERROR_LIST, "Type mismatch: condition must be of type bool on line %d", node->source_line);
+    Symbol* symbol = lookup_symbol_with_reporting(visitor, node->conditional.condition, "fck you");
+    
+    if (symbol != NULL) {
+        if (symbol->symbol_type != BOOL) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: condition must be of type BOOL on line %d", node->source_line);
+        }
     }
 }
 
@@ -162,6 +169,7 @@ void AnalysisVisitor_check_conditional(NodeVisitor* visitor, ASTNode* node)
  */
 void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node)
 {
+
     if (node->vardecl.type == VOID) {
         ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
     }
@@ -243,13 +251,24 @@ void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
  */
 void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node)
 {
+
     // fixme: check corrently for main and not lookup symbol because someone could name their variable main
     if (strcmp(node->funcdecl.name, "main") == 0) {
         // Check if the main function has no parameters
         if (node->funcdecl.parameters->size != 0) {
             ErrorList_printf(ERROR_LIST, "Main function must have no parameters on line %d", node->source_line);
+        } else if (node->funcdecl.return_type != INT) {
+            ErrorList_printf(ERROR_LIST, "Main function must return an int on line %d", node->source_line);
         }
     }
+    // Symbol* symbol = lookup_symbol(node, "main");
+
+    // if(symbol->parameters->size != 0) {
+    //     ErrorList_printf(ERROR_LIST, "Main function must have no parameters on line %d", node->source_line);
+    // }
+    // else if (symbol->type != INT) {
+    //     ErrorList_printf(ERROR_LIST, "Main function must return an int on line %d", node->source_line);
+    // }
 }
 
 /**

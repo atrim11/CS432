@@ -1,17 +1,16 @@
-==2071588== Memcheck, a memory error detector
-==2071588== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2071588== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2071588== Command: ../decaf inputs/loops_invalid_if.decaf
-==2071588== 
-ERROR: No 'type' attribute
-Type mismatch: condition must be of type bool on line 2
+==2310123== Memcheck, a memory error detector
+==2310123== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2310123== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2310123== Command: ../decaf inputs/loops_invalid_if.decaf
+==2310123== 
+Symbol 'fck you' undefined on line 2
 Invalid 'break' outside loop on line 3
-==2071588== 
-==2071588== HEAP SUMMARY:
-==2071588==     in use at exit: 0 bytes in 0 blocks
-==2071588==   total heap usage: 1,847 allocs, 1,847 frees, 229,868 bytes allocated
-==2071588== 
-==2071588== All heap blocks were freed -- no leaks are possible
-==2071588== 
-==2071588== For lists of detected and suppressed errors, rerun with: -s
-==2071588== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==2310123== 
+==2310123== HEAP SUMMARY:
+==2310123==     in use at exit: 0 bytes in 0 blocks
+==2310123==   total heap usage: 1,847 allocs, 1,847 frees, 229,868 bytes allocated
+==2310123== 
+==2310123== All heap blocks were freed -- no leaks are possible
+==2310123== 
+==2310123== For lists of detected and suppressed errors, rerun with: -s
+==2310123== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
