@@ -1,0 +1,9 @@
+def bool anotherFunction() {
+    return false; // No error expected
+}
+
+def int main() {
+    int x;
+    x = anotherFunction();
+    return 0;
+}

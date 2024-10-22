@@ -16,6 +16,8 @@ loops_invalid_if               FAIL (see outputs/loops_invalid_if.diff for detai
 loops_invalid_func             pass
 loops_invalid_cont             pass
 loops_invalid_cont_func        pass
+return_valid                   pass
+return_invalid                 FAIL (see outputs/return_invalid.diff for details)
 No memory leak found.
 No uninitialized value found.
 ========================================

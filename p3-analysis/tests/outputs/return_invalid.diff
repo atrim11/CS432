@@ -1,0 +1,24 @@
+--- outputs/return_invalid.txt	2024-10-22 14:57:00.494888322 -0400
++++ expected/return_invalid.txt	2024-10-22 14:36:41.878070162 -0400
+@@ -1,20 +1 @@
+-Program [line 1]
+-SYM TABLE:
+- print_int : (int) -> void
+- print_bool : (bool) -> void
+- print_str : (str) -> void
+- voidFunction : () -> void
+- main : () -> void
+-
+-  FuncDecl name="voidFunction" return_type=void parameters={} [line 2]
+-  SYM TABLE:
+-
+-    Block [line 2]
+-    SYM TABLE:
+-
+-  FuncDecl name="main" return_type=void parameters={} [line 6]
+-  SYM TABLE:
+-
+-    Block [line 6]
+-    SYM TABLE:
+-
++Type mismatch: function return type is bool but declared as int on line 1

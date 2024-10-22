@@ -15,6 +15,7 @@ void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_conditional(NodeVisitor* visitor, ASTNode* node);
 void type_mismatch_variable_check(NodeVisitor* visitor, Symbol* symbol, ASTNode* node);
+void AnalysisVisitor_check_return(NodeVisitor* visitor, ASTNode* node);
 
 /**
  * @brief State/data for static analysis visitor
@@ -117,6 +118,9 @@ ErrorList* analyze (ASTNode* tree)
     v->previsit_whileloop = AnalysisVisitor_check_whileloop;
     v->postvisit_whileloop = AnalysisVisitor_exit_whileloop;
 
+    // Adding return check
+    v->previsit_return = AnalysisVisitor_check_return;
+
     // Adding conditional check
     v->previsit_conditional = AnalysisVisitor_check_conditional;
 
@@ -126,6 +130,19 @@ ErrorList* analyze (ASTNode* tree)
     ErrorList* errors = ((AnalysisData*)v->data)->errors;
     NodeVisitor_free(v);
     return errors;
+}
+
+void AnalysisVisitor_check_return(NodeVisitor* visitor, ASTNode* node) {
+    // Check if a function return type is the same as the function return type which is declared in the func
+    if (node->funcreturn.value != NULL) {
+        // DecafType return_type = GET_INFERRED_TYPE(node->funcreturn.value);
+        // DecafType declared_return_type = node->funcdecl.return_type;
+
+        // if (return_type != declared_return_type) {
+        //     ErrorList_printf(ERROR_LIST, "Type mismatch: function return type is %s but declared as %s on line %d",
+        //                      DecafType_to_string(return_type), DecafType_to_string(declared_return_type), node->source_line);
+        // }
+    }
 }
 
 void AnalysisVisitor_check_conditional(NodeVisitor* visitor, ASTNode* node)
@@ -233,7 +250,6 @@ void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node)
             ErrorList_printf(ERROR_LIST, "Main function must have no parameters on line %d", node->source_line);
         }
     }
-
 }
 
 /**
