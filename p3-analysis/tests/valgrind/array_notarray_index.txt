@@ -1,15 +1,15 @@
-==2309915== Memcheck, a memory error detector
-==2309915== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2309915== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2309915== Command: ../decaf inputs/array_notarray_index.decaf
-==2309915== 
+==2326534== Memcheck, a memory error detector
+==2326534== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2326534== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2326534== Command: ../decaf inputs/array_notarray_index.decaf
+==2326534== 
 Non-array 'x' accessed as an array on line 3
-==2309915== 
-==2309915== HEAP SUMMARY:
-==2309915==     in use at exit: 0 bytes in 0 blocks
-==2309915==   total heap usage: 1,800 allocs, 1,800 frees, 210,184 bytes allocated
-==2309915== 
-==2309915== All heap blocks were freed -- no leaks are possible
-==2309915== 
-==2309915== For lists of detected and suppressed errors, rerun with: -s
-==2309915== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==2326534== 
+==2326534== HEAP SUMMARY:
+==2326534==     in use at exit: 0 bytes in 0 blocks
+==2326534==   total heap usage: 1,800 allocs, 1,800 frees, 210,184 bytes allocated
+==2326534== 
+==2326534== All heap blocks were freed -- no leaks are possible
+==2326534== 
+==2326534== For lists of detected and suppressed errors, rerun with: -s
+==2326534== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

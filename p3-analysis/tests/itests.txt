@@ -9,6 +9,7 @@ array_access_noindex           pass
 array_notarray_index           pass
 array_index_bad_type           pass
 array_size_zero                pass
+array_index_func               FAIL (see outputs/array_index_func.diff for details)
 loops_valid                    pass
 loops_valid_double             pass
 loops_invalid                  pass

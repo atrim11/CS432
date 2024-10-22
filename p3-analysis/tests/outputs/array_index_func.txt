@@ -1,0 +1,2 @@
+ERROR: No 'type' attribute
+Array index for 'arr' must be of type INT on line 8

@@ -1,5 +1,5 @@
---- outputs/return_invalid.txt	2024-10-22 17:05:12.535660939 -0400
-+++ expected/return_invalid.txt	2024-10-22 14:36:41.878070162 -0400
+--- outputs/return_invalid.txt	2024-10-22 17:13:35.640049257 -0400
++++ expected/return_invalid.txt	2024-10-22 15:42:36.467384468 -0400
 @@ -1 +1 @@
 -Main function must return an int on line 6
 +Type mismatch: function return type is bool but declared as int on line 1

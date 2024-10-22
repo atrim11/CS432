@@ -1,0 +1,10 @@
+int arr[10];
+
+def int afunc() {
+    return 0;
+}
+
+def int main() {
+    arr[afunc()] = 5; 
+    return arr[0];
+}

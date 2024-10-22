@@ -1,0 +1,26 @@
+--- outputs/array_index_func.txt	2024-10-22 17:13:26.581591982 -0400
++++ expected/array_index_func.txt	2024-10-22 15:51:01.028951350 -0400
+@@ -1,2 +1,21 @@
+-ERROR: No 'type' attribute
+-Array index for 'arr' must be of type INT on line 8
++Program [line 1]
++SYM TABLE:
++ print_int : (int) -> void
++ print_bool : (bool) -> void
++ print_str : (str) -> void
++ afunc : () -> int
++ main : () -> int
++ arr : int [10]
++
++  FuncDecl name="afunc" return_type=int parameters={} [line 3]
++  SYM TABLE:
++
++    Block [line 3]
++    SYM TABLE:
++
++  FuncDecl name="main" return_type=int parameters={} [line 7]
++  SYM TABLE:
++
++    Block [line 7]
++    SYM TABLE:
++

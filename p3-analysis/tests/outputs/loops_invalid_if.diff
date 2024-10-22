@@ -1,5 +1,5 @@
---- outputs/loops_invalid_if.txt	2024-10-22 17:05:07.416402739 -0400
-+++ expected/loops_invalid_if.txt	2024-10-21 12:14:20.595885050 -0400
+--- outputs/loops_invalid_if.txt	2024-10-22 17:13:30.623796034 -0400
++++ expected/loops_invalid_if.txt	2024-10-18 16:22:11.664393744 -0400
 @@ -1,2 +1 @@
 -Symbol 'fck you' undefined on line 2
  Invalid 'break' outside loop on line 3

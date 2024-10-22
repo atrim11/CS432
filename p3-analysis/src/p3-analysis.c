@@ -103,6 +103,9 @@ Symbol* lookup_symbol_with_reporting(NodeVisitor* visitor, ASTNode* node, const 
 
 ErrorList* analyze (ASTNode* tree)
 {
+    if (tree == NULL) {
+        return;
+    }
     /* allocate analysis structures */
     NodeVisitor* v = NodeVisitor_new();
     v->data = (void*)AnalysisData_new();
@@ -177,6 +180,10 @@ void AnalysisVisitor_check_vardecl(NodeVisitor* visitor, ASTNode* node)
     // Check if the variable is an array and if the array size is 0
     if (node->vardecl.is_array && node->vardecl.array_length == 0) {
         ErrorList_printf(ERROR_LIST, "Array '%s' on line %d must have positive non-zero length", node->vardecl.name, node->source_line);
+    }
+
+    if (strcmp(node->vardecl.name, "main") == 0) {
+        ErrorList_printf(ERROR_LIST, "Invalid: cant name variables main %d", node->vardecl.name, node->source_line);
     }
 }
 /**
