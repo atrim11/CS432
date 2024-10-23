@@ -1,0 +1,67 @@
+// Parameter mismatch, type errors, and recursion
+def int multiply(int a, int b) {
+    return a * b;
+}
+
+def int factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+def void printMessage(int msg) {
+    print_int(msg);
+}
+
+def int add(int x, int y) {
+    return x + y;
+}
+int arr[5];
+def int main() {
+    int result;
+    int a;
+    int b;
+    int c;
+    int y;
+    int z;
+    result = multiply(3);            // Error: multiply expects 2 parameters, provided 1
+    result = multiply(5, "text");    // Error: second parameter should be an int
+    result = add(4);                 // Error: add expects 2 parameters, provided 1
+    result = add(5, "str");          // Error: second parameter should be int, not string
+
+    a = 10;
+    b = 20;
+    c = a * b;
+    printMessage(c);                 // Error: printMessage expects a string, provided an int
+    
+    // Recursive issue - bad base case
+    result = factorial("text");      // Error: factorial expects an int, passed string
+    result = factorial(-10);         // Edge case: what happens with negative numbers?
+
+    // Type mismatches in function calls
+    printMessage(2);               // Correct use
+    printMessage(100);               // Error: printMessage expects a string, provided an int
+
+    // Array errors
+    arr[10] = 100;                   // Error: array index out of bounds
+    y = arr[2] + 15;             // Correct usage
+    z = arr[8];                  // Error: accessing out-of-bounds index
+
+    // More parameter mismatches
+    result = multiply();             // Error: missing both parameters
+    result = add(3, 5);              // Correct use
+
+    // Variable redeclaration in the same scope
+    x = 5;
+    x = 10;                      // Error: redeclaration of variable 'x' in the same scope
+
+    // Control structures
+    if (a + b) {                     // Error: non-boolean expression in 'if' condition
+        print_str("Control test");
+    }
+    while (result) {                 // Error: non-boolean in 'while' loop condition
+        result = result - 1;
+    }
+    return 1;
+}

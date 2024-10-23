@@ -1,0 +1,46 @@
+def int getMax(int a, int b) {
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+def void printMax(int x) {
+    print_str(x);  // Error: should use print_int, not print_str
+}
+
+int values[4];
+def int main() {
+    // Incorrect return type
+    int max;
+    int a;
+    int a;
+    int sum;
+    int a;
+    max = printMax(10);  // Error: void function used in assignment
+
+    // Array access issues
+    values[5] = 20;  // Error: index out of bounds
+
+    // Parameter type mismatch
+    result = getMax("string", 5);  // Error: first parameter should be int
+
+    // Valid function calls
+    max = getMax(10, 20);
+    printMax(max);
+
+    // Invalid conditional expression
+    if (max + 10) {  // Error: non-boolean expression in 'if'
+        print_str("Condition error");
+    }
+
+    // Variable redeclaration
+    a = 5;
+    a = 10;  // Error: redeclaration of 'a'
+
+    // Using undeclared variables
+    sum = a + b;  // Error: 'b' is undeclared
+
+    text = badReturn();  // Error propagating from incorrect return type
+}

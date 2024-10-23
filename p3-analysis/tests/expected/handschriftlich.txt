@@ -1,0 +1,12 @@
+Array 'invalid_arr' on line 2 must have positive non-zero length
+Array 'arr_size_no_zero' on line 3 must have positive non-zero length
+Type mismatch: bool is incompatible with int on line 7
+Symbol 'bad_access' undefined on line 17
+Type mismatch: int is incompatible with bool on line 18
+Local variable 'no_create_arr' on line 14 cannot be an array
+Type mismatch: int expected but bool found on line 34
+Type mismatch: int expected but bool found on line 39
+Type mismatch: int expected but bool found on line 45
+Invalid non-void return from void function on line 47
+'main' must return an integer
+'main' must take no parameters

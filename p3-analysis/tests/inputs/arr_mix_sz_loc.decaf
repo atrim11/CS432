@@ -1,0 +1,16 @@
+int arr[3];
+
+def int main() {
+int b;
+int c;
+int d;
+int z;
+z = 0;
+d = 5;
+b=arr[z];
+b = arr[-z];
+b=arr[3];
+b=arr[c];
+b= arr[d];
+return b;
+}

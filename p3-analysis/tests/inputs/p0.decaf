@@ -1,0 +1,161 @@
+// CS 432 PROJECT 0: DECAF PROGRAMMING
+//
+
+// 1-10
+def int fact(int n)
+{
+    int res;
+    res = 1;
+    while (n > 0)
+    {
+        res = res * n;
+        n = n - 1;
+    }
+    return res;
+}
+
+// 0-25
+def int fib(int n)
+{
+    if (n < 2)
+    {
+        return n;
+    }
+
+    return fib(n - 1) + fib(n - 2);
+}
+
+// 0-600
+def bool is_prime(int n)
+{
+    int i;
+    i = 2;
+
+    if (n < 2)
+    {
+        return false;
+    }
+
+    while (i < n / 2 + 1)
+    {
+        if ((n % i) == 0)
+        {
+            return false;
+        }
+        i = i + 1;
+    }
+
+    return true;
+}
+
+def int gcd(int a, int b)
+{
+    int tmp;
+    while (b != 0)
+    {
+        tmp = b;
+        b = a % b;
+        a = tmp;
+    }
+    return a;
+}
+
+int nums[100];
+
+def int sum_nums(int len)
+{
+    int i;
+    int total;
+    i = 0;
+    total = 0;
+
+    while (i < len)
+    {
+        total = total + nums[i];
+        i = i + 1;
+    }
+    return total;
+}
+
+// thx geeksforgeeks
+def void sort_nums(int len)
+{
+    int i;
+    int j;
+    int tmp;
+    bool swapped;
+
+    swapped = true;
+
+    while (swapped)
+    {
+        swapped = false;
+        i = 0;
+
+        while (i < len - 1)
+        {
+            if (nums[i] > nums[i + 1])
+            {
+                tmp = nums[i];
+                nums[i] = nums[i + 1];
+                nums[i + 1] = tmp;
+                swapped = true;
+            }
+            i = i + 1;
+        }
+        len = len - 1;
+    }
+
+    return;
+}
+
+// 1-100
+def void draw_triangle(int base)
+{
+    int start;
+    int spaces;
+    int pounds;
+    int space_count;
+    int pound_count;
+
+    if (base % 2 == 0)
+    {
+        start = 2;
+    }
+    else
+    {
+        start = 1;
+    }
+
+    spaces = (base - start) / 2;
+    pounds = start;
+
+    while (pounds <= base)
+    {
+        space_count = spaces;
+        pound_count = pounds;
+
+        while (space_count > 0)
+        {
+            //print_str(" ");
+            space_count = space_count - 1;
+        }
+
+        while (pound_count > 0)
+        {
+            //print_str("#");
+            pound_count = pound_count - 1;
+        }
+
+        //print_str("\n");
+        spaces = spaces - 1;
+        pounds = pounds + 2;
+    }
+
+    return;
+}
+
+def int main()
+{
+    return 0;
+}

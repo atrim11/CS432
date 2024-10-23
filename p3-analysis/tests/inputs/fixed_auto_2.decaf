@@ -1,0 +1,61 @@
+// Function definitions for testing
+def int subtract(int x, int y) {
+    return x - y;
+}
+
+def void printNumber(int num) {
+    print_int(num);  // Error: should use print_int instead of print_str
+}
+
+def int concatStrings(int a, int b) {
+    return a + b;  // Error: In Decaf, strings cannot be concatenated with '+'
+}
+
+int arr[12];
+def int main() {
+    int result;
+    int a;
+    int b;
+    int test;
+    int c;
+    result = subtract(10, 5);
+    printNumber(result);  // Error: wrong type to print
+
+    // Parameter mismatch
+    result = subtract(10, 5);  // Error: subtract expects 2 parameters, provided 1
+
+    // Type mismatch
+    result = subtract(1, 5);  // Error: first parameter should be an int
+
+    // Recursive issues
+    result = subtract(subtract(20, 10), 31);  // Error: passing string instead of int
+
+    // Incorrect return type
+    
+    // Redeclaration of variables
+    a = 5;
+    a = 10;  // Error: redeclaration of variable 'a' in the same scope
+
+    // Undefined variables
+    b = a + c;  // Error: 'c' is not declared
+    
+    // Array out of bounds
+    arr[3] = 100;  // Error: out of bounds
+
+    // Function with wrong return type
+    
+    // Control structure issues
+    if (true) {  // Error: non-boolean expression
+        print_str("This is wrong");
+    }
+
+    while (1 + 5 >= 3) {  // Error: non-boolean used in while loop
+        result = result - 1;
+    }
+
+    // Incorrect use of void function
+
+    // More mismatches and errors
+    test = subtract(subtract(52, 5), 10);  // Error: multiple type mismatches
+    return test;
+}

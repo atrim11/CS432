@@ -1,0 +1,13 @@
+Type mismatch in parameter 0 of call to 'subtract': expected int but found str on line 8
+Symbol 'numbers' undefined on line 11
+Type mismatch: bool expected but int found on line 14
+Type mismatch in parameter 1 of call to 'subtract': expected int but found str on line 19
+Symbol 'x' undefined on line 22
+Symbol 'x' undefined on line 23
+Symbol 'x' undefined on line 26
+Symbol 'y' undefined on line 26
+Symbol 'incorrectReturn' undefined on line 28
+Type mismatch: bool expected but int found on line 31
+Symbol 'printMax' undefined on line 36
+'main' must return an integer
+'main' must take no parameters

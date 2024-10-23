@@ -1,0 +1,6 @@
+Invalid number of function arguments on line 6
+Invalid non-void return from void function on line 11
+Type mismatch: int expected but bool found on line 15
+Type mismatch: bool expected but int found on line 23
+Type mismatch: bool expected but int found on line 24
+Invalid non-void return from void function on line 28

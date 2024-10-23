@@ -1,0 +1,17 @@
+int a;
+
+def int main() {
+    int i[2];
+    void a[30];
+    i = 0;
+
+    while (i < 100) {
+        bool a;
+
+        if (i == 50) {
+            int a[9999999];
+        }
+        i = i + 1;
+    }
+    return 1;
+}

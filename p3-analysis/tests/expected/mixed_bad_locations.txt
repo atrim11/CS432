@@ -1,0 +1,15 @@
+Void variable 'f' on line 9
+Array 'arr' accessed without index on line 11
+Non-array 'a' accessed as an array on line 13
+Invalid call to non-function 'f' on line 15
+Invalid number of function arguments on line 15
+Type mismatch: int is incompatible with void on line 15
+Non-array 'a' accessed as an array on line 17
+Non-array 'add' accessed as an array on line 19
+Non-array 'add' accessed as an array on line 20
+Function 'add' accessed as a variable on line 22
+Type mismatch: void is incompatible with int on line 22
+Function 'add' accessed as a variable on line 23
+Type mismatch: int expected but void found on line 24
+Type mismatch: void is incompatible with int on line 24
+Type mismatch: int expected but void found on line 25

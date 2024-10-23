@@ -1,0 +1,61 @@
+def int multiply(int x, int y) {
+    return x * y;
+}
+
+def int sumArray(int arr, int size) {
+    int sum;
+    int i;
+    sum = 0;
+    i = 0;
+    while (i < size) {
+        sum = sum + arr[i];
+        i = i + 1;
+    }
+    return sum;
+}
+
+def int recursiveSum(int n) {
+    return n + recursiveSum(n - 1);  // Error: no base case for recursion
+}
+int numbers[3];
+int otherNumbers[5];
+def void main() {
+    // Nested function calls with mismatches
+    int result;
+    int total;
+    int index;
+    int finalResult;
+    int x;
+    result = multiply(multiply(5, 2), "text");  // Error: wrong type for inner multiply call
+
+    // Array size mismatch
+    numbers[4] = 10;  // Error: out of bounds
+
+    // Recursion test
+    result = recursiveSum(5);  // Infinite recursion due to missing base case
+
+    // Using undeclared variables
+total = sumArray(numbers, size);  // Error: 'size' is undeclared
+
+    // Multiple array accesses
+    otherNumbers[-1] = 100;  // Error: negative array index
+    index = otherNumbers[10];  // Error: out-of-bounds array access
+
+    // Multiple control structure errors
+    if (result + 10) {  // Error: non-boolean in 'if'
+        print_str("Control test");
+    }
+
+    while (result) {  // Valid case but could lead to infinite loop
+        result = result - 1;
+    }
+
+    // Invalid usage of void functions in expressions
+    x = printMessage("Hello") + 5;  // Error: void used in expression
+
+    // Function call with too few parameters
+    result = multiply(5);  // Error: multiply expects 2 parameters
+
+    // Type mismatch in return
+    finalResult = printMessage("Done");  // Error: void function assigned to int
+}

@@ -1,4 +1,0 @@
-ERROR: No 'type' attribute
-ERROR: No 'type' attribute
-Main function must be of type INT on line 2
-Main function must be of type INT on line 6

@@ -1,27 +1,10 @@
+
+	PROVIDED TESTS
+
 D_undefined_var                FAIL (see outputs/D_undefined_var.diff for details)
 B_add                          FAIL (see outputs/B_add.diff for details)
-void_in                        pass
-void_out                       pass
-good                           pass
-given_test                     FAIL (see outputs/given_test.diff for details)
-array_correct                  FAIL (see outputs/array_correct.diff for details)
-array_access_noindex           FAIL (see outputs/array_access_noindex.diff for details)
-array_notarray_index           FAIL (see outputs/array_notarray_index.diff for details)
-array_index_bad_type           FAIL (see outputs/array_index_bad_type.diff for details)
-array_size_zero                FAIL (see outputs/array_size_zero.diff for details)
-array_index_func               FAIL (see outputs/array_index_func.diff for details)
-loops_valid                    FAIL (see outputs/loops_valid.diff for details)
-loops_valid_double             FAIL (see outputs/loops_valid_double.diff for details)
-loops_invalid                  FAIL (see outputs/loops_invalid.diff for details)
-loops_invalid_if               FAIL (see outputs/loops_invalid_if.diff for details)
-loops_invalid_func             FAIL (see outputs/loops_invalid_func.diff for details)
-loops_invalid_cont             FAIL (see outputs/loops_invalid_cont.diff for details)
-loops_invalid_cont_func        FAIL (see outputs/loops_invalid_cont_func.diff for details)
-return_valid                   FAIL (see outputs/return_valid.diff for details)
-return_invalid                 FAIL (see outputs/return_invalid.diff for details)
-No memory leak found.
-No uninitialized value found.
-========================================
- NOTICE: THIS TESTSUITE IS INCOMPLETE.
-YOU WILL BE GRADED ON OTHER TEST CASES.
-        WRITE YOUR OWN TESTS!
+
+	ERROR TESTS
+
+expr                           FAIL (see outputs/expr.diff for details)
+expressions                    FAIL (see outputs/expressions.diff for details)

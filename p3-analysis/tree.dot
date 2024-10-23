@@ -1,29 +1,11 @@
 digraph AST {
-1 [shape=box, label="VarDecl name='x'\ntype: invalid"];
-5 [shape=box, label="Location name='x'"];
-6 [shape=box, label="Literal value=false"];
-4 [shape=box, label="Assignment"];
-4 -> 5;
-4 -> 6;
-8 [shape=box, label="Literal value=1"];
-11 [shape=box, label="Literal value=0"];
-10 [shape=box, label="Return"];
-10 -> 11;
-9 [shape=box, label="Block\nsymbolTable: (empty)"];
-9 -> 10;
-7 [shape=box, label="Conditional"];
-7 -> 8;
-7 -> 9;
-13 [shape=box, label="Literal value=0"];
-12 [shape=box, label="Return"];
-12 -> 13;
-3 [shape=box, label="Block\nsymbolTable: (empty)"];
+4 [shape=box, label="Location name='a'\ntype: ???"];
+3 [shape=box, label="Return"];
 3 -> 4;
-3 -> 7;
-3 -> 12;
-2 [shape=box, label="FuncDecl name='main'\ntype: invalid\nsymbolTable: (empty)"];
+2 [shape=box, label="Block\nsymbolTable: (empty)"];
 2 -> 3;
-0 [shape=box, label="Program\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int\n  x : int"];
+1 [shape=box, label="FuncDecl name='main'\nsymbolTable: (empty)"];
+1 -> 2;
+0 [shape=box, label="Program\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int"];
 0 -> 1;
-0 -> 2;
 }

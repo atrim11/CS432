@@ -1,0 +1,7 @@
+Symbol 'result' undefined on line 6
+Type mismatch: bool expected but int found on line 6
+Type mismatch: int expected but bool found on line 6
+Type mismatch: int expected but bool found on line 6
+Type mismatch: int expected but bool found on line 6
+Type mismatch: bool expected but int found on line 6
+Symbol 'result' undefined on line 7

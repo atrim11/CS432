@@ -1,0 +1,5 @@
+int arr[5];
+void arr2[3];
+void arr3[0];
+int arr4[1];
+int arr5[0];

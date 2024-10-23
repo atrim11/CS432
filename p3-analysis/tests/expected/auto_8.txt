@@ -1,0 +1,9 @@
+Symbol 'result' undefined on line 9
+Invalid number of function arguments on line 9
+Symbol 'result' undefined on line 11
+Symbol 'factorial' undefined on line 11
+Symbol 'result' undefined on line 12
+Symbol 'invalidReturn' undefined on line 12
+Duplicate symbols named 'a' in scope started on line 5
+'main' must return an integer
+'main' must take no parameters

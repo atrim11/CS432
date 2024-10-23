@@ -1,0 +1,18 @@
+def int main() {
+    return func(-1, true, false, 10, 12, 23, 7);
+}
+
+def int func(int a, int a, int a, int a, int b, int c, void d) {
+    bool a;
+    int a;
+    void a;
+    bool b;
+    bool b;
+    int b;
+    void c;
+    void c;
+    int c;
+    bool d;
+    bool c;
+    return 1;
+}

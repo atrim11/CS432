@@ -1,8 +1,19 @@
---- outputs/B_add.txt	2024-10-23 13:25:19.288342244 -0400
-+++ expected/B_add.txt	2024-10-04 14:44:00.492109360 -0400
-@@ -1,5 +1,3 @@
+--- outputs/B_add.txt	2024-10-23 16:59:45.271385895 -0400
++++ expected/B_add.txt	2024-10-23 14:21:17.194638139 -0400
+@@ -1,2 +1,14 @@
 -ERROR: No 'type' attribute
--ERROR: No 'type' attribute
- Program [line 1]
- SYM TABLE:
-  print_int : (int) -> void
+-Type mismatch in assignment on line 4: expected int, got ???
++Program [line 1]
++SYM TABLE:
++ print_int : (int) -> void
++ print_bool : (bool) -> void
++ print_str : (str) -> void
++ main : () -> int
++
++  FuncDecl name="main" return_type=int parameters={} [line 1]
++  SYM TABLE:
++
++    Block [line 2]
++    SYM TABLE:
++     a : int
++

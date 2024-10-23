@@ -1,0 +1,11 @@
+int arr[3];
+
+def int main() {
+int b;
+arr = 5;
+b = arr;
+
+return arr[add(1, 2)];
+}
+
+def int add(int a, int b) { return a + b; }

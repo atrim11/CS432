@@ -1,0 +1,6 @@
+Type mismatch in parameter 0 of call to 'fibonacci': expected int but found str on line 13
+Type mismatch: bool expected but int found on line 22
+Symbol 'b' undefined on line 27
+Type mismatch in parameter 0 of call to 'fibonacci': expected int but found str on line 30
+Symbol 'invalidReturn' undefined on line 31
+'main' must return an integer

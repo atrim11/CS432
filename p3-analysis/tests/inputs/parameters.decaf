@@ -1,0 +1,57 @@
+// Test Case: Function Definitions
+
+// 1. Function with parameters not used in the body
+def int unusedParameters(int a, int b) {
+    return a + b;
+}
+
+def int longer_params(int a, void b, bool c) {
+    return a + b + c;
+}
+
+def int main() {
+    longer_params(2, NULL, 50, true);
+    longer_params(1, 2);
+    longer_params();
+    b = longer_params;
+result = multiply(undeclaredVar1, undeclaredVar2);  // Error: 'undeclaredVar1' and 'undeclaredVar2' are undeclared
+sum = sumArray(unknownArray, unknownSize);  // Error: 'unknownArray' and 'unknownSize' are undeclared
+final = multiply(multiply(5, 2), undeclaredFunction(1, 2));  // Error: 'undeclaredFunction' is undeclared
+result = multiply(10);  // Error: multiply expects 2 parameters, got 1
+return -1;
+ x = 10;  // x is declared
+ x = 20;  // Error: x is already declared
+ undeclaredVar = x + undeclaredVar2;  // Error: 'undeclaredVar2' is undeclared
+ totalSum = sumArray(arr, undeclaredSize);  // Error: 'undeclaredSize' is undeclared
+ multiplyResult = multiply(3, undeclaredFloat);  // Error: 'undeclaredFloat' is undeclared
+ multiplyWithFuncResult = multiply(3, someFunction());  // Error: 'someFunction' is undeclared
+ messageResult = prMessage("Hello");  // Error: Cannot assign void function result to 
+ nonExistent = nonExistentFunction();  // Error: 'nonExistentFunction' is undeclared
+funcWithBadParam(1, 2);  // Error: Function defined with undeclared parameter types
+ recResult = recursiveFunction(5);  // Error: 'undeclaredParam' is undeclared
+ accessBlockVar = blockVar;  // Error: 'blockVar' is undeclared outside the block
+ tempResult = undeclaredVar1 + undeclaredVar2;  // Error: 'undeclaredVar1' and 'undeclaredVar2' are undeclared
+declaredVar = undeclaredAssignment;  // Error: 'undeclaredAssignment' is undeclared
+ resultFromUndeclared = undeclaredReturnTypeFunction();  // Error: Function has no declared return type
+ faultyResult = faultyFunction(3, 5, 10);  // Error: Third parameter is undeclared
+ arraySum = sumArray(arr, undeclaredSize);  // Error: 'undeclaredSize' is undeclared
+}
+
+// Test Case: Function Definitions with Undeclared Parameters
+
+def void functionWithBadParam(void param) {
+    print_int(param);
+}
+
+def void funcWithBadParam(int param1, bool param2) {
+    return param1 + param2;
+}
+def int recursiveFunction(bool undeclaredParam) {
+    return undeclaredParam + recursiveFunction(undeclaredParam - 1);
+}
+def bool undeclaredReturnTypeFunction() {
+    return 42;
+}
+def int faultyFunction(int a, int b, int undeclaredParam) {
+    return a + b + undeclaredParam;
+}

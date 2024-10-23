@@ -1,0 +1,219 @@
+Void variable 'result' on line 2
+Symbol 'a' undefined on line 19
+Symbol 'b' undefined on line 20
+Symbol 'c' undefined on line 21
+Symbol 'd' undefined on line 21
+Symbol 'e' undefined on line 21
+Symbol 'f' undefined on line 22
+Type mismatch: bool expected but int found on line 19
+Symbol 'g' undefined on line 22
+Symbol 'h' undefined on line 23
+Symbol 'i' undefined on line 23
+Symbol 'j' undefined on line 26
+Symbol 'k' undefined on line 26
+Symbol 'l' undefined on line 27
+Symbol 'm' undefined on line 27
+Symbol 'n' undefined on line 31
+Symbol 'o' undefined on line 31
+Symbol 'p' undefined on line 32
+Symbol 'q' undefined on line 32
+Symbol 'r' undefined on line 36
+Symbol 's' undefined on line 36
+Symbol 't' undefined on line 40
+Symbol 'u' undefined on line 40
+Type mismatch: int expected but bool found on line 31
+Type mismatch: int expected but bool found on line 35
+Symbol 'v' undefined on line 46
+Symbol 'w' undefined on line 46
+Symbol 'x' undefined on line 46
+Symbol 'y' undefined on line 47
+Type mismatch: bool expected but int found on line 30
+Symbol 'foo' undefined on line 53
+Symbol 'bar' undefined on line 54
+Symbol 'arr' undefined on line 57
+Symbol 'arr' undefined on line 58
+Symbol 'baz' undefined on line 59
+Type mismatch: bool expected but int found on line 53
+Symbol 'x' undefined on line 63
+Symbol 'y' undefined on line 64
+Symbol 'z' undefined on line 68
+Type mismatch: int expected but bool found on line 18
+Type mismatch: int expected but bool found on line 52
+Symbol 'a' undefined on line 79
+Symbol 'b' undefined on line 79
+Type mismatch: bool expected but int found on line 79
+Symbol 'c' undefined on line 83
+Symbol 'd' undefined on line 84
+Symbol 'e' undefined on line 87
+Symbol 'f' undefined on line 87
+Type mismatch: int expected but bool found on line 74
+Symbol 'g' undefined on line 90
+Symbol 'h' undefined on line 92
+Symbol 'i' undefined on line 95
+Symbol 'j' undefined on line 95
+Type mismatch: int expected but bool found on line 95
+Symbol 'alpha' undefined on line 102
+Symbol 'beta' undefined on line 102
+Symbol 'gamma' undefined on line 105
+Symbol 'delta' undefined on line 105
+Symbol 'x' undefined on line 105
+Type mismatch: int expected but bool found on line 109
+Symbol 'm' undefined on line 112
+Symbol 'n' undefined on line 112
+Symbol 'p' undefined on line 113
+Symbol 'q' undefined on line 113
+Type mismatch: int expected but bool found on line 99
+Symbol 'foo' undefined on line 125
+Symbol 'bar' undefined on line 126
+Type mismatch: int expected but bool found on line 130
+Type mismatch: int expected but bool found on line 122
+Symbol 'a' undefined on line 147
+Symbol 'b' undefined on line 147
+Symbol 'funcA' undefined on line 153
+Symbol 'funcB' undefined on line 156
+Symbol 'x' undefined on line 158
+Symbol 'y' undefined on line 158
+Symbol 'z' undefined on line 158
+Type mismatch: bool expected but int found on line 153
+Symbol 'array' undefined on line 167
+Symbol 'array' undefined on line 167
+Symbol 'array' undefined on line 168
+Type mismatch: int expected but bool found on line 145
+Type mismatch: int expected but bool found on line 152
+Symbol 'x' undefined on line 174
+Symbol 'y' undefined on line 177
+Symbol 'z' undefined on line 177
+Symbol 'funcC' undefined on line 181
+Symbol 'a' undefined on line 181
+Symbol 'b' undefined on line 181
+Symbol 'c' undefined on line 184
+Symbol 'd' undefined on line 184
+Type mismatch: bool expected but int found on line 176
+Symbol 'foo' undefined on line 192
+Symbol 'bar' undefined on line 192
+Type mismatch: int expected but bool found on line 144
+Type mismatch: int expected but bool found on line 173
+Symbol 'arr' undefined on line 207
+Symbol 'arr' undefined on line 208
+Type mismatch: int expected but bool found on line 207
+Symbol 'foo' undefined on line 212
+Symbol 'bar' undefined on line 213
+Type mismatch: int is incompatible with bool on line 197
+Symbol 'x' undefined on line 219
+Symbol 'y' undefined on line 219
+Symbol 'z' undefined on line 222
+Symbol 'arr' undefined on line 226
+Symbol 'funcD' undefined on line 227
+Type mismatch: int expected but bool found on line 197
+Type mismatch: int expected but bool found on line 218
+Symbol 'foo' undefined on line 237
+Symbol 'a' undefined on line 237
+Symbol 'bar' undefined on line 238
+Symbol 'b' undefined on line 238
+Symbol 'c' undefined on line 238
+Symbol 'baz' undefined on line 242
+Symbol 'd' undefined on line 242
+Symbol 'x' undefined on line 245
+Symbol 'y' undefined on line 245
+Symbol 'e' undefined on line 249
+Symbol 'f' undefined on line 249
+Type mismatch: int expected but bool found on line 236
+Type mismatch: bool expected but int found on line 272
+Type mismatch: bool expected but int found on line 272
+Type mismatch: int is incompatible with bool on line 270
+Type mismatch: int is incompatible with bool on line 256
+Symbol 'foo' undefined on line 278
+Symbol 'arr' undefined on line 278
+Symbol 'bar' undefined on line 281
+Symbol 'arr' undefined on line 281
+Symbol 'alpha' undefined on line 288
+Symbol 'beta' undefined on line 288
+Symbol 'gamma' undefined on line 290
+Symbol 'delta' undefined on line 290
+Symbol 'epsilon' undefined on line 294
+Symbol 'z' undefined on line 294
+Symbol 'a' undefined on line 296
+Type mismatch: bool expected but int found on line 288
+Symbol 'b' undefined on line 300
+Symbol 'c' undefined on line 300
+Type mismatch: int expected but bool found on line 255
+Type mismatch: int expected but bool found on line 287
+Symbol 'funcA' undefined on line 306
+Symbol 'x' undefined on line 306
+Symbol 'arr' undefined on line 309
+Symbol 'arr' undefined on line 309
+Symbol 'funcB' undefined on line 312
+Symbol 'y' undefined on line 312
+Type mismatch: int expected but bool found on line 305
+Type mismatch: int expected but bool found on line 144
+Symbol 'x' undefined on line 323
+Symbol 'y' undefined on line 323
+Symbol 'foo' undefined on line 326
+Symbol 'bar' undefined on line 329
+Type mismatch: bool expected but int found on line 334
+Type mismatch: int expected but bool found on line 334
+Symbol 'a' undefined on line 343
+Symbol 'b' undefined on line 343
+Symbol 'c' undefined on line 347
+Symbol 'd' undefined on line 347
+Symbol 'foo' undefined on line 351
+Symbol 'bar' undefined on line 352
+Type mismatch: int expected but bool found on line 322
+Type mismatch: int expected but bool found on line 342
+Symbol 'foo' undefined on line 363
+Symbol 'a' undefined on line 363
+Symbol 'b' undefined on line 363
+Symbol 'c' undefined on line 367
+Type mismatch: bool expected but int found on line 372
+Type mismatch: bool expected but int found on line 372
+Type mismatch: bool expected but int found on line 370
+Type mismatch: int expected but bool found on line 370
+Type mismatch: int expected but bool found on line 360
+Symbol 'a' undefined on line 379
+Symbol 'b' undefined on line 379
+Symbol 'foo' undefined on line 382
+Symbol 'bar' undefined on line 383
+Type mismatch: int expected but bool found on line 382
+Symbol 'x' undefined on line 387
+Symbol 'y' undefined on line 387
+Type mismatch: int expected but bool found on line 378
+Type mismatch: int expected but bool found on line 144
+Type mismatch: int is incompatible with bool on line 142
+Type mismatch: int expected but bool found on line 119
+Symbol 'foo' undefined on line 406
+Symbol 'a' undefined on line 406
+Symbol 'bar' undefined on line 406
+Symbol 'b' undefined on line 406
+Type mismatch: int is incompatible with bool on line 395
+Type mismatch: int expected but bool found on line 392
+Symbol 'arr' undefined on line 414
+Symbol 'arr' undefined on line 414
+Symbol 'arr' undefined on line 417
+Symbol 'arr' undefined on line 417
+Type mismatch: int expected but bool found on line 412
+Symbol 'funcC' undefined on line 426
+Symbol 'x' undefined on line 426
+Symbol 'funcD' undefined on line 426
+Symbol 'y' undefined on line 426
+Type mismatch: bool expected but int found on line 442
+Type mismatch: bool expected but int found on line 442
+Type mismatch: int expected but bool found on line 442
+Symbol 'foo' undefined on line 446
+Symbol 'bar' undefined on line 446
+Type mismatch: int is incompatible with bool on line 431
+Type mismatch: int expected but bool found on line 426
+Type mismatch: int expected but bool found on line 430
+Symbol 'x' undefined on line 452
+Symbol 'y' undefined on line 454
+Symbol 'z' undefined on line 454
+Symbol 'funcC' undefined on line 457
+Symbol 'a' undefined on line 457
+Symbol 'b' undefined on line 457
+Symbol 'c' undefined on line 460
+Symbol 'd' undefined on line 460
+Type mismatch: bool expected but int found on line 453
+Symbol 'foo' undefined on line 468
+Symbol 'bar' undefined on line 468
+Type mismatch: int expected but bool found on line 451
+Type mismatch: bool expected but int found on line 425
+Type mismatch: void is incompatible with bool on line 4

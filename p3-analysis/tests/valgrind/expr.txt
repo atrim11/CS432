@@ -1,0 +1,207 @@
+==194484== Memcheck, a memory error detector
+==194484== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==194484== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==194484== Command: ../decaf inputs/expr.decaf
+==194484== 
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+Invalid: Variable 'result' declared as void on line 2
+Error: Variable 'a' used without being defined on line 5
+Error: Variable 'b' used without being defined on line 5
+Error: Variable 'c' used without being defined on line 5
+Error: Variable 'd' used without being defined on line 5
+Error: Variable 'e' used without being defined on line 5
+Error: Variable 'f' used without being defined on line 5
+Error: Variable 'g' used without being defined on line 5
+Error: Variable 'h' used without being defined on line 5
+Error: Variable 'i' used without being defined on line 5
+Error: Variable 'j' used without being defined on line 5
+Error: Variable 'k' used without being defined on line 5
+Error: Variable 'l' used without being defined on line 5
+Error: Variable 'm' used without being defined on line 5
+Error: Variable 'n' used without being defined on line 5
+Error: Variable 'o' used without being defined on line 5
+Error: Variable 'p' used without being defined on line 5
+Error: Variable 'q' used without being defined on line 5
+Error: Variable 'r' used without being defined on line 5
+Error: Variable 's' used without being defined on line 5
+Error: Variable 't' used without being defined on line 5
+Error: Variable 'u' used without being defined on line 5
+Error: Variable 'v' used without being defined on line 5
+Error: Variable 'w' used without being defined on line 5
+Error: Variable 'x' used without being defined on line 5
+Error: Variable 'y' used without being defined on line 5
+Symbol 'foo' undefined on line 6
+Symbol 'bar' undefined on line 6
+Error: Variable 'arr' used without being defined on line 6
+Error: Variable 'arr' used without being defined on line 6
+Symbol 'baz' undefined on line 6
+Error: Variable 'x' used without being defined on line 6
+Error: Variable 'y' used without being defined on line 6
+Error: Variable 'z' used without being defined on line 6
+Error: Variable 'a' used without being defined on line 7
+Error: Variable 'b' used without being defined on line 7
+Error: Variable 'c' used without being defined on line 7
+Error: Variable 'd' used without being defined on line 7
+Error: Variable 'e' used without being defined on line 7
+Error: Variable 'f' used without being defined on line 7
+Error: Variable 'g' used without being defined on line 7
+Error: Variable 'h' used without being defined on line 7
+Error: Variable 'i' used without being defined on line 7
+Error: Variable 'j' used without being defined on line 7
+Symbol 'alpha' undefined on line 8
+Symbol 'beta' undefined on line 8
+Symbol 'gamma' undefined on line 8
+Error: Variable 'delta' used without being defined on line 8
+Error: Variable 'x' used without being defined on line 8
+Error: Variable 'm' used without being defined on line 8
+Error: Variable 'n' used without being defined on line 8
+Error: Variable 'p' used without being defined on line 8
+Error: Variable 'q' used without being defined on line 8
+Symbol 'foo' undefined on line 9
+Error: Variable 'bar' used without being defined on line 9
+Error: Variable 'a' used without being defined on line 9
+Error: Variable 'b' used without being defined on line 9
+Symbol 'funcA' undefined on line 10
+Symbol 'funcB' undefined on line 10
+Error: Variable 'x' used without being defined on line 10
+Error: Variable 'y' used without being defined on line 10
+Error: Variable 'z' used without being defined on line 10
+Error: Variable 'array' used without being defined on line 10
+Error: Variable 'array' used without being defined on line 10
+Error: Variable 'array' used without being defined on line 10
+Error: Variable 'x' used without being defined on line 11
+Error: Variable 'y' used without being defined on line 11
+Error: Variable 'z' used without being defined on line 11
+Symbol 'funcC' undefined on line 11
+Error: Variable 'a' used without being defined on line 11
+Error: Variable 'b' used without being defined on line 11
+Error: Variable 'c' used without being defined on line 11
+Error: Variable 'd' used without being defined on line 11
+Error: Variable 'foo' used without being defined on line 11
+Error: Variable 'bar' used without being defined on line 11
+Error: Variable 'arr' used without being defined on line 12
+Error: Variable 'arr' used without being defined on line 12
+Symbol 'foo' undefined on line 12
+Symbol 'bar' undefined on line 12
+Error: Variable 'x' used without being defined on line 13
+Error: Variable 'y' used without being defined on line 13
+Error: Variable 'z' used without being defined on line 13
+Error: Variable 'arr' used without being defined on line 13
+Symbol 'funcD' undefined on line 13
+Symbol 'foo' undefined on line 14
+Error: Variable 'a' used without being defined on line 14
+Symbol 'bar' undefined on line 14
+Error: Variable 'b' used without being defined on line 14
+Error: Variable 'c' used without being defined on line 14
+Symbol 'baz' undefined on line 14
+Error: Variable 'd' used without being defined on line 14
+Error: Variable 'x' used without being defined on line 14
+Error: Variable 'y' used without being defined on line 14
+Error: Variable 'e' used without being defined on line 14
+Error: Variable 'f' used without being defined on line 14
+Symbol 'foo' undefined on line 15
+Error: Variable 'arr' used without being defined on line 15
+Symbol 'bar' undefined on line 15
+Error: Variable 'arr' used without being defined on line 15
+Error: Variable 'alpha' used without being defined on line 16
+Error: Variable 'beta' used without being defined on line 16
+Error: Variable 'gamma' used without being defined on line 16
+Error: Variable 'delta' used without being defined on line 16
+Error: Variable 'epsilon' used without being defined on line 16
+Error: Variable 'z' used without being defined on line 16
+Error: Variable 'a' used without being defined on line 16
+Error: Variable 'b' used without being defined on line 16
+Error: Variable 'c' used without being defined on line 16
+Symbol 'funcA' undefined on line 17
+Error: Variable 'x' used without being defined on line 17
+Error: Variable 'arr' used without being defined on line 17
+Error: Variable 'arr' used without being defined on line 17
+Symbol 'funcB' undefined on line 17
+Error: Variable 'y' used without being defined on line 17
+Error: Variable 'x' used without being defined on line 18
+Error: Variable 'y' used without being defined on line 18
+Symbol 'foo' undefined on line 18
+Error: Variable 'bar' used without being defined on line 18
+Error: Variable 'a' used without being defined on line 19
+Error: Variable 'b' used without being defined on line 19
+Error: Variable 'c' used without being defined on line 19
+Error: Variable 'd' used without being defined on line 19
+Symbol 'foo' undefined on line 19
+Symbol 'bar' undefined on line 19
+Symbol 'foo' undefined on line 20
+Error: Variable 'a' used without being defined on line 20
+Error: Variable 'b' used without being defined on line 20
+Error: Variable 'c' used without being defined on line 20
+Error: Variable 'a' used without being defined on line 21
+Error: Variable 'b' used without being defined on line 21
+Symbol 'foo' undefined on line 21
+Symbol 'bar' undefined on line 21
+Error: Variable 'x' used without being defined on line 21
+Error: Variable 'y' used without being defined on line 21
+Symbol 'foo' undefined on line 22
+Error: Variable 'a' used without being defined on line 22
+Symbol 'bar' undefined on line 22
+Error: Variable 'b' used without being defined on line 22
+Error: Variable 'arr' used without being defined on line 23
+Error: Variable 'arr' used without being defined on line 23
+Error: Variable 'arr' used without being defined on line 23
+Error: Variable 'arr' used without being defined on line 23
+Symbol 'funcC' undefined on line 23
+Error: Variable 'x' used without being defined on line 23
+Symbol 'funcD' undefined on line 23
+Error: Variable 'y' used without being defined on line 23
+Symbol 'foo' undefined on line 24
+Symbol 'bar' undefined on line 24
+Error: Variable 'x' used without being defined on line 25
+Error: Variable 'y' used without being defined on line 25
+Error: Variable 'z' used without being defined on line 25
+Symbol 'funcC' undefined on line 25
+Error: Variable 'a' used without being defined on line 25
+Error: Variable 'b' used without being defined on line 25
+Error: Variable 'c' used without being defined on line 25
+Error: Variable 'd' used without being defined on line 25
+Error: Variable 'foo' used without being defined on line 25
+Error: Variable 'bar' used without being defined on line 25
+Type mismatch in assignment on line 4: expected void, got ???
+==194484== 
+==194484== HEAP SUMMARY:
+==194484==     in use at exit: 0 bytes in 0 blocks
+==194484==   total heap usage: 5,695 allocs, 5,695 frees, 821,052 bytes allocated
+==194484== 
+==194484== All heap blocks were freed -- no leaks are possible
+==194484== 
+==194484== For lists of detected and suppressed errors, rerun with: -s
+==194484== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

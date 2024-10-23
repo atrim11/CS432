@@ -1,0 +1,37 @@
+def int subtract(int x, int y) {
+    return x - y;
+}
+
+def void main(int argc, int argv) {
+    // Type mismatch in function call
+    int result;
+ result = subtract("text", 10);  // Error: first parameter should be int
+
+    // Array bounds issu
+    numbers[4] = 10;  // Error: out of bounds
+
+    // Incorrect loop conditions
+    while (result + 10) {  // Error: non-boolean used in while loop
+        result = result - 1;
+    }
+
+    // Nested function calls with mismatches
+    result = subtract(subtract(10, "string"), 5);  // Error: wrong type in nested call
+
+    // Redeclaration of variables
+    x = 5;
+    x = 10;  // Error: redeclaration of 'x'
+
+    // Undefined variables
+    result = x + y;  // Error: 'y' is undeclared
+
+    incorrectReturn();
+
+    // Invalid boolean in if statement
+    if (result - 10) {  // Error: non-boolean in if statement
+        print_str("Invalid condition");
+    }
+
+    // Misuse of void function in expression
+    result = printMax(10) + 5;  // Error: void function used in expression
+}

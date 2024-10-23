@@ -1,0 +1,19 @@
+def int main() {
+    processString("Hello, World!");
+    concatStrings("foo", "bar");
+    formatString("Value: %d", 42);
+    checkSubstring("Hello", "lo");
+    toUpperCase("lowercase");
+    findCharacter("example", "e");
+    splitString("a,b,c", ",");
+    replaceSubstring("Hello, World!", "World", "C++");
+    trimWhitespace("   whitespace   ");
+    joinStrings("one", "two", "three");
+    getStringLength("length test");
+    substring("substring example", 0, 9);
+    compareStrings("abc", "abc");
+    stringContains("test", "es");
+    stringStartsWith("hello", "he");
+    stringEndsWith("world", "ld");
+    return 0;
+}

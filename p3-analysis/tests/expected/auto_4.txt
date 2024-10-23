@@ -1,0 +1,11 @@
+Non-array 'arr' accessed as an array on line 11
+Type mismatch in parameter 1 of call to 'multiply': expected int but found str on line 29
+Array 'numbers' accessed without index on line 38
+Symbol 'size' undefined on line 38
+Type mismatch in parameter 1 of call to 'sumArray': expected int but found ??? on line 38
+Type mismatch: bool expected but int found on line 45
+Type mismatch: bool expected but int found on line 49
+Symbol 'printMessage' undefined on line 54
+Invalid number of function arguments on line 57
+Symbol 'printMessage' undefined on line 60
+'main' must return an integer

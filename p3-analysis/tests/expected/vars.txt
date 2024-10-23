@@ -1,0 +1,7 @@
+Void variable 'a' on line 14
+Type mismatch: int expected but bool found on line 9
+Type mismatch: int expected but bool found on line 9
+Duplicate symbols named 'a' in scope started on line 12
+Duplicate symbols named 'b' in scope started on line 12
+Duplicate symbols named 'a' in scope started on line 1
+Program does not contain a 'main' function

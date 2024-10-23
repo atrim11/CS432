@@ -1,0 +1,64 @@
+Program [line 1]
+SYM TABLE:
+ print_int : (int) -> void
+ print_bool : (bool) -> void
+ print_str : (str) -> void
+ multiply : (int, int) -> int
+ factorial : (int) -> int
+ printMessage : (int) -> void
+ add : (int, int) -> int
+ main : () -> int
+ arr : int [5]
+
+  FuncDecl name="multiply" return_type=int parameters={a:int,b:int} [line 2]
+  SYM TABLE:
+   a : int
+   b : int
+
+    Block [line 2]
+    SYM TABLE:
+
+  FuncDecl name="factorial" return_type=int parameters={n:int} [line 6]
+  SYM TABLE:
+   n : int
+
+    Block [line 6]
+    SYM TABLE:
+
+        Block [line 7]
+        SYM TABLE:
+
+  FuncDecl name="printMessage" return_type=void parameters={msg:int} [line 13]
+  SYM TABLE:
+   msg : int
+
+    Block [line 13]
+    SYM TABLE:
+
+  FuncDecl name="add" return_type=int parameters={x:int,y:int} [line 17]
+  SYM TABLE:
+   x : int
+   y : int
+
+    Block [line 17]
+    SYM TABLE:
+
+  FuncDecl name="main" return_type=int parameters={} [line 21]
+  SYM TABLE:
+
+    Block [line 21]
+    SYM TABLE:
+     result : int
+     a : int
+     b : int
+     c : int
+     y : int
+     z : int
+     x : int
+
+        Block [line 61]
+        SYM TABLE:
+
+        Block [line 64]
+        SYM TABLE:
+

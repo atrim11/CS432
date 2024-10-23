@@ -150,16 +150,19 @@ ErrorList* analyze (ASTNode* tree)
 }
 
 void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node) {
-    // Check if the return type matches the function's declared return type
-    if (node->funcreturn.value != NULL) {
+     if (node->funcreturn.value != NULL) {
+
         DecafType return_type = GET_INFERRED_TYPE(node->funcreturn.value);
+        if (return_type == UNKNOWN) {
+            return;
+        }
         Symbol* symbol = lookup_symbol_with_reporting(visitor, node, DATA->current_function);
+
         if (symbol != NULL && symbol->type != return_type) {
             ErrorList_printf(ERROR_LIST, "Type mismatch in return statement on line %d: expected %s, got %s",
                              node->source_line, DecafType_to_string(symbol->type), DecafType_to_string(return_type));
         }
     }
-    
 }
 
 void AnalysisVisitor_previsit_literal(NodeVisitor* visitor, ASTNode* node) {
@@ -188,7 +191,7 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
         ErrorList_printf(ERROR_LIST, "Array '%s' on line %d must have positive non-zero length", node->vardecl.name, node->source_line);
     }
     // check for all reserved keywords
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 12; i++) {
         if (strcmp(node->vardecl.name, reserved[i]) == 0) {
             ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as reserved keyword on line %d", node->vardecl.name, node->source_line);
         }
@@ -227,7 +230,9 @@ void AnalysisVisitor_previsit_location(NodeVisitor* visitor, ASTNode* node) {
     } else {
         ErrorList_printf(ERROR_LIST, "Error: Variable '%s' used without being defined on line %d", 
                          node->location.name, node->source_line);
+        SET_INFERRED_TYPE(UNKNOWN);
     }
+
 }
 
 
@@ -299,46 +304,20 @@ void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
 
 void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
 {
-    char* func_name = node->funccall.name;
-    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, func_name);
-    SET_INFERRED_TYPE(symbol->type);
+    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, node->funccall.name);
+    if (symbol != NULL) {
+        // Set the inferred type of the function call to the return type of the function
+        SET_INFERRED_TYPE(symbol->type);
+    }
 }
 
 void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
 {
-    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, node->funccall.name);
-    if (symbol != NULL) {
-        // Check if the number of arguments matches
-        if (symbol->parameters->size != node->funccall.arguments->size) {
-            ErrorList_printf(ERROR_LIST, "Function '%s' called with incorrect number of arguments on line %d: expected %d, got %d",
-                             node->funccall.name, node->source_line, symbol->parameters->size, node->funccall.arguments);
-        } else {
-            // Check if the types of the arguments match
-            int i = 0;
-            while (i < symbol->parameters->size) {
-                DecafType param_type = symbol->parameters->head->name;
-                DecafType arg_type = GET_INFERRED_TYPE(node->funccall.arguments->head.);
-                if (param_type != arg_type) {
-                    ErrorList_printf(ERROR_LIST, "Type mismatch in function call on line %d: expected %s, got %s",
-                                     node->source_line, DecafType_to_string(param_type), DecafType_to_string(arg_type));
-                }
-                i++;
-            }
-
-
-
-
-
-            for (int i = 0; i < symbol->parameters->size; i++) {
-                printf("Checking argument %d\n", i);
-                printf("Expected type: %s\n", DecafType_to_string(symbol->parameters->head->name));
-                symbol->parameters->head = symbol->parameters->head->next;
-                // DecafType arg_type = GET_INFERRED_TYPE(node->funccall.arguments->data[i]);
-                // if (param_type != arg_type) {
-                //     ErrorList_printf(ERROR_LIST, "Type mismatch in function call on line %d: expected %s, got %s",
-                //                      node->source_line, DecafType_to_string(param_type), DecafType_to_string(arg_type));
-                // }
-            }
-        }
+    // Check if the function call is a void type
+    if (GET_INFERRED_TYPE(node) == VOID) {
+        ErrorList_printf(ERROR_LIST, "Invalid: Function call on line %d returns void", node->source_line);
     }
+
+    // Check if the function call has the correct number of arguments
+
 }

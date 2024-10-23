@@ -1,0 +1,16 @@
+int x;
+int y;
+int z;
+bool a;
+bool b;
+bool c;
+
+def int something() {
+    return x + y;
+}
+
+def int main() {
+    return -1;
+}
+
+def void now() {}

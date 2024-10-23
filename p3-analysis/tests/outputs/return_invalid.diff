@@ -1,8 +1,0 @@
---- outputs/return_invalid.txt	2024-10-23 13:25:38.739328289 -0400
-+++ expected/return_invalid.txt	2024-10-22 14:36:41.878070162 -0400
-@@ -1,4 +1 @@
--ERROR: No 'type' attribute
--ERROR: No 'type' attribute
--Main function must be of type INT on line 2
--Main function must be of type INT on line 6
-+Type mismatch: function return type is bool but declared as int on line 1

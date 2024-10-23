@@ -1,0 +1,17 @@
+Symbol 'result' undefined on line 16
+Symbol 'result' undefined on line 19
+Invalid number of function arguments on line 19
+Symbol 'result' undefined on line 22
+Type mismatch in parameter 0 of call to 'divide': expected int but found str on line 22
+Symbol 'result' undefined on line 25
+Invalid number of function arguments on line 25
+Symbol 'x' undefined on line 34
+Symbol 'x' undefined on line 35
+Symbol 'x' undefined on line 38
+Type mismatch: bool expected but int found on line 38
+Symbol 'result' undefined on line 43
+Symbol 'result' undefined on line 44
+Symbol 'result' undefined on line 44
+Type mismatch: bool expected but int found on line 43
+Symbol 'result' undefined on line 48
+Type mismatch in parameter 1 of call to 'divide': expected int but found str on line 48

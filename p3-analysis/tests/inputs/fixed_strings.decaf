@@ -1,0 +1,4 @@
+def int main() {
+print_str("\"\"\"he\"lo world\n\t\"\t\"\t\t\n\n\"\"\"\"\"\"\"");
+return 0;
+}

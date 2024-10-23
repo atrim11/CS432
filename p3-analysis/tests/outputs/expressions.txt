@@ -1,0 +1,273 @@
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+Invalid: Variable 'result' declared as void on line 2
+Type mismatch in assignment on line 3: expected void, got ???
+Error: Variable 'a' used without being defined on line 4
+Error: Variable 'b' used without being defined on line 4
+Error: Variable 'c' used without being defined on line 4
+Error: Variable 'd' used without being defined on line 4
+Error: Variable 'e' used without being defined on line 4
+Error: Variable 'f' used without being defined on line 4
+Error: Variable 'g' used without being defined on line 4
+Error: Variable 'h' used without being defined on line 4
+Error: Variable 'i' used without being defined on line 4
+Error: Variable 'j' used without being defined on line 4
+Error: Variable 'k' used without being defined on line 4
+Error: Variable 'l' used without being defined on line 4
+Error: Variable 'm' used without being defined on line 4
+Error: Variable 'n' used without being defined on line 4
+Error: Variable 'o' used without being defined on line 4
+Error: Variable 'p' used without being defined on line 4
+Error: Variable 'q' used without being defined on line 4
+Error: Variable 'r' used without being defined on line 4
+Error: Variable 's' used without being defined on line 4
+Error: Variable 't' used without being defined on line 4
+Error: Variable 'u' used without being defined on line 4
+Error: Variable 'v' used without being defined on line 4
+Error: Variable 'w' used without being defined on line 4
+Error: Variable 'x' used without being defined on line 4
+Error: Variable 'y' used without being defined on line 4
+Type mismatch in assignment on line 4: expected void, got ???
+Symbol 'foo' undefined on line 5
+Symbol 'bar' undefined on line 5
+Error: Variable 'arr' used without being defined on line 5
+Error: Variable 'arr' used without being defined on line 5
+Symbol 'baz' undefined on line 5
+Error: Variable 'x' used without being defined on line 5
+Error: Variable 'y' used without being defined on line 5
+Error: Variable 'z' used without being defined on line 5
+Type mismatch in assignment on line 5: expected void, got ???
+Error: Variable 'a' used without being defined on line 6
+Error: Variable 'b' used without being defined on line 6
+Error: Variable 'c' used without being defined on line 6
+Error: Variable 'd' used without being defined on line 6
+Error: Variable 'e' used without being defined on line 6
+Error: Variable 'f' used without being defined on line 6
+Error: Variable 'g' used without being defined on line 6
+Error: Variable 'h' used without being defined on line 6
+Error: Variable 'i' used without being defined on line 6
+Error: Variable 'j' used without being defined on line 6
+Type mismatch in assignment on line 6: expected void, got ???
+Symbol 'alpha' undefined on line 7
+Symbol 'beta' undefined on line 7
+Symbol 'gamma' undefined on line 7
+Error: Variable 'delta' used without being defined on line 7
+Error: Variable 'x' used without being defined on line 7
+Error: Variable 'm' used without being defined on line 7
+Error: Variable 'n' used without being defined on line 7
+Error: Variable 'p' used without being defined on line 7
+Error: Variable 'q' used without being defined on line 7
+Type mismatch in assignment on line 7: expected void, got ???
+Symbol 'foo' undefined on line 8
+Error: Variable 'bar' used without being defined on line 8
+Error: Variable 'a' used without being defined on line 8
+Error: Variable 'b' used without being defined on line 8
+Type mismatch in assignment on line 8: expected void, got ???
+Symbol 'funcA' undefined on line 9
+Symbol 'funcB' undefined on line 9
+Error: Variable 'x' used without being defined on line 9
+Error: Variable 'y' used without being defined on line 9
+Error: Variable 'z' used without being defined on line 9
+Error: Variable 'array' used without being defined on line 9
+Error: Variable 'array' used without being defined on line 9
+Error: Variable 'array' used without being defined on line 9
+Type mismatch in assignment on line 9: expected void, got ???
+Error: Variable 'x' used without being defined on line 10
+Error: Variable 'y' used without being defined on line 10
+Error: Variable 'z' used without being defined on line 10
+Symbol 'funcC' undefined on line 10
+Error: Variable 'a' used without being defined on line 10
+Error: Variable 'b' used without being defined on line 10
+Error: Variable 'c' used without being defined on line 10
+Error: Variable 'd' used without being defined on line 10
+Error: Variable 'foo' used without being defined on line 10
+Error: Variable 'bar' used without being defined on line 10
+Type mismatch in assignment on line 10: expected void, got ???
+Error: Variable 'arr' used without being defined on line 11
+Error: Variable 'arr' used without being defined on line 11
+Symbol 'foo' undefined on line 11
+Symbol 'bar' undefined on line 11
+Type mismatch in assignment on line 11: expected void, got ???
+Error: Variable 'x' used without being defined on line 12
+Error: Variable 'y' used without being defined on line 12
+Error: Variable 'z' used without being defined on line 12
+Error: Variable 'arr' used without being defined on line 12
+Symbol 'funcD' undefined on line 12
+Type mismatch in assignment on line 12: expected void, got ???
+Symbol 'foo' undefined on line 13
+Error: Variable 'a' used without being defined on line 13
+Symbol 'bar' undefined on line 13
+Error: Variable 'b' used without being defined on line 13
+Error: Variable 'c' used without being defined on line 13
+Symbol 'baz' undefined on line 13
+Error: Variable 'd' used without being defined on line 13
+Error: Variable 'x' used without being defined on line 13
+Error: Variable 'y' used without being defined on line 13
+Error: Variable 'e' used without being defined on line 13
+Error: Variable 'f' used without being defined on line 13
+Type mismatch in assignment on line 13: expected void, got ???
+Symbol 'foo' undefined on line 14
+Error: Variable 'arr' used without being defined on line 14
+Symbol 'bar' undefined on line 14
+Error: Variable 'arr' used without being defined on line 14
+Type mismatch in assignment on line 14: expected void, got ???
+Error: Variable 'alpha' used without being defined on line 15
+Error: Variable 'beta' used without being defined on line 15
+Error: Variable 'gamma' used without being defined on line 15
+Error: Variable 'delta' used without being defined on line 15
+Error: Variable 'epsilon' used without being defined on line 15
+Error: Variable 'z' used without being defined on line 15
+Error: Variable 'a' used without being defined on line 15
+Error: Variable 'b' used without being defined on line 15
+Error: Variable 'c' used without being defined on line 15
+Type mismatch in assignment on line 15: expected void, got ???
+Symbol 'funcA' undefined on line 16
+Error: Variable 'x' used without being defined on line 16
+Error: Variable 'arr' used without being defined on line 16
+Error: Variable 'arr' used without being defined on line 16
+Symbol 'funcB' undefined on line 16
+Error: Variable 'y' used without being defined on line 16
+Type mismatch in assignment on line 16: expected void, got ???
+Error: Variable 'x' used without being defined on line 17
+Error: Variable 'y' used without being defined on line 17
+Symbol 'foo' undefined on line 17
+Error: Variable 'bar' used without being defined on line 17
+Type mismatch in assignment on line 17: expected void, got ???
+Error: Variable 'a' used without being defined on line 18
+Error: Variable 'b' used without being defined on line 18
+Error: Variable 'c' used without being defined on line 18
+Error: Variable 'd' used without being defined on line 18
+Symbol 'foo' undefined on line 18
+Symbol 'bar' undefined on line 18
+Type mismatch in assignment on line 18: expected void, got ???
+Symbol 'foo' undefined on line 19
+Error: Variable 'a' used without being defined on line 19
+Error: Variable 'b' used without being defined on line 19
+Error: Variable 'c' used without being defined on line 19
+Type mismatch in assignment on line 19: expected void, got ???
+Error: Variable 'a' used without being defined on line 20
+Error: Variable 'b' used without being defined on line 20
+Symbol 'foo' undefined on line 20
+Symbol 'bar' undefined on line 20
+Error: Variable 'x' used without being defined on line 20
+Error: Variable 'y' used without being defined on line 20
+Type mismatch in assignment on line 20: expected void, got ???
+Symbol 'foo' undefined on line 21
+Error: Variable 'a' used without being defined on line 21
+Symbol 'bar' undefined on line 21
+Error: Variable 'b' used without being defined on line 21
+Type mismatch in assignment on line 21: expected void, got ???
+Error: Variable 'arr' used without being defined on line 22
+Error: Variable 'arr' used without being defined on line 22
+Error: Variable 'arr' used without being defined on line 22
+Error: Variable 'arr' used without being defined on line 22
+Symbol 'funcC' undefined on line 22
+Error: Variable 'x' used without being defined on line 22
+Symbol 'funcD' undefined on line 22
+Error: Variable 'y' used without being defined on line 22
+Type mismatch in assignment on line 22: expected void, got ???
+Symbol 'foo' undefined on line 23
+Symbol 'bar' undefined on line 23
+Type mismatch in assignment on line 23: expected void, got ???
+Error: Variable 'x' used without being defined on line 24
+Error: Variable 'y' used without being defined on line 24
+Error: Variable 'z' used without being defined on line 24
+Symbol 'funcC' undefined on line 24
+Error: Variable 'a' used without being defined on line 24
+Error: Variable 'b' used without being defined on line 24
+Error: Variable 'c' used without being defined on line 24
+Error: Variable 'd' used without being defined on line 24
+Error: Variable 'foo' used without being defined on line 24
+Error: Variable 'bar' used without being defined on line 24
+Type mismatch in assignment on line 24: expected void, got ???
+Error: Variable 'x' used without being defined on line 26
+Error: Variable 'x' used without being defined on line 26
+Error: Variable 'x' used without being defined on line 27
+Symbol 'foo' undefined on line 27
+Error: Variable 'y' used without being defined on line 28
+Type mismatch in assignment on line 28: expected ???, got int
+Error: Variable 'arr' used without being defined on line 29
+Error: Variable 'arr' used without being defined on line 29
+Error: Variable 'b' used without being defined on line 30
+Error: Variable 'isReady' used without being defined on line 30
+Error: Variable 'isLoaded' used without being defined on line 30
+Symbol 'processData' undefined on line 31
+Error: Variable 'x' used without being defined on line 31
+Error: Variable 'y' used without being defined on line 32
+Error: Variable 'x' used without being defined on line 32
+Symbol 'foo' undefined on line 32
+Error: Variable 'y' used without being defined on line 32
+Error: Variable 'arr' used without being defined on line 33
+Error: Variable 'i' used without being defined on line 33
+Symbol 'getValue' undefined on line 33
+Error: Variable 'a' used without being defined on line 34
+Error: Variable 'b' used without being defined on line 34
+Type mismatch in assignment on line 34: expected void, got ???
+Symbol 'foo' undefined on line 35
+Symbol 'bar' undefined on line 35

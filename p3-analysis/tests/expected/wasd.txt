@@ -1,0 +1,10 @@
+Void variable 'hello' on line 2
+Invalid 'continue' outside loop on line 12
+Invalid 'break' outside loop on line 13
+Symbol 'xyz' undefined on line 15
+Symbol 'now3' undefined on line 17
+Symbol 'abcd' undefined on line 17
+Symbol 'hi' undefined on line 17
+Type mismatch: bool is incompatible with int on line 18
+Invalid non-void return from void function on line 25
+'main' must take no parameters

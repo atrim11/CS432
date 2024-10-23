@@ -1,0 +1,51 @@
+Program [line 1]
+SYM TABLE:
+ print_int : (int) -> void
+ print_bool : (bool) -> void
+ print_str : (str) -> void
+ subtract : (int, int) -> int
+ printNumber : (int) -> void
+ concatStrings : (int, int) -> int
+ main : () -> int
+ arr : int [12]
+
+  FuncDecl name="subtract" return_type=int parameters={x:int,y:int} [line 2]
+  SYM TABLE:
+   x : int
+   y : int
+
+    Block [line 2]
+    SYM TABLE:
+
+  FuncDecl name="printNumber" return_type=void parameters={num:int} [line 6]
+  SYM TABLE:
+   num : int
+
+    Block [line 6]
+    SYM TABLE:
+
+  FuncDecl name="concatStrings" return_type=int parameters={a:int,b:int} [line 10]
+  SYM TABLE:
+   a : int
+   b : int
+
+    Block [line 10]
+    SYM TABLE:
+
+  FuncDecl name="main" return_type=int parameters={} [line 15]
+  SYM TABLE:
+
+    Block [line 15]
+    SYM TABLE:
+     result : int
+     a : int
+     b : int
+     test : int
+     c : int
+
+        Block [line 48]
+        SYM TABLE:
+
+        Block [line 52]
+        SYM TABLE:
+

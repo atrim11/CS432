@@ -1,8 +1,0 @@
---- outputs/loops_valid_double.txt	2024-10-23 13:25:31.657969307 -0400
-+++ expected/loops_valid_double.txt	2024-10-21 12:14:20.597885151 -0400
-@@ -1,5 +1,3 @@
--ERROR: No 'type' attribute
--ERROR: No 'type' attribute
- Program [line 1]
- SYM TABLE:
-  print_int : (int) -> void

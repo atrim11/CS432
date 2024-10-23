@@ -1,0 +1,3 @@
+def int main(int argc, bool argv) {
+    return -1;
+}

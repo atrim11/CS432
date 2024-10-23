@@ -1,0 +1,50 @@
+def int divide(int a, int b) {
+    if (b == 0) {
+        return -1;  // Avoid divide by zero
+    }
+    return a / b;
+}
+
+def int calculateSum(int x, int y, int z) {
+    return x + y + z;
+}
+
+int arr[5];
+def int main() {
+    int a;
+    // Divide by zero edge case
+    result = divide(10, 0);  // Should handle divide by zero
+
+    // Parameter mismatch
+    result = divide(10);  // Error: divide expects 2 parameters, provided 1
+
+    // Type mismatch in function call
+    result = divide("string", 10);  // Error: first parameter should be int
+
+    // Function call with too many parameters
+    result = calculateSum(1, 2, 3, 4);  // Error: Too many parameters provided
+
+    // Variable shadowing
+    a = 5;
+    a = 20;
+
+    // Array usage
+    arr[10] = 100;  // Error: index out of bounds
+
+    x = arr[3] * 2;  // Valid array usage
+    x = arr[-1];  // Error: negative index
+
+    // Control structure with invalid boolean expression
+    if (x + 1) {  // Error: non-boolean expression in 'if'
+        print_str("Invalid if condition");
+    }
+
+    // While loop with invalid condition
+    while (result - 2) {  // Error: non-boolean in 'while'
+        result = result - 1;
+    }
+
+    // Invalid recursive call
+    result = divide(divide(10, "error"), 2);  // Error: nested function call with invalid types
+    return 12;
+}

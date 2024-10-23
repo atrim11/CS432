@@ -1,29 +1,15 @@
-==3749759== Memcheck, a memory error detector
-==3749759== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3749759== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3749759== Command: ../decaf inputs/undefined_var.decaf
-==3749759== 
-ERROR: No 'type' attribute
-ERROR: No 'type' attribute
-Program [line 1]
-SYM TABLE:
- print_int : (int) -> void
- print_bool : (bool) -> void
- print_str : (str) -> void
- main : () -> int
-
-  FuncDecl name="main" return_type=int parameters={} [line 1]
-  SYM TABLE:
-
-    Block [line 2]
-    SYM TABLE:
-
-==3749759== 
-==3749759== HEAP SUMMARY:
-==3749759==     in use at exit: 0 bytes in 0 blocks
-==3749759==   total heap usage: 1,721 allocs, 1,721 frees, 193,112 bytes allocated
-==3749759== 
-==3749759== All heap blocks were freed -- no leaks are possible
-==3749759== 
-==3749759== For lists of detected and suppressed errors, rerun with: -s
-==3749759== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==194293== Memcheck, a memory error detector
+==194293== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==194293== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==194293== Command: ../decaf inputs/undefined_var.decaf
+==194293== 
+Error: Variable 'a' used without being defined on line 3
+==194293== 
+==194293== HEAP SUMMARY:
+==194293==     in use at exit: 0 bytes in 0 blocks
+==194293==   total heap usage: 1,721 allocs, 1,721 frees, 193,104 bytes allocated
+==194293== 
+==194293== All heap blocks were freed -- no leaks are possible
+==194293== 
+==194293== For lists of detected and suppressed errors, rerun with: -s
+==194293== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
