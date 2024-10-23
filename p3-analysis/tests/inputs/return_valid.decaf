@@ -3,7 +3,7 @@ def bool anotherFunction() {
 }
 
 def int main() {
-    int x;
+    bool x;
     x = anotherFunction();
     return 0;
 }

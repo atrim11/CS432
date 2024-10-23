@@ -23,6 +23,8 @@ void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_previsit_binaryop(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node);
 /**
  * @brief State/data for static analysis visitor
  */
@@ -142,6 +144,9 @@ ErrorList* analyze (ASTNode* tree)
 
     v->previsit_funccall = AnalysisVisitor_previsit_funcCall;
     v->postvisit_funccall = AnalysisVisitor_postvisit_funcCall;
+
+    v->previsit_binaryop = AnalysisVisitor_previsit_binaryop;
+    v->postvisit_binaryop = AnalysisVisitor_postvisit_binaryop;
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
     ErrorList* errors = ((AnalysisData*)v->data)->errors;

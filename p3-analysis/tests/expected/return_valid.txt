@@ -17,5 +17,5 @@ SYM TABLE:
 
     Block [line 5]
     SYM TABLE:
-     x : int
+     x : bool
 
