@@ -21,7 +21,8 @@ void AnalysisVisitor_previsit_location(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node);
-
+void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node);
 /**
  * @brief State/data for static analysis visitor
  */
@@ -138,6 +139,9 @@ ErrorList* analyze (ASTNode* tree)
     v->previsit_continue = AnalysisVisitor_previst_continue;
 
     v->postvisit_conditional = AnalysisVisitor_postvisit_conditional;
+
+    v->previsit_funccall = AnalysisVisitor_previsit_funcCall;
+    v->postvisit_funccall = AnalysisVisitor_postvisit_funcCall;
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
     ErrorList* errors = ((AnalysisData*)v->data)->errors;
@@ -290,5 +294,51 @@ void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
     // Check if the conditional expression is a boolean
     if (condition != BOOL) {
         ErrorList_printf(ERROR_LIST, "Invalid: Conditional expression on line %d must be of type bool", node->source_line);
+    }
+}
+
+void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
+{
+    char* func_name = node->funccall.name;
+    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, func_name);
+    SET_INFERRED_TYPE(symbol->type);
+}
+
+void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
+{
+    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, node->funccall.name);
+    if (symbol != NULL) {
+        // Check if the number of arguments matches
+        if (symbol->parameters->size != node->funccall.arguments->size) {
+            ErrorList_printf(ERROR_LIST, "Function '%s' called with incorrect number of arguments on line %d: expected %d, got %d",
+                             node->funccall.name, node->source_line, symbol->parameters->size, node->funccall.arguments);
+        } else {
+            // Check if the types of the arguments match
+            int i = 0;
+            while (i < symbol->parameters->size) {
+                DecafType param_type = symbol->parameters->head->name;
+                DecafType arg_type = GET_INFERRED_TYPE(node->funccall.arguments->head.);
+                if (param_type != arg_type) {
+                    ErrorList_printf(ERROR_LIST, "Type mismatch in function call on line %d: expected %s, got %s",
+                                     node->source_line, DecafType_to_string(param_type), DecafType_to_string(arg_type));
+                }
+                i++;
+            }
+
+
+
+
+
+            for (int i = 0; i < symbol->parameters->size; i++) {
+                printf("Checking argument %d\n", i);
+                printf("Expected type: %s\n", DecafType_to_string(symbol->parameters->head->name));
+                symbol->parameters->head = symbol->parameters->head->next;
+                // DecafType arg_type = GET_INFERRED_TYPE(node->funccall.arguments->data[i]);
+                // if (param_type != arg_type) {
+                //     ErrorList_printf(ERROR_LIST, "Type mismatch in function call on line %d: expected %s, got %s",
+                //                      node->source_line, DecafType_to_string(param_type), DecafType_to_string(arg_type));
+                // }
+            }
+        }
     }
 }
