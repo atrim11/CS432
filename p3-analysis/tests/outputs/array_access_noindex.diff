@@ -1,0 +1,18 @@
+--- outputs/array_access_noindex.txt	2024-10-23 10:10:26.552897310 -0400
++++ expected/array_access_noindex.txt	2024-10-17 17:58:48.859460577 -0400
+@@ -1,14 +1 @@
+-Program [line 1]
+-SYM TABLE:
+- print_int : (int) -> void
+- print_bool : (bool) -> void
+- print_str : (str) -> void
+- main : () -> int
+- arr : int [10]
+-
+-  FuncDecl name="main" return_type=int parameters={} [line 3]
+-  SYM TABLE:
+-
+-    Block [line 3]
+-    SYM TABLE:
+-
++Array 'arr' accessed without index on line 4

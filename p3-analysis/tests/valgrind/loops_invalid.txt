@@ -1,15 +1,27 @@
-==2805648== Memcheck, a memory error detector
-==2805648== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2805648== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2805648== Command: ../decaf inputs/loops_invalid.decaf
-==2805648== 
-Invalid 'break' outside loop on line 2
-==2805648== 
-==2805648== HEAP SUMMARY:
-==2805648==     in use at exit: 0 bytes in 0 blocks
-==2805648==   total heap usage: 1,805 allocs, 1,805 frees, 220,128 bytes allocated
-==2805648== 
-==2805648== All heap blocks were freed -- no leaks are possible
-==2805648== 
-==2805648== For lists of detected and suppressed errors, rerun with: -s
-==2805648== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3334662== Memcheck, a memory error detector
+==3334662== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3334662== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3334662== Command: ../decaf inputs/loops_invalid.decaf
+==3334662== 
+Program [line 1]
+SYM TABLE:
+ print_int : (int) -> void
+ print_bool : (bool) -> void
+ print_str : (str) -> void
+ main : () -> int
+
+  FuncDecl name="main" return_type=int parameters={} [line 1]
+  SYM TABLE:
+
+    Block [line 1]
+    SYM TABLE:
+
+==3334662== 
+==3334662== HEAP SUMMARY:
+==3334662==     in use at exit: 0 bytes in 0 blocks
+==3334662==   total heap usage: 1,805 allocs, 1,805 frees, 220,144 bytes allocated
+==3334662== 
+==3334662== All heap blocks were freed -- no leaks are possible
+==3334662== 
+==3334662== For lists of detected and suppressed errors, rerun with: -s
+==3334662== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

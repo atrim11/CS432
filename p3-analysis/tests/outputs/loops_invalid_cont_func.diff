@@ -1,0 +1,24 @@
+--- outputs/loops_invalid_cont_func.txt	2024-10-23 10:10:37.556453294 -0400
++++ expected/loops_invalid_cont_func.txt	2024-10-18 16:20:50.013292734 -0400
+@@ -1,20 +1 @@
+-Program [line 1]
+-SYM TABLE:
+- print_int : (int) -> void
+- print_bool : (bool) -> void
+- print_str : (str) -> void
+- foo : () -> int
+- main : () -> int
+-
+-  FuncDecl name="foo" return_type=int parameters={} [line 1]
+-  SYM TABLE:
+-
+-    Block [line 1]
+-    SYM TABLE:
+-
+-  FuncDecl name="main" return_type=int parameters={} [line 6]
+-  SYM TABLE:
+-
+-    Block [line 6]
+-    SYM TABLE:
+-
++Invalid 'continue' outside loop on line 2

@@ -1,22 +1,22 @@
-D_undefined_var                pass
+D_undefined_var                FAIL (see outputs/D_undefined_var.diff for details)
 B_add                          pass
 void_in                        pass
 void_out                       pass
 good                           pass
 given_test                     pass
 array_correct                  pass
-array_access_noindex           pass
-array_notarray_index           pass
-array_index_bad_type           pass
+array_access_noindex           FAIL (see outputs/array_access_noindex.diff for details)
+array_notarray_index           FAIL (see outputs/array_notarray_index.diff for details)
+array_index_bad_type           FAIL (see outputs/array_index_bad_type.diff for details)
 array_size_zero                pass
-array_index_func               FAIL (see outputs/array_index_func.diff for details)
+array_index_func               pass
 loops_valid                    pass
 loops_valid_double             pass
-loops_invalid                  pass
+loops_invalid                  FAIL (see outputs/loops_invalid.diff for details)
 loops_invalid_if               FAIL (see outputs/loops_invalid_if.diff for details)
-loops_invalid_func             pass
-loops_invalid_cont             pass
-loops_invalid_cont_func        pass
+loops_invalid_func             FAIL (see outputs/loops_invalid_func.diff for details)
+loops_invalid_cont             FAIL (see outputs/loops_invalid_cont.diff for details)
+loops_invalid_cont_func        FAIL (see outputs/loops_invalid_cont_func.diff for details)
 return_valid                   pass
 return_invalid                 FAIL (see outputs/return_invalid.diff for details)
 No memory leak found.

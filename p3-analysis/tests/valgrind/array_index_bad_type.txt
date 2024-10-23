@@ -1,15 +1,28 @@
-==2805336== Memcheck, a memory error detector
-==2805336== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2805336== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2805336== Command: ../decaf inputs/array_index_bad_type.decaf
-==2805336== 
-Type mismatch: int expected but found non-integer type on line 4
-==2805336== 
-==2805336== HEAP SUMMARY:
-==2805336==     in use at exit: 0 bytes in 0 blocks
-==2805336==   total heap usage: 1,818 allocs, 1,818 frees, 213,540 bytes allocated
-==2805336== 
-==2805336== All heap blocks were freed -- no leaks are possible
-==2805336== 
-==2805336== For lists of detected and suppressed errors, rerun with: -s
-==2805336== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3334366== Memcheck, a memory error detector
+==3334366== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3334366== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3334366== Command: ../decaf inputs/array_index_bad_type.decaf
+==3334366== 
+Program [line 1]
+SYM TABLE:
+ print_int : (int) -> void
+ print_bool : (bool) -> void
+ print_str : (str) -> void
+ main : () -> int
+ arr : int [10]
+
+  FuncDecl name="main" return_type=int parameters={} [line 3]
+  SYM TABLE:
+
+    Block [line 3]
+    SYM TABLE:
+
+==3334366== 
+==3334366== HEAP SUMMARY:
+==3334366==     in use at exit: 0 bytes in 0 blocks
+==3334366==   total heap usage: 1,819 allocs, 1,819 frees, 213,596 bytes allocated
+==3334366== 
+==3334366== All heap blocks were freed -- no leaks are possible
+==3334366== 
+==3334366== For lists of detected and suppressed errors, rerun with: -s
+==3334366== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

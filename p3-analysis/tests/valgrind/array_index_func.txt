@@ -1,16 +1,35 @@
-==2805417== Memcheck, a memory error detector
-==2805417== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2805417== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2805417== Command: ../decaf inputs/array_index_func.decaf
-==2805417== 
-ERROR: No 'type' attribute
-Array index for 'arr' must be of type INT on line 8
-==2805417== 
-==2805417== HEAP SUMMARY:
-==2805417==     in use at exit: 0 bytes in 0 blocks
-==2805417==   total heap usage: 1,874 allocs, 1,874 frees, 223,728 bytes allocated
-==2805417== 
-==2805417== All heap blocks were freed -- no leaks are possible
-==2805417== 
-==2805417== For lists of detected and suppressed errors, rerun with: -s
-==2805417== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3334519== Memcheck, a memory error detector
+==3334519== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3334519== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3334519== Command: ../decaf inputs/array_index_func.decaf
+==3334519== 
+Program [line 1]
+SYM TABLE:
+ print_int : (int) -> void
+ print_bool : (bool) -> void
+ print_str : (str) -> void
+ afunc : () -> int
+ main : () -> int
+ arr : int [10]
+
+  FuncDecl name="afunc" return_type=int parameters={} [line 3]
+  SYM TABLE:
+
+    Block [line 3]
+    SYM TABLE:
+
+  FuncDecl name="main" return_type=int parameters={} [line 7]
+  SYM TABLE:
+
+    Block [line 7]
+    SYM TABLE:
+
+==3334519== 
+==3334519== HEAP SUMMARY:
+==3334519==     in use at exit: 0 bytes in 0 blocks
+==3334519==   total heap usage: 1,875 allocs, 1,875 frees, 223,784 bytes allocated
+==3334519== 
+==3334519== All heap blocks were freed -- no leaks are possible
+==3334519== 
+==3334519== For lists of detected and suppressed errors, rerun with: -s
+==3334519== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

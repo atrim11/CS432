@@ -1,2 +1,16 @@
-Symbol 'Literal' undefined on line 2
-Invalid 'break' outside loop on line 3
+Program [line 1]
+SYM TABLE:
+ print_int : (int) -> void
+ print_bool : (bool) -> void
+ print_str : (str) -> void
+ main : () -> int
+
+  FuncDecl name="main" return_type=int parameters={} [line 1]
+  SYM TABLE:
+
+    Block [line 1]
+    SYM TABLE:
+
+        Block [line 2]
+        SYM TABLE:
+
