@@ -321,3 +321,32 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
     // Check if the function call has the correct number of arguments
 
 }
+
+
+void AnalysisVisitor_previsit_binaryop(NodeVisitor* visitor, ASTNode* node)
+{
+    BinaryOpType binop = node->binaryop.operator;
+    if (binop == OROP || binop == ANDOP || binop == EQOP || binop == NEQOP || binop == LTOP || binop == LEOP || binop == GEOP || binop == GTOP) {
+        SET_INFERRED_TYPE(BOOL);
+    } else {
+        SET_INFERRED_TYPE(INT);
+    }
+}
+
+void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
+{
+    DecafType lhs_type = GET_INFERRED_TYPE(node->binaryop.left);
+    DecafType rhs_type = GET_INFERRED_TYPE(node->binaryop.right);
+    DecafType op_type = GET_INFERRED_TYPE(node);
+    // Check if the types of the left and right hand sides of the binary operation match
+    if (lhs_type != rhs_type) {
+        ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
+                         node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(rhs_type));
+    }
+
+    // Check if the types of the left and right hand sides of the binary operation match the operation type
+    if (lhs_type != op_type) {
+        ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
+                         node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(op_type));
+    }
+}
