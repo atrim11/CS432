@@ -9,7 +9,7 @@ void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
 void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node);
 //void type_mismatch_variable_check(NodeVisitor* visitor, Symbol* symbol, ASTNode* node);
-void AnalysisVisitor_check_return(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node);
 
 void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node);
@@ -122,7 +122,7 @@ ErrorList* analyze (ASTNode* tree)
     v->postvisit_funcdecl = AnalysisVisitor_postvisit_funcdecl;
 
     v->previsit_program = AnalysisVisitor_check_mainExistProgram;
-    v->previsit_return = AnalysisVisitor_check_return;
+    v->postvisit_return = AnalysisVisitor_postvisit_check_return;
 
     v->previsit_literal = AnalysisVisitor_previsit_literal;
     v->postvisit_literal = AnalysisVisitor_postvisit_literal;
@@ -145,8 +145,16 @@ ErrorList* analyze (ASTNode* tree)
     return errors;
 }
 
-void AnalysisVisitor_check_return(NodeVisitor* visitor, ASTNode* node) {
-    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, DATA->current_function);
+void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node) {
+    // Check if the return type matches the function's declared return type
+    if (node->funcreturn.value != NULL) {
+        DecafType return_type = GET_INFERRED_TYPE(node->funcreturn.value);
+        Symbol* symbol = lookup_symbol_with_reporting(visitor, node, DATA->current_function);
+        if (symbol != NULL && symbol->type != return_type) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch in return statement on line %d: expected %s, got %s",
+                             node->source_line, DecafType_to_string(symbol->type), DecafType_to_string(return_type));
+        }
+    }
     
 }
 
@@ -166,6 +174,7 @@ void AnalysisVisitor_postvisit_literal(NodeVisitor* visitor, ASTNode* node) {
 char* reserved[] = {"int", "bool", "void", "if", "else", "while", "return", "true", "false", "break", "continue", "main"};
 
 void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
+
     if (node->vardecl.type == VOID) {
         ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
     }
@@ -180,6 +189,9 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
             ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as reserved keyword on line %d", node->vardecl.name, node->source_line);
         }
     }
+
+
+    
 }
 
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
@@ -255,8 +267,6 @@ void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node)
     DATA->loop_depth--;
     //printf("Exiting loop: current loop depth = %d\n", DATA->loop_depth); // Debugging statement
 }
-
-
 
 void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node)
 {
