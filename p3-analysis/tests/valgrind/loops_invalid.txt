@@ -1,8 +1,10 @@
-==3334662== Memcheck, a memory error detector
-==3334662== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3334662== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3334662== Command: ../decaf inputs/loops_invalid.decaf
-==3334662== 
+==3750723== Memcheck, a memory error detector
+==3750723== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3750723== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3750723== Command: ../decaf inputs/loops_invalid.decaf
+==3750723== 
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
 Program [line 1]
 SYM TABLE:
  print_int : (int) -> void
@@ -16,12 +18,12 @@ SYM TABLE:
     Block [line 1]
     SYM TABLE:
 
-==3334662== 
-==3334662== HEAP SUMMARY:
-==3334662==     in use at exit: 0 bytes in 0 blocks
-==3334662==   total heap usage: 1,805 allocs, 1,805 frees, 220,144 bytes allocated
-==3334662== 
-==3334662== All heap blocks were freed -- no leaks are possible
-==3334662== 
-==3334662== For lists of detected and suppressed errors, rerun with: -s
-==3334662== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3750723== 
+==3750723== HEAP SUMMARY:
+==3750723==     in use at exit: 0 bytes in 0 blocks
+==3750723==   total heap usage: 1,806 allocs, 1,806 frees, 220,184 bytes allocated
+==3750723== 
+==3750723== All heap blocks were freed -- no leaks are possible
+==3750723== 
+==3750723== For lists of detected and suppressed errors, rerun with: -s
+==3750723== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

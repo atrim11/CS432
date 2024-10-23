@@ -1,1 +1,3 @@
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
 Array 'arr' on line 1 must have positive non-zero length

@@ -1,20 +1,4 @@
-Program [line 1]
-SYM TABLE:
- print_int : (int) -> void
- print_bool : (bool) -> void
- print_str : (str) -> void
- voidFunction : () -> void
- main : () -> void
-
-  FuncDecl name="voidFunction" return_type=void parameters={} [line 2]
-  SYM TABLE:
-
-    Block [line 2]
-    SYM TABLE:
-
-  FuncDecl name="main" return_type=void parameters={} [line 6]
-  SYM TABLE:
-
-    Block [line 6]
-    SYM TABLE:
-
+ERROR: No 'type' attribute
+ERROR: No 'type' attribute
+Main function must be of type INT on line 2
+Main function must be of type INT on line 6

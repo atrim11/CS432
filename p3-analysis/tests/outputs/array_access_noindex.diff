@@ -1,5 +1,5 @@
---- outputs/array_access_noindex.txt	2024-10-23 10:10:26.552897310 -0400
-+++ expected/array_access_noindex.txt	2024-10-17 17:58:48.859460577 -0400
+--- outputs/array_access_noindex.txt	2024-10-23 13:25:25.499657119 -0400
++++ expected/array_access_noindex.txt	2024-10-21 12:14:20.585884545 -0400
 @@ -1,14 +1 @@
 -Program [line 1]
 -SYM TABLE:

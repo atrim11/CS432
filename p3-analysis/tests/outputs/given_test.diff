@@ -1,0 +1,10 @@
+--- outputs/given_test.txt	2024-10-23 13:25:23.346547970 -0400
++++ expected/given_test.txt	2024-10-22 09:50:30.037369885 -0400
+@@ -1,7 +1,3 @@
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
+ Program [line 1]
+ SYM TABLE:
+  print_int : (int) -> void

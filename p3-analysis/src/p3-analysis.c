@@ -17,8 +17,6 @@ void AnalysisVisitor_check_conditional(NodeVisitor* visitor, ASTNode* node);
 //void type_mismatch_variable_check(NodeVisitor* visitor, Symbol* symbol, ASTNode* node);
 void AnalysisVisitor_check_return(NodeVisitor* visitor, ASTNode* node);
 
-
-
 void AnalysisVisitor_previsit_vardecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node);
 
@@ -34,6 +32,7 @@ typedef struct AnalysisData
 
     /* BOILERPLATE: TODO: add any new desired state information (and clean it up in AnalysisData_free) */
     int loop_depth;
+    char* current_function;
 
 
 } AnalysisData;
@@ -119,7 +118,8 @@ ErrorList* analyze (ASTNode* tree)
     v->dtor = (Destructor)AnalysisData_free;
     v->previsit_vardecl = AnalysisVisitor_previsit_vardecl;
     v->previsit_funcdecl = AnalysisVisitor_previsit_funcdecl;
-
+    v->previsit_program = AnalysisVisitor_check_mainExistProgram;
+    v->previsit_return = AnalysisVisitor_check_return;
 
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
@@ -128,8 +128,18 @@ ErrorList* analyze (ASTNode* tree)
     return errors;
 }
 
+void AnalysisVisitor_check_return(NodeVisitor* visitor, ASTNode* node) {
+    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, DATA->current_function);
 
-void AnalysisVisitor_previsit_vardecl(NodeVisitor* visitor, ASTNode* node) {
+}
+
+void AnalysisVisitor_previsit_literal(NodeVisitor* visitor, ASTNode* node) {
+    // Set the inferred type of the literal
+    SET_INFERRED_TYPE(node->literal.type);
+}
+
+// changed this
+void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
     if (node->vardecl.type == VOID) {
         ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
     }
@@ -138,21 +148,31 @@ void AnalysisVisitor_previsit_vardecl(NodeVisitor* visitor, ASTNode* node) {
     if (node->vardecl.is_array && node->vardecl.array_length == 0) {
         ErrorList_printf(ERROR_LIST, "Array '%s' on line %d must have positive non-zero length", node->vardecl.name, node->source_line);
     }
-
+    // check for all reserved keywords
     if (strcmp(node->vardecl.name, "main") == 0) {
         ErrorList_printf(ERROR_LIST, "Invalid: cant name variables main %d", node->vardecl.name, node->source_line);
     }
-    SET_INFERRED_TYPE(node);
+    Symbol* symbol = lookup_symbol(node, node->vardecl.name);
+    SET_INFERRED_TYPE(symbol);
+
 }
 
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
-    SET_INFERRED_TYPE(node->funcdecl.return_type);
+    // Set the current function name
+    DATA->current_function = node->funcdecl.name;
 }
 
-
-
-
-
+void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
+    // Reset the current function name
+    DATA->current_function = "";
+}
+// void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
+// {
+//     // Look up the symbol for the location
+//     Symbol* symbol = lookup_symbol_with_reporting(visitor, node, node->location.name);
+//     SET_INFERRED_TYPE(symbol->symbol_type);
+ 
+// }
 
 
 
@@ -189,14 +209,6 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
 //     NodeVisitor_free(v);
 //     return errors;
 // }
-
-
-
-
-
-
-
-
 
 
 
@@ -332,13 +344,13 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
 // //  * @param visitor 
 // //  * @param node 
 // //  */
-// // void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
-// // {
-// //     Symbol* symbol = lookup_symbol(node, "main");
-// //     if (symbol == NULL) {
-// //         ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
-// //     }
-// // }
+void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
+{
+    Symbol* symbol = lookup_symbol(node, "main");
+    if (symbol == NULL) {
+        ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
+    }
+}
 
 // // void AnalysisVisitor_check_break(NodeVisitor* visitor, ASTNode* node)
 // // {

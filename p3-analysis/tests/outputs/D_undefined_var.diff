@@ -1,6 +1,8 @@
---- outputs/D_undefined_var.txt	2024-10-23 10:10:19.574544711 -0400
-+++ expected/D_undefined_var.txt	2024-09-27 11:45:14.000000000 -0400
-@@ -1,13 +1 @@
+--- outputs/D_undefined_var.txt	2024-10-23 13:25:18.285291395 -0400
++++ expected/D_undefined_var.txt	2024-10-04 14:44:00.493109411 -0400
+@@ -1,15 +1 @@
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
 -Program [line 1]
 -SYM TABLE:
 - print_int : (int) -> void

@@ -1,6 +1,8 @@
---- outputs/loops_invalid_cont.txt	2024-10-23 10:10:36.584404179 -0400
-+++ expected/loops_invalid_cont.txt	2024-10-18 16:21:55.316572660 -0400
-@@ -1,13 +1 @@
+--- outputs/loops_invalid_cont.txt	2024-10-23 13:25:35.680173208 -0400
++++ expected/loops_invalid_cont.txt	2024-10-21 12:14:20.593884949 -0400
+@@ -1,15 +1 @@
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
 -Program [line 1]
 -SYM TABLE:
 - print_int : (int) -> void

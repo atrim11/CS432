@@ -1,0 +1,10 @@
+--- outputs/return_valid.txt	2024-10-23 13:25:37.698275514 -0400
++++ expected/return_valid.txt	2024-10-22 14:35:43.655120886 -0400
+@@ -1,7 +1,3 @@
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
+ Program [line 1]
+ SYM TABLE:
+  print_int : (int) -> void

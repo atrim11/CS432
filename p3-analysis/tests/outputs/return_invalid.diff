@@ -1,24 +1,8 @@
---- outputs/return_invalid.txt	2024-10-23 10:10:39.594556275 -0400
-+++ expected/return_invalid.txt	2024-10-22 15:42:36.467384468 -0400
-@@ -1,20 +1 @@
--Program [line 1]
--SYM TABLE:
-- print_int : (int) -> void
-- print_bool : (bool) -> void
-- print_str : (str) -> void
-- voidFunction : () -> void
-- main : () -> void
--
--  FuncDecl name="voidFunction" return_type=void parameters={} [line 2]
--  SYM TABLE:
--
--    Block [line 2]
--    SYM TABLE:
--
--  FuncDecl name="main" return_type=void parameters={} [line 6]
--  SYM TABLE:
--
--    Block [line 6]
--    SYM TABLE:
--
+--- outputs/return_invalid.txt	2024-10-23 13:25:38.739328289 -0400
++++ expected/return_invalid.txt	2024-10-22 14:36:41.878070162 -0400
+@@ -1,4 +1 @@
+-ERROR: No 'type' attribute
+-ERROR: No 'type' attribute
+-Main function must be of type INT on line 2
+-Main function must be of type INT on line 6
 +Type mismatch: function return type is bool but declared as int on line 1

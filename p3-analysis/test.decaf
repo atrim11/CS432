@@ -1,6 +1,4 @@
-int arr[10];
-
-def int main() {
-    arr[0] = 5; 
-    return arr[0];
+def int main () { 
+    bool a;
+    return a;
 }

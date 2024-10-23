@@ -1,5 +1,5 @@
---- outputs/array_notarray_index.txt	2024-10-23 10:10:27.538947133 -0400
-+++ expected/array_notarray_index.txt	2024-10-17 17:58:32.692649291 -0400
+--- outputs/array_notarray_index.txt	2024-10-23 13:25:26.507708221 -0400
++++ expected/array_notarray_index.txt	2024-10-21 12:14:20.588884696 -0400
 @@ -1,14 +1 @@
 -Program [line 1]
 -SYM TABLE:

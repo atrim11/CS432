@@ -4,12 +4,12 @@ digraph AST {
 3 -> 4;
 2 [shape=box, label="Block\nsymbolTable: (empty)"];
 2 -> 3;
-1 [shape=box, label="FuncDecl name='voidFunction'\nsymbolTable: (empty)"];
+1 [shape=box, label="FuncDecl name='voidFunction'\ntype: invalid\nsymbolTable: (empty)"];
 1 -> 2;
 7 [shape=box, label="FuncCall name='voidFunction'"];
 6 [shape=box, label="Block\nsymbolTable: (empty)"];
 6 -> 7;
-5 [shape=box, label="FuncDecl name='main'\nsymbolTable: (empty)"];
+5 [shape=box, label="FuncDecl name='main'\ntype: invalid\nsymbolTable: (empty)"];
 5 -> 6;
 0 [shape=box, label="Program\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  voidFunction : () -> void\n  main : () -> void"];
 0 -> 1;
