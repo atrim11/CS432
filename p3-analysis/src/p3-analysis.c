@@ -20,6 +20,7 @@ void AnalysisVisitor_postvisit_assignment(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_location(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node);
 
 /**
  * @brief State/data for static analysis visitor
@@ -135,6 +136,8 @@ ErrorList* analyze (ASTNode* tree)
 
     v->previsit_break = AnalysisVisitor_previst_break;
     v->previsit_continue = AnalysisVisitor_previst_continue;
+
+    v->postvisit_conditional = AnalysisVisitor_postvisit_conditional;
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
     ErrorList* errors = ((AnalysisData*)v->data)->errors;
@@ -253,13 +256,7 @@ void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node)
     //printf("Exiting loop: current loop depth = %d\n", DATA->loop_depth); // Debugging statement
 }
 
-void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
-{
-    // Check if the conditional expression is a boolean
-    if (GET_INFERRED_TYPE(node->conditional.condition) != BOOL) {
-        ErrorList_printf(ERROR_LIST, "Invalid: Conditional expression on line %d must be of type bool", node->source_line);
-    }
-}
+
 
 void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node)
 {
@@ -274,5 +271,14 @@ void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node)
     // If loop_depth is 0, it means we're not inside any loops
     if (DATA->loop_depth == 0) {
         ErrorList_printf(ERROR_LIST, "Invalid 'continue' outside loop on line %d", node->source_line);
+    }
+}
+
+void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
+{
+    DecafType condition = GET_INFERRED_TYPE(node->conditional.condition);
+    // Check if the conditional expression is a boolean
+    if (condition != BOOL) {
+        ErrorList_printf(ERROR_LIST, "Invalid: Conditional expression on line %d must be of type bool", node->source_line);
     }
 }
