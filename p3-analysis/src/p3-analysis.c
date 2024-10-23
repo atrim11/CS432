@@ -18,7 +18,8 @@ void AnalysisVisitor_previsit_literal(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_literal(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_assignment(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_location(NodeVisitor* visitor, ASTNode* node);
-
+void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node);
 
 /**
  * @brief State/data for static analysis visitor
@@ -132,6 +133,8 @@ ErrorList* analyze (ASTNode* tree)
     v->previsit_whileloop = AnalysisVisitor_check_whileloop;
     v->postvisit_assignment = AnalysisVisitor_postvisit_assignment;
 
+    v->previsit_break = AnalysisVisitor_previst_break;
+    v->previsit_continue = AnalysisVisitor_previst_continue;
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
     ErrorList* errors = ((AnalysisData*)v->data)->errors;
@@ -201,7 +204,7 @@ void AnalysisVisitor_postvisit_assignment(NodeVisitor* visitor, ASTNode* node) {
 void AnalysisVisitor_previsit_location(NodeVisitor* visitor, ASTNode* node) {
     Symbol* symbol = lookup_symbol(node, node->location.name);
     if (symbol != NULL) {
-        SET_INFERRED_TYPE(symbol->symbol_type);
+        SET_INFERRED_TYPE(symbol->type);
     } else {
         ErrorList_printf(ERROR_LIST, "Error: Variable '%s' used without being defined on line %d", 
                          node->location.name, node->source_line);
@@ -255,5 +258,21 @@ void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
     // Check if the conditional expression is a boolean
     if (GET_INFERRED_TYPE(node->conditional.condition) != BOOL) {
         ErrorList_printf(ERROR_LIST, "Invalid: Conditional expression on line %d must be of type bool", node->source_line);
+    }
+}
+
+void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node)
+{
+    // If loop_depth is 0, it means we're not inside any loops
+    if (DATA->loop_depth == 0) {
+        ErrorList_printf(ERROR_LIST, "Invalid 'break' outside loop on line %d", node->source_line);
+    }
+}
+
+void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node)
+{
+    // If loop_depth is 0, it means we're not inside any loops
+    if (DATA->loop_depth == 0) {
+        ErrorList_printf(ERROR_LIST, "Invalid 'continue' outside loop on line %d", node->source_line);
     }
 }
