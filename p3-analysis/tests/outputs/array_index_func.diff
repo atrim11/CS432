@@ -1,4 +1,4 @@
---- outputs/array_index_func.txt	2024-10-22 17:13:26.581591982 -0400
+--- outputs/array_index_func.txt	2024-10-22 21:12:03.999173569 -0400
 +++ expected/array_index_func.txt	2024-10-22 15:51:01.028951350 -0400
 @@ -1,2 +1,21 @@
 -ERROR: No 'type' attribute

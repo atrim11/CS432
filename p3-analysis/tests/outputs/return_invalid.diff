@@ -1,4 +1,4 @@
---- outputs/return_invalid.txt	2024-10-22 17:13:35.640049257 -0400
+--- outputs/return_invalid.txt	2024-10-22 21:12:13.003627854 -0400
 +++ expected/return_invalid.txt	2024-10-22 15:42:36.467384468 -0400
 @@ -1 +1 @@
 -Main function must return an int on line 6

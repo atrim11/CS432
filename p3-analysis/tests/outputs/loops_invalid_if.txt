@@ -1,2 +1,2 @@
-Symbol 'fck you' undefined on line 2
+Symbol 'Literal' undefined on line 2
 Invalid 'break' outside loop on line 3

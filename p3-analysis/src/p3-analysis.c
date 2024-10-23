@@ -155,7 +155,7 @@ void AnalysisVisitor_check_conditional(NodeVisitor* visitor, ASTNode* node)
 {
     // printf("Checking conditional %d\n", node->conditional.if_block->block.variables->size);
     // Check if the conditional expression is of type BOOL
-    Symbol* symbol = lookup_symbol_with_reporting(visitor, node->conditional.condition, "fck you");
+    Symbol* symbol = lookup_symbol_with_reporting(visitor, node->conditional.condition, NodeType_to_string(node->conditional.condition->type));
     
     if (symbol != NULL) {
         if (symbol->symbol_type != BOOL) {
@@ -235,7 +235,6 @@ void AnalysisVisitor_check_location(NodeVisitor* visitor, ASTNode* node)
                 }
             } else {
                 // If it's not a literal, we must check if the type is inferred correctly
-                // You may have a helper function to ensure type inference (e.g., from a previous phase)
                 DecafType index_type = GET_INFERRED_TYPE(index_node);
                 if (index_type != INT) {
                     ErrorList_printf(ERROR_LIST, "Array index for '%s' must be of type INT on line %d", node->location.name, node->source_line);
@@ -286,7 +285,6 @@ void AnalysisVisitor_check_funcDecl(NodeVisitor* visitor, ASTNode* node)
  */
 void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
 {
-    // you can make a variable named main 
     Symbol* symbol = lookup_symbol(node, "main");
     if (symbol == NULL) {
         ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
