@@ -438,15 +438,16 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
     if (rec->parameters->size != node->funccall.arguments->size) {
         ErrorList_printf(ERROR_LIST, "Invalid: Function call on line %d has incorrect number of arguments", node->source_line);
     }
-
+    Parameter* param = rec->parameters->head;
+    ASTNode* arg = node->funccall.arguments->head;
     // Check if the function call has the correct types of arguments
     for (int i = 0; i < node->funccall.arguments->size; i++) {
-        Parameter* param = rec->parameters->head;
-        ASTNode* arg = node->funccall.arguments->head;
+        
         DecafType arg_type = helper(arg);
         if (param->type != arg_type)  {
-            ErrorList_printf(ERROR_LIST, "Type mismatch in function call on line %d: expected %s, got %s",
-                             node->source_line, DecafType_to_string(param->type), DecafType_to_string(arg->type));
+            ErrorList_printf(ERROR_LIST, "Type mismatch in parameter %d of '%s': expected %s but found %s on line %d",
+                             i, node->funccall.name, 
+                              DecafType_to_string(param->type), DecafType_to_string(arg_type), node->source_line);
         }
         param = param->next;
         arg = arg->next;
