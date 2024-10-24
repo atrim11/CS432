@@ -1,1 +1,0 @@
-Invalid: Variable 'x' on line 3 accessed as an array

@@ -1,5 +1,0 @@
---- outputs/add_bad.txt	2024-10-24 17:09:12.103666139 -0400
-+++ expected/add_bad.txt	2024-10-24 17:08:51.990651733 -0400
-@@ -1,2 +1 @@
- Type mismatch in binary operation on line 4: expected int, got bool
--Type mismatch: int expected but bool found on line 4

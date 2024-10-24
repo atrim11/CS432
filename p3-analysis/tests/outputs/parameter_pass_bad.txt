@@ -1,2 +1,1 @@
-Type mismatch in function call on line 7: expected int, got invalid
-Type mismatch in function call on line 7: expected int, got invalid
+Type mismatch in parameter 0 of call to 'add': expected int but found bool on line 7

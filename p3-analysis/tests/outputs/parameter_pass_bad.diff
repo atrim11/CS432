@@ -1,6 +1,0 @@
---- outputs/parameter_pass_bad.txt	2024-10-24 17:09:13.139718393 -0400
-+++ expected/parameter_pass_bad.txt	2024-10-24 17:08:51.991651783 -0400
-@@ -1,2 +1 @@
--Type mismatch in function call on line 7: expected int, got invalid
--Type mismatch in function call on line 7: expected int, got invalid
-+Type mismatch in parameter 0 of call to 'add': expected int but found bool on line 7

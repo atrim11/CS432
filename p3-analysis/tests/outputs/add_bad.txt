@@ -1,2 +1,1 @@
-Type mismatch in binary operation on line 4: expected int, got bool
 Type mismatch: int expected but bool found on line 4

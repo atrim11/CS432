@@ -445,7 +445,7 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
         
         DecafType arg_type = helper(arg);
         if (param->type != arg_type)  {
-            ErrorList_printf(ERROR_LIST, "Type mismatch in parameter %d of '%s': expected %s but found %s on line %d",
+            ErrorList_printf(ERROR_LIST, "Type mismatch in parameter %d of call to '%s': expected %s but found %s on line %d",
                              i, node->funccall.name, 
                               DecafType_to_string(param->type), DecafType_to_string(arg_type), node->source_line);
         }
