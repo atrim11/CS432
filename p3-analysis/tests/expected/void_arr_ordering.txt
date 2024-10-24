@@ -1,5 +1,0 @@
-Void variable 'arr2' on line 2
-Void variable 'arr3' on line 3
-Array 'arr3' on line 3 must have positive non-zero length
-Array 'arr5' on line 5 must have positive non-zero length
-Program does not contain a 'main' function

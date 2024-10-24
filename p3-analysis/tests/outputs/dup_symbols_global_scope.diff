@@ -1,5 +1,5 @@
---- outputs/dup_symbols_global_scope.txt	2024-10-24 16:11:20.881673404 -0400
-+++ expected/dup_symbols_global_scope.txt	2024-10-24 16:02:43.856587362 -0400
+--- outputs/dup_symbols_global_scope.txt	2024-10-24 16:25:12.840611014 -0400
++++ expected/dup_symbols_global_scope.txt	2024-10-24 16:14:16.346500438 -0400
 @@ -0,0 +1,18 @@
 +Program [line 1]
 +SYM TABLE:

@@ -1,9 +1,0 @@
-Void variable 'a' on line 5
-Array 'i' accessed without index on line 6
-Array 'i' accessed without index on line 8
-Array 'i' accessed without index on line 11
-Local variable 'a' on line 12 cannot be an array
-Array 'i' accessed without index on line 14
-Array 'i' accessed without index on line 14
-Local variable 'i' on line 4 cannot be an array
-Local variable 'a' on line 5 cannot be an array
