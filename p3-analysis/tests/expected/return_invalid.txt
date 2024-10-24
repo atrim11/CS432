@@ -1,1 +1,1 @@
-Type mismatch: function return type is bool but declared as int on line 1
+Type mismatch in return statement on line 3: expected int, got bool

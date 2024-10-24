@@ -1,1 +1,1 @@
-Symbol 'a' undefined on line 3
+Error: Variable 'a' used without being defined on line 3

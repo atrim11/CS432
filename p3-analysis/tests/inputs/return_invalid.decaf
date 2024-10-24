@@ -1,8 +1,8 @@
 // Test: Void function returning a value
-def void voidFunction() {
-    return 5; // Error: void function cannot return a value
+def int voidFunction() {
+    return true; // Error: void function cannot return a value
 }
 
-def void main() {
-    voidFunction();
+def int main() {
+    return voidFunction();
 }
