@@ -39,6 +39,10 @@ typedef struct AnalysisData
     int loop_depth;
     char* current_function;
 
+    //List of current scope variables
+    char* current_scope[100];
+    int scope_index;
+
 
 } AnalysisData;
 
@@ -202,8 +206,16 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
         }
     }
 
+    // Check if the variable is already declared in the current scope
+    for (int i = 0; i < DATA->scope_index; i++) {
+        if (strcmp(node->vardecl.name, DATA->current_scope[i]) == 0) {
+            ErrorList_printf(ERROR_LIST, "Variable '%s' redeclared on line %d", node->vardecl.name, node->source_line);
+        }
+    }
 
-    
+    // Add the variable to the current scope
+    DATA->current_scope[DATA->scope_index] = node->vardecl.name;
+    DATA->scope_index++;
 }
 
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
@@ -221,17 +233,21 @@ void AnalysisVisitor_postvisit_assignment(NodeVisitor* visitor, ASTNode* node) {
     DecafType lhs_type = GET_INFERRED_TYPE(node->assignment.location);
     DecafType rhs_type = GET_INFERRED_TYPE(node->assignment.value);
 
+
     // Check if the types of the left and right hand sides of the assignment match
     if (lhs_type != rhs_type) {
         ErrorList_printf(ERROR_LIST, "Type mismatch in assignment on line %d: expected %s, got %s",
                          node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(rhs_type));
     }
+
+ 
 }
 
 void AnalysisVisitor_previsit_location(NodeVisitor* visitor, ASTNode* node) {
     Symbol* symbol = lookup_symbol(node, node->location.name);
     if (symbol != NULL) {
         SET_INFERRED_TYPE(symbol->type);
+
     } else {
         ErrorList_printf(ERROR_LIST, "Error: Variable '%s' used without being defined on line %d", 
                          node->location.name, node->source_line);
