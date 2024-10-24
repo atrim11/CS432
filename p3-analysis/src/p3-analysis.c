@@ -169,6 +169,12 @@ ErrorList* analyze (ASTNode* tree)
     return errors;
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node) {
      if (node->funcreturn.value != NULL) {
 
@@ -185,11 +191,23 @@ void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previsit_literal(NodeVisitor* visitor, ASTNode* node) {
     // Set the inferred type of the literal
     SET_INFERRED_TYPE(node->literal.type);
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_literal(NodeVisitor* visitor, ASTNode* node) {
     // Check if the literal is a void type
     if (GET_INFERRED_TYPE(node) == VOID) {
@@ -198,8 +216,14 @@ void AnalysisVisitor_postvisit_literal(NodeVisitor* visitor, ASTNode* node) {
 }
 
 // keyworks reserved word list
-char* reserved[] = {"int", "bool", "void", "if", "else", "while", "return", "true", "false", "break", "continue", "main"};
+char* reserved[] = {"int", "bool", "void", "if", "else", "while", "return", "true", "false", "break", "continue", "main", "for", "callout", "class", "interface", "extends", "implements", "new", "this", "string", "float", "double", "null"};
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
     if (node->vardecl.type == VOID) {
         ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
@@ -210,7 +234,7 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
         ErrorList_printf(ERROR_LIST, "Array '%s' on line %d must have positive non-zero length", node->vardecl.name, node->source_line);
     }
     // check for all reserved keywords
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < (sizeof(reserved) / sizeof(reserved[0])); i++) {
         if (strcmp(node->vardecl.name, reserved[i]) == 0) {
             ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as reserved keyword on line %d", node->vardecl.name, node->source_line);
         }
@@ -228,6 +252,12 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
     DATA->scope_index++;
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     // Set the current function name
     DATA->current_function = node->funcdecl.name;
@@ -241,12 +271,23 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     // Reset the current function name
     DATA->current_function = "";
 }
 
-
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_assignment(NodeVisitor* visitor, ASTNode* node) {
     DecafType lhs_type = GET_INFERRED_TYPE(node->assignment.location);
     DecafType rhs_type = GET_INFERRED_TYPE(node->assignment.value);
@@ -261,6 +302,12 @@ void AnalysisVisitor_postvisit_assignment(NodeVisitor* visitor, ASTNode* node) {
  
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previsit_location(NodeVisitor* visitor, ASTNode* node) {
     Symbol* symbol = lookup_symbol(node, node->location.name);
     if (symbol != NULL) {
@@ -316,6 +363,12 @@ void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node)
     //printf("Exiting loop: current loop depth = %d\n", DATA->loop_depth); // Debugging statement
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node)
 {
     // If loop_depth is 0, it means we're not inside any loops
@@ -324,6 +377,12 @@ void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node)
 {
     // If loop_depth is 0, it means we're not inside any loops
@@ -332,6 +391,12 @@ void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
 {
     DecafType condition = GET_INFERRED_TYPE(node->conditional.condition);
@@ -341,6 +406,12 @@ void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
 {
     Symbol* symbol = lookup_symbol_with_reporting(visitor, node, node->funccall.name);
@@ -350,6 +421,12 @@ void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
 {
     // Check if the function call is a void type
@@ -361,7 +438,12 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
 
 }
 
-
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previsit_binaryop(NodeVisitor* visitor, ASTNode* node)
 {
     BinaryOpType binop = node->binaryop.operator;
@@ -372,6 +454,12 @@ void AnalysisVisitor_previsit_binaryop(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
 {
     DecafType lhs_type = GET_INFERRED_TYPE(node->binaryop.left);
@@ -390,6 +478,12 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node)
 {
     // Increment the scope index to indicate we're entering a new scope
@@ -400,6 +494,12 @@ void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node)
 {
     UnaryOpType unop = node->unaryop.operator;
@@ -410,6 +510,12 @@ void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node)
 {
     DecafType child_type = GET_INFERRED_TYPE(node->unaryop.child);
@@ -421,6 +527,12 @@ void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param visitor 
+ * @param node 
+ */
 void AnalysisVisitor_postvisit_location(NodeVisitor* visitor, ASTNode* node)
 {
     if (GET_INFERRED_TYPE(node) == VOID) {
