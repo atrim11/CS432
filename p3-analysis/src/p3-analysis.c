@@ -504,11 +504,6 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
     DecafType rhs_type = GET_INFERRED_TYPE(node->binaryop.right);
     DecafType op_type = GET_INFERRED_TYPE(node);
     BinaryOpType binop = node->binaryop.operator;
-    // Check if the types of the left and right hand sides of the binary operation match
-    if (lhs_type != rhs_type) {
-        ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
-                         node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(rhs_type));
-    }
     if (binop == OROP || binop == ANDOP) 
     {
         if (lhs_type != BOOL) {
@@ -546,12 +541,6 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
                              DecafType_to_string(INT), DecafType_to_string(rhs_type), node->source_line);
         }
     }
-    // Check if the types of the left and right hand sides of the binary operation match the operation type
-    // i think this should change because 
-    // if (lhs_type != op_type && (lhs_type != INT && op_type != BOOL)) {
-    //     ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
-    //                      node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(op_type));
-    // }
 }
 
 /**

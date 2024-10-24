@@ -1,15 +1,15 @@
 digraph AST {
-1 [shape=box, label="VarDecl name='i'"];
-2 [shape=box, label="VarDecl name='b'"];
-5 [shape=box, label="VarDecl name='j'"];
-6 [shape=box, label="VarDecl name='c'"];
-4 [shape=box, label="Block\nsymbolTable: \n  j : int\n  c : bool"];
-4 -> 5;
-4 -> 6;
-3 [shape=box, label="FuncDecl name='main'\nsymbolTable: (empty)"];
+1 [shape=box, label="VarDecl name='x'"];
+4 [shape=box, label="VarDecl name='x'"];
+6 [shape=box, label="Literal value=0\ntype: int"];
+5 [shape=box, label="Return"];
+5 -> 6;
+3 [shape=box, label="Block\nsymbolTable: \n  x : int"];
 3 -> 4;
-0 [shape=box, label="Program\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int\n  i : void\n  b : bool"];
+3 -> 5;
+2 [shape=box, label="FuncDecl name='main'\nsymbolTable: (empty)"];
+2 -> 3;
+0 [shape=box, label="Program\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int\n  x : int"];
 0 -> 1;
 0 -> 2;
-0 -> 3;
 }

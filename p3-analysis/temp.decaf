@@ -4,6 +4,7 @@ def int add(int x, int y) {
   // Error: expected int, got bool
 
 def int main() {
-    add(true, 5);
+    int x;
+    x = 
     return 0;
 }
