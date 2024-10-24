@@ -368,7 +368,7 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
     }
 
     // Check if the types of the left and right hand sides of the binary operation match the operation type
-    if (lhs_type != op_type) {
+    if (lhs_type != op_type && (lhs_type != INT && op_type != BOOL)) {
         ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
                          node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(op_type));
     }
