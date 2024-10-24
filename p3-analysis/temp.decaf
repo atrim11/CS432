@@ -1,14 +1,4 @@
 def int main() {
-    foo();
-    return 0;
+    int arr[5];
 }
 
-def int foo() {
-    int x;
-    return 0;
-}
-
-def int foo() {
-    int x;
-    return 0;
-}

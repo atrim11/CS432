@@ -52,6 +52,8 @@ typedef struct AnalysisData
 
     char* functions_declared[100];
     int functions_index;
+    bool inside_function;  // Add this flag to track if we're in a function
+
 
 } AnalysisData;
 
@@ -245,6 +247,12 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
         }
     }
 
+    // Check if array is declared inside a function, which is not allowed
+    if (DATA->inside_function && node->vardecl.is_array) {
+        ErrorList_printf(ERROR_LIST, "Array '%s' declared inside function '%s' on line %d is not allowed",
+                         node->vardecl.name, DATA->current_function, node->source_line);
+    }
+
     // Check if the variable is already declared in the current scope
     for (int i = 0; i < DATA->scope_index; i++) {
         if (strcmp(node->vardecl.name, DATA->current_scope[i]) == 0) {
@@ -264,7 +272,7 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
  * @param node 
  */
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
-
+    DATA->inside_function = true;
     // Set the current function name
     DATA->current_function = node->funcdecl.name;
     if (strcmp(node->funcdecl.name, "main") == 0) {
@@ -286,7 +294,7 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
 void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     // Reset the current function name
     DATA->current_function = "";
-
+    DATA->inside_function = false;
     // checking if 2 functions have the same name
     // Duplicate symbols named 'foo' in scope started on line 1  for error checking
     for (int i = 0; i < DATA->functions_index; i++) {
@@ -297,6 +305,9 @@ void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     // Add the function to the list of declared functions
     DATA->functions_declared[DATA->functions_index] = node->funcdecl.name;
     DATA->functions_index++;
+
+
+
 }
 
 /**
@@ -595,13 +606,7 @@ void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node)
 
 void AnalysisVisitor_postvisit_block(NodeVisitor* visitor, ASTNode* node)
 {
-    // checking if their is an array in the block which is not allowed
-    for (int i = 0; i < DATA->scope_index; i++) {
-        Symbol* symbol = lookup_symbol(node, DATA->current_scope[i]);
-        if (symbol != NULL && symbol->symbol_type == ARRAY_SYMBOL) {
-            ErrorList_printf(ERROR_LIST, "Invalid: Array '%s' on line %d declared in block", DATA->current_scope[i], node->source_line);
-        }
-    }
+
 }
 
 

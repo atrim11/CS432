@@ -1,0 +1,15 @@
+==2998541== Memcheck, a memory error detector
+==2998541== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2998541== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2998541== Command: ../decaf inputs/loops_invalid_cont_func.decaf
+==2998541== 
+Invalid 'continue' outside loop on line 2
+==2998541== 
+==2998541== HEAP SUMMARY:
+==2998541==     in use at exit: 0 bytes in 0 blocks
+==2998541==   total heap usage: 1,946 allocs, 1,946 frees, 243,288 bytes allocated
+==2998541== 
+==2998541== All heap blocks were freed -- no leaks are possible
+==2998541== 
+==2998541== For lists of detected and suppressed errors, rerun with: -s
+==2998541== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

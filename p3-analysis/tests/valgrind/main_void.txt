@@ -1,0 +1,15 @@
+==2999542== Memcheck, a memory error detector
+==2999542== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2999542== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2999542== Command: ../decaf inputs/main_void.decaf
+==2999542== 
+Main function on line 1 must return int
+==2999542== 
+==2999542== HEAP SUMMARY:
+==2999542==     in use at exit: 0 bytes in 0 blocks
+==2999542==   total heap usage: 1,720 allocs, 1,720 frees, 196,100 bytes allocated
+==2999542== 
+==2999542== All heap blocks were freed -- no leaks are possible
+==2999542== 
+==2999542== For lists of detected and suppressed errors, rerun with: -s
+==2999542== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
