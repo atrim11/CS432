@@ -6,6 +6,8 @@
 
 run_test    D_undefined_var             "inputs/undefined_var.decaf"
 run_test    B_add                       "inputs/add.decaf"
+run_test    dup_func_name               "inputs/dup_func_name.decaf"
+run_test    array_dec_in_block          "inputs/array_dec_in_block.decaf"
 run_test    add2                        "inputs/add2.decaf"
 run_test    add3                        "inputs/add3.decaf"
 run_test    add_bad                     "inputs/add_bad.decaf"

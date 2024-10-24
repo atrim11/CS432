@@ -1,0 +1,8 @@
+--- outputs/array_dec_in_block.txt	2024-10-24 17:39:00.819922608 -0400
++++ expected/array_dec_in_block.txt	2024-10-24 17:38:50.926422668 -0400
+@@ -1,2 +1,2 @@
+-Invalid: Array 'arr' on line 3 accessed without an index
+-Invalid: Array 'arr' on line 1 declared in block
++Array 'arr' accessed without index on line 3
++Local variable 'arr' on line 2 cannot be an array
+\ No newline at end of file

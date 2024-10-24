@@ -29,6 +29,8 @@ void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_location(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_postvisit_block(NodeVisitor* visitor, ASTNode* node);
+
 DecafType helper(ASTNode* node);
 /**
  * @brief State/data for static analysis visitor
@@ -159,6 +161,7 @@ ErrorList* analyze (ASTNode* tree)
     v->postvisit_binaryop = AnalysisVisitor_postvisit_binaryop;
 
     v->previsit_block = AnalysisVisitor_previsit_block;
+    v->postvisit_block = AnalysisVisitor_postvisit_block;
 
     v->previsit_unaryop = AnalysisVisitor_previst_unaryop;
     v->postvisit_unaryop = AnalysisVisitor_postvist_unaryop;
@@ -575,6 +578,18 @@ void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node)
         SET_INFERRED_TYPE(INT);
     }
 }
+
+void AnalysisVisitor_postvisit_block(NodeVisitor* visitor, ASTNode* node)
+{
+    // checking if their is an array in the block which is not allowed
+    for (int i = 0; i < DATA->scope_index; i++) {
+        Symbol* symbol = lookup_symbol(node, DATA->current_scope[i]);
+        if (symbol != NULL && symbol->symbol_type == ARRAY_SYMBOL) {
+            ErrorList_printf(ERROR_LIST, "Invalid: Array '%s' on line %d declared in block", DATA->current_scope[i], node->source_line);
+        }
+    }
+}
+
 
 /**
  * @brief 

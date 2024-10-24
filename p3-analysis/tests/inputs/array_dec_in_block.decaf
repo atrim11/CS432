@@ -1,0 +1,4 @@
+def int main() {
+    int arr[5];
+    arr = 5;  // Error: cannot assign int to int[]
+}

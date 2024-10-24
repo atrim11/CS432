@@ -1,0 +1,2 @@
+Invalid: Array 'arr' on line 3 accessed without an index
+Invalid: Array 'arr' on line 1 declared in block

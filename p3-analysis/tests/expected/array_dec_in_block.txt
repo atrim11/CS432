@@ -1,0 +1,2 @@
+Array 'arr' accessed without index on line 3
+Local variable 'arr' on line 2 cannot be an array

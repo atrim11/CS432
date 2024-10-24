@@ -1,0 +1,6 @@
+D_undefined_var                pass
+B_add                          pass
+dup_func_name                  FAIL (see outputs/dup_func_name.diff for details)
+array_dec_in_block             FAIL (see outputs/array_dec_in_block.diff for details)
+add2                           pass
+add3                           pass
