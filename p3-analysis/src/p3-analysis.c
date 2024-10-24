@@ -25,6 +25,7 @@ void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_binaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node);
 /**
  * @brief State/data for static analysis visitor
  */
@@ -151,6 +152,8 @@ ErrorList* analyze (ASTNode* tree)
 
     v->previsit_binaryop = AnalysisVisitor_previsit_binaryop;
     v->postvisit_binaryop = AnalysisVisitor_postvisit_binaryop;
+
+    v->previsit_block = AnalysisVisitor_previsit_block;
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
     ErrorList* errors = ((AnalysisData*)v->data)->errors;
@@ -190,7 +193,6 @@ void AnalysisVisitor_postvisit_literal(NodeVisitor* visitor, ASTNode* node) {
 char* reserved[] = {"int", "bool", "void", "if", "else", "while", "return", "true", "false", "break", "continue", "main"};
 
 void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
-
     if (node->vardecl.type == VOID) {
         ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' declared as void on line %d", node->vardecl.name, node->source_line);
     }
@@ -371,3 +373,14 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
                          node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(op_type));
     }
 }
+
+void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node)
+{
+    // Increment the scope index to indicate we're entering a new scope
+    DATA->scope_index = 0;
+    // Clear the whole array when we go to a new block
+    for (int i = 0; i < 100; i++) {
+        DATA->current_scope[i] = "";
+    }
+}
+
