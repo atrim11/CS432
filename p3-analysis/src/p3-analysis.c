@@ -29,7 +29,7 @@ void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_location(NodeVisitor* visitor, ASTNode* node);
-
+DecafType helper(ASTNode* node);
 /**
  * @brief State/data for static analysis visitor
  */
@@ -433,9 +433,47 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
     if (GET_INFERRED_TYPE(node) == VOID) {
         ErrorList_printf(ERROR_LIST, "Invalid: Function call on line %d returns void", node->source_line);
     }
-
+    Symbol* rec = lookup_symbol(node, node->funccall.name);
     // Check if the function call has the correct number of arguments
+    if (rec->parameters->size != node->funccall.arguments->size) {
+        ErrorList_printf(ERROR_LIST, "Invalid: Function call on line %d has incorrect number of arguments", node->source_line);
+    }
 
+    // Check if the function call has the correct types of arguments
+    for (int i = 0; i < node->funccall.arguments->size; i++) {
+        Parameter* param = rec->parameters->head;
+        ASTNode* arg = node->funccall.arguments->head;
+        DecafType arg_type = helper(arg);
+        // printf("arg type: %s\n", DecafType_to_string(arg_type));
+        if (param->type != arg_type)  {
+            ErrorList_printf(ERROR_LIST, "Type mismatch in function call on line %d: expected %s, got %s",
+                             node->source_line, DecafType_to_string(param->type), DecafType_to_string(arg->type));
+        }
+        param = param->next;
+        arg = arg->next;
+    }
+}
+
+
+DecafType helper(ASTNode* node) {
+    if (node->type == LITERAL) {
+        return node->literal.type;
+    } else if (node->type == LOCATION) {
+        Symbol* symbol = lookup_symbol(node, node->location.name);
+        if (symbol != NULL) {
+            return symbol->type;
+        }
+    } else if (node->type == FUNCCALL) {
+        Symbol* symbol = lookup_symbol(node, node->funccall.name);
+        if (symbol != NULL) {
+            return symbol->type;
+        }
+    } else if (node->type == BINARYOP) {
+        return GET_INFERRED_TYPE(node);
+    } else if (node->type == UNARYOP) {
+        return GET_INFERRED_TYPE(node);
+    }
+    return UNKNOWN;
 }
 
 /**
@@ -472,6 +510,7 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
     }
 
     // Check if the types of the left and right hand sides of the binary operation match the operation type
+    // i think this should change because 
     if (lhs_type != op_type && (lhs_type != INT && op_type != BOOL)) {
         ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
                          node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(op_type));
