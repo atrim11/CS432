@@ -1,5 +1,0 @@
---- outputs/D_undefined_var.txt	2024-10-23 16:59:44.271335310 -0400
-+++ expected/D_undefined_var.txt	2024-10-23 14:21:17.369647036 -0400
-@@ -1 +1 @@
--Error: Variable 'a' used without being defined on line 3
-+Symbol 'a' undefined on line 3

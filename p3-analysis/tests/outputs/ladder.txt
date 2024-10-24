@@ -1,3 +1,0 @@
-ERROR: No 'type' attribute
-Error: Variable 'result' used without being defined on line 6
-Error: Variable 'result' used without being defined on line 7

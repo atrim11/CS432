@@ -1,9 +1,0 @@
-Type mismatch in parameter 0 of call to 'print_str': expected str but found int on line 10
-Type mismatch: int is incompatible with void on line 21
-Symbol 'result' undefined on line 27
-Type mismatch in parameter 0 of call to 'getMax': expected int but found str on line 27
-Type mismatch: bool expected but int found on line 34
-Symbol 'b' undefined on line 43
-Symbol 'text' undefined on line 45
-Symbol 'badReturn' undefined on line 45
-Duplicate symbols named 'a' in scope started on line 14

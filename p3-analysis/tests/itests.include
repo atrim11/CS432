@@ -1,3 +1,4 @@
+
 # list of integration tests
 #  format: run_test <TAG> <ARGS>
 #    <TAG>      used as the root for all filenames (i.e., "expected/$TAG.txt")
@@ -32,3 +33,5 @@ run_test    main_noparameters           "inputs/main_noparameters.decaf"
 run_test    main_parameters             "inputs/main_parameters.decaf"
 run_test    no_main                     "inputs/no_main.decaf"
 run_test    main_void                   "inputs/main_void.decaf"
+run_test    dup_symbols_same_scope      "inputs/duplicate_symbols.decaf"
+run_test    dup_symbols_global_scope    "inputs/duplicate_symbols_global.decaf"

@@ -583,7 +583,22 @@ void AnalysisVisitor_postvisit_location(NodeVisitor* visitor, ASTNode* node)
         Symbol* symbol = lookup_symbol(node, node->location.name);
         if (symbol != NULL && symbol->symbol_type == ARRAY_SYMBOL) {
             ErrorList_printf(ERROR_LIST, "Invalid: Array '%s' on line %d accessed without an index", node->location.name, node->source_line);
-        } 
-         
+        }    
+    }
+
+    // if someone is trying to access an array with an index, check if the index is an integer
+    if (node->location.index != NULL) {
+        DecafType index_type = GET_INFERRED_TYPE(node->location.index);
+        if (index_type != INT) {
+            ErrorList_printf(ERROR_LIST, "Invalid: Array index on line %d must be of type int", node->source_line);
+        }
+    }
+
+    // Accessing a non array like an array
+    if (node->location.index != NULL) {
+        Symbol* symbol = lookup_symbol(node, node->location.name);
+        if (symbol != NULL && symbol->symbol_type == SCALAR_SYMBOL) {
+            ErrorList_printf(ERROR_LIST, "Invalid: Variable '%s' on line %d accessed as an array", node->location.name, node->source_line);
+        }
     }
 }
