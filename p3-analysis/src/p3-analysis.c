@@ -26,6 +26,8 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_binaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node);
 /**
  * @brief State/data for static analysis visitor
  */
@@ -154,6 +156,9 @@ ErrorList* analyze (ASTNode* tree)
     v->postvisit_binaryop = AnalysisVisitor_postvisit_binaryop;
 
     v->previsit_block = AnalysisVisitor_previsit_block;
+
+    v->previsit_unaryop = AnalysisVisitor_previst_unaryop;
+    v->postvisit_unaryop = AnalysisVisitor_postvist_unaryop;
     /* perform analysis, save error list, clean up, and return errors */
     NodeVisitor_traverse(v, tree);
     ErrorList* errors = ((AnalysisData*)v->data)->errors;
@@ -223,6 +228,14 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     // Set the current function name
     DATA->current_function = node->funcdecl.name;
+    if (strcmp(node->funcdecl.name, "main") == 0) {
+        if (node->funcdecl.return_type == VOID) {
+            ErrorList_printf(ERROR_LIST, "Main function on line %d must return int", node->source_line);
+        }
+        if (node->funcdecl.parameters->size != 0) {
+            ErrorList_printf(ERROR_LIST, "Main function on line %d must have no parameters", node->source_line);
+        }
+    }
 }
 
 void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
@@ -269,7 +282,7 @@ void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
 {
     Symbol* symbol = lookup_symbol(node, "main");
     if (symbol == NULL) {
-        ErrorList_printf(ERROR_LIST, "Main function not found on line %d", node->source_line);
+        ErrorList_printf(ERROR_LIST, "Program does not contain a 'main' function");
     }
 }
 
@@ -384,3 +397,23 @@ void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
+void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node)
+{
+    UnaryOpType unop = node->unaryop.operator;
+    if (unop == NOTOP) {
+        SET_INFERRED_TYPE(BOOL);
+    } else {
+        SET_INFERRED_TYPE(INT);
+    }
+}
+
+void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node)
+{
+    DecafType child_type = GET_INFERRED_TYPE(node->unaryop.child);
+    DecafType op_type = GET_INFERRED_TYPE(node);
+    // Check if the types of the left and right hand sides of the binary operation match
+    if (child_type != op_type) {
+        ErrorList_printf(ERROR_LIST, "Type mismatch in unary operation on line %d: expected %s, got %s",
+                         node->source_line, DecafType_to_string(child_type), DecafType_to_string(op_type));
+    }
+}

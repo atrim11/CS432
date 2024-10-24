@@ -1,1 +1,1 @@
-'main' must take no parameters
+Main function on line 1 must have no parameters
