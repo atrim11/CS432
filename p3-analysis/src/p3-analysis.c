@@ -444,7 +444,6 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
         Parameter* param = rec->parameters->head;
         ASTNode* arg = node->funccall.arguments->head;
         DecafType arg_type = helper(arg);
-        // printf("arg type: %s\n", DecafType_to_string(arg_type));
         if (param->type != arg_type)  {
             ErrorList_printf(ERROR_LIST, "Type mismatch in function call on line %d: expected %s, got %s",
                              node->source_line, DecafType_to_string(param->type), DecafType_to_string(arg->type));
@@ -453,6 +452,7 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
         arg = arg->next;
     }
 }
+
 
 
 DecafType helper(ASTNode* node) {
