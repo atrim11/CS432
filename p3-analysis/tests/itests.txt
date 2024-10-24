@@ -1,6 +1,0 @@
-D_undefined_var                pass
-B_add                          pass
-add2                           pass
-add3                           pass
-add_bad                        pass
-parameter_pass_bad             pass

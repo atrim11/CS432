@@ -1,5 +1,5 @@
 def int main() {
-    bool x;
+    int x;
     x = !false;
     return 0;
 }

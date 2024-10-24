@@ -1,1 +1,0 @@
-Invalid: Variable 'c' declared as void on line 5

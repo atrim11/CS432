@@ -1,15 +1,21 @@
 digraph AST {
-1 [shape=box, label="VarDecl name='i'"];
-2 [shape=box, label="VarDecl name='b'"];
-5 [shape=box, label="VarDecl name='j'"];
-6 [shape=box, label="VarDecl name='c'"];
-4 [shape=box, label="Block\nsymbolTable: \n  j : int\n  c : void"];
+3 [shape=box, label="VarDecl name='x'"];
+5 [shape=box, label="Location name='x'\ntype: bool"];
+7 [shape=box, label="Literal value=false\ntype: bool"];
+6 [shape=box, label="UnaryOp op='!'\ntype: bool"];
+6 -> 7;
+4 [shape=box, label="Assignment"];
 4 -> 5;
 4 -> 6;
-3 [shape=box, label="FuncDecl name='main'\nsymbolTable: (empty)"];
-3 -> 4;
-0 [shape=box, label="Program\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int\n  i : int\n  b : bool"];
+9 [shape=box, label="Literal value=0\ntype: int"];
+8 [shape=box, label="Return"];
+8 -> 9;
+2 [shape=box, label="Block\nsymbolTable: \n  x : bool"];
+2 -> 3;
+2 -> 4;
+2 -> 8;
+1 [shape=box, label="FuncDecl name='main'\nsymbolTable: (empty)"];
+1 -> 2;
+0 [shape=box, label="Program\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int"];
 0 -> 1;
-0 -> 2;
-0 -> 3;
 }
