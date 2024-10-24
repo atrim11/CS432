@@ -1,1 +1,1 @@
-Array 'arr' accessed without index on line 4
+Invalid: Array 'arr' on line 4 accessed without an index

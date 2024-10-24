@@ -28,6 +28,8 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node);
+void AnalysisVisitor_postvisit_location(NodeVisitor* visitor, ASTNode* node);
+
 /**
  * @brief State/data for static analysis visitor
  */
@@ -140,6 +142,7 @@ ErrorList* analyze (ASTNode* tree)
     v->postvisit_vardecl = AnalysisVisitor_postvisit_vardecl;
 
     v->previsit_location = AnalysisVisitor_previsit_location;
+    v->postvisit_location = AnalysisVisitor_postvisit_location;
 
     v->previsit_whileloop = AnalysisVisitor_check_whileloop;
     v->postvisit_assignment = AnalysisVisitor_postvisit_assignment;
@@ -415,5 +418,21 @@ void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node)
     if (child_type != op_type) {
         ErrorList_printf(ERROR_LIST, "Type mismatch in unary operation on line %d: expected %s, got %s",
                          node->source_line, DecafType_to_string(child_type), DecafType_to_string(op_type));
+    }
+}
+
+void AnalysisVisitor_postvisit_location(NodeVisitor* visitor, ASTNode* node)
+{
+    if (GET_INFERRED_TYPE(node) == VOID) {
+        ErrorList_printf(ERROR_LIST, "Invalid: Location of type void on line %d", node->source_line);
+    }
+
+    // if they are accessing an array, check if they are using an index
+    if (node->location.index == NULL) {
+        Symbol* symbol = lookup_symbol(node, node->location.name);
+        if (symbol != NULL && symbol->symbol_type == ARRAY_SYMBOL) {
+            ErrorList_printf(ERROR_LIST, "Invalid: Array '%s' on line %d accessed without an index", node->location.name, node->source_line);
+        } 
+         
     }
 }
