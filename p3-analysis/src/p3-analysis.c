@@ -50,6 +50,8 @@ typedef struct AnalysisData
     char* current_scope[100];
     int scope_index;
 
+    char* functions_declared[100];
+    int functions_index;
 
 } AnalysisData;
 
@@ -262,6 +264,7 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
  * @param node 
  */
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
+
     // Set the current function name
     DATA->current_function = node->funcdecl.name;
     if (strcmp(node->funcdecl.name, "main") == 0) {
@@ -283,6 +286,17 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
 void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     // Reset the current function name
     DATA->current_function = "";
+
+    // checking if 2 functions have the same name
+    // Duplicate symbols named 'foo' in scope started on line 1  for error checking
+    for (int i = 0; i < DATA->functions_index; i++) {
+        if (strcmp(node->funcdecl.name, DATA->functions_declared[i]) == 0) {
+            ErrorList_printf(ERROR_LIST, "Duplicate symbols named '%s' in scope started on line 1", node->funcdecl.name);
+        }
+    }
+    // Add the function to the list of declared functions
+    DATA->functions_declared[DATA->functions_index] = node->funcdecl.name;
+    DATA->functions_index++;
 }
 
 /**

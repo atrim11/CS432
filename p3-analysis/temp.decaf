@@ -1,5 +1,14 @@
 def int main() {
-    bool x;
-    x = !false;
+    foo();
+    return 0;
+}
+
+def int foo() {
+    int x;
+    return 0;
+}
+
+def int foo() {
+    int x;
     return 0;
 }

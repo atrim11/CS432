@@ -1,4 +1,4 @@
---- outputs/array_dec_in_block.txt	2024-10-24 17:39:00.819922608 -0400
+--- outputs/array_dec_in_block.txt	2024-10-24 17:47:54.892896109 -0400
 +++ expected/array_dec_in_block.txt	2024-10-24 17:38:50.926422668 -0400
 @@ -1,2 +1,2 @@
 -Invalid: Array 'arr' on line 3 accessed without an index
