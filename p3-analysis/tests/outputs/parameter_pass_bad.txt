@@ -1,0 +1,2 @@
+Type mismatch in function call on line 7: expected int, got invalid
+Type mismatch in function call on line 7: expected int, got invalid

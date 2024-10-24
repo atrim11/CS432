@@ -1,0 +1,6 @@
+def int main() { 
+    int x;
+    int y;
+    x = y + true;
+    return x;
+}
