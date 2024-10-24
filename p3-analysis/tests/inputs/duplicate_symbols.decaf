@@ -1,6 +1,5 @@
 def int main() { 
     int x;
-    x = 1;
-    int x;
-    return a;
+    bool x;
+    return x;
 }

@@ -27,15 +27,9 @@ main_noparameters              pass
 main_parameters                pass
 no_main                        pass
 main_void                      pass
-dup_symbols_same_scope         FAIL (see outputs/dup_symbols_same_scope.diff for details)
+dup_symbols_same_scope         pass
 dup_symbols_global_scope       pass
-Memory leak(s) found. See files listed below for details.
-  - valgrind/dup_symbols_same_scope.txt
-  - valgrind/dup_symbols_same_scope.txt
-  - valgrind/dup_symbols_same_scope.txt
-  - valgrind/dup_symbols_same_scope.txt
-  - valgrind/dup_symbols_same_scope.txt
-  - valgrind/dup_symbols_same_scope.txt
+No memory leak found.
 No uninitialized value found.
 ========================================
  NOTICE: THIS TESTSUITE IS INCOMPLETE.
