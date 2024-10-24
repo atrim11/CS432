@@ -1,4 +1,4 @@
---- outputs/dup_symbols_same_scope.txt	2024-10-24 16:25:12.180577695 -0400
-+++ expected/dup_symbols_same_scope.txt	2024-10-24 16:14:16.347500488 -0400
+--- outputs/dup_symbols_same_scope.txt	2024-10-24 16:35:00.799258667 -0400
++++ expected/dup_symbols_same_scope.txt	2024-10-24 16:02:43.856587362 -0400
 @@ -0,0 +1 @@
 +Variable 'x' redeclared on line 5

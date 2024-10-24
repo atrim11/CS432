@@ -6,13 +6,10 @@ SYM TABLE:
  main : () -> int
  x : int
 
-  FuncDecl name="main" return_type=int parameters={} [line 4]
+  FuncDecl name="main" return_type=int parameters={} [line 2]
   SYM TABLE:
 
-    Block [line 4]
+    Block [line 2]
     SYM TABLE:
      x : int
-
-        Block [line 8]
-        SYM TABLE:
 
