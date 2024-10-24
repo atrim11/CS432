@@ -503,18 +503,55 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
     DecafType lhs_type = GET_INFERRED_TYPE(node->binaryop.left);
     DecafType rhs_type = GET_INFERRED_TYPE(node->binaryop.right);
     DecafType op_type = GET_INFERRED_TYPE(node);
+    BinaryOpType binop = node->binaryop.operator;
     // Check if the types of the left and right hand sides of the binary operation match
     if (lhs_type != rhs_type) {
         ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
                          node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(rhs_type));
     }
-
+    if (binop == OROP || binop == ANDOP) 
+    {
+        if (lhs_type != BOOL) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: %s expected but %s found on line %d",
+                             DecafType_to_string(BOOL), DecafType_to_string(lhs_type), node->source_line);
+        }
+        if (rhs_type != BOOL) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: %s expected but %s found on line %d",
+                             DecafType_to_string(BOOL), DecafType_to_string(lhs_type), node->source_line);
+        }
+    } else if (binop == EQOP || binop == NEQOP) 
+    {
+        if (lhs_type != rhs_type) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: %s expected but %s found on line %d",
+                             DecafType_to_string(lhs_type), DecafType_to_string(rhs_type), node->source_line);
+        }
+    } else if (binop == LTOP || binop == LEOP || binop == GEOP || binop == GTOP) 
+    {
+        if (lhs_type != INT) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: %s expected but %s found on line %d",
+                             DecafType_to_string(INT), DecafType_to_string(lhs_type), node->source_line);
+        }
+        if (rhs_type != INT) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: %s expected but %s found on line %d",
+                             DecafType_to_string(INT), DecafType_to_string(rhs_type), node->source_line);
+        }
+    } else if (binop == ADDOP || binop == SUBOP || binop == MULOP || binop == DIVOP || binop == MODOP) 
+    {
+        if (lhs_type != INT) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: %s expected but %s found on line %d",
+                             DecafType_to_string(INT), DecafType_to_string(lhs_type), node->source_line);
+        }
+        if (rhs_type != INT) {
+            ErrorList_printf(ERROR_LIST, "Type mismatch: %s expected but %s found on line %d",
+                             DecafType_to_string(INT), DecafType_to_string(rhs_type), node->source_line);
+        }
+    }
     // Check if the types of the left and right hand sides of the binary operation match the operation type
     // i think this should change because 
-    if (lhs_type != op_type && (lhs_type != INT && op_type != BOOL)) {
-        ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
-                         node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(op_type));
-    }
+    // if (lhs_type != op_type && (lhs_type != INT && op_type != BOOL)) {
+    //     ErrorList_printf(ERROR_LIST, "Type mismatch in binary operation on line %d: expected %s, got %s",
+    //                      node->source_line, DecafType_to_string(lhs_type), DecafType_to_string(op_type));
+    // }
 }
 
 /**
