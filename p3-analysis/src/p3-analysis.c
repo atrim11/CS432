@@ -50,6 +50,7 @@ typedef struct AnalysisData
     char* current_scope[100];
     int scope_index;
 
+
     char* functions_declared[100];
     int functions_index;
     bool inside_function;  // Add this flag to track if we're in a function
@@ -488,9 +489,14 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
     }
     Parameter* param = rec->parameters->head;
     ASTNode* arg = node->funccall.arguments->head;
+    // Invalid call to non-function 'foo' on line 3
+    if (rec->symbol_type != FUNCTION_SYMBOL) {
+        ErrorList_printf(ERROR_LIST, "Invalid call to non-function '%s' on line %d", node->funccall.name, node->source_line);
+        return;
+    }
     // Check if the function call has the correct types of arguments
     for (int i = 0; i < node->funccall.arguments->size; i++) {
-        
+ 
         DecafType arg_type = helper(arg);
         if (param->type != arg_type)  {
             ErrorList_printf(ERROR_LIST, "Type mismatch in parameter %d of call to '%s': expected %s but found %s on line %d",
@@ -613,6 +619,7 @@ void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node)
         DATA->current_scope[i] = "";
     }
 }
+
 
 /**
  * @brief 

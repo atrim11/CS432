@@ -1,6 +1,6 @@
 // multiple functions with dup params
 def int foo(int foo, int a, int b) {
-    return foo(0, 0, 0);
+    return foo(1, 1, 1);
 }
 
 def int bar(int a, int a, int b) {

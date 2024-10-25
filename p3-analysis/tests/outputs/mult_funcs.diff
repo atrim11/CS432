@@ -1,0 +1,7 @@
+--- outputs/mult_funcs.txt	2024-10-25 12:29:22.563935329 -0400
++++ expected/mult_funcs.txt	2024-10-25 12:16:00.420565807 -0400
+@@ -1,3 +1,3 @@
+-Invalid: Function call on line 3 has incorrect number of arguments
+ Invalid call to non-function 'foo' on line 3
++Invalid number of function arguments on line 3
+ Duplicate symbols named 'a' in scope started on line 6

@@ -1,0 +1,15 @@
+==96099== Memcheck, a memory error detector
+==96099== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==96099== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==96099== Command: ../decaf inputs/array_size_zero.decaf
+==96099== 
+Array 'arr' on line 1 must have positive non-zero length
+==96099== 
+==96099== HEAP SUMMARY:
+==96099==     in use at exit: 0 bytes in 0 blocks
+==96099==   total heap usage: 1,782 allocs, 1,782 frees, 215,264 bytes allocated
+==96099== 
+==96099== All heap blocks were freed -- no leaks are possible
+==96099== 
+==96099== For lists of detected and suppressed errors, rerun with: -s
+==96099== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

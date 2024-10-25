@@ -1,7 +1,7 @@
 D_undefined_var                pass
 B_add                          pass
 dup_func_name                  pass
-mult_funcs                     FAIL (timeout)
+mult_funcs                     FAIL (see outputs/mult_funcs.diff for details)
 array_dec_in_block             pass
 predefined_func                pass
 duplicate_parameter            pass
@@ -9,3 +9,40 @@ dup_parameters_mult            pass
 add2                           pass
 add3                           pass
 add_bad                        pass
+parameter_pass_bad             pass
+void_in                        pass
+void_out                       pass
+good                           pass
+given_test                     pass
+array_correct                  pass
+array_access_noindex           pass
+array_notarray_index           pass
+array_index_bad_type           pass
+array_size_zero                pass
+array_index_func               pass
+loops_valid                    pass
+loops_valid_double             pass
+loops_invalid                  pass
+loops_invalid_if               pass
+loops_invalid_func             pass
+loops_invalid_cont             pass
+loops_invalid_cont_func        pass
+return_valid                   pass
+return_invalid                 pass
+p0                             pass
+main_integer                   pass
+main_noparameters              pass
+main_parameters                pass
+no_main                        pass
+main_void                      pass
+dup_symbols_same_scope         pass
+dup_symbols_global_scope       pass
+operation_invalid_not          pass
+operation_invalid_not2         pass
+operation_valid_not            pass
+No memory leak found.
+No uninitialized value found.
+========================================
+ NOTICE: THIS TESTSUITE IS INCOMPLETE.
+YOU WILL BE GRADED ON OTHER TEST CASES.
+        WRITE YOUR OWN TESTS!
