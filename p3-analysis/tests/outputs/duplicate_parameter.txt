@@ -1,0 +1,2 @@
+Program does not contain a 'main' function
+Duplicate symbols named 'x' in scope started on line 1

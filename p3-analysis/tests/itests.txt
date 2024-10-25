@@ -1,0 +1,11 @@
+D_undefined_var                pass
+B_add                          pass
+dup_func_name                  pass
+mult_funcs                     FAIL (timeout)
+array_dec_in_block             pass
+predefined_func                pass
+duplicate_parameter            pass
+dup_parameters_mult            pass
+add2                           pass
+add3                           pass
+add_bad                        pass
