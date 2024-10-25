@@ -1,3 +1,0 @@
-Invalid number of function arguments on line 3
-Invalid call to non-function 'foo' on line 3
-Duplicate symbols named 'a' in scope started on line 6

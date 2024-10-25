@@ -7,6 +7,7 @@
 run_test    D_undefined_var             "inputs/undefined_var.decaf"
 run_test    B_add                       "inputs/add.decaf"
 run_test    dup_func_name               "inputs/dup_func_name.decaf"
+run_test    not_declared_func           "inputs/not_declared_func.decaf"
 run_test    mult_funcs                  "inputs/mult_funcs.decaf"
 run_test    array_dec_in_block          "inputs/array_dec_in_block.decaf"
 run_test    alot_of_funcs               "inputs/alot_of_funcs.decaf"

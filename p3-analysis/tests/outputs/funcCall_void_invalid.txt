@@ -1,1 +1,0 @@
-Type mismatch: int expected but void found on line 5

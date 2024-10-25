@@ -1,2 +1,0 @@
-Array 'arr' declared inside function 'main' on line 2 is not allowed
-Invalid: Array 'arr' on line 3 accessed without an index
