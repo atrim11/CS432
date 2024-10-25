@@ -2,9 +2,7 @@
 
 # P3 
 
-tricky corner cases -> int main; declared
-Scalar symbols
-
+x`
 # To Dump Output
 ./decaf P0/P0.decaf --fdump-tables
 
