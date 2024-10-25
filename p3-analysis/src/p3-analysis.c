@@ -553,9 +553,15 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
     DecafType rhs_type = GET_INFERRED_TYPE(node->binaryop.right);
     DecafType op_type = GET_INFERRED_TYPE(node);
     BinaryOpType binop = node->binaryop.operator;
+
+    // check if either types are unknown
+    if (lhs_type == UNKNOWN || rhs_type == UNKNOWN) {
+        return;
+    }
+    
     if (binop == OROP || binop == ANDOP) 
     {
-        if (lhs_type != BOOL) {
+        if (lhs_type != BOOL ) {
             ErrorList_printf(ERROR_LIST, "Type mismatch: %s expected but %s found on line %d",
                              DecafType_to_string(BOOL), DecafType_to_string(lhs_type), node->source_line);
         }
