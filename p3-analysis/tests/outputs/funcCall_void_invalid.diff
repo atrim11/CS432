@@ -1,0 +1,4 @@
+--- outputs/funcCall_void_invalid.txt	2024-10-25 13:42:23.052636467 -0400
++++ expected/funcCall_void_invalid.txt	2024-10-25 13:35:59.802297189 -0400
+@@ -0,0 +1 @@
++Type mismatch: int expected but void found on line 5

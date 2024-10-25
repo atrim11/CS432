@@ -1,0 +1,17 @@
+int a[10];
+
+def int foo(int a) {
+    return 0;
+}
+
+def int bar(int a) {
+    return foo(a, a);
+}
+
+def int baz(int a) {
+    return bar(a);
+}
+
+def int main() {
+    return 0;
+}

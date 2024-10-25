@@ -1,0 +1,4 @@
+--- outputs/else_noif.txt	2024-10-25 13:42:00.359490567 -0400
++++ expected/else_noif.txt	2024-10-25 13:35:59.800297088 -0400
+@@ -0,0 +1 @@
++Invalid statement on line 2

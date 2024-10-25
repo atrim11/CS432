@@ -1,0 +1,60 @@
+==278235== Memcheck, a memory error detector
+==278235== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==278235== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==278235== Command: ../decaf inputs/else_noif.decaf
+==278235== 
+Invalid statement on line 2
+==278235== 
+==278235== HEAP SUMMARY:
+==278235==     in use at exit: 120 bytes in 5 blocks
+==278235==   total heap usage: 1,717 allocs, 1,712 frees, 188,120 bytes allocated
+==278235== 
+==278235== 24 bytes in 1 blocks are definitely lost in loss record 1 of 5
+==278235==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==278235==    by 0x10E999: NodeList_new (ast.c:44)
+==278235==    by 0x11113E: parse_program (p2-parser.c:174)
+==278235==    by 0x1128F1: parse (p2-parser.c:565)
+==278235==    by 0x11032A: main (main.c:99)
+==278235== 
+==278235== 24 bytes in 1 blocks are definitely lost in loss record 2 of 5
+==278235==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==278235==    by 0x10E999: NodeList_new (ast.c:44)
+==278235==    by 0x111147: parse_program (p2-parser.c:175)
+==278235==    by 0x1128F1: parse (p2-parser.c:565)
+==278235==    by 0x11032A: main (main.c:99)
+==278235== 
+==278235== 24 bytes in 1 blocks are definitely lost in loss record 3 of 5
+==278235==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==278235==    by 0x10EAE5: ParameterList_new (ast.c:45)
+==278235==    by 0x111434: parse_funcdecl (p2-parser.c:231)
+==278235==    by 0x111192: parse_program (p2-parser.c:182)
+==278235==    by 0x1128F1: parse (p2-parser.c:565)
+==278235==    by 0x11032A: main (main.c:99)
+==278235== 
+==278235== 24 bytes in 1 blocks are definitely lost in loss record 4 of 5
+==278235==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==278235==    by 0x10E999: NodeList_new (ast.c:44)
+==278235==    by 0x111587: parse_block (p2-parser.c:255)
+==278235==    by 0x111529: parse_funcdecl (p2-parser.c:248)
+==278235==    by 0x111192: parse_program (p2-parser.c:182)
+==278235==    by 0x1128F1: parse (p2-parser.c:565)
+==278235==    by 0x11032A: main (main.c:99)
+==278235== 
+==278235== 24 bytes in 1 blocks are definitely lost in loss record 5 of 5
+==278235==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==278235==    by 0x10E999: NodeList_new (ast.c:44)
+==278235==    by 0x111590: parse_block (p2-parser.c:256)
+==278235==    by 0x111529: parse_funcdecl (p2-parser.c:248)
+==278235==    by 0x111192: parse_program (p2-parser.c:182)
+==278235==    by 0x1128F1: parse (p2-parser.c:565)
+==278235==    by 0x11032A: main (main.c:99)
+==278235== 
+==278235== LEAK SUMMARY:
+==278235==    definitely lost: 120 bytes in 5 blocks
+==278235==    indirectly lost: 0 bytes in 0 blocks
+==278235==      possibly lost: 0 bytes in 0 blocks
+==278235==    still reachable: 0 bytes in 0 blocks
+==278235==         suppressed: 0 bytes in 0 blocks
+==278235== 
+==278235== For lists of detected and suppressed errors, rerun with: -s
+==278235== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 0 from 0)

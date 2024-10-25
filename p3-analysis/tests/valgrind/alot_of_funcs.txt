@@ -1,0 +1,15 @@
+==276222== Memcheck, a memory error detector
+==276222== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==276222== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==276222== Command: ../decaf inputs/alot_of_funcs.decaf
+==276222== 
+Invalid number of function arguments on line 8
+==276222== 
+==276222== HEAP SUMMARY:
+==276222==     in use at exit: 0 bytes in 0 blocks
+==276222==   total heap usage: 2,022 allocs, 2,022 frees, 246,112 bytes allocated
+==276222== 
+==276222== All heap blocks were freed -- no leaks are possible
+==276222== 
+==276222== For lists of detected and suppressed errors, rerun with: -s
+==276222== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

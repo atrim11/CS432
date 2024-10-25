@@ -485,23 +485,24 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
     Symbol* rec = lookup_symbol(node, node->funccall.name);
     // Check if the function call has the correct number of arguments
     if (rec->parameters->size != node->funccall.arguments->size) {
-        ErrorList_printf(ERROR_LIST, "Invalid: Function call on line %d has incorrect number of arguments", node->source_line);
+        // Invalid number of function arguments on line 8
+        ErrorList_printf(ERROR_LIST, "Invalid number of function arguments on line %d", node->source_line);
     }
     Parameter* param = rec->parameters->head;
     ASTNode* arg = node->funccall.arguments->head;
     // Invalid call to non-function 'foo' on line 3
     if (rec->symbol_type != FUNCTION_SYMBOL) {
         ErrorList_printf(ERROR_LIST, "Invalid call to non-function '%s' on line %d", node->funccall.name, node->source_line);
-        return;
     }
+    
     // Check if the function call has the correct types of arguments
-    for (int i = 0; i < node->funccall.arguments->size; i++) {
- 
-        DecafType arg_type = helper(arg);
-        if (param->type != arg_type)  {
+    for (int i = 0; i < rec->parameters->size; i++) {
+        DecafType param_type = param->type;
+        DecafType arg_type = GET_INFERRED_TYPE(arg);
+        if (param_type != arg_type) {
+            // Type mismatch in parameter 0 of call to 'add': expected int but found bool on line 7
             ErrorList_printf(ERROR_LIST, "Type mismatch in parameter %d of call to '%s': expected %s but found %s on line %d",
-                             i, node->funccall.name, 
-                              DecafType_to_string(param->type), DecafType_to_string(arg_type), node->source_line);
+                             i, node->funccall.name, DecafType_to_string(param_type), DecafType_to_string(arg_type), node->source_line);
         }
         param = param->next;
         arg = arg->next;

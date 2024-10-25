@@ -1,0 +1,15 @@
+==275580== Memcheck, a memory error detector
+==275580== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==275580== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==275580== Command: ../decaf inputs/undefined_var.decaf
+==275580== 
+Error: Variable 'a' used without being defined on line 3
+==275580== 
+==275580== HEAP SUMMARY:
+==275580==     in use at exit: 0 bytes in 0 blocks
+==275580==   total heap usage: 1,721 allocs, 1,721 frees, 195,520 bytes allocated
+==275580== 
+==275580== All heap blocks were freed -- no leaks are possible
+==275580== 
+==275580== For lists of detected and suppressed errors, rerun with: -s
+==275580== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -1,0 +1,38 @@
+==279589== Memcheck, a memory error detector
+==279589== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==279589== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==279589== Command: ../decaf inputs/recursive.decaf
+==279589== 
+Program [line 1]
+SYM TABLE:
+ print_int : (int) -> void
+ print_bool : (bool) -> void
+ print_str : (str) -> void
+ dangerous_recursion : (int) -> int
+ main : () -> int
+
+  FuncDecl name="dangerous_recursion" return_type=int parameters={n:int} [line 1]
+  SYM TABLE:
+   n : int
+
+    Block [line 1]
+    SYM TABLE:
+
+        Block [line 2]
+        SYM TABLE:
+
+  FuncDecl name="main" return_type=int parameters={} [line 8]
+  SYM TABLE:
+
+    Block [line 8]
+    SYM TABLE:
+
+==279589== 
+==279589== HEAP SUMMARY:
+==279589==     in use at exit: 0 bytes in 0 blocks
+==279589==   total heap usage: 1,968 allocs, 1,968 frees, 235,448 bytes allocated
+==279589== 
+==279589== All heap blocks were freed -- no leaks are possible
+==279589== 
+==279589== For lists of detected and suppressed errors, rerun with: -s
+==279589== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
