@@ -1,0 +1,15 @@
+==4177961== Memcheck, a memory error detector
+==4177961== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==4177961== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==4177961== Command: ../decaf inputs/void_in.decaf
+==4177961== 
+Invalid: Variable 'c' declared as void on line 5
+==4177961== 
+==4177961== HEAP SUMMARY:
+==4177961==     in use at exit: 0 bytes in 0 blocks
+==4177961==   total heap usage: 1,800 allocs, 1,800 frees, 204,552 bytes allocated
+==4177961== 
+==4177961== All heap blocks were freed -- no leaks are possible
+==4177961== 
+==4177961== For lists of detected and suppressed errors, rerun with: -s
+==4177961== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

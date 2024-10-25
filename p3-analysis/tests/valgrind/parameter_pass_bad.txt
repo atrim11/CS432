@@ -1,0 +1,15 @@
+==4177937== Memcheck, a memory error detector
+==4177937== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==4177937== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==4177937== Command: ../decaf inputs/parameter_pass_bad.decaf
+==4177937== 
+Type mismatch in parameter 0 of call to 'add': expected int but found bool on line 7
+==4177937== 
+==4177937== HEAP SUMMARY:
+==4177937==     in use at exit: 0 bytes in 0 blocks
+==4177937==   total heap usage: 1,878 allocs, 1,878 frees, 233,520 bytes allocated
+==4177937== 
+==4177937== All heap blocks were freed -- no leaks are possible
+==4177937== 
+==4177937== For lists of detected and suppressed errors, rerun with: -s
+==4177937== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -284,13 +284,14 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     }
 
     // check to make sure the parameters are named the same thing 
-    // for (int i = 0; i < node->funcdecl.parameters->size; i++) {
-    //     for (int j = 0; j < node->funcdecl.parameters->size; j++) {
-    //         if (i != j && strcmp(node->funcdecl.parameters->head->name, node->funcdecl.parameters->head->next->name) == 0) {
-    //             ErrorList_printf(ERROR_LIST, "Duplicate parameter names '%s' in function '%s' on line %d", node->funcdecl.parameters->head->name, node->funcdecl.name, node->source_line);
-    //         }
-    //     }
-    // }
+    for (int i = 0; i < node->funcdecl.parameters->size; i++) {
+        for (int j = 0; j < node->funcdecl.parameters->size; j++) {
+            if (i != j && strcmp(node->funcdecl.parameters->head->name, node->funcdecl.parameters->head->next->name) == 0) {
+                ErrorList_printf(ERROR_LIST, "Duplicate parameter names '%s' in function '%s' on line %d", node->funcdecl.parameters->head->name, node->funcdecl.name, node->source_line);
+                
+            }
+        }
+    }
 }
 
 /**

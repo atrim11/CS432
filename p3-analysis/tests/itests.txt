@@ -1,0 +1,21 @@
+D_undefined_var                pass
+B_add                          pass
+dup_func_name                  pass
+array_dec_in_block             pass
+predefined_func                pass
+duplicate_parameter            FAIL (see outputs/duplicate_parameter.diff for details)
+dup_parameters_mult            FAIL (see outputs/dup_parameters_mult.diff for details)
+add2                           pass
+add3                           pass
+add_bad                        pass
+parameter_pass_bad             pass
+void_in                        pass
+void_out                       pass
+good                           pass
+given_test                     pass
+array_correct                  pass
+array_access_noindex           pass
+array_notarray_index           pass
+array_index_bad_type           pass
+array_size_zero                pass
+array_index_func               pass

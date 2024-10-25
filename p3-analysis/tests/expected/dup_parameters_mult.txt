@@ -1,0 +1,4 @@
+Duplicate symbols named 'x' in scope started on line 1
+Duplicate symbols named 'y' in scope started on line 1
+Duplicate symbols named 'z' in scope started on line 1
+Program does not contain a 'main' function

@@ -1,0 +1,3 @@
+Program does not contain a 'main' function
+Duplicate parameter names 'x' in function 'add' on line 1
+Duplicate parameter names 'x' in function 'add' on line 1
