@@ -1,6 +1,6 @@
 D_undefined_var                pass
 B_add                          pass
-void_return                    FAIL (see outputs/void_return.diff for details)
+void_return                    pass
 dup_func_name                  pass
 not_declared_func              pass
 var_assign_to_method           pass

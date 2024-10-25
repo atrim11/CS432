@@ -1,5 +1,5 @@
 def int ret(int x, int a, int y, int z) {
-    return;
+    return 21474836481;
 }
 
 def int main() {

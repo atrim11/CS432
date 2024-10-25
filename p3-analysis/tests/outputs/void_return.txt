@@ -1,1 +1,1 @@
-Invalid: Function 'ret' on line 2 returns non-void, but no value was returned
+Invalid void return from non-void function on line 2

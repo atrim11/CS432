@@ -1,15 +1,15 @@
-==788680== Memcheck, a memory error detector
-==788680== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==788680== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==788680== Command: ../decaf inputs/array_notarray_index.decaf
-==788680== 
+==813703== Memcheck, a memory error detector
+==813703== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==813703== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==813703== Command: ../decaf inputs/array_notarray_index.decaf
+==813703== 
 Invalid: Variable 'x' on line 3 accessed as an array
-==788680== 
-==788680== HEAP SUMMARY:
-==788680==     in use at exit: 0 bytes in 0 blocks
-==788680==   total heap usage: 1,803 allocs, 1,803 frees, 212,728 bytes allocated
-==788680== 
-==788680== All heap blocks were freed -- no leaks are possible
-==788680== 
-==788680== For lists of detected and suppressed errors, rerun with: -s
-==788680== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==813703== 
+==813703== HEAP SUMMARY:
+==813703==     in use at exit: 0 bytes in 0 blocks
+==813703==   total heap usage: 1,803 allocs, 1,803 frees, 212,728 bytes allocated
+==813703== 
+==813703== All heap blocks were freed -- no leaks are possible
+==813703== 
+==813703== For lists of detected and suppressed errors, rerun with: -s
+==813703== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

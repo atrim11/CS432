@@ -1,5 +1,0 @@
---- outputs/void_return.txt	2024-10-25 16:17:43.571234672 -0400
-+++ expected/void_return.txt	2024-10-25 16:11:21.467957112 -0400
-@@ -1 +1 @@
--Invalid: Function 'ret' on line 2 returns non-void, but no value was returned
-+Invalid void return from non-void function on line 2

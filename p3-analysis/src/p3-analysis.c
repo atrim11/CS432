@@ -204,8 +204,7 @@ void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node)
     if (node->funcreturn.value == NULL) {
         Symbol* symbol = lookup_symbol_with_reporting(visitor, node, DATA->current_function);
         if (symbol != NULL && symbol->type != VOID) {
-            ErrorList_printf(ERROR_LIST, "Invalid: Function '%s' on line %d returns non-void, but no value was returned",
-                             DATA->current_function, node->source_line);
+            ErrorList_printf(ERROR_LIST, "Invalid void return from non-void function on line %d", node->source_line);
         }
     }
 }
