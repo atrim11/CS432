@@ -55,6 +55,9 @@ typedef struct AnalysisData
     bool inside_function;  // Add this flag to track if we're in a function
 
 
+    //List of parameters for the current function
+    char* current_parameters[100];
+
 } AnalysisData;
 
 /**
@@ -282,16 +285,14 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
             ErrorList_printf(ERROR_LIST, "Main function on line %d must have no parameters", node->source_line);
         }
     }
-
-    // check to make sure the parameters are named the same thing 
+    
+    // add each parameter to a list of parameters
+    Parameter* param = node->funcdecl.parameters->head;
     for (int i = 0; i < node->funcdecl.parameters->size; i++) {
-        for (int j = 0; j < node->funcdecl.parameters->size; j++) {
-            if (i != j && strcmp(node->funcdecl.parameters->head->name, node->funcdecl.parameters->head->next->name) == 0) {
-                ErrorList_printf(ERROR_LIST, "Duplicate parameter names '%s' in function '%s' on line %d", node->funcdecl.parameters->head->name, node->funcdecl.name, node->source_line);
-                
-            }
-        }
+        DATA->current_parameters[i] = param->name;
+        param = param->next;
     }
+
 }
 
 /**
@@ -315,7 +316,21 @@ void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     DATA->functions_declared[DATA->functions_index] = node->funcdecl.name;
     DATA->functions_index++;
 
-
+    // check if their is any duplicate parameters in the function
+    for (int i = 0; i < node->funcdecl.parameters->size; i++) {
+        for (int j = i + 1; j < node->funcdecl.parameters->size; j++) {
+            if (strcmp(DATA->current_parameters[i], DATA->current_parameters[j]) == 0) {
+                // Duplicate symbols named 'x' in scope started on line 1
+                ErrorList_printf(ERROR_LIST, "Duplicate symbols named '%s' in scope started on line %d",
+                                 DATA->current_parameters[i], node->source_line);
+            }
+        }
+    }
+    
+    // clear the parameters list
+    for (int i = 0; i < 100; i++) {
+        DATA->current_parameters[i] = "";
+    }
 
 }
 

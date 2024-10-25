@@ -1,15 +1,15 @@
-==4178236== Memcheck, a memory error detector
-==4178236== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==4178236== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==4178236== Command: ../decaf inputs/array_index_bad_type.decaf
-==4178236== 
+==46847== Memcheck, a memory error detector
+==46847== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==46847== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==46847== Command: ../decaf inputs/array_index_bad_type.decaf
+==46847== 
 Invalid: Array index on line 4 must be of type int
-==4178236== 
-==4178236== HEAP SUMMARY:
-==4178236==     in use at exit: 0 bytes in 0 blocks
-==4178236==   total heap usage: 1,821 allocs, 1,821 frees, 215,284 bytes allocated
-==4178236== 
-==4178236== All heap blocks were freed -- no leaks are possible
-==4178236== 
-==4178236== For lists of detected and suppressed errors, rerun with: -s
-==4178236== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==46847== 
+==46847== HEAP SUMMARY:
+==46847==     in use at exit: 0 bytes in 0 blocks
+==46847==   total heap usage: 1,821 allocs, 1,821 frees, 216,084 bytes allocated
+==46847== 
+==46847== All heap blocks were freed -- no leaks are possible
+==46847== 
+==46847== For lists of detected and suppressed errors, rerun with: -s
+==46847== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
