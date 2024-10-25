@@ -1,15 +1,15 @@
-==292358== Memcheck, a memory error detector
-==292358== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==292358== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==292358== Command: ../decaf inputs/operation_nested_invalid.decaf
-==292358== 
+==299063== Memcheck, a memory error detector
+==299063== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==299063== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==299063== Command: ../decaf inputs/operation_nested_invalid.decaf
+==299063== 
 Type mismatch in return statement on line 8: expected int, got bool
-==292358== 
-==292358== HEAP SUMMARY:
-==292358==     in use at exit: 0 bytes in 0 blocks
-==292358==   total heap usage: 2,092 allocs, 2,092 frees, 255,988 bytes allocated
-==292358== 
-==292358== All heap blocks were freed -- no leaks are possible
-==292358== 
-==292358== For lists of detected and suppressed errors, rerun with: -s
-==292358== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==299063== 
+==299063== HEAP SUMMARY:
+==299063==     in use at exit: 0 bytes in 0 blocks
+==299063==   total heap usage: 2,092 allocs, 2,092 frees, 255,988 bytes allocated
+==299063== 
+==299063== All heap blocks were freed -- no leaks are possible
+==299063== 
+==299063== For lists of detected and suppressed errors, rerun with: -s
+==299063== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

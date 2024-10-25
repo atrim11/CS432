@@ -1,15 +1,15 @@
-==288569== Memcheck, a memory error detector
-==288569== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==288569== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==288569== Command: ../decaf inputs/predefined_func.decaf
-==288569== 
+==296758== Memcheck, a memory error detector
+==296758== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==296758== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==296758== Command: ../decaf inputs/predefined_func.decaf
+==296758== 
 Type mismatch in parameter 0 of call to 'print_int': expected int but found str on line 2
-==288569== 
-==288569== HEAP SUMMARY:
-==288569==     in use at exit: 0 bytes in 0 blocks
-==288569==   total heap usage: 1,743 allocs, 1,743 frees, 200,844 bytes allocated
-==288569== 
-==288569== All heap blocks were freed -- no leaks are possible
-==288569== 
-==288569== For lists of detected and suppressed errors, rerun with: -s
-==288569== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==296758== 
+==296758== HEAP SUMMARY:
+==296758==     in use at exit: 0 bytes in 0 blocks
+==296758==   total heap usage: 1,743 allocs, 1,743 frees, 200,844 bytes allocated
+==296758== 
+==296758== All heap blocks were freed -- no leaks are possible
+==296758== 
+==296758== For lists of detected and suppressed errors, rerun with: -s
+==296758== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

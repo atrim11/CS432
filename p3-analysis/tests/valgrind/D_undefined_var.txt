@@ -1,15 +1,15 @@
-==288246== Memcheck, a memory error detector
-==288246== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==288246== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==288246== Command: ../decaf inputs/undefined_var.decaf
-==288246== 
+==296312== Memcheck, a memory error detector
+==296312== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==296312== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==296312== Command: ../decaf inputs/undefined_var.decaf
+==296312== 
 Error: Variable 'a' used without being defined on line 3
-==288246== 
-==288246== HEAP SUMMARY:
-==288246==     in use at exit: 0 bytes in 0 blocks
-==288246==   total heap usage: 1,721 allocs, 1,721 frees, 195,520 bytes allocated
-==288246== 
-==288246== All heap blocks were freed -- no leaks are possible
-==288246== 
-==288246== For lists of detected and suppressed errors, rerun with: -s
-==288246== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==296312== 
+==296312== HEAP SUMMARY:
+==296312==     in use at exit: 0 bytes in 0 blocks
+==296312==   total heap usage: 1,721 allocs, 1,721 frees, 195,520 bytes allocated
+==296312== 
+==296312== All heap blocks were freed -- no leaks are possible
+==296312== 
+==296312== For lists of detected and suppressed errors, rerun with: -s
+==296312== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
