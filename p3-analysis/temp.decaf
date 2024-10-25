@@ -1,7 +1,10 @@
-def void do_nothing() {}
+def void voidFunction() {
+    return 10;  // Error: Void function cannot return a value
+}
+
 
 def int main() {
-    int result;
-    result = do_nothing() + 1; 
-    return result;
+    int x;
+    x = voidFunction();  // Error: voidFunction() returns void, not int
+    return x;
 }

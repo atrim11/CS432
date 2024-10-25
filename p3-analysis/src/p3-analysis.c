@@ -186,13 +186,20 @@ ErrorList* analyze (ASTNode* tree)
  * @param node 
  */
 void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node) {
-     if (node->funcreturn.value != NULL) {
+    // check if the function returns void and if it does make sure the return is void or null or nothing
+
+    if (node->funcreturn.value != NULL) {
 
         DecafType return_type = GET_INFERRED_TYPE(node->funcreturn.value);
         if (return_type == UNKNOWN) {
             return;
         }
         Symbol* symbol = lookup_symbol_with_reporting(visitor, node, DATA->current_function);
+        if (symbol != NULL && symbol->type == VOID) {
+            ErrorList_printf(ERROR_LIST, "Invalid: Function '%s' on line %d returns void, but a value was returned",
+                             DATA->current_function, node->source_line);
+            return;
+        }
 
         if (symbol != NULL && symbol->type != return_type) {
             ErrorList_printf(ERROR_LIST, "Type mismatch in return statement on line %d: expected %s, got %s",
