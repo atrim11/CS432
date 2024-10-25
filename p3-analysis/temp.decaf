@@ -1,20 +1,8 @@
-def void returnSomething() {
-    return;  // Valid: allowed in void functions with no value
-    
-    // No error for void functions
+def int ret(int x, int x, int y, int z) {
+    return x + y + z;
 }
-
-
-def void returnVoid() {
-    return returnSomething();  // Valid: allowed in void functions with no value
-    
-    // No error for void functions
-}
-
 
 def int main() {
-    int x;
-    returnArray();
-    x = randomMethod();
-    return x;
+    ret();
+    return 0;
 }

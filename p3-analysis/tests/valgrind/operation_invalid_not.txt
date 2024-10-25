@@ -1,16 +1,16 @@
-==610165== Memcheck, a memory error detector
-==610165== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==610165== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==610165== Command: ../decaf inputs/operation_invalid_not.decaf
-==610165== 
+==720999== Memcheck, a memory error detector
+==720999== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==720999== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==720999== Command: ../decaf inputs/operation_invalid_not.decaf
+==720999== 
 Type mismatch in unary operation on line 3: expected int, got bool
 Type mismatch in assignment on line 3: expected int, got bool
-==610165== 
-==610165== HEAP SUMMARY:
-==610165==     in use at exit: 0 bytes in 0 blocks
-==610165==   total heap usage: 1,831 allocs, 1,831 frees, 220,532 bytes allocated
-==610165== 
-==610165== All heap blocks were freed -- no leaks are possible
-==610165== 
-==610165== For lists of detected and suppressed errors, rerun with: -s
-==610165== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==720999== 
+==720999== HEAP SUMMARY:
+==720999==     in use at exit: 0 bytes in 0 blocks
+==720999==   total heap usage: 1,831 allocs, 1,831 frees, 220,532 bytes allocated
+==720999== 
+==720999== All heap blocks were freed -- no leaks are possible
+==720999== 
+==720999== For lists of detected and suppressed errors, rerun with: -s
+==720999== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

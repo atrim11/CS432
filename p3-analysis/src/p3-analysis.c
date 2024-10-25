@@ -2,15 +2,14 @@
  * @file p3-analysis.c
  * @brief Compiler phase 3: static analysis
  * @name Aidan Trimmer & Walker Todd
+ * AI was used to help with testing, and filling in redamentary/repetitive code
  */
 #include "p3-analysis.h"
 
 void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node);
-//void type_mismatch_variable_check(NodeVisitor* visitor, Symbol* symbol, ASTNode* node);
 void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node);
-
 void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node);
@@ -30,8 +29,6 @@ void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_location(NodeVisitor* visitor, ASTNode* node);
 void AnalysisVisitor_postvisit_block(NodeVisitor* visitor, ASTNode* node);
-
-DecafType helper(ASTNode* node);
 /**
  * @brief State/data for static analysis visitor
  */
@@ -180,14 +177,13 @@ ErrorList* analyze (ASTNode* tree)
 }
 
 /**
- * @brief 
+ * @brief post visit return
  * 
  * @param visitor 
  * @param node 
  */
 void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node) {
     // check if the function returns void and if it does make sure the return is void or null or nothing
-
     if (node->funcreturn.value != NULL) {
         DecafType return_type = GET_INFERRED_TYPE(node->funcreturn.value);
         if (return_type == UNKNOWN) {
@@ -208,7 +204,7 @@ void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node)
 }
 
 /**
- * @brief 
+ * @brief pre visit literal
  * 
  * @param visitor 
  * @param node 
@@ -219,7 +215,7 @@ void AnalysisVisitor_previsit_literal(NodeVisitor* visitor, ASTNode* node) {
 }
 
 /**
- * @brief 
+ * @brief post visit literal
  * 
  * @param visitor 
  * @param node 
@@ -235,7 +231,7 @@ void AnalysisVisitor_postvisit_literal(NodeVisitor* visitor, ASTNode* node) {
 char* reserved[] = {"int", "bool", "void", "if", "else", "while", "return", "true", "false", "break", "continue", "main", "for", "callout", "class", "interface", "extends", "implements", "new", "this", "string", "float", "double", "null"};
 
 /**
- * @brief 
+ * @brief post visit var decl
  * 
  * @param visitor 
  * @param node 
@@ -275,7 +271,7 @@ void AnalysisVisitor_postvisit_vardecl(NodeVisitor* visitor, ASTNode* node) {
 }
 
 /**
- * @brief 
+ * @brief pre visit func decl
  * 
  * @param visitor 
  * @param node 
@@ -303,7 +299,7 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
 }
 
 /**
- * @brief 
+ * @brief post visit func decl
  * 
  * @param visitor 
  * @param node 
@@ -313,7 +309,6 @@ void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     DATA->current_function = "";
     DATA->inside_function = false;
     // checking if 2 functions have the same name
-    // Duplicate symbols named 'foo' in scope started on line 1  for error checking
     for (int i = 0; i < DATA->functions_index; i++) {
         if (strcmp(node->funcdecl.name, DATA->functions_declared[i]) == 0) {
             ErrorList_printf(ERROR_LIST, "Duplicate symbols named '%s' in scope started on line 1", node->funcdecl.name);
@@ -327,7 +322,6 @@ void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
     for (int i = 0; i < node->funcdecl.parameters->size; i++) {
         for (int j = i + 1; j < node->funcdecl.parameters->size; j++) {
             if (strcmp(DATA->current_parameters[i], DATA->current_parameters[j]) == 0) {
-                // Duplicate symbols named 'x' in scope started on line 1
                 ErrorList_printf(ERROR_LIST, "Duplicate symbols named '%s' in scope started on line %d",
                                  DATA->current_parameters[i], node->source_line);
             }
@@ -342,7 +336,7 @@ void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
 }
 
 /**
- * @brief 
+ * @brief post visit assignment
  * 
  * @param visitor 
  * @param node 
@@ -370,7 +364,7 @@ void AnalysisVisitor_postvisit_assignment(NodeVisitor* visitor, ASTNode* node) {
 }
 
 /**
- * @brief 
+ * @brief previsit location 
  * 
  * @param visitor 
  * @param node 
@@ -390,7 +384,7 @@ void AnalysisVisitor_previsit_location(NodeVisitor* visitor, ASTNode* node) {
 
 
 /**
- * @brief 
+ * @brief check main exists
  * 
  * @param visitor 
  * @param node 
@@ -405,7 +399,7 @@ void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
 
 
 /**
- * @brief 
+ * @brief while loop depth increment
  * 
  * @param visitor 
  * @param node 
@@ -414,11 +408,10 @@ void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node)
 {
     // Increment the loop depth to indicate we're inside a loop
     DATA->loop_depth++;
-    //printf("Entering loop: current loop depth = %d\n", DATA->loop_depth); // Debugging statement
 }
 
 /**
- * @brief 
+ * @brief while loop depth decrement
  * 
  * @param visitor 
  * @param node 
@@ -427,11 +420,10 @@ void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node)
 {
     // Decrement the loop depth when leaving the loop
     DATA->loop_depth--;
-    //printf("Exiting loop: current loop depth = %d\n", DATA->loop_depth); // Debugging statement
 }
 
 /**
- * @brief 
+ * @brief pre visit break
  * 
  * @param visitor 
  * @param node 
@@ -445,7 +437,7 @@ void AnalysisVisitor_previst_break(NodeVisitor* visitor, ASTNode* node)
 }
 
 /**
- * @brief 
+ * @brief pre visit continue
  * 
  * @param visitor 
  * @param node 
@@ -455,11 +447,11 @@ void AnalysisVisitor_previst_continue(NodeVisitor* visitor, ASTNode* node)
     // If loop_depth is 0, it means we're not inside any loops
     if (DATA->loop_depth == 0) {
         ErrorList_printf(ERROR_LIST, "Invalid 'continue' outside loop on line %d", node->source_line);
-    }
+    } 
 }
 
 /**
- * @brief 
+ * @brief post visit conditional
  * 
  * @param visitor 
  * @param node 
@@ -470,11 +462,11 @@ void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
     // Check if the conditional expression is a boolean
     if (condition != BOOL) {
         ErrorList_printf(ERROR_LIST, "Invalid: Conditional expression on line %d must be of type bool", node->source_line);
-    }
+    } 
 }
 
 /**
- * @brief 
+ * @brief previsit func call
  * 
  * @param visitor 
  * @param node 
@@ -486,11 +478,13 @@ void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
     if (symbol != NULL) {
         // Set the inferred type of the function call to the return type of the function
         SET_INFERRED_TYPE(symbol->type);
-    } 
+    } else {
+        SET_INFERRED_TYPE(UNKNOWN);
+    }
 }
 
 /**
- * @brief 
+ * @brief post visit func call
  * 
  * @param visitor 
  * @param node 
@@ -498,7 +492,8 @@ void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
 void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
 {
     Symbol* rec = lookup_symbol(node, node->funccall.name);
-     if (rec == NULL) {
+    bool good = true;
+    if (rec == NULL) {
         ErrorList_printf(ERROR_LIST, "Symbol '%s' undefined on line %d", node->funccall.name, node->source_line);
         return;
     }
@@ -506,15 +501,20 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
     if (rec->parameters->size != node->funccall.arguments->size) {
         // Invalid number of function arguments on line 8
         ErrorList_printf(ERROR_LIST, "Invalid number of function arguments on line %d", node->source_line);
+        good = false;
     }
     Parameter* param = rec->parameters->head;
     ASTNode* arg = node->funccall.arguments->head;
     // Invalid call to non-function 'foo' on line 3
     if (rec->symbol_type != FUNCTION_SYMBOL) {
         ErrorList_printf(ERROR_LIST, "Invalid call to non-function '%s' on line %d", node->funccall.name, node->source_line);
+        good = false;
     }
     
     // Check if the function call has the correct types of arguments
+    if (!good) {
+        return;
+    }
     for (int i = 0; i < rec->parameters->size; i++) {
         DecafType param_type = param->type;
         DecafType arg_type = GET_INFERRED_TYPE(arg);
@@ -528,31 +528,8 @@ void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
-
-
-DecafType helper(ASTNode* node) {
-    if (node->type == LITERAL) {
-        return node->literal.type;
-    } else if (node->type == LOCATION) {
-        Symbol* symbol = lookup_symbol(node, node->location.name);
-        if (symbol != NULL) {
-            return symbol->type;
-        }
-    } else if (node->type == FUNCCALL) {
-        Symbol* symbol = lookup_symbol(node, node->funccall.name);
-        if (symbol != NULL) {
-            return symbol->type;
-        }
-    } else if (node->type == BINARYOP) {
-        return GET_INFERRED_TYPE(node);
-    } else if (node->type == UNARYOP) {
-        return GET_INFERRED_TYPE(node);
-    }
-    return UNKNOWN;
-}
-
 /**
- * @brief 
+ * @brief previsit binary operation
  * 
  * @param visitor 
  * @param node 
@@ -568,7 +545,7 @@ void AnalysisVisitor_previsit_binaryop(NodeVisitor* visitor, ASTNode* node)
 }
 
 /**
- * @brief 
+ * @brief post visit binary operation
  * 
  * @param visitor 
  * @param node 
@@ -577,7 +554,6 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
 {
     DecafType lhs_type = GET_INFERRED_TYPE(node->binaryop.left);
     DecafType rhs_type = GET_INFERRED_TYPE(node->binaryop.right);
-    DecafType op_type = GET_INFERRED_TYPE(node);
     BinaryOpType binop = node->binaryop.operator;
 
     // check if either types are unknown
@@ -625,7 +601,7 @@ void AnalysisVisitor_postvisit_binaryop(NodeVisitor* visitor, ASTNode* node)
 }
 
 /**
- * @brief 
+ * @brief previsit for block
  * 
  * @param visitor 
  * @param node 
@@ -642,7 +618,7 @@ void AnalysisVisitor_previsit_block(NodeVisitor* visitor, ASTNode* node)
 
 
 /**
- * @brief 
+ * @brief previsit for unary operation
  * 
  * @param visitor 
  * @param node 
@@ -659,7 +635,7 @@ void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node)
 
 
 /**
- * @brief 
+ * @brief post vist for unary operation
  * 
  * @param visitor 
  * @param node 
@@ -676,7 +652,7 @@ void AnalysisVisitor_postvist_unaryop(NodeVisitor* visitor, ASTNode* node)
 }
 
 /**
- * @brief 
+ * @brief post visit for location
  * 
  * @param visitor 
  * @param node 
