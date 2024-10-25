@@ -47,7 +47,7 @@ operation_invalid1             pass
 operation_invalid2             pass
 operation_invalid3             pass
 operation_valid1               pass
-funcCall_void_invalid          FAIL (see outputs/funcCall_void_invalid.diff for details)
+funcCall_void_invalid          pass
 funcCall_invalid               pass
 assignment_loop_invalid        pass
 recursive                      pass

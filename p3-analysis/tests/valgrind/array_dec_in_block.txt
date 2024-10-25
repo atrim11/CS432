@@ -1,16 +1,16 @@
-==276151== Memcheck, a memory error detector
-==276151== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==276151== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==276151== Command: ../decaf inputs/array_dec_in_block.decaf
-==276151== 
+==288473== Memcheck, a memory error detector
+==288473== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==288473== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==288473== Command: ../decaf inputs/array_dec_in_block.decaf
+==288473== 
 Array 'arr' declared inside function 'main' on line 2 is not allowed
 Invalid: Array 'arr' on line 3 accessed without an index
-==276151== 
-==276151== HEAP SUMMARY:
-==276151==     in use at exit: 0 bytes in 0 blocks
-==276151==   total heap usage: 1,783 allocs, 1,783 frees, 206,064 bytes allocated
-==276151== 
-==276151== All heap blocks were freed -- no leaks are possible
-==276151== 
-==276151== For lists of detected and suppressed errors, rerun with: -s
-==276151== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==288473== 
+==288473== HEAP SUMMARY:
+==288473==     in use at exit: 0 bytes in 0 blocks
+==288473==   total heap usage: 1,783 allocs, 1,783 frees, 206,064 bytes allocated
+==288473== 
+==288473== All heap blocks were freed -- no leaks are possible
+==288473== 
+==288473== For lists of detected and suppressed errors, rerun with: -s
+==288473== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

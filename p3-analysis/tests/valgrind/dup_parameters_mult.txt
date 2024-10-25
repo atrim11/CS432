@@ -1,18 +1,18 @@
-==276570== Memcheck, a memory error detector
-==276570== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==276570== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==276570== Command: ../decaf inputs/dup_parameters_mult.decaf
-==276570== 
+==288686== Memcheck, a memory error detector
+==288686== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==288686== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==288686== Command: ../decaf inputs/dup_parameters_mult.decaf
+==288686== 
 Program does not contain a 'main' function
 Duplicate symbols named 'x' in scope started on line 1
 Duplicate symbols named 'y' in scope started on line 1
 Duplicate symbols named 'z' in scope started on line 1
-==276570== 
-==276570== HEAP SUMMARY:
-==276570==     in use at exit: 0 bytes in 0 blocks
-==276570==   total heap usage: 1,783 allocs, 1,783 frees, 210,572 bytes allocated
-==276570== 
-==276570== All heap blocks were freed -- no leaks are possible
-==276570== 
-==276570== For lists of detected and suppressed errors, rerun with: -s
-==276570== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==288686== 
+==288686== HEAP SUMMARY:
+==288686==     in use at exit: 0 bytes in 0 blocks
+==288686==   total heap usage: 1,783 allocs, 1,783 frees, 210,572 bytes allocated
+==288686== 
+==288686== All heap blocks were freed -- no leaks are possible
+==288686== 
+==288686== For lists of detected and suppressed errors, rerun with: -s
+==288686== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
