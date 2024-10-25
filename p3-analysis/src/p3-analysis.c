@@ -404,7 +404,6 @@ void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
     }
 }
 
-
 /**
  * @brief while loop depth increment
  * 
