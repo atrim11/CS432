@@ -1,15 +1,15 @@
-==812051== Memcheck, a memory error detector
-==812051== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==812051== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==812051== Command: ../decaf inputs/not_declared_func.decaf
-==812051== 
+==894639== Memcheck, a memory error detector
+==894639== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==894639== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==894639== Command: ../decaf inputs/not_declared_func.decaf
+==894639== 
 Symbol 'returnArray' undefined on line 10
-==812051== 
-==812051== HEAP SUMMARY:
-==812051==     in use at exit: 0 bytes in 0 blocks
-==812051==   total heap usage: 1,810 allocs, 1,810 frees, 217,920 bytes allocated
-==812051== 
-==812051== All heap blocks were freed -- no leaks are possible
-==812051== 
-==812051== For lists of detected and suppressed errors, rerun with: -s
-==812051== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==894639== 
+==894639== HEAP SUMMARY:
+==894639==     in use at exit: 0 bytes in 0 blocks
+==894639==   total heap usage: 1,810 allocs, 1,810 frees, 217,920 bytes allocated
+==894639== 
+==894639== All heap blocks were freed -- no leaks are possible
+==894639== 
+==894639== For lists of detected and suppressed errors, rerun with: -s
+==894639== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

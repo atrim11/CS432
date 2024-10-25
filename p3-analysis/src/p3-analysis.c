@@ -152,6 +152,7 @@ ErrorList* analyze (ASTNode* tree)
     v->postvisit_location = AnalysisVisitor_postvisit_location;
 
     v->previsit_whileloop = AnalysisVisitor_check_whileloop;
+    v->postvisit_whileloop = AnalysisVisitor_exit_whileloop;
     v->postvisit_assignment = AnalysisVisitor_postvisit_assignment;
 
     v->previsit_break = AnalysisVisitor_previst_break;
@@ -412,11 +413,6 @@ void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
  */
 void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node)
 {
-    // Check if the conditional expression is a boolean
-    DecafType condition = GET_INFERRED_TYPE(node->whileloop.condition);
-    if (condition != BOOL) {
-        ErrorList_printf(ERROR_LIST, "Invalid: Conditional expression on line %d must be of type bool", node->source_line);
-    }
     // Increment the loop depth to indicate we're inside a loop
     DATA->loop_depth++;
 }
@@ -429,6 +425,13 @@ void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node)
  */
 void AnalysisVisitor_exit_whileloop(NodeVisitor* visitor, ASTNode* node)
 {
+    // Check if the conditional expression is a boolean
+    DecafType condition = GET_INFERRED_TYPE(node->whileloop.condition);
+    
+    // Get the actual type of the conditional expression
+    if (condition != BOOL) {
+        ErrorList_printf(ERROR_LIST, "Invalid: Conditional expression on line %d must be of type bool", node->source_line);
+    }
     // Decrement the loop depth when leaving the loop
     DATA->loop_depth--;
 }
