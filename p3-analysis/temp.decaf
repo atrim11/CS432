@@ -1,1 +1,7 @@
-def int add(int x, int x, int y, int y, int z, int z) { return x; }  // Error: duplicate parameter 'x'
+int a;
+
+def int main() {
+    if (x > 0) {
+        continue;  // Error: continue statement not within a loop
+    }
+}
