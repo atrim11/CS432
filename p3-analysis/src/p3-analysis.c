@@ -165,7 +165,6 @@ ErrorList* analyze (ASTNode* tree)
     v->postvisit_binaryop = AnalysisVisitor_postvisit_binaryop;
 
     v->previsit_block = AnalysisVisitor_previsit_block;
-    v->postvisit_block = AnalysisVisitor_postvisit_block;
 
     v->previsit_unaryop = AnalysisVisitor_previst_unaryop;
     v->postvisit_unaryop = AnalysisVisitor_postvist_unaryop;
@@ -283,6 +282,15 @@ void AnalysisVisitor_previsit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
             ErrorList_printf(ERROR_LIST, "Main function on line %d must have no parameters", node->source_line);
         }
     }
+
+    // check to make sure the parameters are named the same thing 
+    // for (int i = 0; i < node->funcdecl.parameters->size; i++) {
+    //     for (int j = 0; j < node->funcdecl.parameters->size; j++) {
+    //         if (i != j && strcmp(node->funcdecl.parameters->head->name, node->funcdecl.parameters->head->next->name) == 0) {
+    //             ErrorList_printf(ERROR_LIST, "Duplicate parameter names '%s' in function '%s' on line %d", node->funcdecl.parameters->head->name, node->funcdecl.name, node->source_line);
+    //         }
+    //     }
+    // }
 }
 
 /**
@@ -457,10 +465,6 @@ void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
  */
 void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
 {
-    // Check if the function call is a void type
-    if (GET_INFERRED_TYPE(node) == VOID) {
-        ErrorList_printf(ERROR_LIST, "Invalid: Function call on line %d returns void", node->source_line);
-    }
     Symbol* rec = lookup_symbol(node, node->funccall.name);
     // Check if the function call has the correct number of arguments
     if (rec->parameters->size != node->funccall.arguments->size) {
@@ -602,11 +606,6 @@ void AnalysisVisitor_previst_unaryop(NodeVisitor* visitor, ASTNode* node)
     } else {
         SET_INFERRED_TYPE(INT);
     }
-}
-
-void AnalysisVisitor_postvisit_block(NodeVisitor* visitor, ASTNode* node)
-{
-
 }
 
 

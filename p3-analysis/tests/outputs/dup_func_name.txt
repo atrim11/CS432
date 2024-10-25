@@ -1,1 +1,0 @@
-Duplicate symbols named 'foo' in scope started on line 1
