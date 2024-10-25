@@ -348,7 +348,15 @@ void AnalysisVisitor_postvisit_funcdecl(NodeVisitor* visitor, ASTNode* node) {
  * @param node 
  */
 void AnalysisVisitor_postvisit_assignment(NodeVisitor* visitor, ASTNode* node) {
+    
     DecafType lhs_type = GET_INFERRED_TYPE(node->assignment.location);
+    // check if the right hand side is a funccall then make sure it exists
+    if (node->assignment.value->type == FUNCCALL) {
+        Symbol* symbol = lookup_symbol(node, node->assignment.value->funccall.name);
+        if (symbol == NULL) {
+            return;
+        }
+    }
     DecafType rhs_type = GET_INFERRED_TYPE(node->assignment.value);
 
 

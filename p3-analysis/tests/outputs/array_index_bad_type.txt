@@ -1,0 +1,1 @@
+Invalid: Array index on line 4 must be of type int
