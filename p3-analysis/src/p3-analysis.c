@@ -200,6 +200,13 @@ void AnalysisVisitor_postvisit_check_return(NodeVisitor* visitor, ASTNode* node)
             ErrorList_printf(ERROR_LIST, "Type mismatch in return statement on line %d: expected %s, got %s",
                              node->source_line, DecafType_to_string(symbol->type), DecafType_to_string(return_type));
         }
+    } 
+    if (node->funcreturn.value == NULL) {
+        Symbol* symbol = lookup_symbol_with_reporting(visitor, node, DATA->current_function);
+        if (symbol != NULL && symbol->type != VOID) {
+            ErrorList_printf(ERROR_LIST, "Invalid: Function '%s' on line %d returns non-void, but no value was returned",
+                             DATA->current_function, node->source_line);
+        }
     }
 }
 

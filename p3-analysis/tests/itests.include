@@ -6,6 +6,7 @@
 
 run_test    D_undefined_var             "inputs/undefined_var.decaf"
 run_test    B_add                       "inputs/add.decaf"
+run_test    void_return                 "inputs/void_return.decaf"
 run_test    dup_func_name               "inputs/dup_func_name.decaf"
 run_test    not_declared_func           "inputs/not_declared_func.decaf"
 run_test    var_assign_to_method        "inputs/var_assign_to_method.decaf"

@@ -1,0 +1,1 @@
+Invalid: Function 'ret' on line 2 returns non-void, but no value was returned
