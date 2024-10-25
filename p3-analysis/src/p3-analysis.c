@@ -474,17 +474,11 @@ void AnalysisVisitor_postvisit_conditional(NodeVisitor* visitor, ASTNode* node)
 void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
 {
     // check in the funcdecl list to make sure its defined and exists
-    
-
-    Symbol* symbol = lookup_symbol_with_reporting(visitor, node, node->funccall.name);
+    Symbol* symbol = lookup_symbol(node, node->funccall.name);
     if (symbol != NULL) {
         // Set the inferred type of the function call to the return type of the function
         SET_INFERRED_TYPE(symbol->type);
-    } else {
-        // throw an error
-        ErrorList_printf(ERROR_LIST, "Invalid: Function '%s' on line %d called without being defined",
-                         node->funccall.name, node->source_line);
-    }
+    } 
 }
 
 /**
@@ -496,6 +490,10 @@ void AnalysisVisitor_previsit_funcCall(NodeVisitor* visitor, ASTNode* node)
 void AnalysisVisitor_postvisit_funcCall(NodeVisitor* visitor, ASTNode* node)
 {
     Symbol* rec = lookup_symbol(node, node->funccall.name);
+     if (rec == NULL) {
+        ErrorList_printf(ERROR_LIST, "Symbol '%s' undefined on line %d", node->funccall.name, node->source_line);
+        return;
+    }
     // Check if the function call has the correct number of arguments
     if (rec->parameters->size != node->funccall.arguments->size) {
         // Invalid number of function arguments on line 8

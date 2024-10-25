@@ -1,0 +1,1 @@
+Type mismatch in return statement on line 8: expected int, got bool
