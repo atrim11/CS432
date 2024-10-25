@@ -1,0 +1,14 @@
+def int compute(int a, int b) {
+    return a + b;
+}
+
+def bool test_func() {
+    return compute(5, true) > 0; // Invalid: true used as int
+}
+
+def int main() {
+    if (test_func()) {
+        return compute(10, 20);
+    }
+    return 0;
+}

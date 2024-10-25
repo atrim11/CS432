@@ -1,0 +1,10 @@
+def int dangerous_recursion(int n) {
+    if (n > 0) {
+        return dangerous_recursion(n + 1);
+    }
+    return 0;
+}
+
+def int main() {
+    return dangerous_recursion(5);
+}

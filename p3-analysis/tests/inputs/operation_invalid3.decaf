@@ -1,0 +1,7 @@
+def int main() {
+    int x;
+    bool flag;
+    x = 5;
+    flag = false;
+    return flag && (x == 5);
+}

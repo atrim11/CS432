@@ -1,0 +1,9 @@
+def int main() {
+    int x;
+    x = 10;
+    while (x > 0) {
+        x = true;  
+        x = x - 1;
+    }
+    return x;
+}

@@ -1,1 +1,0 @@
-Variable 'x' redeclared on line 3

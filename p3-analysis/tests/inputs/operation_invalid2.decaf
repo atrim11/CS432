@@ -1,0 +1,7 @@
+def int main() {
+    bool flag;
+    int x;
+    flag = true;
+    x = 5;
+    return x + flag * 2;
+}

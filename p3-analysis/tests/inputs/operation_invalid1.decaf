@@ -1,0 +1,5 @@
+def int main() {
+    bool b;
+    b = false;
+    return -(b || true);
+}

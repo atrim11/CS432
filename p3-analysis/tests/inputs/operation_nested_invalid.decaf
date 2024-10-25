@@ -1,0 +1,16 @@
+def int nested_func(int x) {
+    if (x > 10) {
+        if (x < 20) {
+            return 5;  
+        }
+    } else {
+        if (x > 5) {
+            return true;
+        }
+    }
+    return x;
+}
+
+def int main() {
+    return nested_func(15);
+}

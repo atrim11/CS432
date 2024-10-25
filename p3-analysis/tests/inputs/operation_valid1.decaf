@@ -1,0 +1,11 @@
+def int main() {
+    int x;
+    bool b;
+    x = 5;
+    b = true;
+    if (!(!b && !(x < 10)))
+    {
+        return 0; 
+    }
+    return 1; 
+}
