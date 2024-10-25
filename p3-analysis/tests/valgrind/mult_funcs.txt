@@ -1,17 +1,17 @@
-==559262== Memcheck, a memory error detector
-==559262== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==559262== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==559262== Command: ../decaf inputs/mult_funcs.decaf
-==559262== 
+==592003== Memcheck, a memory error detector
+==592003== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==592003== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==592003== Command: ../decaf inputs/mult_funcs.decaf
+==592003== 
 Invalid number of function arguments on line 3
 Invalid call to non-function 'foo' on line 3
 Duplicate symbols named 'a' in scope started on line 6
-==559262== 
-==559262== HEAP SUMMARY:
-==559262==     in use at exit: 0 bytes in 0 blocks
-==559262==   total heap usage: 2,009 allocs, 2,009 frees, 248,672 bytes allocated
-==559262== 
-==559262== All heap blocks were freed -- no leaks are possible
-==559262== 
-==559262== For lists of detected and suppressed errors, rerun with: -s
-==559262== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==592003== 
+==592003== HEAP SUMMARY:
+==592003==     in use at exit: 0 bytes in 0 blocks
+==592003==   total heap usage: 2,009 allocs, 2,009 frees, 248,672 bytes allocated
+==592003== 
+==592003== All heap blocks were freed -- no leaks are possible
+==592003== 
+==592003== For lists of detected and suppressed errors, rerun with: -s
+==592003== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

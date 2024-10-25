@@ -1,1 +1,0 @@
-Type mismatch in unary operation on line 4: expected bool, got int

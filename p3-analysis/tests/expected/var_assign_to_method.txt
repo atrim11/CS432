@@ -1,0 +1,3 @@
+Invalid: Function 'returnVoid' on line 9 returns void, but a value was returned
+Symbol 'returnArray' undefined on line 17
+Symbol 'randomMethod' undefined on line 18
