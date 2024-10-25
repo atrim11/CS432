@@ -412,6 +412,11 @@ void AnalysisVisitor_check_mainExistProgram(NodeVisitor* visitor, ASTNode* node)
  */
 void AnalysisVisitor_check_whileloop(NodeVisitor* visitor, ASTNode* node)
 {
+    // Check if the conditional expression is a boolean
+    DecafType condition = GET_INFERRED_TYPE(node->whileloop.condition);
+    if (condition != BOOL) {
+        ErrorList_printf(ERROR_LIST, "Invalid: Conditional expression on line %d must be of type bool", node->source_line);
+    }
     // Increment the loop depth to indicate we're inside a loop
     DATA->loop_depth++;
 }

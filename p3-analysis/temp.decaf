@@ -3,5 +3,8 @@ def int ret(int x, int a, int y, int z) {
 }
 
 def int main() {
-    return ret(1, 2, 3, 4);
+    while(1) {
+        return 0;
+    }
+    return 0;
 }
