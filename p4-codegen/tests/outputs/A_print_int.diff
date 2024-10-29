@@ -1,0 +1,5 @@
+--- outputs/A_print_int.txt	2024-10-29 14:24:01.322322605 -0400
++++ expected/A_print_int.txt	2024-10-29 14:14:18.188821620 -0400
+@@ -1 +1 @@
+-RETURN VALUE = -9999999
++7RETURN VALUE = 0
