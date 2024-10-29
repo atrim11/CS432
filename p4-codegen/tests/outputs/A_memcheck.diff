@@ -1,5 +1,26 @@
---- outputs/A_memcheck.txt	2024-10-29 14:24:00.312271521 -0400
+--- outputs/A_memcheck.txt	2024-10-29 16:18:40.363984464 -0400
 +++ expected/A_memcheck.txt	2024-10-29 14:14:18.187821570 -0400
-@@ -1 +1 @@
+@@ -1,22 +1 @@
+-main:
+-l0:
+-  return
+-
+-==========================
+-sp=65536 bp=-9999999 ret=-9999999
+-registers: 
+-stack:
+-other memory:
+-==========================
+-
+-Executing: l0:
+-
+-==========================
+-sp=65536 bp=-9999999 ret=-9999999
+-registers: 
+-stack:
+-other memory:
+-==========================
+-
+-Executing: return
 -RETURN VALUE = -9999999
 +RETURN VALUE = 4

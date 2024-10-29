@@ -137,6 +137,8 @@ void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
 
     /* BOILERPLATE: TODO: implement prologue */
 
+
+
     /* copy code from body */
     ASTNode_copy_code(node, node->funcdecl.body);
 
@@ -148,6 +150,11 @@ void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
 #endif
 InsnList* generate_code (ASTNode* tree)
 {
+    // Null check - A Test Case
+    if (tree == NULL) {
+        return NULL;
+    }
+
     InsnList* iloc = InsnList_new();
 
 

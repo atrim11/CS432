@@ -1,1 +1,25 @@
+add:
+l0:
+  return
+main:
+l1:
+  return
+
+==========================
+sp=65536 bp=-9999999 ret=-9999999
+registers: 
+stack:
+other memory:
+==========================
+
+Executing: l1:
+
+==========================
+sp=65536 bp=-9999999 ret=-9999999
+registers: 
+stack:
+other memory:
+==========================
+
+Executing: return
 RETURN VALUE = -9999999
