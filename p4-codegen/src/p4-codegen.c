@@ -139,6 +139,7 @@ void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
 
 
 
+
     /* copy code from body */
     ASTNode_copy_code(node, node->funcdecl.body);
 
@@ -147,6 +148,29 @@ void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
     EMIT0OP(RETURN);
 }
 
+void CodeGenVisitor_gen_block (NodeVisitor* visitor, ASTNode* node)
+{
+    /* copy code from each statement */  
+    FOR_EACH(ASTNode*, stmt, node->block.statements) {
+        ASTNode_copy_code(node, stmt);
+    }  
+
+}
+
+void CodeGenVisitor_gen_return (NodeVisitor* visitor, ASTNode* node)
+{
+    /* generate code for the return value */
+    Operand reg = ASTNode_get_temp_reg(node->funcreturn.value);
+    EMIT1OP(RETURN, reg);
+}
+
+void CodeGenVisitor_gen_literal (NodeVisitor* visitor, ASTNode* node)
+{
+    Operand reg = virtual_register();
+    EMIT2OP(LOAD_I, int_const(node->literal.integer), reg);
+    ASTNode_set_temp_reg(node, reg);
+}
+    
 #endif
 InsnList* generate_code (ASTNode* tree)
 {
@@ -157,13 +181,15 @@ InsnList* generate_code (ASTNode* tree)
 
     InsnList* iloc = InsnList_new();
 
-
     NodeVisitor* v = NodeVisitor_new();
     v->data = CodeGenData_new();
     v->dtor = (Destructor)CodeGenData_free;
     v->postvisit_program     = CodeGenVisitor_gen_program;
     v->previsit_funcdecl     = CodeGenVisitor_previsit_funcdecl;
     v->postvisit_funcdecl    = CodeGenVisitor_gen_funcdecl;
+    v->postvisit_block       = CodeGenVisitor_gen_block;
+    v->postvisit_return      = CodeGenVisitor_gen_return;
+    v->postvisit_literal     = CodeGenVisitor_gen_literal;
 
     /* generate code into AST attributes */
     NodeVisitor_traverse_and_free(v, tree);
@@ -175,3 +201,4 @@ InsnList* generate_code (ASTNode* tree)
     }
     return iloc;
 }
+

@@ -1,8 +1,8 @@
-==3337386== Memcheck, a memory error detector
-==3337386== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3337386== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3337386== Command: ../decaf inputs/given_test.decaf
-==3337386== 
+==577235== Memcheck, a memory error detector
+==577235== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==577235== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==577235== Command: ../decaf inputs/given_test.decaf
+==577235== 
 add:
 l0:
   return
@@ -28,12 +28,12 @@ other memory:
 
 Executing: return
 RETURN VALUE = -9999999
-==3337386== 
-==3337386== HEAP SUMMARY:
-==3337386==     in use at exit: 0 bytes in 0 blocks
-==3337386==   total heap usage: 1,923 allocs, 1,923 frees, 356,180 bytes allocated
-==3337386== 
-==3337386== All heap blocks were freed -- no leaks are possible
-==3337386== 
-==3337386== For lists of detected and suppressed errors, rerun with: -s
-==3337386== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==577235== 
+==577235== HEAP SUMMARY:
+==577235==     in use at exit: 0 bytes in 0 blocks
+==577235==   total heap usage: 1,923 allocs, 1,923 frees, 356,180 bytes allocated
+==577235== 
+==577235== All heap blocks were freed -- no leaks are possible
+==577235== 
+==577235== For lists of detected and suppressed errors, rerun with: -s
+==577235== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
