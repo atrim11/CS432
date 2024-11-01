@@ -1,7 +1,9 @@
---- outputs/A_memcheck.txt	2024-10-30 13:47:19.034223083 -0400
+--- outputs/A_memcheck.txt	2024-11-01 14:15:34.986796954 -0400
 +++ expected/A_memcheck.txt	2024-10-29 14:14:18.187821570 -0400
-@@ -1,22 +1 @@
+@@ -1,42 +1 @@
 -main:
+-  loadI 4 => r0
+-  i2i r0 => RET
 -l0:
 -  return
 -
@@ -12,15 +14,32 @@
 -other memory:
 -==========================
 -
--Executing: l0:
+-Executing: loadI 4 => r0
 -
 -==========================
 -sp=65536 bp=-9999999 ret=-9999999
--registers: 
+-registers:  r0=4
+-stack:
+-other memory:
+-==========================
+-
+-Executing: i2i r0 => RET
+-
+-==========================
+-sp=65536 bp=-9999999 ret=4
+-registers:  r0=4
+-stack:
+-other memory:
+-==========================
+-
+-Executing: l0:
+-
+-==========================
+-sp=65536 bp=-9999999 ret=4
+-registers:  r0=4
 -stack:
 -other memory:
 -==========================
 -
 -Executing: return
--RETURN VALUE = -9999999
-+RETURN VALUE = 4
+ RETURN VALUE = 4

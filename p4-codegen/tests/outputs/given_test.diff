@@ -1,7 +1,9 @@
---- outputs/given_test.txt	2024-10-30 13:47:21.117328678 -0400
+--- outputs/given_test.txt	2024-11-01 14:15:37.199909406 -0400
 +++ expected/given_test.txt	2024-10-29 14:23:13.353896544 -0400
-@@ -1,25 +1,34 @@
- add:
+@@ -1,18 +1,34 @@
+-ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+-  i2i r-1 => RET
++add:
 +  push BP
 +  i2i SP => BP
 +  addI SP, 0 => SP
@@ -15,6 +17,7 @@
 +  pop BP
    return
  main:
+-  i2i r-1 => RET
 +  push BP
 +  i2i SP => BP
 +  addI SP, -8 => SP
@@ -41,15 +44,6 @@
 -other memory:
 -==========================
 -
--Executing: l1:
--
--==========================
--sp=65536 bp=-9999999 ret=-9999999
--registers: 
--stack:
--other memory:
--==========================
--
--Executing: return
--RETURN VALUE = -9999999
+-Executing: i2i r-1 => RET
+-ERROR: Register r-1 does not exist
 +RETURN VALUE = 5

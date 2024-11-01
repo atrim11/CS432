@@ -1,7 +1,9 @@
-add:
+ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+  i2i r-1 => RET
 l0:
   return
 main:
+  i2i r-1 => RET
 l1:
   return
 
@@ -12,14 +14,5 @@ stack:
 other memory:
 ==========================
 
-Executing: l1:
-
-==========================
-sp=65536 bp=-9999999 ret=-9999999
-registers: 
-stack:
-other memory:
-==========================
-
-Executing: return
-RETURN VALUE = -9999999
+Executing: i2i r-1 => RET
+ERROR: Register r-1 does not exist

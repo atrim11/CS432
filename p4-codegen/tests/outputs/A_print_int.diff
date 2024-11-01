@@ -1,7 +1,9 @@
---- outputs/A_print_int.txt	2024-10-30 13:47:20.054274791 -0400
+--- outputs/A_print_int.txt	2024-11-01 14:15:36.059851478 -0400
 +++ expected/A_print_int.txt	2024-10-29 14:14:18.188821620 -0400
-@@ -1,22 +1 @@
+@@ -1,42 +1 @@
 -main:
+-  loadI 0 => r1
+-  i2i r1 => RET
 -l0:
 -  return
 -
@@ -12,15 +14,33 @@
 -other memory:
 -==========================
 -
--Executing: l0:
+-Executing: loadI 0 => r1
 -
 -==========================
 -sp=65536 bp=-9999999 ret=-9999999
--registers: 
+-registers:  r1=0
+-stack:
+-other memory:
+-==========================
+-
+-Executing: i2i r1 => RET
+-
+-==========================
+-sp=65536 bp=-9999999 ret=0
+-registers:  r1=0
+-stack:
+-other memory:
+-==========================
+-
+-Executing: l0:
+-
+-==========================
+-sp=65536 bp=-9999999 ret=0
+-registers:  r1=0
 -stack:
 -other memory:
 -==========================
 -
 -Executing: return
--RETURN VALUE = -9999999
+-RETURN VALUE = 0
 +7RETURN VALUE = 0

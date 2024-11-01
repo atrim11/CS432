@@ -136,8 +136,12 @@ void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
     EMIT1OP(LABEL, call_label(node->funcdecl.name));
 
     /* BOILERPLATE: TODO: implement prologue */
-
-
+    /* copy code from parameters */
+    // FOR_EACH(Symbol*, param, node->funcdecl.parameters) {
+    //     /* generate code for the parameter */
+    //     Operand reg = base_register();
+    //     ASTNode_emit_insn(node, ILOCInsn_new_2op(LOAD_AI, var_offset(node, param), reg));
+    // }
 
 
     /* copy code from body */
@@ -150,6 +154,7 @@ void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_block (NodeVisitor* visitor, ASTNode* node)
 {
+
     /* copy code from each statement */  
     FOR_EACH(ASTNode*, stmt, node->block.statements) {
         ASTNode_copy_code(node, stmt);
@@ -160,15 +165,27 @@ void CodeGenVisitor_gen_block (NodeVisitor* visitor, ASTNode* node)
 void CodeGenVisitor_gen_return (NodeVisitor* visitor, ASTNode* node)
 {
     /* generate code for the return value */
-    Operand reg = ASTNode_get_temp_reg(node->funcreturn.value);
-    EMIT1OP(RETURN, reg);
+    ASTNode_copy_code(node, node->funcreturn.value);
+
+    //TODO: Come back and finish the routine by checking to make sure threi is actually a retunr value before doing the following
+
+    // emit a new i2i instruction that copies the valie from thetemporay registed associated with the return value ast node (use astnode_get tempreg) tp the special RET register (return_register())
+    EMIT2OP(I2I, ASTNode_get_temp_reg(node->funcreturn.value), return_register());
 }
 
 void CodeGenVisitor_gen_literal (NodeVisitor* visitor, ASTNode* node)
 {
+    /* generate code for the literal value */
     Operand reg = virtual_register();
     EMIT2OP(LOAD_I, int_const(node->literal.integer), reg);
     ASTNode_set_temp_reg(node, reg);
+}
+
+void CodeGenvisitor_gen_post_binaryop (NodeVisitor* visitor, ASTNode* node)
+{
+    /* generate code for the binary operation */
+    // Operand reg = virtual_register();
+    // EMIT3OP(node->binaryop.operator, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
 }
     
 #endif
@@ -190,6 +207,7 @@ InsnList* generate_code (ASTNode* tree)
     v->postvisit_block       = CodeGenVisitor_gen_block;
     v->postvisit_return      = CodeGenVisitor_gen_return;
     v->postvisit_literal     = CodeGenVisitor_gen_literal;
+    v->postvisit_binaryop    = CodeGenvisitor_gen_post_binaryop;
 
     /* generate code into AST attributes */
     NodeVisitor_traverse_and_free(v, tree);
