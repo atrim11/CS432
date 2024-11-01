@@ -1,15 +1,26 @@
 ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+  i2i SP => BP
   add r-1, r-1 => r0
   i2i r0 => RET
 l0:
   return
 main:
+  i2i SP => BP
   i2i r-1 => RET
 l1:
   return
 
 ==========================
 sp=65536 bp=-9999999 ret=-9999999
+registers: 
+stack:
+other memory:
+==========================
+
+Executing: i2i SP => BP
+
+==========================
+sp=65536 bp=65536 ret=-9999999
 registers: 
 stack:
 other memory:

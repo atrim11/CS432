@@ -8,7 +8,7 @@ digraph AST {
 3 -> 4;
 2 [shape=box, label="Block\ncode: \nloadI 2 => r0\nloadI 3 => r1\nadd r0, r1 => r2\ni2i r2 => RET\nsymbolTable: (empty)"];
 2 -> 3;
-1 [shape=box, label="FuncDecl name='main'\ncode: \nmain:\nloadI 2 => r0\nloadI 3 => r1\nadd r0, r1 => r2\ni2i r2 => RET\nl0:\nreturn\nlocalSize: 0\nsymbolTable: (empty)"];
+1 [shape=box, label="FuncDecl name='main'\ncode: \nmain:\ni2i SP => BP\nloadI 2 => r0\nloadI 3 => r1\nadd r0, r1 => r2\ni2i r2 => RET\nl0:\nreturn\nlocalSize: 0\nsymbolTable: (empty)"];
 1 -> 2;
 0 [shape=box, label="Program\ncode: (...)\nstaticSize: 0\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int"];
 0 -> 1;

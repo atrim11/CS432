@@ -1,14 +1,16 @@
-==344549== Memcheck, a memory error detector
-==344549== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==344549== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==344549== Command: ../decaf inputs/given_test.decaf
-==344549== 
+==361899== Memcheck, a memory error detector
+==361899== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==361899== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==361899== Command: ../decaf inputs/given_test.decaf
+==361899== 
 ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+  i2i SP => BP
   add r-1, r-1 => r0
   i2i r0 => RET
 l0:
   return
 main:
+  i2i SP => BP
   i2i r-1 => RET
 l1:
   return
@@ -20,21 +22,30 @@ stack:
 other memory:
 ==========================
 
+Executing: i2i SP => BP
+
+==========================
+sp=65536 bp=65536 ret=-9999999
+registers: 
+stack:
+other memory:
+==========================
+
 Executing: i2i r-1 => RET
 ERROR: Register r-1 does not exist
-==344549== 
-==344549== HEAP SUMMARY:
-==344549==     in use at exit: 125,152 bytes in 14 blocks
-==344549==   total heap usage: 1,958 allocs, 1,944 frees, 375,900 bytes allocated
-==344549== 
-==344549== LEAK SUMMARY:
-==344549==    definitely lost: 0 bytes in 0 blocks
-==344549==    indirectly lost: 0 bytes in 0 blocks
-==344549==      possibly lost: 0 bytes in 0 blocks
-==344549==    still reachable: 125,152 bytes in 14 blocks
-==344549==         suppressed: 0 bytes in 0 blocks
-==344549== Reachable blocks (those to which a pointer was found) are not shown.
-==344549== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==344549== 
-==344549== For lists of detected and suppressed errors, rerun with: -s
-==344549== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==361899== 
+==361899== HEAP SUMMARY:
+==361899==     in use at exit: 127,280 bytes in 16 blocks
+==361899==   total heap usage: 1,964 allocs, 1,948 frees, 382,284 bytes allocated
+==361899== 
+==361899== LEAK SUMMARY:
+==361899==    definitely lost: 0 bytes in 0 blocks
+==361899==    indirectly lost: 0 bytes in 0 blocks
+==361899==      possibly lost: 0 bytes in 0 blocks
+==361899==    still reachable: 127,280 bytes in 16 blocks
+==361899==         suppressed: 0 bytes in 0 blocks
+==361899== Reachable blocks (those to which a pointer was found) are not shown.
+==361899== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==361899== 
+==361899== For lists of detected and suppressed errors, rerun with: -s
+==361899== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
