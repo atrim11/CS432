@@ -1,5 +1,5 @@
---- outputs/A_print_int.txt	2024-11-01 14:34:58.320494033 -0400
-+++ expected/A_print_int.txt	2024-09-27 11:45:15.000000000 -0400
+--- outputs/A_print_int.txt	2024-11-01 14:38:25.907101707 -0400
++++ expected/A_print_int.txt	2024-10-29 14:14:18.188821620 -0400
 @@ -1,42 +1 @@
 -main:
 -  loadI 0 => r1
