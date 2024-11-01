@@ -136,6 +136,7 @@ void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
     EMIT1OP(LABEL, call_label(node->funcdecl.name));
 
     /* BOILERPLATE: TODO: implement prologue */
+    EMIT2OP(I2I,stack_register(), base_register());
     /* copy code from parameters */
     // FOR_EACH(Symbol*, param, node->funcdecl.parameters) {
     //     /* generate code for the parameter */
