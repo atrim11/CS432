@@ -184,8 +184,25 @@ void CodeGenVisitor_gen_literal (NodeVisitor* visitor, ASTNode* node)
 void CodeGenvisitor_gen_post_binaryop (NodeVisitor* visitor, ASTNode* node)
 {
     /* generate code for the binary operation */
-    // Operand reg = virtual_register();
-    // EMIT3OP(node->binaryop.operator, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+    Operand reg = virtual_register();
+    // Copy code from the left and right operands
+    ASTNode_copy_code(node, node->binaryop.left);
+    ASTNode_copy_code(node, node->binaryop.right);
+    // Need to have a switch statement to determine the correct binary operation
+    BinaryOpType op = node->binaryop.operator;
+    switch (op)
+    {
+    case ADDOP:
+        EMIT3OP(ADD, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+        break;
+    default:
+        break;
+    }
+
+    
+    // Set temp register for binary op
+    ASTNode_set_temp_reg(node, reg);
+    
 }
     
 #endif

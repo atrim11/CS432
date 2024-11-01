@@ -1,5 +1,6 @@
-ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
-  i2i r-1 => RET
+ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+  add r-1, r-1 => r0
+  i2i r0 => RET
 l0:
   return
 main:
