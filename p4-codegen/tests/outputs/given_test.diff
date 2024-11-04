@@ -1,5 +1,5 @@
---- outputs/given_test.txt	2024-11-01 14:44:08.473561203 -0400
-+++ expected/given_test.txt	2024-10-30 13:48:12.139915053 -0400
+--- outputs/given_test.txt	2024-11-04 12:16:54.712353506 -0500
++++ expected/given_test.txt	2024-10-29 14:23:13.353896544 -0400
 @@ -1,30 +1,34 @@
 -ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
 +add:

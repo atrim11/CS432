@@ -1,0 +1,37 @@
+--- outputs/while_loop.txt	2024-11-04 12:16:57.075473257 -0500
++++ expected/while_loop.txt	2024-11-04 12:12:42.063550528 -0500
+@@ -1,34 +0,0 @@
+-ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+-  i2i SP => BP
+-l1:
+-  loadI 0 => r0
+-  cmp_GT r-1, r0 => r1
+-  cbr r1 => l1, l2
+-l2:
+-  i2i r-1 => RET
+-l0:
+-  return
+-main:
+-  i2i SP => BP
+-  i2i r-1 => RET
+-l3:
+-  return
+-
+-==========================
+-sp=65536 bp=-9999999 ret=-9999999
+-registers: 
+-stack:
+-other memory:
+-==========================
+-
+-Executing: i2i SP => BP
+-
+-==========================
+-sp=65536 bp=65536 ret=-9999999
+-registers: 
+-stack:
+-other memory:
+-==========================
+-
+-Executing: i2i r-1 => RET
+-ERROR: Register r-1 does not exist
