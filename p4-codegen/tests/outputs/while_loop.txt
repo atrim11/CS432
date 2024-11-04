@@ -3,15 +3,17 @@ ERROR: Node is missing a temporary registerERROR: Node is missing a temporary re
 l1:
   loadI 0 => r0
   cmp_GT r-1, r0 => r1
-  cbr r1 => l1, l2
+  cbr r1 => l2, l3
 l2:
+  jump l1
+l3:
   i2i r-1 => RET
 l0:
   return
 main:
   i2i SP => BP
   i2i r-1 => RET
-l3:
+l4:
   return
 
 ==========================

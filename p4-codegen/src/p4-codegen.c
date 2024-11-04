@@ -14,6 +14,11 @@ typedef struct CodeGenData
      */
     Operand current_epilogue_jump_label;
 
+    Operand loop_label;
+    Operand body_label;
+    Operand end_label;
+
+
     /* add any new desired state information (and clean it up in CodeGenData_free) */
 } CodeGenData;
 
@@ -243,34 +248,55 @@ void CodeGenvisitor_gen_post_binaryop (NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_unaryop (NodeVisitor* visitor, ASTNode* node)
 {
-    // /* generate code for the unary operation */
-    // Operand reg = virtual_register();
-    // ASTNode_copy_code(node, node->unaryop.operator);
-    // UnaryOpType op = node->unaryop.operator;
-    // switch (op)
-    // {
-    // case NEGOP:
-    //     EMIT3OP(NEG, ASTNode_get_temp_reg(node->unaryop.operator), empty_operand(), reg);
-    //     break;
-    // case NOTOP:
-    //     EMIT3OP(NOT, ASTNode_get_temp_reg(node->unaryop.operator), int_const(1), reg);
-    //     break;
-    // default:
-    //     break;
-    // }
-    // ASTNode_set_temp_reg(node, reg);
+    /* generate code for the unary operation */
+    Operand reg = virtual_register();
+    ASTNode_copy_code(node, node->unaryop.child);
+    UnaryOpType op = node->unaryop.operator;
+    switch (op)
+    {
+    case NEGOP:
+        EMIT2OP(NEG, ASTNode_get_temp_reg(node->unaryop.child), reg);
+        break;
+    case NOTOP:
+        EMIT2OP(NOT, ASTNode_get_temp_reg(node->unaryop.child), reg);
+        break;
+    default:
+        break;
+    }
+    ASTNode_set_temp_reg(node, reg);
 }
 
-void CodeGenVisitor_gen_while (NodeVisitor* visitor, ASTNode* node)
+void GenCodeVisitor_gen_pre_while (NodeVisitor* visitor, ASTNode* node)
 {
     /* generate code for the while loop */
-    Operand loop_label = anonymous_label();
-    Operand end_label = anonymous_label();
-    EMIT1OP(LABEL, loop_label);
+    DATA->loop_label = anonymous_label();
+    DATA->body_label = anonymous_label();
+    DATA->end_label = anonymous_label();
+}
+
+void CodeGenVisitor_gen_post_while (NodeVisitor* visitor, ASTNode* node)
+{
+    EMIT1OP(LABEL, DATA->loop_label);
     ASTNode_copy_code(node, node->whileloop.condition);
-    EMIT3OP(CBR, ASTNode_get_temp_reg(node->whileloop.condition), loop_label, end_label);
+    EMIT3OP(CBR, ASTNode_get_temp_reg(node->whileloop.condition), DATA->body_label, DATA->end_label);
+    EMIT1OP(LABEL, DATA->body_label);
     ASTNode_copy_code(node, node->whileloop.body);
-    EMIT1OP(LABEL, end_label);
+
+    // Jumping back to conditinals
+    EMIT1OP(JUMP, DATA->loop_label);
+
+    // End of while loop
+    EMIT1OP(LABEL, DATA->end_label);
+}
+
+void GenCodeVisitor_gen_post_break (NodeVisitor* visitor, ASTNode* node)
+{
+    EMIT1OP(JUMP, DATA->end_label);
+}
+
+void GenCodeVisitor_gen_post_continue (NodeVisitor* visitor, ASTNode* node)
+{
+    EMIT1OP(JUMP, DATA->loop_label);
 }
     
 #endif
@@ -293,8 +319,11 @@ InsnList* generate_code (ASTNode* tree)
     v->postvisit_return      = CodeGenVisitor_gen_return;
     v->postvisit_literal     = CodeGenVisitor_gen_literal;
     v->postvisit_binaryop    = CodeGenvisitor_gen_post_binaryop;
-    // v->postvisit_unaryop     = CodeGenVisitor_gen_unaryop;
-    v->postvisit_whileloop   = CodeGenVisitor_gen_while;
+    v->postvisit_unaryop     = CodeGenVisitor_gen_unaryop;
+    v ->previsit_whileloop   = GenCodeVisitor_gen_pre_while;
+    v->postvisit_whileloop   = CodeGenVisitor_gen_post_while;
+    v->postvisit_break       = GenCodeVisitor_gen_post_break;
+    v->postvisit_continue    = GenCodeVisitor_gen_post_continue;
 
     /* generate code into AST attributes */
     NodeVisitor_traverse_and_free(v, tree);

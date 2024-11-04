@@ -2,12 +2,10 @@ Running suite(s): Default
 ERROR: Node is missing a temporary registerERROR: Register r-1 does not exist
 ERROR: Node is missing a temporary registerERROR: Register r-1 does not exist
 ERROR: Node is missing a temporary registerERROR: Register r-1 does not exist
-ERROR: Node is missing a temporary registerERROR: Register r-1 does not exist
 ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Register r-1 does not exist
 ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Register r-1 does not exist
 ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Register r-1 does not exist
-50%: Checks: 14, Failures: 0, Errors: 7
-public.c:20:E:Public:C_expr_negate:0: (after this point) Early exit with return value 1
+57%: Checks: 14, Failures: 0, Errors: 6
 public.c:22:E:Public:C_assignment:0: (after this point) Early exit with return value 1
 public.c:23:E:Public:C_global_assignment:0: (after this point) Early exit with return value 1
 public.c:27:E:Public:B_conditional:0: (after this point) Early exit with return value 1
