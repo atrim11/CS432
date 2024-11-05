@@ -6,5 +6,6 @@ x`
 # To Dump Output
 ./decaf P0/P0.decaf --fdump-tables
 
-## 
+# P4
+--fdump-iloc
 

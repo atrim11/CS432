@@ -8,11 +8,13 @@ l2:
   jump l1
 l3:
   i2i r-1 => RET
+  jump l0
 l0:
   return
 main:
   i2i SP => BP
   i2i r-1 => RET
+  jump l4
 l4:
   return
 

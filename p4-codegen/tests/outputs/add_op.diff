@@ -1,12 +1,17 @@
---- outputs/add_op.txt	2024-11-04 13:45:11.865024950 -0500
-+++ expected/add_op.txt	2024-11-01 14:38:22.832944811 -0400
-@@ -1,5 +1,4 @@
+--- outputs/add_op.txt	2024-11-04 22:32:35.733254058 -0500
++++ expected/add_op.txt	2024-11-01 14:40:18.003822797 -0400
+@@ -1,10 +1,8 @@
  main:
 -  i2i SP => BP
    loadI 2 => r0
    loadI 3 => r1
    add r0, r1 => r2
-@@ -14,19 +13,10 @@
+   i2i r2 => RET
+-  jump l0
+ l0:
+   return
+ 
+@@ -15,19 +13,10 @@
  other memory:
  ==========================
  
@@ -27,7 +32,7 @@
  registers:  r0=2
  stack:
  other memory:
-@@ -35,7 +25,7 @@
+@@ -36,7 +25,7 @@
  Executing: loadI 3 => r1
  
  ==========================
@@ -36,7 +41,7 @@
  registers:  r0=2 r1=3
  stack:
  other memory:
-@@ -44,7 +34,7 @@
+@@ -45,7 +34,7 @@
  Executing: add r0, r1 => r2
  
  ==========================
@@ -45,7 +50,7 @@
  registers:  r0=2 r1=3 r2=5
  stack:
  other memory:
-@@ -53,7 +43,7 @@
+@@ -54,16 +43,16 @@
  Executing: i2i r2 => RET
  
  ==========================
@@ -54,8 +59,10 @@
  registers:  r0=2 r1=3 r2=5
  stack:
  other memory:
-@@ -62,7 +52,7 @@
- Executing: l0:
+ ==========================
+ 
+-Executing: jump l0
++Executing: l0:
  
  ==========================
 -sp=65536 bp=65536 ret=5

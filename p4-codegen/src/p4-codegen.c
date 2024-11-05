@@ -142,6 +142,7 @@ void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
 
     /* BOILERPLATE: TODO: implement prologue */
     EMIT2OP(I2I,stack_register(), base_register());
+    
     /* copy code from parameters */
     // FOR_EACH(Symbol*, param, node->funcdecl.parameters) {
     //     /* generate code for the parameter */
@@ -170,13 +171,14 @@ void CodeGenVisitor_gen_block (NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_return (NodeVisitor* visitor, ASTNode* node)
 {
-    /* generate code for the return value */
-    ASTNode_copy_code(node, node->funcreturn.value);
-
-    //TODO: Come back and finish the routine by checking to make sure threi is actually a retunr value before doing the following
-
-    // emit a new i2i instruction that copies the valie from thetemporay registed associated with the return value ast node (use astnode_get tempreg) tp the special RET register (return_register())
-    EMIT2OP(I2I, ASTNode_get_temp_reg(node->funcreturn.value), return_register());
+    /* generate code for the return value, if it exists */
+    if (node->funcreturn.value) {
+        ASTNode_copy_code(node, node->funcreturn.value);
+        // Copy the return value to the RET register
+        EMIT2OP(I2I, ASTNode_get_temp_reg(node->funcreturn.value), return_register());
+    }
+    // Jump to the function’s epilogue to handle cleanup
+    EMIT1OP(JUMP, DATA->current_epilogue_jump_label);
 }
 
 void CodeGenVisitor_gen_literal (NodeVisitor* visitor, ASTNode* node)
