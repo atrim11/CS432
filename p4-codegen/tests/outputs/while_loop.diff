@@ -1,14 +1,14 @@
---- outputs/while_loop.txt	2024-11-06 13:20:29.126207615 -0500
+--- outputs/while_loop.txt	2024-11-06 14:27:01.223575020 -0500
 +++ expected/while_loop.txt	2024-11-04 12:12:42.063550528 -0500
 @@ -1,133 +0,0 @@
--ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+-ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
 -  push BP
 -  i2i SP => BP
 -l1:
 -  loadI 0 => r0
 -  cmp_GT r-1, r0 => r1
--  cbr r1 => l2, l3
 -l2:
+-  cbr r1 => l2, l3
 -  loadI 1 => r2
 -  sub r-1, r2 => r3
 -  storeAI r3 => [BP-8]
@@ -27,8 +27,8 @@
 -  addI SP, -8 => SP
 -  loadI 3 => r5
 -  storeAI r5 => [BP-8]
--  loadAI [BP-8] => r7
--  i2i r7 => RET
+-  call add
+-  i2i r0 => RET
 -  jump l4
 -l4:
 -  i2i BP => SP
@@ -87,50 +87,50 @@
 -other memory:
 -==========================
 -
--Executing: loadAI [BP-8] => r7
+-Executing: call add
 -
 -==========================
--sp=65520 bp=65528 ret=-9999999
--registers:  r5=3 r7=3
--stack:  65528: -9999999  65520: 3
+-sp=65512 bp=65528 ret=-9999999
+-registers:  r5=3
+-stack:  65528: -9999999  65520: 3  65512: 27
 -other memory:
 -==========================
 -
--Executing: i2i r7 => RET
+-Executing: push BP
 -
 -==========================
--sp=65520 bp=65528 ret=3
--registers:  r5=3 r7=3
--stack:  65528: -9999999  65520: 3
+-sp=65504 bp=65528 ret=-9999999
+-registers:  r5=3
+-stack:  65528: -9999999  65520: 3  65512: 27  65504: 65528
 -other memory:
 -==========================
 -
--Executing: jump l4
+-Executing: i2i SP => BP
 -
 -==========================
--sp=65520 bp=65528 ret=3
--registers:  r5=3 r7=3
--stack:  65528: -9999999  65520: 3
+-sp=65504 bp=65504 ret=-9999999
+-registers:  r5=3
+-stack:  65528: -9999999  65520: 3  65512: 27  65504: 65528
 -other memory:
 -==========================
 -
--Executing: i2i BP => SP
+-Executing: l1:
 -
 -==========================
--sp=65528 bp=65528 ret=3
--registers:  r5=3 r7=3
--stack:  65528: -9999999
--other memory:  65520: 3
+-sp=65504 bp=65504 ret=-9999999
+-registers:  r5=3
+-stack:  65528: -9999999  65520: 3  65512: 27  65504: 65528
+-other memory:
 -==========================
 -
--Executing: pop BP
+-Executing: loadI 0 => r0
 -
 -==========================
--sp=65536 bp=-9999999 ret=3
--registers:  r5=3 r7=3
--stack:
--other memory:  65520: 3  65528: -9999999
+-sp=65504 bp=65504 ret=-9999999
+-registers:  r0=0 r5=3
+-stack:  65528: -9999999  65520: 3  65512: 27  65504: 65528
+-other memory:
 -==========================
 -
--Executing: return
--RETURN VALUE = 3
+-Executing: cmp_GT r-1, r0 => r1
+-ERROR: Register r-1 does not exist

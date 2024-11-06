@@ -1,16 +1,16 @@
-==1538795== Memcheck, a memory error detector
-==1538795== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1538795== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1538795== Command: ../decaf inputs/while_loop.decaf
-==1538795== 
-ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+==1837949== Memcheck, a memory error detector
+==1837949== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1837949== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1837949== Command: ../decaf inputs/while_loop.decaf
+==1837949== 
+ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
   push BP
   i2i SP => BP
 l1:
   loadI 0 => r0
   cmp_GT r-1, r0 => r1
-  cbr r1 => l2, l3
 l2:
+  cbr r1 => l2, l3
   loadI 1 => r2
   sub r-1, r2 => r3
   storeAI r3 => [BP-8]
@@ -29,8 +29,8 @@ main:
   addI SP, -8 => SP
   loadI 3 => r5
   storeAI r5 => [BP-8]
-  loadAI [BP-8] => r7
-  i2i r7 => RET
+  call add
+  i2i r0 => RET
   jump l4
 l4:
   i2i BP => SP
@@ -89,59 +89,66 @@ stack:  65528: -9999999  65520: 3
 other memory:
 ==========================
 
-Executing: loadAI [BP-8] => r7
+Executing: call add
 
 ==========================
-sp=65520 bp=65528 ret=-9999999
-registers:  r5=3 r7=3
-stack:  65528: -9999999  65520: 3
+sp=65512 bp=65528 ret=-9999999
+registers:  r5=3
+stack:  65528: -9999999  65520: 3  65512: 27
 other memory:
 ==========================
 
-Executing: i2i r7 => RET
+Executing: push BP
 
 ==========================
-sp=65520 bp=65528 ret=3
-registers:  r5=3 r7=3
-stack:  65528: -9999999  65520: 3
+sp=65504 bp=65528 ret=-9999999
+registers:  r5=3
+stack:  65528: -9999999  65520: 3  65512: 27  65504: 65528
 other memory:
 ==========================
 
-Executing: jump l4
+Executing: i2i SP => BP
 
 ==========================
-sp=65520 bp=65528 ret=3
-registers:  r5=3 r7=3
-stack:  65528: -9999999  65520: 3
+sp=65504 bp=65504 ret=-9999999
+registers:  r5=3
+stack:  65528: -9999999  65520: 3  65512: 27  65504: 65528
 other memory:
 ==========================
 
-Executing: i2i BP => SP
+Executing: l1:
 
 ==========================
-sp=65528 bp=65528 ret=3
-registers:  r5=3 r7=3
-stack:  65528: -9999999
-other memory:  65520: 3
+sp=65504 bp=65504 ret=-9999999
+registers:  r5=3
+stack:  65528: -9999999  65520: 3  65512: 27  65504: 65528
+other memory:
 ==========================
 
-Executing: pop BP
+Executing: loadI 0 => r0
 
 ==========================
-sp=65536 bp=-9999999 ret=3
-registers:  r5=3 r7=3
-stack:
-other memory:  65520: 3  65528: -9999999
+sp=65504 bp=65504 ret=-9999999
+registers:  r0=0 r5=3
+stack:  65528: -9999999  65520: 3  65512: 27  65504: 65528
+other memory:
 ==========================
 
-Executing: return
-RETURN VALUE = 3
-==1538795== 
-==1538795== HEAP SUMMARY:
-==1538795==     in use at exit: 0 bytes in 0 blocks
-==1538795==   total heap usage: 2,192 allocs, 2,192 frees, 521,832 bytes allocated
-==1538795== 
-==1538795== All heap blocks were freed -- no leaks are possible
-==1538795== 
-==1538795== For lists of detected and suppressed errors, rerun with: -s
-==1538795== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Executing: cmp_GT r-1, r0 => r1
+ERROR: Register r-1 does not exist
+==1837949== 
+==1837949== HEAP SUMMARY:
+==1837949==     in use at exit: 150,688 bytes in 38 blocks
+==1837949==   total heap usage: 2,196 allocs, 2,158 frees, 523,000 bytes allocated
+==1837949== 
+==1837949== LEAK SUMMARY:
+==1837949==    definitely lost: 0 bytes in 0 blocks
+==1837949==    indirectly lost: 0 bytes in 0 blocks
+==1837949==      possibly lost: 0 bytes in 0 blocks
+==1837949==    still reachable: 150,688 bytes in 38 blocks
+==1837949==         suppressed: 0 bytes in 0 blocks
+==1837949== Reachable blocks (those to which a pointer was found) are not shown.
+==1837949== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1837949== 
+==1837949== For lists of detected and suppressed errors, rerun with: -s
+==1837949== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

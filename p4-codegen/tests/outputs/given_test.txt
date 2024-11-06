@@ -1,4 +1,4 @@
-ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
   push BP
   i2i SP => BP
   add r-1, r-1 => r0
@@ -14,8 +14,8 @@ main:
   addI SP, -8 => SP
   loadI 3 => r1
   storeAI r1 => [BP-8]
-  loadAI [BP-8] => r3
-  i2i r3 => RET
+  call add
+  i2i r0 => RET
   jump l1
 l1:
   i2i BP => SP
@@ -74,50 +74,32 @@ stack:  65528: -9999999  65520: 3
 other memory:
 ==========================
 
-Executing: loadAI [BP-8] => r3
+Executing: call add
 
 ==========================
-sp=65520 bp=65528 ret=-9999999
-registers:  r1=3 r3=3
-stack:  65528: -9999999  65520: 3
+sp=65512 bp=65528 ret=-9999999
+registers:  r1=3
+stack:  65528: -9999999  65520: 3  65512: 17
 other memory:
 ==========================
 
-Executing: i2i r3 => RET
+Executing: push BP
 
 ==========================
-sp=65520 bp=65528 ret=3
-registers:  r1=3 r3=3
-stack:  65528: -9999999  65520: 3
+sp=65504 bp=65528 ret=-9999999
+registers:  r1=3
+stack:  65528: -9999999  65520: 3  65512: 17  65504: 65528
 other memory:
 ==========================
 
-Executing: jump l1
+Executing: i2i SP => BP
 
 ==========================
-sp=65520 bp=65528 ret=3
-registers:  r1=3 r3=3
-stack:  65528: -9999999  65520: 3
+sp=65504 bp=65504 ret=-9999999
+registers:  r1=3
+stack:  65528: -9999999  65520: 3  65512: 17  65504: 65528
 other memory:
 ==========================
 
-Executing: i2i BP => SP
-
-==========================
-sp=65528 bp=65528 ret=3
-registers:  r1=3 r3=3
-stack:  65528: -9999999
-other memory:  65520: 3
-==========================
-
-Executing: pop BP
-
-==========================
-sp=65536 bp=-9999999 ret=3
-registers:  r1=3 r3=3
-stack:
-other memory:  65520: 3  65528: -9999999
-==========================
-
-Executing: return
-RETURN VALUE = 3
+Executing: add r-1, r-1 => r0
+ERROR: Register r-1 does not exist

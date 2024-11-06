@@ -392,6 +392,13 @@ void GenCodeVisitor_gen_post_conditional (NodeVisitor* visitor, ASTNode* node)
 }
 
 
+void CodeGenVisitor_gen_post_funccall (NodeVisitor* visitor, ASTNode* node)
+{
+    /* Generate code for the function call */
+    EMIT1OP(CALL, call_label(node->funccall.name));
+    ASTNode_set_temp_reg(node, return_register());
+}
+
 #endif
 InsnList* generate_code (ASTNode* tree)
 {
@@ -411,15 +418,22 @@ InsnList* generate_code (ASTNode* tree)
     v->postvisit_block       = CodeGenVisitor_gen_block;
     v->postvisit_return      = CodeGenVisitor_gen_return;
     v->postvisit_literal     = CodeGenVisitor_gen_literal;
+
     v->postvisit_binaryop    = CodeGenvisitor_gen_post_binaryop;
     v->postvisit_unaryop     = CodeGenVisitor_gen_unaryop;
-    v ->previsit_whileloop   = GenCodeVisitor_gen_pre_while;
+
+    v->previsit_whileloop    = GenCodeVisitor_gen_pre_while;
     v->postvisit_whileloop   = CodeGenVisitor_gen_post_while;
     v->postvisit_break       = GenCodeVisitor_gen_post_break;
     v->postvisit_continue    = GenCodeVisitor_gen_post_continue;
+
     v->postvisit_assignment  = CodeGenVisitor_gen_assign;
+
     v->previsit_conditional  = GenCodeVisitor_gen_pre_conditional;
     v->postvisit_conditional = GenCodeVisitor_gen_post_conditional;
+
+    // v->previsit_funccall     = CodeGenVisitor_gen_pre_funccall;
+    v->postvisit_funccall    = CodeGenVisitor_gen_post_funccall;
 
     /* generate code into AST attributes */
     NodeVisitor_traverse_and_free(v, tree);
