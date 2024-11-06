@@ -1,5 +1,5 @@
---- outputs/A_memcheck.txt	2024-11-05 19:44:36.335599782 -0500
-+++ expected/A_memcheck.txt	2024-09-27 11:45:15.000000000 -0400
+--- outputs/A_memcheck.txt	2024-11-06 13:20:24.275960883 -0500
++++ expected/A_memcheck.txt	2024-10-29 14:14:18.187821570 -0400
 @@ -1,83 +1 @@
 -main:
 -  push BP

@@ -375,9 +375,21 @@ void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
     ASTNode_set_temp_reg(node->assignment.location, rhs_reg);  // Location node's temp register (for `a`)
 }
 
+void GenCodeVisitor_gen_pre_conditional (NodeVisitor* visitor, ASTNode* node)
+{
+    /* generate code for the conditional */
+    DATA->body_label = anonymous_label();
+    DATA->end_label = anonymous_label();
+}
 
-
-
+void GenCodeVisitor_gen_post_conditional (NodeVisitor* visitor, ASTNode* node)
+{
+    ASTNode_copy_code(node, node->conditional.condition);
+    EMIT3OP(CBR, ASTNode_get_temp_reg(node->conditional.condition), DATA->body_label, DATA->end_label);
+    EMIT1OP(LABEL, DATA->body_label);
+    ASTNode_copy_code(node, node->conditional.if_block);
+    EMIT1OP(LABEL, DATA->end_label);
+}
 
 
 #endif
@@ -406,6 +418,8 @@ InsnList* generate_code (ASTNode* tree)
     v->postvisit_break       = GenCodeVisitor_gen_post_break;
     v->postvisit_continue    = GenCodeVisitor_gen_post_continue;
     v->postvisit_assignment  = CodeGenVisitor_gen_assign;
+    v->previsit_conditional  = GenCodeVisitor_gen_pre_conditional;
+    v->postvisit_conditional = GenCodeVisitor_gen_post_conditional;
 
     /* generate code into AST attributes */
     NodeVisitor_traverse_and_free(v, tree);
