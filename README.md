@@ -7,5 +7,5 @@ x`
 ./decaf P0/P0.decaf --fdump-tables
 
 # P4
---fdump-iloc
+./decaf P0/P0.decaf --fdump-iloc
 

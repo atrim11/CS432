@@ -1,4 +1,5 @@
 main:
+  push BP
   i2i SP => BP
   loadI 2 => r0
   loadI 3 => r1
@@ -6,6 +7,8 @@ main:
   i2i r2 => RET
   jump l0
 l0:
+  i2i BP => SP
+  pop BP
   return
 
 ==========================
@@ -15,58 +18,85 @@ stack:
 other memory:
 ==========================
 
+Executing: push BP
+
+==========================
+sp=65528 bp=-9999999 ret=-9999999
+registers: 
+stack:  65528: -9999999
+other memory:
+==========================
+
 Executing: i2i SP => BP
 
 ==========================
-sp=65536 bp=65536 ret=-9999999
+sp=65528 bp=65528 ret=-9999999
 registers: 
-stack:
+stack:  65528: -9999999
 other memory:
 ==========================
 
 Executing: loadI 2 => r0
 
 ==========================
-sp=65536 bp=65536 ret=-9999999
+sp=65528 bp=65528 ret=-9999999
 registers:  r0=2
-stack:
+stack:  65528: -9999999
 other memory:
 ==========================
 
 Executing: loadI 3 => r1
 
 ==========================
-sp=65536 bp=65536 ret=-9999999
+sp=65528 bp=65528 ret=-9999999
 registers:  r0=2 r1=3
-stack:
+stack:  65528: -9999999
 other memory:
 ==========================
 
 Executing: add r0, r1 => r2
 
 ==========================
-sp=65536 bp=65536 ret=-9999999
+sp=65528 bp=65528 ret=-9999999
 registers:  r0=2 r1=3 r2=5
-stack:
+stack:  65528: -9999999
 other memory:
 ==========================
 
 Executing: i2i r2 => RET
 
 ==========================
-sp=65536 bp=65536 ret=5
+sp=65528 bp=65528 ret=5
 registers:  r0=2 r1=3 r2=5
-stack:
+stack:  65528: -9999999
 other memory:
 ==========================
 
 Executing: jump l0
 
 ==========================
-sp=65536 bp=65536 ret=5
+sp=65528 bp=65528 ret=5
+registers:  r0=2 r1=3 r2=5
+stack:  65528: -9999999
+other memory:
+==========================
+
+Executing: i2i BP => SP
+
+==========================
+sp=65528 bp=65528 ret=5
+registers:  r0=2 r1=3 r2=5
+stack:  65528: -9999999
+other memory:
+==========================
+
+Executing: pop BP
+
+==========================
+sp=65536 bp=-9999999 ret=5
 registers:  r0=2 r1=3 r2=5
 stack:
-other memory:
+other memory:  65528: -9999999
 ==========================
 
 Executing: return

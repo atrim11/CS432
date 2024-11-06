@@ -135,29 +135,67 @@ void CodeGenVisitor_previsit_funcdecl (NodeVisitor* visitor, ASTNode* node)
     DATA->current_epilogue_jump_label = anonymous_label();
 }
 
-void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
+
+void CodeGenVisitor_gen_funcdecl(NodeVisitor* visitor, ASTNode* node)
 {
-    /* every function begins with the corresponding call label */
+    /* Every function begins with the corresponding call label */
     EMIT1OP(LABEL, call_label(node->funcdecl.name));
 
-    /* BOILERPLATE: TODO: implement prologue */
-    EMIT2OP(I2I,stack_register(), base_register());
-    
-    /* copy code from parameters */
-    // FOR_EACH(Symbol*, param, node->funcdecl.parameters) {
-    //     /* generate code for the parameter */
-    //     Operand reg = base_register();
-    //     ASTNode_emit_insn(node, ILOCInsn_new_2op(LOAD_AI, var_offset(node, param), reg));
-    // }
+    /* Prologue */
+    EMIT1OP(PUSH, base_register());                      // push BP
+    EMIT2OP(I2I, stack_register(), base_register());     // i2i SP => BP
 
+    /* Check if there are any local variables by looking for 'localSize' */
+    int localSize = ASTNode_get_int_attribute(node, "localSize");
+    if (localSize > 0) {
+        EMIT3OP(ADD_I, stack_register(), int_const(-localSize), stack_register());  // addI SP, -localSize => SP
+    }
 
-    /* copy code from body */
+    /* Generate code for function body */
     ASTNode_copy_code(node, node->funcdecl.body);
 
+    /* Epilogue label */
     EMIT1OP(LABEL, DATA->current_epilogue_jump_label);
-    /* BOILERPLATE: TODO: implement epilogue */
+
+    /* Epilogue */
+    EMIT2OP(I2I, base_register(), stack_register());     // i2i BP => SP
+    EMIT1OP(POP, base_register());                       // pop BP
+
+    /* Return instruction */
     EMIT0OP(RETURN);
 }
+
+
+
+
+// void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
+// {
+//     /* every function begins with the corresponding call label */
+//     EMIT1OP(LABEL, call_label(node->funcdecl.name));
+
+//     /* Prologue */
+//     EMIT1OP(PUSH, base_register());                      // push BP
+//     EMIT2OP(I2I, stack_register(), base_register());     // i2i SP => BP
+//     EMIT3OP(ADD_I, stack_register(), int_const(0), stack_register());  // addI SP, 0 => SP
+
+//     /* copy code from parameters */
+//     // FOR_EACH(Symbol*, param, node->funcdecl.parameters) {
+//     //     /* generate code for the parameter */
+//     //     Operand reg = base_register();
+//     //     ASTNode_emit_insn(node, ILOCInsn_new_2op(LOAD_AI, var_offset(node, param), reg));
+//     // }
+//     /* Generate code for function body */
+//     ASTNode_copy_code(node, node->funcdecl.body);
+
+//     /* Epilogue label */
+//     EMIT1OP(LABEL, DATA->current_epilogue_jump_label);
+//     /* Epilogue */
+//     EMIT2OP(I2I, base_register(), stack_register());     // i2i BP => SP
+//     EMIT1OP(POP, base_register());                       // pop BP
+
+//     /* Return instruction */
+//     EMIT0OP(RETURN);
+// }
 
 void CodeGenVisitor_gen_block (NodeVisitor* visitor, ASTNode* node)
 {
@@ -169,31 +207,38 @@ void CodeGenVisitor_gen_block (NodeVisitor* visitor, ASTNode* node)
 
 }
 
-void CodeGenVisitor_gen_return (NodeVisitor* visitor, ASTNode* node)
+void CodeGenVisitor_gen_return(NodeVisitor* visitor, ASTNode* node)
 {
-    /* generate code for the return value, if it exists */
+    /* Generate code for the return value, if it exists */
     if (node->funcreturn.value) {
         ASTNode_copy_code(node, node->funcreturn.value);
-        // Copy the return value to the RET register
-        EMIT2OP(I2I, ASTNode_get_temp_reg(node->funcreturn.value), return_register());
+        
+        /* Move the return value to RET */
+        Operand result_reg = ASTNode_get_temp_reg(node->funcreturn.value);
+        EMIT2OP(I2I, result_reg, return_register());  // Only final result goes to RET
     }
-    // Jump to the function’s epilogue to handle cleanup
+
+    /* Jump to the function's epilogue to handle cleanup */
     EMIT1OP(JUMP, DATA->current_epilogue_jump_label);
 }
 
-void CodeGenVisitor_gen_literal (NodeVisitor* visitor, ASTNode* node)
+
+
+
+void CodeGenVisitor_gen_literal(NodeVisitor* visitor, ASTNode* node)
 {
-    /* generate code for the literal value */
-    Operand reg = virtual_register();
+    /* Generate code for the literal value */
+    Operand reg = virtual_register(); // Use a temporary register
     EMIT2OP(LOAD_I, int_const(node->literal.integer), reg);
-    ASTNode_set_temp_reg(node, reg);
+    ASTNode_set_temp_reg(node, reg);  // Set the temp register for the node
 }
+
+
 
 void CodeGenvisitor_gen_post_binaryop (NodeVisitor* visitor, ASTNode* node)
 {
-    /* generate code for the binary operation */
-    Operand reg = virtual_register();
-    // Copy code from the left and right operands
+     /* Generate code for the binary operation */
+    Operand reg = virtual_register();  // Use a new temporary register
     ASTNode_copy_code(node, node->binaryop.left);
     ASTNode_copy_code(node, node->binaryop.right);
     // Need to have a switch statement to determine the correct binary operation
@@ -300,7 +345,31 @@ void GenCodeVisitor_gen_post_continue (NodeVisitor* visitor, ASTNode* node)
 {
     EMIT1OP(JUMP, DATA->loop_label);
 }
-    
+
+void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
+{
+    /* Generate code for the RHS expression (value) */
+    ASTNode_copy_code(node, node->assignment.value);
+
+    /* Retrieve the result register of the RHS expression */
+    Operand rhs_reg = ASTNode_get_temp_reg(node->assignment.value);
+
+    /* Get the base address and offset for the LHS variable (location) */
+    Operand lhs_base = base_register();  // BP is the base for stack variables
+    Operand lhs_offset = int_const(-8);  // Offset for local variable "a"
+
+    /* Store the RHS result into the LHS variable's location */
+    EMIT3OP(STORE_AI, rhs_reg, lhs_base, lhs_offset);  // storeAI r4 => [BP-8]
+
+    /* Set the temporary register for the LHS variable */
+    ASTNode_set_temp_reg(node, rhs_reg);  // Set temp reg for assignment node
+    ASTNode_set_temp_reg(node->assignment.location, rhs_reg);  // Set temp reg for `a` itself
+}
+
+
+
+
+
 #endif
 InsnList* generate_code (ASTNode* tree)
 {
@@ -326,6 +395,7 @@ InsnList* generate_code (ASTNode* tree)
     v->postvisit_whileloop   = CodeGenVisitor_gen_post_while;
     v->postvisit_break       = GenCodeVisitor_gen_post_break;
     v->postvisit_continue    = GenCodeVisitor_gen_post_continue;
+    v->postvisit_assignment  = CodeGenVisitor_gen_assign;
 
     /* generate code into AST attributes */
     NodeVisitor_traverse_and_free(v, tree);

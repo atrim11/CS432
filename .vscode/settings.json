@@ -2,6 +2,12 @@
     "files.associations": {
         "optional": "cpp",
         "type_traits": "cpp",
-        "p2-parser.h": "c"
+        "p2-parser.h": "c",
+        "random": "c",
+        "*.tcc": "cpp",
+        "cmath": "cpp",
+        "limits": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp"
     }
 }
