@@ -14,13 +14,13 @@ digraph AST {
 4 -> 5;
 4 -> 6;
 12 [shape=box, label="Location name='a'\ntype: int"];
-11 [shape=box, label="Return\ncode: \ni2i r-1 => RET\njump l0"];
+11 [shape=box, label="Return\ncode: \nloadAI [BP-8] => r5\ni2i r5 => RET\njump l0"];
 11 -> 12;
-2 [shape=box, label="Block\ncode: \nloadI 2 => r0\nloadI 3 => r1\nloadI 4 => r2\nmult r1, r2 => r3\nadd r0, r3 => r4\nstoreAI r4 => [BP-8]\ni2i r-1 => RET\njump l0\nsymbolTable: \n  a : int {stack offset=-8}"];
+2 [shape=box, label="Block\ncode: \nloadI 2 => r0\nloadI 3 => r1\nloadI 4 => r2\nmult r1, r2 => r3\nadd r0, r3 => r4\nstoreAI r4 => [BP-8]\nloadAI [BP-8] => r5\ni2i r5 => RET\njump l0\nsymbolTable: \n  a : int {stack offset=-8}"];
 2 -> 3;
 2 -> 4;
 2 -> 11;
-1 [shape=box, label="FuncDecl name='main'\ncode: \nmain:\npush BP\ni2i SP => BP\naddI SP, -8 => SP\nloadI 2 => r0\nloadI 3 => r1\nloadI 4 => r2\nmult r1, r2 => r3\nadd r0, r3 => r4\nstoreAI r4 => [BP-8]\ni2i r-1 => RET\njump l0\nl0:\ni2i BP => SP\npop BP\nreturn\nlocalSize: 8\nsymbolTable: (empty)"];
+1 [shape=box, label="FuncDecl name='main'\ncode: \nmain:\npush BP\ni2i SP => BP\naddI SP, -8 => SP\nloadI 2 => r0\nloadI 3 => r1\nloadI 4 => r2\nmult r1, r2 => r3\nadd r0, r3 => r4\nstoreAI r4 => [BP-8]\nloadAI [BP-8] => r5\ni2i r5 => RET\njump l0\nl0:\ni2i BP => SP\npop BP\nreturn\nlocalSize: 8\nsymbolTable: (empty)"];
 1 -> 2;
 0 [shape=box, label="Program\ncode: (...)\nstaticSize: 0\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int"];
 0 -> 1;

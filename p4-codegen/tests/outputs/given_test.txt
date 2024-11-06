@@ -14,7 +14,8 @@ main:
   addI SP, -8 => SP
   loadI 3 => r1
   storeAI r1 => [BP-8]
-  i2i r-1 => RET
+  loadAI [BP-8] => r3
+  i2i r3 => RET
   jump l1
 l1:
   i2i BP => SP
@@ -73,5 +74,50 @@ stack:  65528: -9999999  65520: 3
 other memory:
 ==========================
 
-Executing: i2i r-1 => RET
-ERROR: Register r-1 does not exist
+Executing: loadAI [BP-8] => r3
+
+==========================
+sp=65520 bp=65528 ret=-9999999
+registers:  r1=3 r3=3
+stack:  65528: -9999999  65520: 3
+other memory:
+==========================
+
+Executing: i2i r3 => RET
+
+==========================
+sp=65520 bp=65528 ret=3
+registers:  r1=3 r3=3
+stack:  65528: -9999999  65520: 3
+other memory:
+==========================
+
+Executing: jump l1
+
+==========================
+sp=65520 bp=65528 ret=3
+registers:  r1=3 r3=3
+stack:  65528: -9999999  65520: 3
+other memory:
+==========================
+
+Executing: i2i BP => SP
+
+==========================
+sp=65528 bp=65528 ret=3
+registers:  r1=3 r3=3
+stack:  65528: -9999999
+other memory:  65520: 3
+==========================
+
+Executing: pop BP
+
+==========================
+sp=65536 bp=-9999999 ret=3
+registers:  r1=3 r3=3
+stack:
+other memory:  65520: 3  65528: -9999999
+==========================
+
+Executing: return
+RETURN VALUE = 3

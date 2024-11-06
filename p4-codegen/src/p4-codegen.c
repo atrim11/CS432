@@ -213,14 +213,23 @@ void CodeGenVisitor_gen_return(NodeVisitor* visitor, ASTNode* node)
     if (node->funcreturn.value) {
         ASTNode_copy_code(node, node->funcreturn.value);
         
-        /* Move the return value to RET */
+        /* Try to get the result register for the return value */
         Operand result_reg = ASTNode_get_temp_reg(node->funcreturn.value);
-        EMIT2OP(I2I, result_reg, return_register());  // Only final result goes to RET
+
+        if (result_reg.id == -1) {
+            // If result_reg is invalid, load the value from [BP-8] to RET
+            result_reg = virtual_register();
+            EMIT3OP(LOAD_AI, base_register(), int_const(-8), result_reg);
+        }
+
+        /* Move the result into RET register */
+        EMIT2OP(I2I, result_reg, return_register());
     }
 
     /* Jump to the function's epilogue to handle cleanup */
     EMIT1OP(JUMP, DATA->current_epilogue_jump_label);
 }
+
 
 
 
@@ -361,10 +370,11 @@ void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
     /* Store the RHS result into the LHS variable's location */
     EMIT3OP(STORE_AI, rhs_reg, lhs_base, lhs_offset);  // storeAI r4 => [BP-8]
 
-    /* Set the temporary register for the LHS variable */
-    ASTNode_set_temp_reg(node, rhs_reg);  // Set temp reg for assignment node
-    ASTNode_set_temp_reg(node->assignment.location, rhs_reg);  // Set temp reg for `a` itself
+    /* Set the temporary register for the assignment and location nodes */
+    ASTNode_set_temp_reg(node, rhs_reg);  // Assignment node's temporary register
+    ASTNode_set_temp_reg(node->assignment.location, rhs_reg);  // Location node's temp register (for `a`)
 }
+
 
 
 

@@ -1,4 +1,4 @@
---- outputs/given_test.txt	2024-11-05 19:29:45.074175321 -0500
+--- outputs/given_test.txt	2024-11-05 19:44:38.604715255 -0500
 +++ expected/given_test.txt	2024-10-30 13:48:12.139915053 -0400
 @@ -1,8 +1,11 @@
 -ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
@@ -15,13 +15,14 @@
    jump l0
  l0:
    i2i BP => SP
-@@ -12,66 +15,20 @@
+@@ -12,112 +15,20 @@
    push BP
    i2i SP => BP
    addI SP, -8 => SP
 -  loadI 3 => r1
 -  storeAI r1 => [BP-8]
--  i2i r-1 => RET
+-  loadAI [BP-8] => r3
+-  i2i r3 => RET
 +  loadI 3 => r3
 +  storeAI r3 => [BP-8]
 +  loadAI [BP-8] => r4
@@ -90,6 +91,51 @@
 -other memory:
 -==========================
 -
--Executing: i2i r-1 => RET
--ERROR: Register r-1 does not exist
+-Executing: loadAI [BP-8] => r3
+-
+-==========================
+-sp=65520 bp=65528 ret=-9999999
+-registers:  r1=3 r3=3
+-stack:  65528: -9999999  65520: 3
+-other memory:
+-==========================
+-
+-Executing: i2i r3 => RET
+-
+-==========================
+-sp=65520 bp=65528 ret=3
+-registers:  r1=3 r3=3
+-stack:  65528: -9999999  65520: 3
+-other memory:
+-==========================
+-
+-Executing: jump l1
+-
+-==========================
+-sp=65520 bp=65528 ret=3
+-registers:  r1=3 r3=3
+-stack:  65528: -9999999  65520: 3
+-other memory:
+-==========================
+-
+-Executing: i2i BP => SP
+-
+-==========================
+-sp=65528 bp=65528 ret=3
+-registers:  r1=3 r3=3
+-stack:  65528: -9999999
+-other memory:  65520: 3
+-==========================
+-
+-Executing: pop BP
+-
+-==========================
+-sp=65536 bp=-9999999 ret=3
+-registers:  r1=3 r3=3
+-stack:
+-other memory:  65520: 3  65528: -9999999
+-==========================
+-
+-Executing: return
+-RETURN VALUE = 3
 +RETURN VALUE = 5

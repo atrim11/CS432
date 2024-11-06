@@ -1,8 +1,8 @@
-==189263== Memcheck, a memory error detector
-==189263== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==189263== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==189263== Command: ../decaf inputs/given_test.decaf
-==189263== 
+==218501== Memcheck, a memory error detector
+==218501== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==218501== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==218501== Command: ../decaf inputs/given_test.decaf
+==218501== 
 ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
   push BP
   i2i SP => BP
@@ -19,7 +19,8 @@ main:
   addI SP, -8 => SP
   loadI 3 => r1
   storeAI r1 => [BP-8]
-  i2i r-1 => RET
+  loadAI [BP-8] => r3
+  i2i r3 => RET
   jump l1
 l1:
   i2i BP => SP
@@ -78,21 +79,59 @@ stack:  65528: -9999999  65520: 3
 other memory:
 ==========================
 
-Executing: i2i r-1 => RET
-ERROR: Register r-1 does not exist
-==189263== 
-==189263== HEAP SUMMARY:
-==189263==     in use at exit: 138,984 bytes in 27 blocks
-==189263==   total heap usage: 2,008 allocs, 1,981 frees, 426,804 bytes allocated
-==189263== 
-==189263== LEAK SUMMARY:
-==189263==    definitely lost: 0 bytes in 0 blocks
-==189263==    indirectly lost: 0 bytes in 0 blocks
-==189263==      possibly lost: 0 bytes in 0 blocks
-==189263==    still reachable: 138,984 bytes in 27 blocks
-==189263==         suppressed: 0 bytes in 0 blocks
-==189263== Reachable blocks (those to which a pointer was found) are not shown.
-==189263== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==189263== 
-==189263== For lists of detected and suppressed errors, rerun with: -s
-==189263== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Executing: loadAI [BP-8] => r3
+
+==========================
+sp=65520 bp=65528 ret=-9999999
+registers:  r1=3 r3=3
+stack:  65528: -9999999  65520: 3
+other memory:
+==========================
+
+Executing: i2i r3 => RET
+
+==========================
+sp=65520 bp=65528 ret=3
+registers:  r1=3 r3=3
+stack:  65528: -9999999  65520: 3
+other memory:
+==========================
+
+Executing: jump l1
+
+==========================
+sp=65520 bp=65528 ret=3
+registers:  r1=3 r3=3
+stack:  65528: -9999999  65520: 3
+other memory:
+==========================
+
+Executing: i2i BP => SP
+
+==========================
+sp=65528 bp=65528 ret=3
+registers:  r1=3 r3=3
+stack:  65528: -9999999
+other memory:  65520: 3
+==========================
+
+Executing: pop BP
+
+==========================
+sp=65536 bp=-9999999 ret=3
+registers:  r1=3 r3=3
+stack:
+other memory:  65520: 3  65528: -9999999
+==========================
+
+Executing: return
+RETURN VALUE = 3
+==218501== 
+==218501== HEAP SUMMARY:
+==218501==     in use at exit: 0 bytes in 0 blocks
+==218501==   total heap usage: 2,014 allocs, 2,014 frees, 432,164 bytes allocated
+==218501== 
+==218501== All heap blocks were freed -- no leaks are possible
+==218501== 
+==218501== For lists of detected and suppressed errors, rerun with: -s
+==218501== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

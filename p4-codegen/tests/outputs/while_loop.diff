@@ -1,6 +1,6 @@
---- outputs/while_loop.txt	2024-11-05 19:29:47.586303498 -0500
+--- outputs/while_loop.txt	2024-11-05 19:44:41.090841773 -0500
 +++ expected/while_loop.txt	2024-11-04 12:50:34.130495982 -0500
-@@ -1,86 +0,0 @@
+@@ -1,133 +0,0 @@
 -ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
 -  push BP
 -  i2i SP => BP
@@ -14,7 +14,8 @@
 -  storeAI r3 => [BP-8]
 -  jump l1
 -l3:
--  i2i r-1 => RET
+-  loadAI [BP-8] => r4
+-  i2i r4 => RET
 -  jump l0
 -l0:
 -  i2i BP => SP
@@ -24,9 +25,10 @@
 -  push BP
 -  i2i SP => BP
 -  addI SP, -8 => SP
--  loadI 3 => r4
--  storeAI r4 => [BP-8]
--  i2i r-1 => RET
+-  loadI 3 => r5
+-  storeAI r5 => [BP-8]
+-  loadAI [BP-8] => r7
+-  i2i r7 => RET
 -  jump l4
 -l4:
 -  i2i BP => SP
@@ -67,23 +69,68 @@
 -other memory:
 -==========================
 -
--Executing: loadI 3 => r4
+-Executing: loadI 3 => r5
 -
 -==========================
 -sp=65520 bp=65528 ret=-9999999
--registers:  r4=3
+-registers:  r5=3
 -stack:  65528: -9999999  65520: 0
 -other memory:
 -==========================
 -
--Executing: storeAI r4 => [BP-8]
+-Executing: storeAI r5 => [BP-8]
 -
 -==========================
 -sp=65520 bp=65528 ret=-9999999
--registers:  r4=3
+-registers:  r5=3
 -stack:  65528: -9999999  65520: 3
 -other memory:
 -==========================
 -
--Executing: i2i r-1 => RET
--ERROR: Register r-1 does not exist
+-Executing: loadAI [BP-8] => r7
+-
+-==========================
+-sp=65520 bp=65528 ret=-9999999
+-registers:  r5=3 r7=3
+-stack:  65528: -9999999  65520: 3
+-other memory:
+-==========================
+-
+-Executing: i2i r7 => RET
+-
+-==========================
+-sp=65520 bp=65528 ret=3
+-registers:  r5=3 r7=3
+-stack:  65528: -9999999  65520: 3
+-other memory:
+-==========================
+-
+-Executing: jump l4
+-
+-==========================
+-sp=65520 bp=65528 ret=3
+-registers:  r5=3 r7=3
+-stack:  65528: -9999999  65520: 3
+-other memory:
+-==========================
+-
+-Executing: i2i BP => SP
+-
+-==========================
+-sp=65528 bp=65528 ret=3
+-registers:  r5=3 r7=3
+-stack:  65528: -9999999
+-other memory:  65520: 3
+-==========================
+-
+-Executing: pop BP
+-
+-==========================
+-sp=65536 bp=-9999999 ret=3
+-registers:  r5=3 r7=3
+-stack:
+-other memory:  65520: 3  65528: -9999999
+-==========================
+-
+-Executing: return
+-RETURN VALUE = 3
