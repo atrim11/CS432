@@ -1,8 +1,8 @@
-==1837421== Memcheck, a memory error detector
-==1837421== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1837421== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1837421== Command: ../decaf inputs/print_int.decaf
-==1837421== 
+==1623149== Memcheck, a memory error detector
+==1623149== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1623149== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1623149== Command: ../decaf inputs/print_int.decaf
+==1623149== 
 main:
   push BP
   i2i SP => BP
@@ -42,19 +42,19 @@ other memory:
 
 Executing: call print_int
 ERROR: No call target found for 'print_int'
-==1837421== 
-==1837421== HEAP SUMMARY:
-==1837421==     in use at exit: 127,008 bytes in 15 blocks
-==1837421==   total heap usage: 1,843 allocs, 1,828 frees, 371,532 bytes allocated
-==1837421== 
-==1837421== LEAK SUMMARY:
-==1837421==    definitely lost: 0 bytes in 0 blocks
-==1837421==    indirectly lost: 0 bytes in 0 blocks
-==1837421==      possibly lost: 0 bytes in 0 blocks
-==1837421==    still reachable: 127,008 bytes in 15 blocks
-==1837421==         suppressed: 0 bytes in 0 blocks
-==1837421== Reachable blocks (those to which a pointer was found) are not shown.
-==1837421== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1837421== 
-==1837421== For lists of detected and suppressed errors, rerun with: -s
-==1837421== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1623149== 
+==1623149== HEAP SUMMARY:
+==1623149==     in use at exit: 127,008 bytes in 15 blocks
+==1623149==   total heap usage: 1,843 allocs, 1,828 frees, 371,532 bytes allocated
+==1623149== 
+==1623149== LEAK SUMMARY:
+==1623149==    definitely lost: 0 bytes in 0 blocks
+==1623149==    indirectly lost: 0 bytes in 0 blocks
+==1623149==      possibly lost: 0 bytes in 0 blocks
+==1623149==    still reachable: 127,008 bytes in 15 blocks
+==1623149==         suppressed: 0 bytes in 0 blocks
+==1623149== Reachable blocks (those to which a pointer was found) are not shown.
+==1623149== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1623149== 
+==1623149== For lists of detected and suppressed errors, rerun with: -s
+==1623149== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
