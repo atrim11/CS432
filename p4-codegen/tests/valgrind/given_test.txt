@@ -1,13 +1,15 @@
-==1623208== Memcheck, a memory error detector
-==1623208== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1623208== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1623208== Command: ../decaf inputs/given_test.decaf
-==1623208== 
-ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+==2372428== Memcheck, a memory error detector
+==2372428== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2372428== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2372428== Command: ../decaf inputs/given_test.decaf
+==2372428== 
+add:
   push BP
   i2i SP => BP
-  add r-1, r-1 => r0
-  i2i r0 => RET
+  loadAI [BP+16] => r0
+  loadAI [BP+24] => r1
+  add r0, r1 => r2
+  i2i r2 => RET
   jump l0
 l0:
   i2i BP => SP
@@ -17,8 +19,8 @@ main:
   push BP
   i2i SP => BP
   addI SP, -8 => SP
-  loadI 3 => r1
-  storeAI r1 => [BP-8]
+  loadI 3 => r4
+  storeAI r4 => [BP-8]
   call add
   i2i r0 => RET
   jump l1
@@ -61,20 +63,20 @@ stack:  65528: -9999999  65520: 0
 other memory:
 ==========================
 
-Executing: loadI 3 => r1
+Executing: loadI 3 => r4
 
 ==========================
 sp=65520 bp=65528 ret=-9999999
-registers:  r1=3
+registers:  r4=3
 stack:  65528: -9999999  65520: 0
 other memory:
 ==========================
 
-Executing: storeAI r1 => [BP-8]
+Executing: storeAI r4 => [BP-8]
 
 ==========================
 sp=65520 bp=65528 ret=-9999999
-registers:  r1=3
+registers:  r4=3
 stack:  65528: -9999999  65520: 3
 other memory:
 ==========================
@@ -83,8 +85,8 @@ Executing: call add
 
 ==========================
 sp=65512 bp=65528 ret=-9999999
-registers:  r1=3
-stack:  65528: -9999999  65520: 3  65512: 17
+registers:  r4=3
+stack:  65528: -9999999  65520: 3  65512: 19
 other memory:
 ==========================
 
@@ -92,8 +94,8 @@ Executing: push BP
 
 ==========================
 sp=65504 bp=65528 ret=-9999999
-registers:  r1=3
-stack:  65528: -9999999  65520: 3  65512: 17  65504: 65528
+registers:  r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
 other memory:
 ==========================
 
@@ -101,26 +103,128 @@ Executing: i2i SP => BP
 
 ==========================
 sp=65504 bp=65504 ret=-9999999
-registers:  r1=3
-stack:  65528: -9999999  65520: 3  65512: 17  65504: 65528
+registers:  r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
 other memory:
 ==========================
 
-Executing: add r-1, r-1 => r0
-ERROR: Register r-1 does not exist
-==1623208== 
-==1623208== HEAP SUMMARY:
-==1623208==     in use at exit: 140,048 bytes in 28 blocks
-==1623208==   total heap usage: 2,018 allocs, 1,990 frees, 433,332 bytes allocated
-==1623208== 
-==1623208== LEAK SUMMARY:
-==1623208==    definitely lost: 0 bytes in 0 blocks
-==1623208==    indirectly lost: 0 bytes in 0 blocks
-==1623208==      possibly lost: 0 bytes in 0 blocks
-==1623208==    still reachable: 140,048 bytes in 28 blocks
-==1623208==         suppressed: 0 bytes in 0 blocks
-==1623208== Reachable blocks (those to which a pointer was found) are not shown.
-==1623208== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1623208== 
-==1623208== For lists of detected and suppressed errors, rerun with: -s
-==1623208== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Executing: loadAI [BP+16] => r0
+
+==========================
+sp=65504 bp=65504 ret=-9999999
+registers:  r0=3 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: loadAI [BP+24] => r1
+
+==========================
+sp=65504 bp=65504 ret=-9999999
+registers:  r0=3 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: add r0, r1 => r2
+WARNING: Potential uninitialized read from register r1
+
+==========================
+sp=65504 bp=65504 ret=-9999999
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: i2i r2 => RET
+
+==========================
+sp=65504 bp=65504 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: jump l0
+
+==========================
+sp=65504 bp=65504 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: i2i BP => SP
+
+==========================
+sp=65504 bp=65504 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: pop BP
+
+==========================
+sp=65512 bp=65528 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19
+other memory:  65504: 65528
+==========================
+
+Executing: return
+
+==========================
+sp=65520 bp=65528 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3
+other memory:  65504: 65528  65512: 19
+==========================
+
+Executing: i2i r0 => RET
+
+==========================
+sp=65520 bp=65528 ret=3
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3
+other memory:  65504: 65528  65512: 19
+==========================
+
+Executing: jump l1
+
+==========================
+sp=65520 bp=65528 ret=3
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3
+other memory:  65504: 65528  65512: 19
+==========================
+
+Executing: i2i BP => SP
+
+==========================
+sp=65528 bp=65528 ret=3
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999
+other memory:  65504: 65528  65512: 19  65520: 3
+==========================
+
+Executing: pop BP
+
+==========================
+sp=65536 bp=-9999999 ret=3
+registers:  r0=3 r2=-9999996 r4=3
+stack:
+other memory:  65504: 65528  65512: 19  65520: 3  65528: -9999999
+==========================
+
+Executing: return
+RETURN VALUE = 3
+==2372428== 
+==2372428== HEAP SUMMARY:
+==2372428==     in use at exit: 0 bytes in 0 blocks
+==2372428==   total heap usage: 2,044 allocs, 2,044 frees, 450,692 bytes allocated
+==2372428== 
+==2372428== All heap blocks were freed -- no leaks are possible
+==2372428== 
+==2372428== For lists of detected and suppressed errors, rerun with: -s
+==2372428== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

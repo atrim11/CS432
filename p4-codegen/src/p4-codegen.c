@@ -162,7 +162,7 @@ void CodeGenVisitor_gen_funcdecl(NodeVisitor* visitor, ASTNode* node)
     EMIT1OP(POP, base_register());                       // pop BP
 
     /* Return instruction */
-    EMIT0OP(RETURN);
+    EMIT0OP(RETURN);    
 }
 
 
@@ -231,13 +231,10 @@ void CodeGenVisitor_gen_return(NodeVisitor* visitor, ASTNode* node)
 }
 
 
-
-
-
 void CodeGenVisitor_gen_literal(NodeVisitor* visitor, ASTNode* node)
 {
     /* Generate code for the literal value */
-    Operand reg = virtual_register(); // Use a temporary register
+    Operand reg = virtual_register();  // Use a new temporary register
     EMIT2OP(LOAD_I, int_const(node->literal.integer), reg);
     ASTNode_set_temp_reg(node, reg);  // Set the temp register for the node
 }
@@ -251,50 +248,50 @@ void CodeGenvisitor_gen_post_binaryop (NodeVisitor* visitor, ASTNode* node)
     ASTNode_copy_code(node, node->binaryop.left);
     ASTNode_copy_code(node, node->binaryop.right);
     // Need to have a switch statement to determine the correct binary operation
+
     BinaryOpType op = node->binaryop.operator;
     switch (op)
     {
-    
-    case OROP:
-        EMIT3OP(OR, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case ANDOP:
-        EMIT3OP(AND, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case EQOP:
-        EMIT3OP(CMP_EQ, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case NEQOP:
-        EMIT3OP(CMP_NE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case LTOP:
-        EMIT3OP(CMP_LT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case LEOP:
-        EMIT3OP(CMP_LE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case GEOP:
-        EMIT3OP(CMP_GE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case GTOP:
-        EMIT3OP(CMP_GT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case ADDOP:
-        EMIT3OP(ADD, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case SUBOP:
-        EMIT3OP(SUB, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case MULOP:
-        EMIT3OP(MULT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case DIVOP:
-        EMIT3OP(DIV, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
-        break;
-    case MODOP:
-        break;
-    default:
-        break;
+        case OROP:
+            EMIT3OP(OR, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case ANDOP:
+            EMIT3OP(AND, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case EQOP:
+            EMIT3OP(CMP_EQ, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case NEQOP:
+            EMIT3OP(CMP_NE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case LTOP:
+            EMIT3OP(CMP_LT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case LEOP:
+            EMIT3OP(CMP_LE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case GEOP:
+            EMIT3OP(CMP_GE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case GTOP:
+            EMIT3OP(CMP_GT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case ADDOP:
+            EMIT3OP(ADD, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case SUBOP:
+            EMIT3OP(SUB, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case MULOP:
+            EMIT3OP(MULT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case DIVOP:
+            EMIT3OP(DIV, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            break;
+        case MODOP:
+            break;
+        default:
+            break;
     }
 
     
@@ -364,16 +361,18 @@ void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
     Operand rhs_reg = ASTNode_get_temp_reg(node->assignment.value);
 
     /* Get the base address and offset for the LHS variable (location) */
-    Operand lhs_base = base_register();  // BP is the base for stack variables
-    Operand lhs_offset = int_const(-8);  // Offset for local variable "a"
+    Symbol *var = lookup_symbol(node, node->assignment.location->location.name);
+    Operand lhs_base = var_base(node, var);
+    Operand lhs_offset = var_offset(node, var);
 
     /* Store the RHS result into the LHS variable's location */
     EMIT3OP(STORE_AI, rhs_reg, lhs_base, lhs_offset);  // storeAI r4 => [BP-8]
 
-    /* Set the temporary register for the assignment and location nodes */
-    ASTNode_set_temp_reg(node, rhs_reg);  // Assignment node's temporary register
-    ASTNode_set_temp_reg(node->assignment.location, rhs_reg);  // Location node's temp register (for `a`)
+    /* Set the temporary register for the assignment node */
+    // ASTNode_set_temp_reg(node, rhs_reg);
+    
 }
+
 
 void GenCodeVisitor_gen_pre_conditional (NodeVisitor* visitor, ASTNode* node)
 {
@@ -396,7 +395,31 @@ void CodeGenVisitor_gen_post_funccall (NodeVisitor* visitor, ASTNode* node)
 {
     /* Generate code for the function call */
     EMIT1OP(CALL, call_label(node->funccall.name));
+
     ASTNode_set_temp_reg(node, return_register());
+}
+
+// void CodeGenVisitor_gen_pre_location (NodeVisitor* visitor, ASTNode* node)
+// {
+//     // /* generate code for the location */
+//     // if (node->location.index != NULL) {
+//     //     ASTNode_copy_code(node, node->location.index
+//     //     );
+//     // }
+// }
+
+void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
+{
+    /* Get the base address and offset for the variable */
+    Symbol *var = lookup_symbol(node, node->location.name);
+    Operand base = var_base(node, var);
+    Operand offset = var_offset(node, var);
+
+    /* Load the value from the variable's location */
+    Operand reg = virtual_register();
+
+    EMIT3OP(LOAD_AI, base, offset, reg);
+    ASTNode_set_temp_reg(node, reg);
 }
 
 #endif
@@ -418,6 +441,7 @@ InsnList* generate_code (ASTNode* tree)
     v->postvisit_block       = CodeGenVisitor_gen_block;
     v->postvisit_return      = CodeGenVisitor_gen_return;
     v->postvisit_literal     = CodeGenVisitor_gen_literal;
+    // v->postvisit_vardecl     = CodeGenVisitor_gen_vardecl;
 
     v->postvisit_binaryop    = CodeGenvisitor_gen_post_binaryop;
     v->postvisit_unaryop     = CodeGenVisitor_gen_unaryop;
@@ -427,7 +451,10 @@ InsnList* generate_code (ASTNode* tree)
     v->postvisit_break       = GenCodeVisitor_gen_post_break;
     v->postvisit_continue    = GenCodeVisitor_gen_post_continue;
 
+    // v->previsit_assignment   = CodeGenVisitor_gen_pre_location;
     v->postvisit_assignment  = CodeGenVisitor_gen_assign;
+
+    v->postvisit_location    = CodeGenVisitor_gen_post_location;
 
     v->previsit_conditional  = GenCodeVisitor_gen_pre_conditional;
     v->postvisit_conditional = GenCodeVisitor_gen_post_conditional;

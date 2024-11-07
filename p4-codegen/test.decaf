@@ -1,9 +1,11 @@
 def int main() {
     int a;
-    a = 0; 
-    while (a < 10) 
-    { 
-        a = a + 1; 
-    }
+    int b;
+    
+    a = 1;
+    b = 2;
+
+    a = a + b;
+
     return a;
 }

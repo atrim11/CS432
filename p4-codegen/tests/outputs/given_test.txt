@@ -1,8 +1,10 @@
-ERROR: Node is missing a temporary registerERROR: Node is missing a temporary registeradd:
+add:
   push BP
   i2i SP => BP
-  add r-1, r-1 => r0
-  i2i r0 => RET
+  loadAI [BP+16] => r0
+  loadAI [BP+24] => r1
+  add r0, r1 => r2
+  i2i r2 => RET
   jump l0
 l0:
   i2i BP => SP
@@ -12,8 +14,8 @@ main:
   push BP
   i2i SP => BP
   addI SP, -8 => SP
-  loadI 3 => r1
-  storeAI r1 => [BP-8]
+  loadI 3 => r4
+  storeAI r4 => [BP-8]
   call add
   i2i r0 => RET
   jump l1
@@ -56,20 +58,20 @@ stack:  65528: -9999999  65520: 0
 other memory:
 ==========================
 
-Executing: loadI 3 => r1
+Executing: loadI 3 => r4
 
 ==========================
 sp=65520 bp=65528 ret=-9999999
-registers:  r1=3
+registers:  r4=3
 stack:  65528: -9999999  65520: 0
 other memory:
 ==========================
 
-Executing: storeAI r1 => [BP-8]
+Executing: storeAI r4 => [BP-8]
 
 ==========================
 sp=65520 bp=65528 ret=-9999999
-registers:  r1=3
+registers:  r4=3
 stack:  65528: -9999999  65520: 3
 other memory:
 ==========================
@@ -78,8 +80,8 @@ Executing: call add
 
 ==========================
 sp=65512 bp=65528 ret=-9999999
-registers:  r1=3
-stack:  65528: -9999999  65520: 3  65512: 17
+registers:  r4=3
+stack:  65528: -9999999  65520: 3  65512: 19
 other memory:
 ==========================
 
@@ -87,8 +89,8 @@ Executing: push BP
 
 ==========================
 sp=65504 bp=65528 ret=-9999999
-registers:  r1=3
-stack:  65528: -9999999  65520: 3  65512: 17  65504: 65528
+registers:  r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
 other memory:
 ==========================
 
@@ -96,10 +98,119 @@ Executing: i2i SP => BP
 
 ==========================
 sp=65504 bp=65504 ret=-9999999
-registers:  r1=3
-stack:  65528: -9999999  65520: 3  65512: 17  65504: 65528
+registers:  r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
 other memory:
 ==========================
 
-Executing: add r-1, r-1 => r0
-ERROR: Register r-1 does not exist
+Executing: loadAI [BP+16] => r0
+
+==========================
+sp=65504 bp=65504 ret=-9999999
+registers:  r0=3 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: loadAI [BP+24] => r1
+
+==========================
+sp=65504 bp=65504 ret=-9999999
+registers:  r0=3 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: add r0, r1 => r2
+WARNING: Potential uninitialized read from register r1
+
+==========================
+sp=65504 bp=65504 ret=-9999999
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: i2i r2 => RET
+
+==========================
+sp=65504 bp=65504 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: jump l0
+
+==========================
+sp=65504 bp=65504 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: i2i BP => SP
+
+==========================
+sp=65504 bp=65504 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19  65504: 65528
+other memory:
+==========================
+
+Executing: pop BP
+
+==========================
+sp=65512 bp=65528 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3  65512: 19
+other memory:  65504: 65528
+==========================
+
+Executing: return
+
+==========================
+sp=65520 bp=65528 ret=-9999996
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3
+other memory:  65504: 65528  65512: 19
+==========================
+
+Executing: i2i r0 => RET
+
+==========================
+sp=65520 bp=65528 ret=3
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3
+other memory:  65504: 65528  65512: 19
+==========================
+
+Executing: jump l1
+
+==========================
+sp=65520 bp=65528 ret=3
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999  65520: 3
+other memory:  65504: 65528  65512: 19
+==========================
+
+Executing: i2i BP => SP
+
+==========================
+sp=65528 bp=65528 ret=3
+registers:  r0=3 r2=-9999996 r4=3
+stack:  65528: -9999999
+other memory:  65504: 65528  65512: 19  65520: 3
+==========================
+
+Executing: pop BP
+
+==========================
+sp=65536 bp=-9999999 ret=3
+registers:  r0=3 r2=-9999996 r4=3
+stack:
+other memory:  65504: 65528  65512: 19  65520: 3  65528: -9999999
+==========================
+
+Executing: return
+RETURN VALUE = 3
