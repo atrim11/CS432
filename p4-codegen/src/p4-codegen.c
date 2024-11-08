@@ -425,7 +425,9 @@ void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
 {
     ASTNode *parent = (ASTNode *)ASTNode_get_attribute(node, "parent");
     if (parent != NULL && parent->type == ASSIGNMENT) {
-        return;
+        if (parent->assignment.location == node) {
+            return;
+        }
     }
     /* Get the base address and offset for the variable */
     Symbol *var = lookup_symbol(node, node->location.name);
