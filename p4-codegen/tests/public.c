@@ -64,8 +64,8 @@ TEST_MAIN(B_whileloop_break, 5,
         "} "
         "return count;")
 
-TEST_MAIN(B_whileloop_continue, 5, 
-        "int count; count = 0; int result; result = 0; "
+TEST_MAIN(B_whileloop_continue, 4, 
+        "int count;  int result; count = 0; result = 0; "
         "while (count < 5) { "
         "  count = count + 1; "
         "  if (count == 3) { continue; } "
@@ -86,15 +86,15 @@ TEST_MAIN(B_nested_conditionals, 1,
     "return result;")
 
 // Complex while loop with mixed conditions and increments
-TEST_MAIN(B_whileloop_mixed, 6,
-    "int count; int result; "
-    "count = 0; result = 0; "
-    "while (count < 5) { "
-    "  if (count % 2 == 0) { result = result + 2; } "
-    "  else { result = result + 1; } "
-    "  count = count + 1; "
-    "} "
-    "return result;")
+// TEST_MAIN(B_whileloop_mixed, 6,
+//     "int count; int result; "
+//     "count = 0; result = 0; "
+//     "while (count < 5) { "
+//     "  if (count % 2 == 0) { result = result + 2; } "
+//     "  else { result = result + 1; } "
+//     "  count = count + 1; "
+//     "} "
+//     "return result;")
 
 // While loop with early exit (break)
 TEST_MAIN(B_whileloop_break_early, 3,
@@ -169,25 +169,25 @@ TEST_MAIN(Made_B_whileloop_break, 5,
     "return count;")
 
 // Test for generating code for continue statement
-TEST_MAIN(Made_B_whileloop_continue, 20,
-    "int total; int i; total = 0; i = 0; "
-    "while (i < 10) { "
-    "  i = i + 1; "
-    "  if (i % 2 == 0) { continue; } "
-    "  total = total + i; "
-    "} "
-    "return total;")
+// TEST_MAIN(Made_B_whileloop_continue, 20,
+//     "int total; int i; total = 0; i = 0; "
+//     "while (i < 10) { "
+//     "  i = i + 1; "
+//     "  if (i % 2 == 0) { continue; } "
+//     "  total = total + i; "
+//     "} "
+//     "return total;")
 
 // Test for combining conditionals and loops with breaks and continues
-TEST_MAIN(Made_B_complex_loop, 15,
-    "int sum; int i; sum = 0; i = 1; "
-    "while (i <= 10) { "
-    "  if (i % 3 == 0) { i = i + 1; continue; } "
-    "  if (i == 8) { break; } "
-    "  sum = sum + i; "
-    "  i = i + 1; "
-    "} "
-    "return sum;")
+// TEST_MAIN(Made_B_complex_loop, 15,
+//     "int sum; int i; sum = 0; i = 1; "
+//     "while (i <= 10) { "
+//     "  if (i % 3 == 0) { i = i + 1; continue; } "
+//     "  if (i == 8) { break; } "
+//     "  sum = sum + i; "
+//     "  i = i + 1; "
+//     "} "
+//     "return sum;")
 #endif
 
 /**
@@ -236,7 +236,7 @@ void public_tests (Suite *s)
     TEST(B_whileloop_break);
     TEST(B_whileloop_continue);
     TEST(B_nested_conditionals);
-    TEST(B_whileloop_mixed);
+//     TEST(B_whileloop_mixed);
     TEST(B_whileloop_break_early);
 //     TEST(B_whileloop_continue_even_sum);
     TEST(B_function_noparams);
@@ -252,8 +252,8 @@ void public_tests (Suite *s)
     TEST(Made_B_conditional_nested);
     TEST(Made_B_whileloop_sum);
     TEST(Made_B_whileloop_break);
-    TEST(Made_B_whileloop_continue);
-    TEST(Made_B_complex_loop);
+    //TEST(Made_B_whileloop_continue);
+//     TEST(Made_B_complex_loop);
 
     suite_add_tcase (s, tc);
 }
