@@ -1,17 +1,18 @@
 def int main() 
 { 
-    int result;
-    int temp;
-    temp = 1;
-    if (temp == 1) {
-        if (temp == 2) 
+    int count; 
+    int i; 
+    count = 0; 
+    i = 0; 
+    while (true) { 
+        i = i + 1; 
+        if (i > 5) 
         { 
-            result = 0; 
-        } else { 
-            result = 42; 
+            break; 
+        } else {
+            count = count + 1;
         }
-    } else { 
-        result = 99; 
+        
     }
-    return result;
+    return count;
 }

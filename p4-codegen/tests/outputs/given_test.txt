@@ -15,16 +15,16 @@ main:
   push BP
   i2i SP => BP
   addI SP, 0 => BP
-  loadI 3 => r4
-  storeAI r4 => [BP-8]
-  loadAI [BP-8] => r5
+  loadI 3 => r3
+  storeAI r3 => [BP-8]
+  loadAI [BP-8] => r4
+  push r4
+  loadI 2 => r5
   push r5
-  loadI 2 => r6
-  push r6
   call add
   addI SP, 16 => SP
-  i2i RET => r7
-  i2i r7 => RET
+  i2i RET => r6
+  i2i r6 => RET
   jump l1
 l1:
   i2i BP => SP
@@ -65,56 +65,56 @@ stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: loadI 3 => r4
+Executing: loadI 3 => r3
 
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r4=3
+registers:  r3=3
 stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: storeAI r4 => [BP-8]
+Executing: storeAI r3 => [BP-8]
 
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r4=3
+registers:  r3=3
 stack:  65528: -9999999
 other memory:  65520: 3
 ==========================
 
-Executing: loadAI [BP-8] => r5
+Executing: loadAI [BP-8] => r4
 
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r4=3 r5=3
+registers:  r3=3 r4=3
 stack:  65528: -9999999
 other memory:  65520: 3
+==========================
+
+Executing: push r4
+
+==========================
+sp=65520 bp=65528 ret=-9999999
+registers:  r3=3 r4=3
+stack:  65528: -9999999  65520: 3
+other memory:
+==========================
+
+Executing: loadI 2 => r5
+
+==========================
+sp=65520 bp=65528 ret=-9999999
+registers:  r3=3 r4=3 r5=2
+stack:  65528: -9999999  65520: 3
+other memory:
 ==========================
 
 Executing: push r5
 
 ==========================
-sp=65520 bp=65528 ret=-9999999
-registers:  r4=3 r5=3
-stack:  65528: -9999999  65520: 3
-other memory:
-==========================
-
-Executing: loadI 2 => r6
-
-==========================
-sp=65520 bp=65528 ret=-9999999
-registers:  r4=3 r5=3 r6=2
-stack:  65528: -9999999  65520: 3
-other memory:
-==========================
-
-Executing: push r6
-
-==========================
 sp=65512 bp=65528 ret=-9999999
-registers:  r4=3 r5=3 r6=2
+registers:  r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2
 other memory:
 ==========================
@@ -123,7 +123,7 @@ Executing: call add
 
 ==========================
 sp=65504 bp=65528 ret=-9999999
-registers:  r4=3 r5=3 r6=2
+registers:  r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24
 other memory:
 ==========================
@@ -132,7 +132,7 @@ Executing: push BP
 
 ==========================
 sp=65496 bp=65528 ret=-9999999
-registers:  r4=3 r5=3 r6=2
+registers:  r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -141,7 +141,7 @@ Executing: i2i SP => BP
 
 ==========================
 sp=65496 bp=65496 ret=-9999999
-registers:  r4=3 r5=3 r6=2
+registers:  r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -150,7 +150,7 @@ Executing: addI SP, 0 => BP
 
 ==========================
 sp=65496 bp=65496 ret=-9999999
-registers:  r4=3 r5=3 r6=2
+registers:  r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -159,7 +159,7 @@ Executing: loadAI [BP+16] => r0
 
 ==========================
 sp=65496 bp=65496 ret=-9999999
-registers:  r0=2 r4=3 r5=3 r6=2
+registers:  r0=2 r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -168,7 +168,7 @@ Executing: loadAI [BP+24] => r1
 
 ==========================
 sp=65496 bp=65496 ret=-9999999
-registers:  r0=2 r1=3 r4=3 r5=3 r6=2
+registers:  r0=2 r1=3 r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -177,7 +177,7 @@ Executing: add r0, r1 => r2
 
 ==========================
 sp=65496 bp=65496 ret=-9999999
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -186,7 +186,7 @@ Executing: i2i r2 => RET
 
 ==========================
 sp=65496 bp=65496 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -195,7 +195,7 @@ Executing: jump l0
 
 ==========================
 sp=65496 bp=65496 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -204,7 +204,7 @@ Executing: i2i BP => SP
 
 ==========================
 sp=65496 bp=65496 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24  65496: 65528
 other memory:
 ==========================
@@ -213,7 +213,7 @@ Executing: pop BP
 
 ==========================
 sp=65504 bp=65528 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2  65504: 24
 other memory:  65496: 65528
 ==========================
@@ -222,7 +222,7 @@ Executing: return
 
 ==========================
 sp=65512 bp=65528 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2
 stack:  65528: -9999999  65520: 3  65512: 2
 other memory:  65496: 65528  65504: 24
 ==========================
@@ -231,25 +231,25 @@ Executing: addI SP, 16 => SP
 
 ==========================
 sp=65528 bp=65528 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2
 stack:  65528: -9999999
 other memory:  65496: 65528  65504: 24  65512: 2  65520: 3
 ==========================
 
-Executing: i2i RET => r7
+Executing: i2i RET => r6
 
 ==========================
 sp=65528 bp=65528 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2 r7=5
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2 r6=5
 stack:  65528: -9999999
 other memory:  65496: 65528  65504: 24  65512: 2  65520: 3
 ==========================
 
-Executing: i2i r7 => RET
+Executing: i2i r6 => RET
 
 ==========================
 sp=65528 bp=65528 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2 r7=5
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2 r6=5
 stack:  65528: -9999999
 other memory:  65496: 65528  65504: 24  65512: 2  65520: 3
 ==========================
@@ -258,7 +258,7 @@ Executing: jump l1
 
 ==========================
 sp=65528 bp=65528 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2 r7=5
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2 r6=5
 stack:  65528: -9999999
 other memory:  65496: 65528  65504: 24  65512: 2  65520: 3
 ==========================
@@ -267,7 +267,7 @@ Executing: i2i BP => SP
 
 ==========================
 sp=65528 bp=65528 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2 r7=5
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2 r6=5
 stack:  65528: -9999999
 other memory:  65496: 65528  65504: 24  65512: 2  65520: 3
 ==========================
@@ -276,7 +276,7 @@ Executing: pop BP
 
 ==========================
 sp=65536 bp=-9999999 ret=5
-registers:  r0=2 r1=3 r2=5 r4=3 r5=3 r6=2 r7=5
+registers:  r0=2 r1=3 r2=5 r3=3 r4=3 r5=2 r6=5
 stack:
 other memory:  65496: 65528  65504: 24  65512: 2  65520: 3  65528: -9999999
 ==========================

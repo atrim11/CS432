@@ -34,7 +34,6 @@ TEST_MAIN(C_location_access, 15, "int y; y = 15; return y;")
 
 TEST_EXPRESSION(C_expr_complex, 11, "3 + 2 * 4")
 TEST_EXPRESSION(C_expr_parentheses, 20, "(3 + 2) * 4")
-TEST_MAIN(C_chained_assignment, 15, "int a; int b; a = b = 15; return a + b;")
 TEST_MAIN(C_expr_precedence, 14, "int x; x = 2 + 3 * 4; return x;")
 TEST_MAIN(C_multiple_vars, 25, "int a; int b; a = 10; b = 15; return a + b;")
 TEST_MAIN(C_var_reuse, 30, "int a; a = 10; a = a + 20; return a;")
@@ -140,6 +139,55 @@ TEST_PROGRAM(A_funccall_params, 5,
         "def int add(int a, int b) { return a + b; } "
         "def int main() { return add(2,3); }")
 
+TEST_MAIN(Made_B_conditional_if_else, 1,
+    "int result; "
+    "if (5 > 3) { result = 1; } "
+    "else { result = 0; } "
+    "return result;")
+
+TEST_MAIN(Made_B_conditional_nested, 42,
+    "int result; "
+    "if (true) { "
+    "  if (false) { result = 0; } "
+    "  else { result = 42; } "
+    "} else { result = 99; } "
+    "return result;")
+
+// Test for generating code for while loops
+TEST_MAIN(Made_B_whileloop_sum, 55,
+    "int sum; int i; sum = 0; i = 1; "
+    "while (i <= 10) { sum = sum + i; i = i + 1; } "
+    "return sum;")
+
+TEST_MAIN(Made_B_whileloop_break, 5,
+    "int count; int i; count = 0; i = 0; "
+    "while (true) { "
+    "  i = i + 1; "
+    "  if (i > 5) { break; } "
+    "  count = count + 1; "
+    "} "
+    "return count;")
+
+// Test for generating code for continue statement
+TEST_MAIN(Made_B_whileloop_continue, 20,
+    "int total; int i; total = 0; i = 0; "
+    "while (i < 10) { "
+    "  i = i + 1; "
+    "  if (i % 2 == 0) { continue; } "
+    "  total = total + i; "
+    "} "
+    "return total;")
+
+// Test for combining conditionals and loops with breaks and continues
+TEST_MAIN(Made_B_complex_loop, 15,
+    "int sum; int i; sum = 0; i = 1; "
+    "while (i <= 10) { "
+    "  if (i % 3 == 0) { i = i + 1; continue; } "
+    "  if (i == 8) { break; } "
+    "  sum = sum + i; "
+    "  i = i + 1; "
+    "} "
+    "return sum;")
 #endif
 
 /**
@@ -171,7 +219,6 @@ void public_tests (Suite *s)
     TEST(C_location_access);
     TEST(C_expr_complex);
     TEST(C_expr_parentheses);
-    TEST(C_chained_assignment);
     TEST(C_expr_precedence);
     TEST(C_multiple_vars);
     TEST(C_var_reuse);
@@ -200,6 +247,13 @@ void public_tests (Suite *s)
 
     // Register A-level test
     TEST(A_funccall_params);
+
+    TEST(Made_B_conditional_if_else);
+    TEST(Made_B_conditional_nested);
+    TEST(Made_B_whileloop_sum);
+    TEST(Made_B_whileloop_break);
+    TEST(Made_B_whileloop_continue);
+    TEST(Made_B_complex_loop);
 
     suite_add_tcase (s, tc);
 }

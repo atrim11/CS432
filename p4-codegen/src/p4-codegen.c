@@ -14,10 +14,15 @@ typedef struct CodeGenData
      */
     Operand current_epilogue_jump_label;
 
-    int loop_count;
+    int while_count;
+    int if_count;
+
     Operand loop_label[10];
     Operand body_label[10];
     Operand end_label[10];
+
+    Operand if_body_label[10];
+    Operand if_end_label[10];
 
 
 
@@ -138,36 +143,6 @@ void CodeGenVisitor_previsit_funcdecl (NodeVisitor* visitor, ASTNode* node)
     DATA->current_epilogue_jump_label = anonymous_label();
 }
 
-
-// void CodeGenVisitor_gen_funcdecl(NodeVisitor* visitor, ASTNode* node)
-// {
-//     /* Every function begins with the corresponding call label */
-//     EMIT1OP(LABEL, call_label(node->funcdecl.name));
-
-//     /* Prologue */
-//     EMIT1OP(PUSH, base_register());                      // push BP
-//     EMIT2OP(I2I, stack_register(), base_register());     // i2i SP => BP
-//     EMIT3OP(ADD_I, stack_register(), int_const(0), base_register());  // addI SP, 0 => BP
-   
-//     /* Check if there are any local variables by looking for 'localSize' */
-//     int localSize = ASTNode_get_int_attribute(node, "localSize");
-//     if (localSize > 0) {
-//         EMIT3OP(ADD_I, stack_register(), int_const(-localSize), stack_register());  // addI SP, -localSize => SP
-//     }
-
-//     /* Generate code for function body */
-//     ASTNode_copy_code(node, node->funcdecl.body);
-
-//     /* Epilogue label */
-//     EMIT1OP(LABEL, DATA->current_epilogue_jump_label);
-
-//     /* Epilogue */
-//     EMIT2OP(I2I, base_register(), stack_register());     // i2i BP => SP
-//     EMIT1OP(POP, base_register());                       // pop BP
-
-//     /* Return instruction */
-//     EMIT0OP(RETURN);    
-// }
 void CodeGenVisitor_gen_funcdecl(NodeVisitor* visitor, ASTNode* node)
 {
     /* Function prologue */
@@ -186,31 +161,6 @@ void CodeGenVisitor_gen_funcdecl(NodeVisitor* visitor, ASTNode* node)
     EMIT0OP(RETURN);
 }
 
-
-
-// void CodeGenVisitor_gen_funcdecl (NodeVisitor* visitor, ASTNode* node)
-// {
-//     /* every function begins with the corresponding call label */
-//     EMIT1OP(LABEL, call_label(node->funcdecl.name));
-
-//     /* Prologue */
-//     EMIT1OP(PUSH, base_register());                      // push BP
-//     EMIT2OP(I2I, stack_register(), base_register());     // i2i SP => BP
-//     EMIT3OP(ADD_I, stack_register(), int_const(0), stack_register());  // addI SP, 0 => SP
-
-
-//     /* Generate code for function body */
-//     ASTNode_copy_code(node, node->funcdecl.body);
-
-//     /* Epilogue label */
-//     EMIT1OP(LABEL, DATA->current_epilogue_jump_label);
-//     /* Epilogue */
-//     EMIT2OP(I2I, base_register(), stack_register());     // i2i BP => SP
-//     EMIT1OP(POP, base_register());                       // pop BP
-
-//     /* Return instruction */
-//     EMIT0OP(RETURN);
-// }
 
 void CodeGenVisitor_gen_block (NodeVisitor* visitor, ASTNode* node)
 {
@@ -334,38 +284,64 @@ void CodeGenVisitor_gen_unaryop (NodeVisitor* visitor, ASTNode* node)
     ASTNode_set_temp_reg(node, reg);
 }
 
-void GenCodeVisitor_gen_pre_while (NodeVisitor* visitor, ASTNode* node)
+void GenCodeVisitor_gen_pre_while(NodeVisitor* visitor, ASTNode* node)
 {
-    // /* generate code for the while loop */
-    // DATA->loop_label = anonymous_label();
-    // DATA->body_label = anonymous_label();
-    // DATA->end_label = anonymous_label();
+    DATA->while_count++;
+    int current_index = DATA->while_count;
+
+    DATA->loop_label[current_index] = anonymous_label();
+    DATA->body_label[current_index] = anonymous_label();
+    DATA->end_label[current_index] = anonymous_label();
+
+    // ASTNode_set_attribute(node, "loop_label", DATA->loop_label[current_index], NULL);
+    // ASTNode_set_attribute(node, "body_label", DATA->body_label[current_index], NULL);
+    // ASTNode_set_attribute(node, "end_label", DATA->end_label[current_index], NULL);
 }
 
-void CodeGenVisitor_gen_post_while (NodeVisitor* visitor, ASTNode* node)
+
+void CodeGenVisitor_gen_post_while(NodeVisitor* visitor, ASTNode* node)
 {
-    // EMIT1OP(LABEL, DATA->loop_label);
-    // ASTNode_copy_code(node, node->whileloop.condition);
-    // EMIT3OP(CBR, ASTNode_get_temp_reg(node->whileloop.condition), DATA->body_label, DATA->end_label);
-    // EMIT1OP(LABEL, DATA->body_label);
-    // ASTNode_copy_code(node, node->whileloop.body);
+    int current_index = DATA->while_count;
 
-    // // Jumping back to conditinals
-    // EMIT1OP(JUMP, DATA->loop_label);
+    EMIT1OP(LABEL, DATA->loop_label[current_index]);
+    ASTNode_copy_code(node, node->whileloop.condition);
+    EMIT3OP(CBR, ASTNode_get_temp_reg(node->whileloop.condition), 
+            DATA->body_label[current_index], 
+            DATA->end_label[current_index]);
 
-    // // End of while loop
-    // EMIT1OP(LABEL, DATA->end_label);
+    EMIT1OP(LABEL, DATA->body_label[current_index]);
+    ASTNode_copy_code(node, node->whileloop.body);
+    EMIT1OP(JUMP, DATA->loop_label[current_index]);
+
+    EMIT1OP(LABEL, DATA->end_label[current_index]);
+
+    DATA->while_count--;
 }
 
-void GenCodeVisitor_gen_post_break (NodeVisitor* visitor, ASTNode* node)
+
+
+void GenCodeVisitor_gen_post_break(NodeVisitor* visitor, ASTNode* node)
 {
-    // EMIT1OP(JUMP, DATA->end_label);
+    if (DATA->while_count < 0) {
+        fprintf(stderr, "Error: 'break' statement used outside of a loop\n");
+        return;
+    }
+
+    EMIT1OP(JUMP, DATA->end_label[DATA->while_count]);
 }
 
-void GenCodeVisitor_gen_post_continue (NodeVisitor* visitor, ASTNode* node)
+
+
+void GenCodeVisitor_gen_post_continue(NodeVisitor* visitor, ASTNode* node)
 {
-    // EMIT1OP(JUMP, DATA->loop_label);
+    if (DATA->while_count < 0) {
+        fprintf(stderr, "Error: 'continue' statement used outside of a loop\n");
+        return;
+    }
+
+    EMIT1OP(JUMP, DATA->loop_label[DATA->while_count]);
 }
+
 
 void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
 {
@@ -390,71 +366,42 @@ void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
 
 void GenCodeVisitor_gen_pre_conditional(NodeVisitor* visitor, ASTNode* node)
 {
-    /* Increment loop count for unique label handling */
-    DATA->loop_count++;
-    int current_index = DATA->loop_count;
+    DATA->if_count++;
+    int current_index = DATA->if_count;
 
-    /* Generate unique labels for the if-else structure */
-    DATA->body_label[current_index] = anonymous_label();
-    DATA->end_label[current_index] = anonymous_label();
-    DATA->loop_label[current_index] = anonymous_label();  // Used for future else-if or nested logic
+    DATA->if_body_label[current_index] = anonymous_label();
+    DATA->if_end_label[current_index] = anonymous_label();
 
-    /* Copy labels into the node for debugging and tracking */
-    ASTNode_set_attribute(node, "body_label", DATA->body_label, NULL);
-    ASTNode_set_attribute(node, "end_label", DATA->end_label, NULL);
+    // ASTNode_set_attribute(node, "if_body_label", DATA->if_body_label[current_index], NULL);
+    // ASTNode_set_attribute(node, "if_end_label", DATA->if_end_label[current_index], NULL);
 }
+
 
 void GenCodeVisitor_gen_post_conditional(NodeVisitor* visitor, ASTNode* node)
 {
-    int current_index = DATA->loop_count;
+    int current_index = DATA->if_count;
 
-    /* Generate code for the condition */
     ASTNode_copy_code(node, node->conditional.condition);
-
-    /* Emit conditional branch to the body or the end label */
     EMIT3OP(CBR, ASTNode_get_temp_reg(node->conditional.condition), 
-            DATA->body_label[current_index], 
-            DATA->end_label[current_index]);
+            DATA->if_body_label[current_index], 
+            DATA->if_end_label[current_index]);
 
-    /* Label for the 'if' body */
-    EMIT1OP(LABEL, DATA->body_label[current_index]);
+    EMIT1OP(LABEL, DATA->if_body_label[current_index]);
     ASTNode_copy_code(node, node->conditional.if_block);
 
-    /* If there is an else block, handle the jump over and emit the else code */
     if (node->conditional.else_block != NULL) {
         Operand else_end_label = anonymous_label();
-        EMIT1OP(JUMP, else_end_label);  // Jump to the end after 'if' block
-        EMIT1OP(LABEL, DATA->end_label[current_index]);  // Label for else entry
-
+        EMIT1OP(JUMP, else_end_label);
+        EMIT1OP(LABEL, DATA->if_end_label[current_index]);
         ASTNode_copy_code(node, node->conditional.else_block);
-        EMIT1OP(LABEL, else_end_label);  // End label for the entire conditional
+        EMIT1OP(LABEL, else_end_label);
     } else {
-        /* No else block, emit end label */
-        EMIT1OP(LABEL, DATA->end_label[current_index]);
+        EMIT1OP(LABEL, DATA->if_end_label[current_index]);
     }
 
-    /* Decrement loop count after processing */
-    DATA->loop_count--;
+    DATA->if_count--;
 }
 
-
-
-// void CodeGenVisitor_gen_post_funccall (NodeVisitor* visitor, ASTNode* node)
-// {
-//     /* Generate code for the function call */
-//     // ASTNode_copy_code(node, node->funccall.arguments);
-//     FOR_EACH(ASTNode*, arg, node->funccall.arguments) {
-//         ASTNode_copy_code(node, arg);
-//         EMIT1OP(PUSH, ASTNode_get_temp_reg(arg));
-//     }
-//     EMIT1OP(CALL, call_label(node->funccall.name));
-//     // FOR_EACH(ASTNode*, arg, node->funccall.arguments) {
-//     //     EMIT1OP(POP, ASTNode_get_temp_reg(arg));
-//     // }
-//     EMIT3OP(ADD_I, stack_register(), int_const(node->funccall.arguments->size * 8), stack_register());
-//     EMIT2OP(I2I, return_register(), virtual_register());
-//     ASTNode_set_temp_reg(node, return_register());
-// }
 
 
 void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
@@ -473,16 +420,6 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
     EMIT2OP(I2I, ret_reg, temp_reg);
     ASTNode_set_temp_reg(node, temp_reg);
 }
-
-
-// void CodeGenVisitor_gen_pre_location (NodeVisitor* visitor, ASTNode* node)
-// {
-//     // /* generate code for the location */
-//     // if (node->location.index != NULL) {
-//     //     ASTNode_copy_code(node, node->location.index
-//     //     );
-//     // }
-// }
 
 void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
 {
