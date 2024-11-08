@@ -388,32 +388,55 @@ void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
 }
 
 
-void GenCodeVisitor_gen_pre_conditional (NodeVisitor* visitor, ASTNode* node)
+void GenCodeVisitor_gen_pre_conditional(NodeVisitor* visitor, ASTNode* node)
 {
-    /* generate code for the conditional */
+    /* Increment loop count for unique label handling */
     DATA->loop_count++;
+    int current_index = DATA->loop_count;
 
-    DATA->body_label[DATA->loop_count] = anonymous_label();
-    DATA->end_label[DATA->loop_count] = anonymous_label();
+    /* Generate unique labels for the if-else structure */
+    DATA->body_label[current_index] = anonymous_label();
+    DATA->end_label[current_index] = anonymous_label();
+    DATA->loop_label[current_index] = anonymous_label();  // Used for future else-if or nested logic
+
+    /* Copy labels into the node for debugging and tracking */
+    ASTNode_set_attribute(node, "body_label", DATA->body_label, NULL);
+    ASTNode_set_attribute(node, "end_label", DATA->end_label, NULL);
 }
 
-void GenCodeVisitor_gen_post_conditional (NodeVisitor* visitor, ASTNode* node)
+void GenCodeVisitor_gen_post_conditional(NodeVisitor* visitor, ASTNode* node)
 {
+    int current_index = DATA->loop_count;
+
+    /* Generate code for the condition */
     ASTNode_copy_code(node, node->conditional.condition);
-    EMIT3OP(CBR, ASTNode_get_temp_reg(node->conditional.condition), DATA->body_label[DATA->loop_count], DATA->end_label[DATA->loop_count]);
-    EMIT1OP(LABEL, DATA->body_label[DATA->loop_count]);
+
+    /* Emit conditional branch to the body or the end label */
+    EMIT3OP(CBR, ASTNode_get_temp_reg(node->conditional.condition), 
+            DATA->body_label[current_index], 
+            DATA->end_label[current_index]);
+
+    /* Label for the 'if' body */
+    EMIT1OP(LABEL, DATA->body_label[current_index]);
     ASTNode_copy_code(node, node->conditional.if_block);
 
-    // checking for an else statement
+    /* If there is an else block, handle the jump over and emit the else code */
     if (node->conditional.else_block != NULL) {
-        EMIT1OP(LABEL, DATA->body_label[DATA->loop_count]);
+        Operand else_end_label = anonymous_label();
+        EMIT1OP(JUMP, else_end_label);  // Jump to the end after 'if' block
+        EMIT1OP(LABEL, DATA->end_label[current_index]);  // Label for else entry
+
         ASTNode_copy_code(node, node->conditional.else_block);
+        EMIT1OP(LABEL, else_end_label);  // End label for the entire conditional
+    } else {
+        /* No else block, emit end label */
+        EMIT1OP(LABEL, DATA->end_label[current_index]);
     }
 
-    EMIT1OP(LABEL, DATA->end_label[DATA->loop_count]);
-
+    /* Decrement loop count after processing */
     DATA->loop_count--;
 }
+
 
 
 // void CodeGenVisitor_gen_post_funccall (NodeVisitor* visitor, ASTNode* node)
@@ -463,6 +486,10 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
 {
+    ASTNode *parent = (ASTNode *)ASTNode_get_attribute(node, "parent");
+    if (parent != NULL && parent->type == ASSIGNMENT) {
+        return;
+    }
     /* Get the base address and offset for the variable */
     Symbol *var = lookup_symbol(node, node->location.name);
     Operand base = var_base(node, var);

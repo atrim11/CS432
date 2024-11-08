@@ -1,16 +1,17 @@
-// while loops 
-
-def int main() {
+def int main() 
+{ 
     int result;
     int temp;
-    temp = 1;   
-
-    if (temp >= 1) {
-        if (temp == 2) {
-            result = 0;
-        } else {
-            result = 1;
+    temp = 1;
+    if (temp == 1) {
+        if (temp == 2) 
+        { 
+            result = 0; 
+        } else { 
+            result = 42; 
         }
+    } else { 
+        result = 99; 
     }
     return result;
 }
