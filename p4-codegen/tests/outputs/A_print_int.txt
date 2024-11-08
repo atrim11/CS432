@@ -6,8 +6,9 @@ main:
   push r0
   call print_int
   addI SP, 8 => SP
-  loadI 0 => r1
-  i2i r1 => RET
+  i2i RET => r1
+  loadI 0 => r2
+  i2i r2 => RET
   jump l0
 l0:
   i2i BP => SP

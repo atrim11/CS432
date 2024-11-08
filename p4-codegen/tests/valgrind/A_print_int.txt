@@ -1,8 +1,8 @@
-==690916== Memcheck, a memory error detector
-==690916== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==690916== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==690916== Command: ../decaf inputs/print_int.decaf
-==690916== 
+==916475== Memcheck, a memory error detector
+==916475== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==916475== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==916475== Command: ../decaf inputs/print_int.decaf
+==916475== 
 main:
   push BP
   i2i SP => BP
@@ -11,8 +11,9 @@ main:
   push r0
   call print_int
   addI SP, 8 => SP
-  loadI 0 => r1
-  i2i r1 => RET
+  i2i RET => r1
+  loadI 0 => r2
+  i2i r2 => RET
   jump l0
 l0:
   i2i BP => SP
@@ -73,19 +74,19 @@ other memory:
 
 Executing: call print_int
 ERROR: No call target found for 'print_int'
-==690916== 
-==690916== HEAP SUMMARY:
-==690916==     in use at exit: 131,264 bytes in 19 blocks
-==690916==   total heap usage: 1,861 allocs, 1,842 frees, 390,684 bytes allocated
-==690916== 
-==690916== LEAK SUMMARY:
-==690916==    definitely lost: 0 bytes in 0 blocks
-==690916==    indirectly lost: 0 bytes in 0 blocks
-==690916==      possibly lost: 0 bytes in 0 blocks
-==690916==    still reachable: 131,264 bytes in 19 blocks
-==690916==         suppressed: 0 bytes in 0 blocks
-==690916== Reachable blocks (those to which a pointer was found) are not shown.
-==690916== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==690916== 
-==690916== For lists of detected and suppressed errors, rerun with: -s
-==690916== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==916475== 
+==916475== HEAP SUMMARY:
+==916475==     in use at exit: 132,328 bytes in 20 blocks
+==916475==   total heap usage: 1,866 allocs, 1,846 frees, 396,004 bytes allocated
+==916475== 
+==916475== LEAK SUMMARY:
+==916475==    definitely lost: 0 bytes in 0 blocks
+==916475==    indirectly lost: 0 bytes in 0 blocks
+==916475==      possibly lost: 0 bytes in 0 blocks
+==916475==    still reachable: 132,328 bytes in 20 blocks
+==916475==         suppressed: 0 bytes in 0 blocks
+==916475== Reachable blocks (those to which a pointer was found) are not shown.
+==916475== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==916475== 
+==916475== For lists of detected and suppressed errors, rerun with: -s
+==916475== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -1,6 +1,6 @@
---- outputs/A_print_int.txt	2024-11-08 13:48:00.752952424 -0500
-+++ expected/A_print_int.txt	2024-09-27 11:45:15.000000000 -0400
-@@ -1,70 +1 @@
+--- outputs/A_print_int.txt	2024-11-08 14:42:57.072178147 -0500
++++ expected/A_print_int.txt	2024-10-29 14:14:18.188821620 -0400
+@@ -1,71 +1 @@
 -main:
 -  push BP
 -  i2i SP => BP
@@ -9,8 +9,9 @@
 -  push r0
 -  call print_int
 -  addI SP, 8 => SP
--  loadI 0 => r1
--  i2i r1 => RET
+-  i2i RET => r1
+-  loadI 0 => r2
+-  i2i r2 => RET
 -  jump l0
 -l0:
 -  i2i BP => SP

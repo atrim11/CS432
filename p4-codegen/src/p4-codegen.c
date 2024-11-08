@@ -234,7 +234,6 @@ void CodeGenVisitor_gen_return(NodeVisitor* visitor, ASTNode* node)
             EMIT3OP(LOAD_AI, base_register(), int_const(-8), result_reg);
             
         }
-        result_reg.id = 5;
         /* Move the result into RET register */
         EMIT2OP(I2I, result_reg, return_register());
     }
@@ -431,8 +430,9 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
 
     /* Directly use the return value (RET) */
     Operand ret_reg = return_register();
-    EMIT2OP(I2I, ret_reg, virtual_register());
-    ASTNode_set_temp_reg(node, ret_reg);
+    Operand temp_reg = virtual_register();
+    EMIT2OP(I2I, ret_reg, temp_reg);
+    ASTNode_set_temp_reg(node, temp_reg);
 }
 // void CodeGenVisitor_gen_pre_location (NodeVisitor* visitor, ASTNode* node)
 // {
