@@ -14,9 +14,12 @@ typedef struct CodeGenData
      */
     Operand current_epilogue_jump_label;
 
-    Operand loop_label;
-    Operand body_label;
-    Operand end_label;
+    int loop_count;
+    Operand loop_label[10];
+    Operand body_label[10];
+    Operand end_label[10];
+
+
 
 
     /* add any new desired state information (and clean it up in CodeGenData_free) */
@@ -333,35 +336,35 @@ void CodeGenVisitor_gen_unaryop (NodeVisitor* visitor, ASTNode* node)
 
 void GenCodeVisitor_gen_pre_while (NodeVisitor* visitor, ASTNode* node)
 {
-    /* generate code for the while loop */
-    DATA->loop_label = anonymous_label();
-    DATA->body_label = anonymous_label();
-    DATA->end_label = anonymous_label();
+    // /* generate code for the while loop */
+    // DATA->loop_label = anonymous_label();
+    // DATA->body_label = anonymous_label();
+    // DATA->end_label = anonymous_label();
 }
 
 void CodeGenVisitor_gen_post_while (NodeVisitor* visitor, ASTNode* node)
 {
-    EMIT1OP(LABEL, DATA->loop_label);
-    ASTNode_copy_code(node, node->whileloop.condition);
-    EMIT3OP(CBR, ASTNode_get_temp_reg(node->whileloop.condition), DATA->body_label, DATA->end_label);
-    EMIT1OP(LABEL, DATA->body_label);
-    ASTNode_copy_code(node, node->whileloop.body);
+    // EMIT1OP(LABEL, DATA->loop_label);
+    // ASTNode_copy_code(node, node->whileloop.condition);
+    // EMIT3OP(CBR, ASTNode_get_temp_reg(node->whileloop.condition), DATA->body_label, DATA->end_label);
+    // EMIT1OP(LABEL, DATA->body_label);
+    // ASTNode_copy_code(node, node->whileloop.body);
 
-    // Jumping back to conditinals
-    EMIT1OP(JUMP, DATA->loop_label);
+    // // Jumping back to conditinals
+    // EMIT1OP(JUMP, DATA->loop_label);
 
-    // End of while loop
-    EMIT1OP(LABEL, DATA->end_label);
+    // // End of while loop
+    // EMIT1OP(LABEL, DATA->end_label);
 }
 
 void GenCodeVisitor_gen_post_break (NodeVisitor* visitor, ASTNode* node)
 {
-    EMIT1OP(JUMP, DATA->end_label);
+    // EMIT1OP(JUMP, DATA->end_label);
 }
 
 void GenCodeVisitor_gen_post_continue (NodeVisitor* visitor, ASTNode* node)
 {
-    EMIT1OP(JUMP, DATA->loop_label);
+    // EMIT1OP(JUMP, DATA->loop_label);
 }
 
 void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
@@ -388,17 +391,28 @@ void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
 void GenCodeVisitor_gen_pre_conditional (NodeVisitor* visitor, ASTNode* node)
 {
     /* generate code for the conditional */
-    DATA->body_label = anonymous_label();
-    DATA->end_label = anonymous_label();
+    DATA->loop_count++;
+
+    DATA->body_label[DATA->loop_count] = anonymous_label();
+    DATA->end_label[DATA->loop_count] = anonymous_label();
 }
 
 void GenCodeVisitor_gen_post_conditional (NodeVisitor* visitor, ASTNode* node)
 {
     ASTNode_copy_code(node, node->conditional.condition);
-    EMIT3OP(CBR, ASTNode_get_temp_reg(node->conditional.condition), DATA->body_label, DATA->end_label);
-    EMIT1OP(LABEL, DATA->body_label);
+    EMIT3OP(CBR, ASTNode_get_temp_reg(node->conditional.condition), DATA->body_label[DATA->loop_count], DATA->end_label[DATA->loop_count]);
+    EMIT1OP(LABEL, DATA->body_label[DATA->loop_count]);
     ASTNode_copy_code(node, node->conditional.if_block);
-    EMIT1OP(LABEL, DATA->end_label);
+
+    // checking for an else statement
+    if (node->conditional.else_block != NULL) {
+        EMIT1OP(LABEL, DATA->body_label[DATA->loop_count]);
+        ASTNode_copy_code(node, node->conditional.else_block);
+    }
+
+    EMIT1OP(LABEL, DATA->end_label[DATA->loop_count]);
+
+    DATA->loop_count--;
 }
 
 
@@ -418,6 +432,8 @@ void GenCodeVisitor_gen_post_conditional (NodeVisitor* visitor, ASTNode* node)
 //     EMIT2OP(I2I, return_register(), virtual_register());
 //     ASTNode_set_temp_reg(node, return_register());
 // }
+
+
 void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
 {
     /* Generate code for the function call */
@@ -434,6 +450,8 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
     EMIT2OP(I2I, ret_reg, temp_reg);
     ASTNode_set_temp_reg(node, temp_reg);
 }
+
+
 // void CodeGenVisitor_gen_pre_location (NodeVisitor* visitor, ASTNode* node)
 // {
 //     // /* generate code for the location */
