@@ -1,4 +1,6 @@
 Running suite(s): Default
-ERROR: Address 65536 is invalid (out of range)
-92%: Checks: 14, Failures: 0, Errors: 1
-public.c:42:E:Public:A_funccall_params:0: (after this point) Early exit with return value 1
+71%: Checks: 14, Failures: 4, Errors: 0
+public.c:12:F:Public:D_sanity_zero:0: Assertion 'run_program("def int main() { return 0; }") == 0' failed: run_program("def int main() { return 0; }") == -9999999, 0 == 0
+public.c:14:F:Public:D_expr_int:0: Assertion 'run_expression("7") == 7' failed: run_expression("7") == -9999999, 7 == 7
+public.c:18:F:Public:D_expr_sanity_zero:0: Assertion 'run_expression("0") == 0' failed: run_expression("0") == -9999999, 0 == 0
+public.c:38:F:Public:B_funccall:0: Assertion 'run_program("def int ten() { return 10; } " "def int main() { return ten() + ten(); }") == 20' failed: run_program("def int ten() { return 10; } " "def int main() { return ten() + ten(); }") == -19999998, 20 == 20

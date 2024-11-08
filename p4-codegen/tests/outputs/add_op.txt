@@ -1,6 +1,7 @@
 main:
   push BP
   i2i SP => BP
+  addI SP, 0 => BP
   loadI 2 => r0
   loadI 3 => r1
   add r0, r1 => r2
@@ -28,6 +29,15 @@ other memory:
 ==========================
 
 Executing: i2i SP => BP
+
+==========================
+sp=65528 bp=65528 ret=-9999999
+registers: 
+stack:  65528: -9999999
+other memory:
+==========================
+
+Executing: addI SP, 0 => BP
 
 ==========================
 sp=65528 bp=65528 ret=-9999999

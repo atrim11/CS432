@@ -1,7 +1,11 @@
 main:
   push BP
   i2i SP => BP
+  addI SP, 0 => BP
+  loadI 7 => r0
+  push r0
   call print_int
+  addI SP, 8 => SP
   loadI 0 => r1
   i2i r1 => RET
   jump l0
@@ -32,6 +36,33 @@ Executing: i2i SP => BP
 sp=65528 bp=65528 ret=-9999999
 registers: 
 stack:  65528: -9999999
+other memory:
+==========================
+
+Executing: addI SP, 0 => BP
+
+==========================
+sp=65528 bp=65528 ret=-9999999
+registers: 
+stack:  65528: -9999999
+other memory:
+==========================
+
+Executing: loadI 7 => r0
+
+==========================
+sp=65528 bp=65528 ret=-9999999
+registers:  r0=7
+stack:  65528: -9999999
+other memory:
+==========================
+
+Executing: push r0
+
+==========================
+sp=65520 bp=65528 ret=-9999999
+registers:  r0=7
+stack:  65528: -9999999  65520: 7
 other memory:
 ==========================
 
