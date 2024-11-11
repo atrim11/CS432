@@ -436,7 +436,19 @@ void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
 
     /* Load the value from the variable's location */
     Operand reg = virtual_register();
-    EMIT3OP(LOAD_AI, base, offset, reg);
+
+    //Array check
+    if(var->symbol_type == ARRAY_SYMBOL) {
+        ASTNode_copy_code(node, node->location.index);
+
+        Operand index_reg = ASTNode_get_temp_reg(node->location.index);
+        Operand temp_reg = virtual_register();
+        EMIT3OP(MULT_I, index_reg, int_const(8), temp_reg);
+
+        EMIT3OP(LOAD_AO, base, temp_reg, reg);
+    } else {
+        EMIT3OP(LOAD_AI, base, offset, reg);
+    }
     ASTNode_set_temp_reg(node, reg);
 }
 

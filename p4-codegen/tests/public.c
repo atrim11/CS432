@@ -188,6 +188,54 @@ TEST_MAIN(Made_B_whileloop_break, 5,
 //     "  i = i + 1; "
 //     "} "
 //     "return sum;")
+
+//Couple arrays tests
+// Test array declaration and element access
+TEST_MAIN(A_Array_declaration_access, 5,
+    "int arr[3]; arr[0] = 1; arr[1] = 2; arr[2] = 5; "
+    "return arr[2];")
+
+// Test array initialization and element access with mixed values
+TEST_PROGRAM(A_Array_mixed_values, 10,
+    "int arr[3]; def int main() { arr[0] = 1; arr[1] = 2; arr[2] = 5; "
+    "int sum; sum = arr[0] + arr[1] + arr[2]; "
+    "return sum;}")
+// Test array assignment within a loop
+TEST_MAIN(A_Array_loop_initialization, 15,
+    "int arr[5]; int i; int sum; sum = 0; "
+    "for (i = 0; i < 5; i = i + 1) { arr[i] = i + 1; } "
+    "for (i = 0; i < 5; i = i + 1) { sum = sum + arr[i]; } "
+    "return sum;")
+
+// Test calculating sum of an array
+TEST_MAIN(A_Array_sum, 6,
+    "int arr[3]; arr[0] = 1; arr[1] = 2; arr[2] = 3; "
+    "int sum; sum = arr[0] + arr[1] + arr[2]; "
+    "return sum;")
+
+// Test array out-of-bounds access (expecting error or some indication of failure)
+// Uncomment this line if the compiler has a way to handle or report errors for out-of-bounds access
+// TEST_MAIN(Array_out_of_bounds, 0,
+//     "int arr[2]; arr[3] = 10; "
+//     "return 0;")
+
+// Test using an array as a return value in a function (requires array function support)
+TEST_PROGRAM(A_Array_return_function, 12,
+    "def int get_third_element(int arr[3]) { return arr[2]; } "
+    "def int main() { int arr[3]; arr[0] = 4; arr[1] = 8; arr[2] = 12; "
+    "return get_third_element(arr); }")
+
+// Test modifying array elements within a function
+TEST_PROGRAM(A_Array_modify_function, 20,
+    "def void set_elements(int arr[3]) { arr[0] = 5; arr[1] = 10; arr[2] = 20; } "
+    "def int main() { int arr[3]; set_elements(arr); "
+    "return arr[2]; }")
+
+// Test multi-dimensional array access
+TEST_MAIN(A_Multi_dimensional_array_access, 8,
+    "int arr[2][2]; arr[0][0] = 3; arr[0][1] = 5; arr[1][0] = 2; arr[1][1] = 8; "
+    "return arr[1][1];")
+
 #endif
 
 /**
@@ -247,6 +295,15 @@ void public_tests (Suite *s)
 
     // Register A-level test
     TEST(A_funccall_params);
+    TEST(A_Array_declaration_access);
+    TEST(A_Array_mixed_values);
+    TEST(A_Array_loop_initialization);
+    TEST(A_Array_sum);
+    // Uncomment the following line if out-of-bounds handling is implemented
+    // TEST(Array_out_of_bounds);
+    TEST(A_Array_return_function);
+    TEST(A_Array_modify_function);
+    TEST(A_Multi_dimensional_array_access);
 
     TEST(Made_B_conditional_if_else);
     TEST(Made_B_conditional_nested);
