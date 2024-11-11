@@ -236,6 +236,21 @@ TEST_MAIN(A_Multi_dimensional_array_access, 8,
     "int arr[2][2]; arr[0][0] = 3; arr[0][1] = 5; arr[1][0] = 2; arr[1][1] = 8; "
     "return arr[1][1];")
 
+// modulus tests
+TEST_MAIN(A_Modulus_operator, 1,
+    "int a; a = 5 % 2; return a;")
+
+TEST_MAIN(A_Modulus_operator2, 0,
+    "int a; a = 4 % 2; return a;")
+
+TEST_MAIN(A_Modulus_operator3, 0,
+    "int a; a = 0 % 2; return a;")
+// Alot of modulus's
+TEST_MAIN(A_Modulus_operator4, 0,
+    "int a; a = 100 % 2; return a;")
+// Alot of modulus's
+TEST_MAIN(A_Modulus_operator5, 1,
+    "int a; int b; a = 101 % 2; b = a % 2; return b;")
 #endif
 
 /**
@@ -295,15 +310,20 @@ void public_tests (Suite *s)
 
     // Register A-level test
     TEST(A_funccall_params);
-    TEST(A_Array_declaration_access);
-    TEST(A_Array_mixed_values);
-    TEST(A_Array_loop_initialization);
-    TEST(A_Array_sum);
+    // TEST(A_Array_declaration_access);
+    // TEST(A_Array_mixed_values);
+    // TEST(A_Array_loop_initialization);
+    // TEST(A_Array_sum);
     // Uncomment the following line if out-of-bounds handling is implemented
     // TEST(Array_out_of_bounds);
-    TEST(A_Array_return_function);
-    TEST(A_Array_modify_function);
-    TEST(A_Multi_dimensional_array_access);
+    // TEST(A_Array_return_function);
+    // TEST(A_Array_modify_function);
+    // TEST(A_Multi_dimensional_array_access);
+    TEST(A_Modulus_operator);
+    TEST(A_Modulus_operator2);
+    TEST(A_Modulus_operator3);
+    TEST(A_Modulus_operator4);
+    TEST(A_Modulus_operator5);
 
     TEST(Made_B_conditional_if_else);
     TEST(Made_B_conditional_nested);

@@ -208,58 +208,71 @@ void CodeGenVisitor_gen_literal(NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenvisitor_gen_post_binaryop (NodeVisitor* visitor, ASTNode* node)
 {
-     /* Generate code for the binary operation */
+    /* Generate code for the binary operation */
     Operand reg = virtual_register();  // Use a new temporary register
     ASTNode_copy_code(node, node->binaryop.left);
     ASTNode_copy_code(node, node->binaryop.right);
-    // Need to have a switch statement to determine the correct binary operation
 
+    // Get temporary registers for the left and right operands
+    Operand left_reg = ASTNode_get_temp_reg(node->binaryop.left);
+    Operand right_reg = ASTNode_get_temp_reg(node->binaryop.right);
+
+    // Switch statement for different binary operations
     BinaryOpType op = node->binaryop.operator;
-    switch (op)
-    {
+    switch (op) {
         case OROP:
-            EMIT3OP(OR, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(OR, left_reg, right_reg, reg);
             break;
         case ANDOP:
-            EMIT3OP(AND, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(AND, left_reg, right_reg, reg);
             break;
         case EQOP:
-            EMIT3OP(CMP_EQ, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(CMP_EQ, left_reg, right_reg, reg);
             break;
         case NEQOP:
-            EMIT3OP(CMP_NE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(CMP_NE, left_reg, right_reg, reg);
             break;
         case LTOP:
-            EMIT3OP(CMP_LT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(CMP_LT, left_reg, right_reg, reg);
             break;
         case LEOP:
-            EMIT3OP(CMP_LE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(CMP_LE, left_reg, right_reg, reg);
             break;
         case GEOP:
-            EMIT3OP(CMP_GE, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(CMP_GE, left_reg, right_reg, reg);
             break;
         case GTOP:
-            EMIT3OP(CMP_GT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(CMP_GT, left_reg, right_reg, reg);
             break;
         case ADDOP:
-            EMIT3OP(ADD, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(ADD, left_reg, right_reg, reg);
             break;
         case SUBOP:
-            EMIT3OP(SUB, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(SUB, left_reg, right_reg, reg);
             break;
         case MULOP:
-            EMIT3OP(MULT, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(MULT, left_reg, right_reg, reg);
             break;
         case DIVOP:
-            EMIT3OP(DIV, ASTNode_get_temp_reg(node->binaryop.left), ASTNode_get_temp_reg(node->binaryop.right), reg);
+            EMIT3OP(DIV, left_reg, right_reg, reg);
             break;
-        case MODOP:
+        case MODOP: {
+            // Perform a / b
+            Operand div_result = virtual_register();
+            EMIT3OP(DIV, left_reg, right_reg, div_result);
+
+            // Calculate (a / b) * b
+            Operand mult_result = virtual_register();
+            EMIT3OP(MULT, div_result, right_reg, mult_result);
+
+            // Calculate a - ((a / b) * b) to get the remainder
+            EMIT3OP(SUB, left_reg, mult_result, reg);
             break;
+        }
         default:
             break;
     }
-
-    
+  
     // Set temp register for binary op
     ASTNode_set_temp_reg(node, reg);
 }
