@@ -191,9 +191,8 @@ TEST_MAIN(Made_B_whileloop_break, 5,
 
 //Couple arrays tests
 // Test array declaration and element access
-TEST_MAIN(A_Array_declaration_access, 5,
-    "int arr[3]; arr[0] = 1; arr[1] = 2; arr[2] = 5; "
-    "return arr[2];")
+TEST_PROGRAM(A_Array_declaration_access, 5,
+    "int arr[3]; def int main() { arr[0] = 5; return arr[0]; }")
 
 // Test array initialization and element access with mixed values
 TEST_PROGRAM(A_Array_mixed_values, 10,
@@ -251,6 +250,21 @@ TEST_MAIN(A_Modulus_operator4, 0,
 // Alot of modulus's
 TEST_MAIN(A_Modulus_operator5, 1,
     "int a; int b; a = 101 % 2; b = a % 2; return b;")
+
+// Function with parameters
+TEST_PROGRAM(A_funccall_params1, 5,
+    "def int add(int a, int b) { return a + b; } "
+    "def int main() { return add(2,3); }")
+TEST_PROGRAM(A_funccall_params2, 5,
+    "def int add(int a, int b) { return a + b; } "
+    "def int main() { int a; int b; a = 2; b = 3; return add(a,b); }")
+
+// Print functions TEsts
+// TEST_MAIN(A_Print_function, 5, 
+//     "print(5); return 5;")
+
+// TEST_MAIN(A_Print_function2, 5,
+//     "int a; a = 5; print(a); return a;")
 #endif
 
 /**
@@ -310,7 +324,7 @@ void public_tests (Suite *s)
 
     // Register A-level test
     TEST(A_funccall_params);
-    // TEST(A_Array_declaration_access);
+    TEST(A_Array_declaration_access);
     // TEST(A_Array_mixed_values);
     // TEST(A_Array_loop_initialization);
     // TEST(A_Array_sum);
@@ -324,6 +338,12 @@ void public_tests (Suite *s)
     TEST(A_Modulus_operator3);
     TEST(A_Modulus_operator4);
     TEST(A_Modulus_operator5);
+
+    // function calls
+    TEST(A_funccall_params1);
+
+    TEST(A_funccall_params2);
+
 
     TEST(Made_B_conditional_if_else);
     TEST(Made_B_conditional_nested);

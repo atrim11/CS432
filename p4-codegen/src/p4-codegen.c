@@ -257,6 +257,7 @@ void CodeGenvisitor_gen_post_binaryop (NodeVisitor* visitor, ASTNode* node)
             EMIT3OP(DIV, left_reg, right_reg, reg);
             break;
         case MODOP: {
+            // Modulus 
             // Perform a / b
             Operand div_result = virtual_register();
             EMIT3OP(DIV, left_reg, right_reg, div_result);
@@ -419,19 +420,29 @@ void GenCodeVisitor_gen_post_conditional(NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
 {
-    /* Generate code for the function call */
-    FOR_EACH(ASTNode*, arg, node->funccall.arguments) {
-        ASTNode_copy_code(node, arg);
-        EMIT1OP(PUSH, ASTNode_get_temp_reg(arg));
-    }
-    EMIT1OP(CALL, call_label(node->funccall.name));
-    EMIT3OP(ADD_I, stack_register(), int_const(node->funccall.arguments->size * 8), stack_register());
+    // Retrieve function name and check if it's a print function
+    const char* func_name = node->funccall.name;
 
-    /* Directly use the return value (RET) */
-    Operand ret_reg = return_register();
-    Operand temp_reg = virtual_register();
-    EMIT2OP(I2I, ret_reg, temp_reg);
-    ASTNode_set_temp_reg(node, temp_reg);
+    if (strcmp(func_name, "print_int") == 0 || strcmp(func_name, "print_bool") == 0 || strcmp(func_name, "print_str") == 0) {
+        // Generate code to handle printing
+        Operand arg_reg = ASTNode_get_temp_reg(node->funccall.arguments->head);
+        
+        EMIT1OP(PRINT, arg_reg);
+    } else {
+        // Normal function call handling for other functions
+        FOR_EACH(ASTNode*, arg, node->funccall.arguments) {
+            ASTNode_copy_code(node, arg);
+            EMIT1OP(PUSH, ASTNode_get_temp_reg(arg));
+        }
+        EMIT1OP(CALL, call_label(func_name));
+        EMIT3OP(ADD_I, stack_register(), int_const(node->funccall.arguments->size * 8), stack_register());
+
+        // Set the return value to a temporary register
+        Operand ret_reg = return_register();
+        Operand temp_reg = virtual_register();
+        EMIT2OP(I2I, ret_reg, temp_reg);
+        ASTNode_set_temp_reg(node, temp_reg);
+    }
 }
 
 void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
@@ -442,6 +453,7 @@ void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
             return;
         }
     }
+
     /* Get the base address and offset for the variable */
     Symbol *var = lookup_symbol(node, node->location.name);
     Operand base = var_base(node, var);
@@ -450,7 +462,7 @@ void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
     /* Load the value from the variable's location */
     Operand reg = virtual_register();
 
-    //Array check
+    // Array check
     if(var->symbol_type == ARRAY_SYMBOL) {
         ASTNode_copy_code(node, node->location.index);
 
@@ -462,8 +474,27 @@ void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
     } else {
         EMIT3OP(LOAD_AI, base, offset, reg);
     }
+
+    
     ASTNode_set_temp_reg(node, reg);
 }
+
+void CodeGenVisitor_gen_vardecl(NodeVisitor* visitor, ASTNode* node) {
+    Symbol* var = lookup_symbol(node, node->vardecl.name);
+    
+    if (var->symbol_type == ARRAY_SYMBOL) {
+        int array_size = var->length;
+        int element_size = 8;
+        int total_size = array_size * element_size;
+
+        // Reserve space on the stack for the array
+        Operand space = int_const(total_size);
+        Operand base = var_base(node, var);
+
+        EMIT3OP(ADD_I, stack_register(), space, stack_register());
+    } 
+}
+
 
 #endif
 InsnList* generate_code (ASTNode* tree)
@@ -484,7 +515,7 @@ InsnList* generate_code (ASTNode* tree)
     v->postvisit_block       = CodeGenVisitor_gen_block;
     v->postvisit_return      = CodeGenVisitor_gen_return;
     v->postvisit_literal     = CodeGenVisitor_gen_literal;
-    // v->postvisit_vardecl     = CodeGenVisitor_gen_vardecl;
+    v->postvisit_vardecl     = CodeGenVisitor_gen_vardecl;
 
     v->postvisit_binaryop    = CodeGenvisitor_gen_post_binaryop;
     v->postvisit_unaryop     = CodeGenVisitor_gen_unaryop;
