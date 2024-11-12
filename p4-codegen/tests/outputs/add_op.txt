@@ -2,10 +2,10 @@ main:
   push BP
   i2i SP => BP
   addI SP, 0 => BP
-  loadI 1 => r0
-  print r0
-  loadI 0 => r1
-  i2i r1 => RET
+  loadI 2 => r0
+  loadI 3 => r1
+  add r0, r1 => r2
+  i2i r2 => RET
   jump l0
 l0:
   i2i BP => SP
@@ -46,38 +46,38 @@ stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: loadI 1 => r0
+Executing: loadI 2 => r0
 
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r0=1
+registers:  r0=2
 stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: print r0
-1
+Executing: loadI 3 => r1
+
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r0=1
+registers:  r0=2 r1=3
 stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: loadI 0 => r1
+Executing: add r0, r1 => r2
 
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r0=1 r1=0
+registers:  r0=2 r1=3 r2=5
 stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: i2i r1 => RET
+Executing: i2i r2 => RET
 
 ==========================
-sp=65528 bp=65528 ret=0
-registers:  r0=1 r1=0
+sp=65528 bp=65528 ret=5
+registers:  r0=2 r1=3 r2=5
 stack:  65528: -9999999
 other memory:
 ==========================
@@ -85,8 +85,8 @@ other memory:
 Executing: jump l0
 
 ==========================
-sp=65528 bp=65528 ret=0
-registers:  r0=1 r1=0
+sp=65528 bp=65528 ret=5
+registers:  r0=2 r1=3 r2=5
 stack:  65528: -9999999
 other memory:
 ==========================
@@ -94,8 +94,8 @@ other memory:
 Executing: i2i BP => SP
 
 ==========================
-sp=65528 bp=65528 ret=0
-registers:  r0=1 r1=0
+sp=65528 bp=65528 ret=5
+registers:  r0=2 r1=3 r2=5
 stack:  65528: -9999999
 other memory:
 ==========================
@@ -103,11 +103,11 @@ other memory:
 Executing: pop BP
 
 ==========================
-sp=65536 bp=-9999999 ret=0
-registers:  r0=1 r1=0
+sp=65536 bp=-9999999 ret=5
+registers:  r0=2 r1=3 r2=5
 stack:
 other memory:  65528: -9999999
 ==========================
 
 Executing: return
-RETURN VALUE = 0
+RETURN VALUE = 5

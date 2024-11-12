@@ -1,23 +1,15 @@
 digraph AST {
-1 [shape=box, label="VarDecl name='arr'\ncode: \nloadI 256 => r0\naddI SP, 24 => SP"];
-6 [shape=box, label="Literal value=0\nreg: r1\ncode: \nloadI 0 => r1\ntype: int"];
-5 [shape=box, label="Location name='arr'\ntype: int"];
-5 -> 6;
-7 [shape=box, label="Literal value=5\nreg: r2\ncode: \nloadI 5 => r2\ntype: int"];
-4 [shape=box, label="Assignment\ncode: \nloadI 5 => r2\nloadI 256 => r3\nstoreAI r2 => [r3+0]"];
-4 -> 5;
-4 -> 7;
-10 [shape=box, label="Literal value=0\nreg: r4\ncode: \nloadI 0 => r4\ntype: int"];
-9 [shape=box, label="Location name='arr'\nreg: r6\ncode: \nloadI 256 => r5\nloadI 0 => r4\nmultI r4, 8 => r7\nloadAO [r5+r7] => r6\ntype: int"];
-9 -> 10;
-8 [shape=box, label="Return\ncode: \nloadI 256 => r5\nloadI 0 => r4\nmultI r4, 8 => r7\nloadAO [r5+r7] => r6\ni2i r6 => RET\njump l0"];
-8 -> 9;
-3 [shape=box, label="Block\ncode: \nloadI 5 => r2\nloadI 256 => r3\nstoreAI r2 => [r3+0]\nloadI 256 => r5\nloadI 0 => r4\nmultI r4, 8 => r7\nloadAO [r5+r7] => r6\ni2i r6 => RET\njump l0\nsymbolTable: (empty)"];
+4 [shape=box, label="Literal value=5\nreg: r0\ncode: \nloadI 5 => r0\ntype: int"];
+3 [shape=box, label="FuncCall name='print_int'\ncode: \nloadI r1 => r0\nprint r0\ntype: void"];
 3 -> 4;
-3 -> 8;
-2 [shape=box, label="FuncDecl name='main'\ncode: \nmain:\npush BP\ni2i SP => BP\naddI SP, 0 => BP\nloadI 5 => r2\nloadI 256 => r3\nstoreAI r2 => [r3+0]\nloadI 256 => r5\nloadI 0 => r4\nmultI r4, 8 => r7\nloadAO [r5+r7] => r6\ni2i r6 => RET\njump l0\nl0:\ni2i BP => SP\npop BP\nreturn\nlocalSize: 0\nsymbolTable: (empty)"];
+6 [shape=box, label="Literal value=0\nreg: r2\ncode: \nloadI 0 => r2\ntype: int"];
+5 [shape=box, label="Return\ncode: \nloadI 0 => r2\ni2i r2 => RET\njump l0"];
+5 -> 6;
+2 [shape=box, label="Block\ncode: \nloadI r1 => r0\nprint r0\nloadI 0 => r2\ni2i r2 => RET\njump l0\nsymbolTable: (empty)"];
 2 -> 3;
-0 [shape=box, label="Program\ncode: (...)\nstaticSize: 24\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int\n  arr : int [3] {static offset=256}"];
+2 -> 5;
+1 [shape=box, label="FuncDecl name='main'\ncode: \nmain:\npush BP\ni2i SP => BP\naddI SP, 0 => BP\nloadI r1 => r0\nprint r0\nloadI 0 => r2\ni2i r2 => RET\njump l0\nl0:\ni2i BP => SP\npop BP\nreturn\nlocalSize: 0\nsymbolTable: (empty)"];
+1 -> 2;
+0 [shape=box, label="Program\ncode: (...)\nstaticSize: 0\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  main : () -> int"];
 0 -> 1;
-0 -> 2;
 }

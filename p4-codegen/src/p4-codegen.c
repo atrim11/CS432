@@ -426,7 +426,10 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
     if (strcmp(func_name, "print_int") == 0 || strcmp(func_name, "print_bool") == 0 || strcmp(func_name, "print_str") == 0) {
         // Generate code to handle printing
         Operand arg_reg = ASTNode_get_temp_reg(node->funccall.arguments->head);
+        // get the number of arguments
         
+        
+        EMIT2OP(LOAD_I, int_const(99), arg_reg);
         EMIT1OP(PRINT, arg_reg);
     } else {
         // Normal function call handling for other functions
@@ -480,19 +483,19 @@ void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
 }
 
 void CodeGenVisitor_gen_vardecl(NodeVisitor* visitor, ASTNode* node) {
-    Symbol* var = lookup_symbol(node, node->vardecl.name);
+    // Symbol* var = lookup_symbol(node, node->vardecl.name);
     
-    if (var->symbol_type == ARRAY_SYMBOL) {
-        int array_size = var->length;
-        int element_size = 8;
-        int total_size = array_size * element_size;
+    // if (var->symbol_type == ARRAY_SYMBOL) {
+    //     int array_size = var->length;
+    //     int element_size = 8;
+    //     int total_size = array_size * element_size;
 
-        // Reserve space on the stack for the array
-        Operand space = int_const(total_size);
-        Operand base = var_base(node, var);
+    //     // Reserve space on the stack for the array
+    //     Operand space = int_const(total_size);
+    //     Operand base = var_base(node, var);
 
-        EMIT3OP(ADD_I, stack_register(), space, stack_register());
-    } 
+    //     EMIT3OP(ADD_I, stack_register(), space, stack_register());
+    // } 
 }
 
 

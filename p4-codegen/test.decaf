@@ -1,8 +1,6 @@
-//TEST_PROGRAM(A_Array_declaration_access, 5,
-    // "int arr[3]; def int main() { arr[0] = 5; return arr[0]; }")
+//print_int(5)
 
-int arr[3];
 def int main() {
-    arr[0] = 5;
-    return arr[0];
+    print_int(5);
+    return 0;
 }
