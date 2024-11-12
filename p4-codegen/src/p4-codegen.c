@@ -427,10 +427,14 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
         // Generate code to handle printing
         Operand arg_reg = ASTNode_get_temp_reg(node->funccall.arguments->head);
         // get the number of arguments
-        
-        int num_args = node->funccall.arguments->head->literal.integer;
-        EMIT2OP(LOAD_I, int_const(num_args), arg_reg);
-        EMIT1OP(PRINT, arg_reg);
+        if (strcmp(func_name, "print_str") == 0) {
+            char* str = (char*)node->funccall.arguments->head->literal.string;
+            EMIT1OP(PRINT, str_const(str));
+        } else {
+            int num_args = node->funccall.arguments->head->literal.integer;
+            EMIT2OP(LOAD_I, int_const(num_args), arg_reg);
+            EMIT1OP(PRINT, arg_reg);
+        }
     } else {
         // Normal function call handling for other functions
         FOR_EACH(ASTNode*, arg, node->funccall.arguments) {
