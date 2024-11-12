@@ -428,8 +428,8 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
         Operand arg_reg = ASTNode_get_temp_reg(node->funccall.arguments->head);
         // get the number of arguments
         
-        
-        EMIT2OP(LOAD_I, int_const(99), arg_reg);
+        int num_args = node->funccall.arguments->head->literal.integer;
+        EMIT2OP(LOAD_I, int_const(num_args), arg_reg);
         EMIT1OP(PRINT, arg_reg);
     } else {
         // Normal function call handling for other functions
