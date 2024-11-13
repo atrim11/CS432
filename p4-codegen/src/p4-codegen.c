@@ -150,8 +150,8 @@ void CodeGenVisitor_gen_funcdecl(NodeVisitor* visitor, ASTNode* node)
     EMIT1OP(PUSH, base_register());
     EMIT2OP(I2I, stack_register(), base_register());
     // node->funccall.arguments->head->literal.integer;
-    // int local_space = node.funcdecl.
-    EMIT3OP(ADD_I, stack_register(), int_const(8), stack_register());
+    int local_space = node->funcdecl.body->block.variables->size * -8;
+    EMIT3OP(ADD_I, stack_register(), int_const(local_space), stack_register());
 
     /* Generate function body */
     ASTNode_copy_code(node, node->funcdecl.body);

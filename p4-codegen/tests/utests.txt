@@ -1,3 +1,0 @@
-Running suite(s): Default
-5HELLO WORLD
-100%: Checks: 77, Failures: 0, Errors: 0

@@ -1,19 +1,19 @@
 
-// def int main() {
-//     int a;
-//     int b;
-//     int c;
-//     a = 1;
-//     b = 2;
-//     c = 3;
-//     return a + b + c;
-// }
-
-int arr[10];
-
 def int main() {
-    arr[0] = 1;
-    arr[1] = 2;
-    arr[2] = 3;
-    return arr[0] + arr[1] + arr[2];
+    int a;
+    int b;
+    int c;
+    a = 1;
+    b = 2;
+    c = 3;
+    return a + b + c;
 }
+
+// int arr[10];
+
+// def int main() {
+//     arr[0] = 1;
+//     arr[1] = 2;
+//     arr[2] = 3;
+//     return arr[0] + arr[1] + arr[2];
+// }
