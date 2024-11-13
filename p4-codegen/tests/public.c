@@ -208,7 +208,7 @@ TEST_PROGRAM(A_Array_mixed_values, 8,
 //     "return sum; }")
 
 // Test calculating sum of an array
-TEST_MAIN(A_Array_sum, 6,
+TEST_PROGRAM(A_Array_sum, 6,
     "int arr[3]; def int main() { int sum; arr[0] = 1; arr[1] = 2; arr[2] = 3; "
     "sum = arr[0] + arr[1] + arr[2]; "
     "return sum;}")

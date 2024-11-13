@@ -1,8 +1,8 @@
-==3022253== Memcheck, a memory error detector
-==3022253== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3022253== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3022253== Command: ../decaf inputs/print_int.decaf
-==3022253== 
+==3636122== Memcheck, a memory error detector
+==3636122== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3636122== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3636122== Command: ../decaf inputs/print_int.decaf
+==3636122== 
 main:
   push BP
   i2i SP => BP
@@ -116,12 +116,12 @@ other memory:  65528: -9999999
 
 Executing: return
 RETURN VALUE = 0
-==3022253== 
-==3022253== HEAP SUMMARY:
-==3022253==     in use at exit: 0 bytes in 0 blocks
-==3022253==   total heap usage: 1,850 allocs, 1,850 frees, 392,420 bytes allocated
-==3022253== 
-==3022253== All heap blocks were freed -- no leaks are possible
-==3022253== 
-==3022253== For lists of detected and suppressed errors, rerun with: -s
-==3022253== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3636122== 
+==3636122== HEAP SUMMARY:
+==3636122==     in use at exit: 0 bytes in 0 blocks
+==3636122==   total heap usage: 1,850 allocs, 1,850 frees, 392,420 bytes allocated
+==3636122== 
+==3636122== All heap blocks were freed -- no leaks are possible
+==3636122== 
+==3636122== For lists of detected and suppressed errors, rerun with: -s
+==3636122== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
