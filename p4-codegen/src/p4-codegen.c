@@ -1,6 +1,8 @@
 /**
  * @file p4-codegen.c
  * @brief Compiler phase 4: code generation
+ * @author Aidan Trimmer & Walker Todd
+ * AI was used to help with testing, and filling in redamentary/repetitive code
  */
 #include "p4-codegen.h"
 

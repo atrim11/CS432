@@ -1,11 +1,11 @@
 
-def int main() {
-    int a;
-    int b;
-    a = 1;
-    b = 2;
-    return a + b +  1;
-}
+// def int main() {
+//     int a;
+//     int b;
+//     a = 1;
+//     b = 2;
+//     return a + b +  1;
+// }
 
 // int arr[10];
 
@@ -15,3 +15,18 @@ def int main() {
 //     arr[2] = 3;
 //     return arr[0] + arr[1] + arr[2];
 // }
+
+
+int a[10];
+int g;
+
+def int set(int x) {
+    g = x;
+    return x;
+}
+
+def int main() 
+{
+    a[set(3)] = set(4);
+    return g;
+}
