@@ -1,5 +1,5 @@
---- outputs/A_print_int.txt	2024-11-13 13:50:44.352150850 -0500
-+++ expected/A_print_int.txt	2024-10-29 14:14:18.188821620 -0400
+--- outputs/A_print_int.txt	2024-11-13 14:55:09.907622429 -0500
++++ expected/A_print_int.txt	2024-09-27 11:45:15.000000000 -0400
 @@ -1,113 +1 @@
 -main:
 -  push BP

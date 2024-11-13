@@ -362,29 +362,38 @@ void GenCodeVisitor_gen_post_continue(NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
 {
-    ASTNode_copy_code(node, node->assignment.value);
+    // Retrieve the symbol for the variable being assigned
+    Symbol* var = lookup_symbol(node, node->assignment.location->location.name);
 
-    Operand rhs_reg = ASTNode_get_temp_reg(node->assignment.value);
-    Symbol *var = lookup_symbol(node, node->assignment.location->location.name);
-    Operand lhs_base = var_base(node, var);
-
-    if (var->symbol_type == ARRAY_SYMBOL) {
-        // Handle array index and calculate offset
+    // Check if the symbol represents an array type
+    if (var != NULL && var->symbol_type == ARRAY_SYMBOL) {
+        // Handle array index and calculate offset before evaluating the value
         ASTNode_copy_code(node, node->assignment.location->location.index);
-
         Operand index_reg = ASTNode_get_temp_reg(node->assignment.location->location.index);
+
+        Operand lhs_base = var_base(node, var);
         Operand temp_reg = virtual_register();
         EMIT3OP(MULT_I, index_reg, int_const(8), temp_reg);
+
+        // Now evaluate the value to be stored
+        ASTNode_copy_code(node, node->assignment.value);
+        Operand rhs_reg = ASTNode_get_temp_reg(node->assignment.value);
 
         // Store the RHS result into the calculated offset of the array
         EMIT3OP(STORE_AO, rhs_reg, lhs_base, temp_reg);
     } else {
         // Handle normal scalar assignments
+        ASTNode_copy_code(node, node->assignment.value);
+        Operand rhs_reg = ASTNode_get_temp_reg(node->assignment.value);
+
+        Operand lhs_base = var_base(node, var);
         Operand lhs_offset = var_offset(node, var);
+
         EMIT3OP(STORE_AI, rhs_reg, lhs_base, lhs_offset);
     }
-    
 }
+
+
 
 
 void GenCodeVisitor_gen_pre_conditional(NodeVisitor* visitor, ASTNode* node)

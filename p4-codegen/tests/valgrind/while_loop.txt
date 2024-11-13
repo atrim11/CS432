@@ -1,8 +1,8 @@
-==3928940== Memcheck, a memory error detector
-==3928940== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3928940== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3928940== Command: ../decaf inputs/while_loop.decaf
-==3928940== 
+==4099008== Memcheck, a memory error detector
+==4099008== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==4099008== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==4099008== Command: ../decaf inputs/while_loop.decaf
+==4099008== 
 add:
   push BP
   i2i SP => BP
@@ -487,12 +487,12 @@ other memory:  65488: 65528  65496: 34  65512: 3  65520: 3  65528: -9999999
 
 Executing: return
 RETURN VALUE = 3
-==3928940== 
-==3928940== HEAP SUMMARY:
-==3928940==     in use at exit: 0 bytes in 0 blocks
-==3928940==   total heap usage: 2,261 allocs, 2,261 frees, 596,320 bytes allocated
-==3928940== 
-==3928940== All heap blocks were freed -- no leaks are possible
-==3928940== 
-==3928940== For lists of detected and suppressed errors, rerun with: -s
-==3928940== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==4099008== 
+==4099008== HEAP SUMMARY:
+==4099008==     in use at exit: 0 bytes in 0 blocks
+==4099008==   total heap usage: 2,261 allocs, 2,261 frees, 596,320 bytes allocated
+==4099008== 
+==4099008== All heap blocks were freed -- no leaks are possible
+==4099008== 
+==4099008== For lists of detected and suppressed errors, rerun with: -s
+==4099008== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

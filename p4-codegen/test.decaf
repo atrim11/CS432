@@ -30,3 +30,4 @@ def int main()
     a[set(3)] = set(4);
     return g;
 }
+
