@@ -262,6 +262,9 @@ TEST_MAIN(A_Modulus_operator4, 0,
 TEST_MAIN(A_Modulus_operator5, 1,
     "int a; int b; a = 101 % 2; b = a % 2; return b;")
 
+TEST_MAIN(A_Modulus_operator6, 1,
+    "int a; int b; a = 100 % 3; return a;")
+
 // Function with parameters
 TEST_PROGRAM(A_funccall_params1, 5,
     "def int add(int a, int b) { return a + b; } "
@@ -368,6 +371,7 @@ void public_tests (Suite *s)
     TEST(A_Modulus_operator3);
     TEST(A_Modulus_operator4);
     TEST(A_Modulus_operator5);
+    TEST(A_Modulus_operator6);
 
     // function calls
     TEST(A_funccall_params1);
