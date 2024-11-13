@@ -359,21 +359,27 @@ void GenCodeVisitor_gen_post_continue(NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_assign(NodeVisitor* visitor, ASTNode* node)
 {
-    /* Generate code for the RHS expression (value) */
     ASTNode_copy_code(node, node->assignment.value);
 
-    /* Retrieve the result register of the RHS expression */
     Operand rhs_reg = ASTNode_get_temp_reg(node->assignment.value);
-    /* Get the base address and offset for the LHS variable (location) */
     Symbol *var = lookup_symbol(node, node->assignment.location->location.name);
     Operand lhs_base = var_base(node, var);
-    Operand lhs_offset = var_offset(node, var);
 
-    /* Store the RHS result into the LHS variable's location */
-    EMIT3OP(STORE_AI, rhs_reg, lhs_base, lhs_offset);  // storeAI r4 => [BP-8]
+    if (var->symbol_type == ARRAY_SYMBOL) {
+        // Handle array index and calculate offset
+        ASTNode_copy_code(node, node->assignment.location->location.index);
 
-    /* Set the temporary register for the assignment node */
-    // ASTNode_set_temp_reg(node, rhs_reg);
+        Operand index_reg = ASTNode_get_temp_reg(node->assignment.location->location.index);
+        Operand temp_reg = virtual_register();
+        EMIT3OP(MULT_I, index_reg, int_const(8), temp_reg);
+
+        // Store the RHS result into the calculated offset of the array
+        EMIT3OP(STORE_AO, rhs_reg, lhs_base, temp_reg);
+    } else {
+        // Handle normal scalar assignments
+        Operand lhs_offset = var_offset(node, var);
+        EMIT3OP(STORE_AI, rhs_reg, lhs_base, lhs_offset);
+    }
     
 }
 
@@ -454,39 +460,46 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
 {
-    ASTNode *parent = (ASTNode *)ASTNode_get_attribute(node, "parent");
-    if (parent != NULL && parent->type == ASSIGNMENT) {
-        if (parent->assignment.location == node) {
-            return;
-        }
-    }
-
-    /* Get the base address and offset for the variable */
     Symbol *var = lookup_symbol(node, node->location.name);
     Operand base = var_base(node, var);
     Operand offset = var_offset(node, var);
 
-    /* Load the value from the variable's location */
     Operand reg = virtual_register();
 
-    // Array check
-    if(var->symbol_type == ARRAY_SYMBOL) {
+    // If the variable is an array, handle index calculations
+    if (var->symbol_type == ARRAY_SYMBOL) {
         ASTNode_copy_code(node, node->location.index);
 
         Operand index_reg = ASTNode_get_temp_reg(node->location.index);
         Operand temp_reg = virtual_register();
         EMIT3OP(MULT_I, index_reg, int_const(8), temp_reg);
 
+        // Load the value from the calculated offset
         EMIT3OP(LOAD_AO, base, temp_reg, reg);
     } else {
+        // Handle normal variable loading
         EMIT3OP(LOAD_AI, base, offset, reg);
     }
 
-    
     ASTNode_set_temp_reg(node, reg);
 }
 
 void CodeGenVisitor_gen_vardecl(NodeVisitor* visitor, ASTNode* node) {
+    Symbol* var = lookup_symbol(node, node->vardecl.name);
+
+    if (var->symbol_type == ARRAY_SYMBOL) {
+        // Array space is reserved globally and should have space allocated during initialization
+        int array_size = var->length;
+        int element_size = 8; // Assuming 8 bytes per element (64-bit integers)
+        int total_size = array_size * element_size;
+
+        // Generate global space allocation (this may be a symbolic representation)
+        Operand space = int_const(total_size);
+        Operand base = var_base(node, var);
+
+        // Reserve space for the array (this may involve emitting specific instructions for the global section)
+        EMIT3OP(ADD_I, stack_register(), space, stack_register());
+    }
     // Symbol* var = lookup_symbol(node, node->vardecl.name);
     
     // if (var->symbol_type == ARRAY_SYMBOL) {

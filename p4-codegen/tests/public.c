@@ -195,22 +195,23 @@ TEST_PROGRAM(A_Array_declaration_access, 5,
     "int arr[3]; def int main() { arr[0] = 5; return arr[0]; }")
 
 // Test array initialization and element access with mixed values
-TEST_PROGRAM(A_Array_mixed_values, 10,
-    "int arr[3]; def int main() { arr[0] = 1; arr[1] = 2; arr[2] = 5; "
-    "int sum; sum = arr[0] + arr[1] + arr[2]; "
+TEST_PROGRAM(A_Array_mixed_values, 8,
+    "int arr[3]; def int main() { int sum; arr[0] = 1; arr[1] = 2; arr[2] = 5; "
+    " sum = arr[0] + arr[1] + arr[2]; "
     "return sum;}")
 // Test array assignment within a loop
-TEST_MAIN(A_Array_loop_initialization, 15,
-    "int arr[5]; int i; int sum; sum = 0; "
-    "for (i = 0; i < 5; i = i + 1) { arr[i] = i + 1; } "
-    "for (i = 0; i < 5; i = i + 1) { sum = sum + arr[i]; } "
-    "return sum;")
+// This test works just 
+// TEST_MAIN(A_Array_loop_initialization, 15,
+//     "int arr[5]; def int main() { int i; int sum; sum = 0; "
+//     "while (i < 5) {" "arr[i] = i + 1;" "i = i + 1; }"
+//     "while (i > 0) {" "i = i - 1;" "sum = sum + arr[i]; }"
+//     "return sum; }")
 
 // Test calculating sum of an array
 TEST_MAIN(A_Array_sum, 6,
-    "int arr[3]; arr[0] = 1; arr[1] = 2; arr[2] = 3; "
-    "int sum; sum = arr[0] + arr[1] + arr[2]; "
-    "return sum;")
+    "int arr[3]; def int main() { int sum; arr[0] = 1; arr[1] = 2; arr[2] = 3; "
+    "sum = arr[0] + arr[1] + arr[2]; "
+    "return sum;}")
 
 // Test array out-of-bounds access (expecting error or some indication of failure)
 // Uncomment this line if the compiler has a way to handle or report errors for out-of-bounds access
@@ -325,9 +326,9 @@ void public_tests (Suite *s)
     // Register A-level test
     TEST(A_funccall_params);
     TEST(A_Array_declaration_access);
-    // TEST(A_Array_mixed_values);
+    TEST(A_Array_mixed_values);
     // TEST(A_Array_loop_initialization);
-    // TEST(A_Array_sum);
+    TEST(A_Array_sum);
     // Uncomment the following line if out-of-bounds handling is implemented
     // TEST(Array_out_of_bounds);
     // TEST(A_Array_return_function);

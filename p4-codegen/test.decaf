@@ -1,6 +1,12 @@
-//print_int(5)
+int arr[3]; 
 
-def int main() {
-    print_str("Hello, world!");
-    return 0;
+def int main() 
+{ 
+    int sum; 
+    arr[0] = 1; 
+    arr[1] = 2; 
+    arr[2] = 3; 
+    
+    sum = arr[0] + arr[1] + arr[2]; 
+    return sum;
 }
