@@ -1,16 +1,16 @@
-==3838073== Memcheck, a memory error detector
-==3838073== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3838073== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3838073== Command: ../decaf inputs/print_int.decaf
-==3838073== 
+==3838192== Memcheck, a memory error detector
+==3838192== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3838192== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3838192== Command: ../decaf inputs/add_op.decaf
+==3838192== 
 main:
   push BP
   i2i SP => BP
   addI SP, 0 => BP
-  loadI 7 => r0
-  print r0
-  loadI 0 => r1
-  i2i r1 => RET
+  loadI 2 => r0
+  loadI 3 => r1
+  add r0, r1 => r2
+  i2i r2 => RET
   jump l0
 l0:
   i2i BP => SP
@@ -51,38 +51,38 @@ stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: loadI 7 => r0
+Executing: loadI 2 => r0
 
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r0=7
+registers:  r0=2
 stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: print r0
-7
+Executing: loadI 3 => r1
+
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r0=7
+registers:  r0=2 r1=3
 stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: loadI 0 => r1
+Executing: add r0, r1 => r2
 
 ==========================
 sp=65528 bp=65528 ret=-9999999
-registers:  r0=7 r1=0
+registers:  r0=2 r1=3 r2=5
 stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: i2i r1 => RET
+Executing: i2i r2 => RET
 
 ==========================
-sp=65528 bp=65528 ret=0
-registers:  r0=7 r1=0
+sp=65528 bp=65528 ret=5
+registers:  r0=2 r1=3 r2=5
 stack:  65528: -9999999
 other memory:
 ==========================
@@ -90,8 +90,8 @@ other memory:
 Executing: jump l0
 
 ==========================
-sp=65528 bp=65528 ret=0
-registers:  r0=7 r1=0
+sp=65528 bp=65528 ret=5
+registers:  r0=2 r1=3 r2=5
 stack:  65528: -9999999
 other memory:
 ==========================
@@ -99,8 +99,8 @@ other memory:
 Executing: i2i BP => SP
 
 ==========================
-sp=65528 bp=65528 ret=0
-registers:  r0=7 r1=0
+sp=65528 bp=65528 ret=5
+registers:  r0=2 r1=3 r2=5
 stack:  65528: -9999999
 other memory:
 ==========================
@@ -108,20 +108,20 @@ other memory:
 Executing: pop BP
 
 ==========================
-sp=65536 bp=-9999999 ret=0
-registers:  r0=7 r1=0
+sp=65536 bp=-9999999 ret=5
+registers:  r0=2 r1=3 r2=5
 stack:
 other memory:  65528: -9999999
 ==========================
 
 Executing: return
-RETURN VALUE = 0
-==3838073== 
-==3838073== HEAP SUMMARY:
-==3838073==     in use at exit: 0 bytes in 0 blocks
-==3838073==   total heap usage: 1,850 allocs, 1,850 frees, 392,420 bytes allocated
-==3838073== 
-==3838073== All heap blocks were freed -- no leaks are possible
-==3838073== 
-==3838073== For lists of detected and suppressed errors, rerun with: -s
-==3838073== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+RETURN VALUE = 5
+==3838192== 
+==3838192== HEAP SUMMARY:
+==3838192==     in use at exit: 0 bytes in 0 blocks
+==3838192==   total heap usage: 1,834 allocs, 1,834 frees, 388,348 bytes allocated
+==3838192== 
+==3838192== All heap blocks were freed -- no leaks are possible
+==3838192== 
+==3838192== For lists of detected and suppressed errors, rerun with: -s
+==3838192== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

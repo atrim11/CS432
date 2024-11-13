@@ -460,6 +460,13 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
 {
+    ASTNode *parent = (ASTNode*) ASTNode_get_attribute(node, "parent");
+    if (parent != NULL && parent->type == ASSIGNMENT) {
+        if (parent->assignment.location == node) {
+            return;
+        }
+    }
+
     Symbol *var = lookup_symbol(node, node->location.name);
     Operand base = var_base(node, var);
     Operand offset = var_offset(node, var);

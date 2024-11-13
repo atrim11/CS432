@@ -1,7 +1,7 @@
 def int main() {
     int a;
     int b;
-    b = 5;
+    b = 4;
     a = b;
     return a;
 }

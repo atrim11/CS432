@@ -9,6 +9,9 @@ TEST_EXPRESSION(D_expr_int, 7, "7")
 TEST_EXPRESSION(D_expr_add, 5, "2+3")
 TEST_EXPRESSION(D_expr_long, 10, "1+2+3+4")
 TEST_EXPRESSION(D_expr_sanity_zero, 0, "0")
+TEST_PROGRAM(D_return_literal, 10, "def int main() { return 10; }")
+TEST_PROGRAM(D_basic_block, 3, "def int main() { int x; int y; y = 3; x = y; return x; }")
+TEST_PROGRAM(D_basic_addition, 5, "def int main() { return 2 + 3; }")
 
 // C-level Tests
 
@@ -17,6 +20,9 @@ TEST_EXPRESSION(C_expr_add, 7, "3 + 4")
 TEST_EXPRESSION(C_expr_subtract, 1, "4 - 3")
 TEST_EXPRESSION(C_expr_multiply, 12, "3 * 4")
 TEST_EXPRESSION(C_expr_divide, 2, "8 / 4")
+TEST_EXPRESSION(C_expr_subtract_nested, 3, "(8 - 5) + (1 - 1)")
+TEST_MAIN(C_precedence_test, 10, "int x; x = (2 + 3) * (4 - 2); return x;")
+TEST_MAIN(C_nested_scope, 8, "int x; int y; y = 8; x = y; return x;")
 
 // Test unary integer operation (negation)
 TEST_EXPRESSION(C_expr_negation, -5, "-5")
@@ -45,6 +51,16 @@ TEST_BOOL_EXPRESSION(B_expr_true, 1, "true")
 TEST_BOOL_EXPRESSION(B_expr_false, 0, "false")
 TEST_BOOL_EXPRESSION(B_expr_not, 1, "!false")
 TEST_BOOL_EXPRESSION(B_expr_not_t, 0, "!true")
+TEST_BOOL_EXPRESSION(B_expr_nested_and_or, 1, "true && (false || true)")
+TEST_MAIN(B_if_else_chain, 2, 
+    "int x; "
+    "if (false) { x = 1; } "
+    "else { x = 2; } "
+    "return x;")
+TEST_MAIN(B_whileloop_decrement, 0, "int x; x = 10; while (x > 0) { x = x - 1; } return x;")
+TEST_PROGRAM(B_simple_func_call, 100, 
+    "def int hundred() { return 100; } "
+    "def int main() { return hundred(); }")
 
 // Test conditional (if-else) with boolean literals
 TEST_MAIN(B_if_true, 5, "int result; if (true) { result = 5; } else { result = 10; } return result;")
@@ -86,15 +102,15 @@ TEST_MAIN(B_nested_conditionals, 1,
     "return result;")
 
 // Complex while loop with mixed conditions and increments
-// TEST_MAIN(B_whileloop_mixed, 6,
-//     "int count; int result; "
-//     "count = 0; result = 0; "
-//     "while (count < 5) { "
-//     "  if (count % 2 == 0) { result = result + 2; } "
-//     "  else { result = result + 1; } "
-//     "  count = count + 1; "
-//     "} "
-//     "return result;")
+TEST_MAIN(B_whileloop_mixed, 8,
+    "int count; int result; "
+    "count = 0; result = 0; "
+    "while (count < 5) { "
+    "  if (count % 2 == 0) { result = result + 2; } "
+    "  else { result = result + 1; } "
+    "  count = count + 1; "
+    "} "
+    "return result;")
 
 // While loop with early exit (break)
 TEST_MAIN(B_whileloop_break_early, 3,
@@ -169,25 +185,36 @@ TEST_MAIN(Made_B_whileloop_break, 5,
     "return count;")
 
 // Test for generating code for continue statement
-// TEST_MAIN(Made_B_whileloop_continue, 20,
-//     "int total; int i; total = 0; i = 0; "
-//     "while (i < 10) { "
-//     "  i = i + 1; "
-//     "  if (i % 2 == 0) { continue; } "
-//     "  total = total + i; "
-//     "} "
-//     "return total;")
+TEST_MAIN(Made_B_whileloop_continue, 25,
+    "int total; int i; total = 0; i = 0; "
+    "while (i < 10) { "
+    "  i = i + 1; "
+    "  if (i % 2 == 0) { continue; } "
+    "  total = total + i; "
+    "} "
+    "return total;")
 
 // Test for combining conditionals and loops with breaks and continues
-// TEST_MAIN(Made_B_complex_loop, 15,
-//     "int sum; int i; sum = 0; i = 1; "
-//     "while (i <= 10) { "
-//     "  if (i % 3 == 0) { i = i + 1; continue; } "
-//     "  if (i == 8) { break; } "
-//     "  sum = sum + i; "
-//     "  i = i + 1; "
-//     "} "
-//     "return sum;")
+TEST_MAIN(Made_B_complex_loop, 19,
+    "int sum; int i; sum = 0; i = 1; "
+    "while (i <= 10) { "
+    "  if (i % 3 == 0) { i = i + 1; continue; } "
+    "  if (i == 8) { break; } "
+    "  sum = sum + i; "
+    "  i = i + 1; "
+    "} "
+    "return sum;")
+
+TEST_PROGRAM(A_funccall_params_advanced, 50, 
+    "def int multiply(int a, int b) { return a * b; } "
+    "def int main() { return multiply(5,10); }")
+TEST_PROGRAM(A_array_init_sum, 15, 
+    "int arr[3]; def int main() { int sum; arr[0] = 5; arr[1] = 3; arr[2] = 7; "
+    " sum = arr[0] + arr[1] + arr[2]; return sum; }")
+TEST_MAIN(A_modulus_expression, 1, 
+    "int a; a = 10; return a % 3;")
+// Uncomment if print function implemented
+// TEST_MAIN(A_print_test, 10, "print(10); return 10;")
 
 //Couple arrays tests
 // Test array declaration and element access
@@ -201,11 +228,11 @@ TEST_PROGRAM(A_Array_mixed_values, 8,
     "return sum;}")
 // Test array assignment within a loop
 // This test works just 
-// TEST_MAIN(A_Array_loop_initialization, 15,
-//     "int arr[5]; def int main() { int i; int sum; sum = 0; "
-//     "while (i < 5) {" "arr[i] = i + 1;" "i = i + 1; }"
-//     "while (i > 0) {" "i = i - 1;" "sum = sum + arr[i]; }"
-//     "return sum; }")
+TEST_PROGRAM(A_Array_loop_initialization, 15,
+    "int arr[5]; def int main() { int i; int sum; sum = 0; "
+    "while (i < 5) {" "arr[i] = i + 1;" "i = i + 1; }"
+    "while (i > 0) {" "i = i - 1;" "sum = sum + arr[i]; }"
+    "return sum; }")
 
 // Test calculating sum of an array
 TEST_PROGRAM(A_Array_sum, 6,
@@ -215,26 +242,9 @@ TEST_PROGRAM(A_Array_sum, 6,
 
 // Test array out-of-bounds access (expecting error or some indication of failure)
 // Uncomment this line if the compiler has a way to handle or report errors for out-of-bounds access
-// TEST_MAIN(Array_out_of_bounds, 0,
-//     "int arr[2]; arr[3] = 10; "
-//     "return 0;")
+TEST_PROGRAM(Array_out_of_bounds, 0,
+    "int arr[3]; def int main() { arr[3] = 5; return arr[4]; }")
 
-// Test using an array as a return value in a function (requires array function support)
-TEST_PROGRAM(A_Array_return_function, 12,
-    "def int get_third_element(int arr[3]) { return arr[2]; } "
-    "def int main() { int arr[3]; arr[0] = 4; arr[1] = 8; arr[2] = 12; "
-    "return get_third_element(arr); }")
-
-// Test modifying array elements within a function
-TEST_PROGRAM(A_Array_modify_function, 20,
-    "def void set_elements(int arr[3]) { arr[0] = 5; arr[1] = 10; arr[2] = 20; } "
-    "def int main() { int arr[3]; set_elements(arr); "
-    "return arr[2]; }")
-
-// Test multi-dimensional array access
-TEST_MAIN(A_Multi_dimensional_array_access, 8,
-    "int arr[2][2]; arr[0][0] = 3; arr[0][1] = 5; arr[1][0] = 2; arr[1][1] = 8; "
-    "return arr[1][1];")
 
 // modulus tests
 TEST_MAIN(A_Modulus_operator, 1,
@@ -261,11 +271,22 @@ TEST_PROGRAM(A_funccall_params2, 5,
     "def int main() { int a; int b; a = 2; b = 3; return add(a,b); }")
 
 // Print functions TEsts
-// TEST_MAIN(A_Print_function, 5, 
-//     "print(5); return 5;")
+TEST_MAIN(A_Print_int_function, 5, 
+    "print_int(5); return 5;")
 
-// TEST_MAIN(A_Print_function2, 5,
-//     "int a; a = 5; print(a); return a;")
+TEST_MAIN(A_Print_str_function, 5,
+    "int a; a = 5; print_str(\"HELLO WORLD\\n\"); return a;")
+
+TEST_MAIN(A_Print_bool_function, 1,
+    "print_bool(true); return 1;")
+
+TEST_MAIN(A_whileloop_even_sum, 30,
+    "int sum; int i; sum = 0; i = 1; "
+    "while (i <= 10) { "
+    "  if (i % 2 == 0) { sum = sum + i; } "
+    "  i = i + 1; "
+    "} "
+    "return sum;")
 #endif
 
 /**
@@ -283,6 +304,9 @@ void public_tests (Suite *s)
     TEST(D_expr_add);
     TEST(D_expr_long);
     TEST(D_expr_sanity_zero);
+    TEST(D_return_literal);
+    TEST(D_basic_block);
+    TEST(D_basic_addition);
 
     // Register C-level tests
     TEST(C_expr_add);
@@ -300,6 +324,9 @@ void public_tests (Suite *s)
     TEST(C_expr_precedence);
     TEST(C_multiple_vars);
     TEST(C_var_reuse);
+    TEST(C_precedence_test);
+    TEST(C_nested_scope);
+    TEST(C_expr_subtract_nested);
 
     // Register B-level tests
     TEST(B_expr_true);
@@ -314,26 +341,28 @@ void public_tests (Suite *s)
     TEST(B_whileloop_break);
     TEST(B_whileloop_continue);
     TEST(B_nested_conditionals);
-//     TEST(B_whileloop_mixed);
+    TEST(B_whileloop_mixed);
     TEST(B_whileloop_break_early);
-//     TEST(B_whileloop_continue_even_sum);
+    TEST(B_whileloop_continue_even_sum);
     TEST(B_function_noparams);
     TEST(B_funccall);
     TEST(B_function_conditional);
     TEST(B_function_in_expression);
     TEST(B_multiple_function_calls);
+    TEST(B_if_else_chain);
+    TEST(B_expr_nested_and_or);
+    TEST(B_if_else_chain);
+    TEST(B_whileloop_decrement);
+    TEST(B_simple_func_call);
 
     // Register A-level test
     TEST(A_funccall_params);
     TEST(A_Array_declaration_access);
     TEST(A_Array_mixed_values);
-    // TEST(A_Array_loop_initialization);
+    TEST(A_Array_loop_initialization);
     TEST(A_Array_sum);
     // Uncomment the following line if out-of-bounds handling is implemented
-    // TEST(Array_out_of_bounds);
-    // TEST(A_Array_return_function);
-    // TEST(A_Array_modify_function);
-    // TEST(A_Multi_dimensional_array_access);
+    TEST(Array_out_of_bounds);
     TEST(A_Modulus_operator);
     TEST(A_Modulus_operator2);
     TEST(A_Modulus_operator3);
@@ -342,16 +371,22 @@ void public_tests (Suite *s)
 
     // function calls
     TEST(A_funccall_params1);
-
     TEST(A_funccall_params2);
+    TEST(A_funccall_params_advanced);
+    TEST(A_array_init_sum);
+    TEST(A_modulus_expression);
+    TEST(A_whileloop_even_sum);
 
+    TEST(A_Print_int_function);
+    TEST(A_Print_str_function);
+    // TEST(A_Print_bool_function);
 
     TEST(Made_B_conditional_if_else);
     TEST(Made_B_conditional_nested);
     TEST(Made_B_whileloop_sum);
     TEST(Made_B_whileloop_break);
-    //TEST(Made_B_whileloop_continue);
-//     TEST(Made_B_complex_loop);
+    TEST(Made_B_whileloop_continue);
+    TEST(Made_B_complex_loop);
 
     suite_add_tcase (s, tc);
 }
