@@ -1,7 +1,7 @@
 main:
   push BP
   i2i SP => BP
-  addI SP, 0 => BP
+  addI SP, 8 => SP
   loadI 2 => r0
   loadI 3 => r1
   add r0, r1 => r2
@@ -37,58 +37,58 @@ stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: addI SP, 0 => BP
+Executing: addI SP, 8 => SP
 
 ==========================
-sp=65528 bp=65528 ret=-9999999
+sp=65536 bp=65528 ret=-9999999
 registers: 
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: loadI 2 => r0
 
 ==========================
-sp=65528 bp=65528 ret=-9999999
+sp=65536 bp=65528 ret=-9999999
 registers:  r0=2
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: loadI 3 => r1
 
 ==========================
-sp=65528 bp=65528 ret=-9999999
+sp=65536 bp=65528 ret=-9999999
 registers:  r0=2 r1=3
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: add r0, r1 => r2
 
 ==========================
-sp=65528 bp=65528 ret=-9999999
+sp=65536 bp=65528 ret=-9999999
 registers:  r0=2 r1=3 r2=5
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: i2i r2 => RET
 
 ==========================
-sp=65528 bp=65528 ret=5
+sp=65536 bp=65528 ret=5
 registers:  r0=2 r1=3 r2=5
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: jump l0
 
 ==========================
-sp=65528 bp=65528 ret=5
+sp=65536 bp=65528 ret=5
 registers:  r0=2 r1=3 r2=5
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: i2i BP => SP

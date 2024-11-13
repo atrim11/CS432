@@ -1,12 +1,12 @@
-==3838000== Memcheck, a memory error detector
-==3838000== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3838000== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3838000== Command: ../decaf inputs/sanity.decaf
-==3838000== 
+==3886160== Memcheck, a memory error detector
+==3886160== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3886160== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3886160== Command: ../decaf inputs/sanity.decaf
+==3886160== 
 main:
   push BP
   i2i SP => BP
-  addI SP, 0 => BP
+  addI SP, 8 => SP
   loadI 4 => r0
   i2i r0 => RET
   jump l0
@@ -40,40 +40,40 @@ stack:  65528: -9999999
 other memory:
 ==========================
 
-Executing: addI SP, 0 => BP
+Executing: addI SP, 8 => SP
 
 ==========================
-sp=65528 bp=65528 ret=-9999999
+sp=65536 bp=65528 ret=-9999999
 registers: 
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: loadI 4 => r0
 
 ==========================
-sp=65528 bp=65528 ret=-9999999
+sp=65536 bp=65528 ret=-9999999
 registers:  r0=4
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: i2i r0 => RET
 
 ==========================
-sp=65528 bp=65528 ret=4
+sp=65536 bp=65528 ret=4
 registers:  r0=4
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: jump l0
 
 ==========================
-sp=65528 bp=65528 ret=4
+sp=65536 bp=65528 ret=4
 registers:  r0=4
-stack:  65528: -9999999
-other memory:
+stack:
+other memory:  65528: -9999999
 ==========================
 
 Executing: i2i BP => SP
@@ -96,12 +96,12 @@ other memory:  65528: -9999999
 
 Executing: return
 RETURN VALUE = 4
-==3838000== 
-==3838000== HEAP SUMMARY:
-==3838000==     in use at exit: 0 bytes in 0 blocks
-==3838000==   total heap usage: 1,802 allocs, 1,802 frees, 371,772 bytes allocated
-==3838000== 
-==3838000== All heap blocks were freed -- no leaks are possible
-==3838000== 
-==3838000== For lists of detected and suppressed errors, rerun with: -s
-==3838000== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3886160== 
+==3886160== HEAP SUMMARY:
+==3886160==     in use at exit: 0 bytes in 0 blocks
+==3886160==   total heap usage: 1,802 allocs, 1,802 frees, 371,772 bytes allocated
+==3886160== 
+==3886160== All heap blocks were freed -- no leaks are possible
+==3886160== 
+==3886160== For lists of detected and suppressed errors, rerun with: -s
+==3886160== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -24,7 +24,7 @@ digraph AST {
 2 [shape=box, label="Block\ncode: \nl1:\nloadAI [BP+16] => r0\nloadI 0 => r1\ncmp_GT r0, r1 => r2\ncbr r2 => l2, l3\nl2:\nloadAI [BP+16] => r3\nloadI 1 => r4\nsub r3, r4 => r5\nstoreAI r5 => [BP+16]\njump l1\nl3:\nloadAI [BP+24] => r6\ni2i r6 => RET\njump l0\nsymbolTable: (empty)"];
 2 -> 3;
 2 -> 13;
-1 [shape=box, label="FuncDecl name='add'\ncode: \nadd:\npush BP\ni2i SP => BP\naddI SP, 0 => BP\nl1:\nloadAI [BP+16] => r0\nloadI 0 => r1\ncmp_GT r0, r1 => r2\ncbr r2 => l2, l3\nl2:\nloadAI [BP+16] => r3\nloadI 1 => r4\nsub r3, r4 => r5\nstoreAI r5 => [BP+16]\njump l1\nl3:\nloadAI [BP+24] => r6\ni2i r6 => RET\njump l0\nl0:\ni2i BP => SP\npop BP\nreturn\nlocalSize: 0\nsymbolTable: \n  x : int {stack offset=16}\n  y : int {stack offset=24}"];
+1 [shape=box, label="FuncDecl name='add'\ncode: \nadd:\npush BP\ni2i SP => BP\naddI SP, 8 => SP\nl1:\nloadAI [BP+16] => r0\nloadI 0 => r1\ncmp_GT r0, r1 => r2\ncbr r2 => l2, l3\nl2:\nloadAI [BP+16] => r3\nloadI 1 => r4\nsub r3, r4 => r5\nstoreAI r5 => [BP+16]\njump l1\nl3:\nloadAI [BP+24] => r6\ni2i r6 => RET\njump l0\nl0:\ni2i BP => SP\npop BP\nreturn\nlocalSize: 0\nsymbolTable: \n  x : int {stack offset=16}\n  y : int {stack offset=24}"];
 1 -> 2;
 17 [shape=box, label="VarDecl name='a'"];
 19 [shape=box, label="Location name='a'\ntype: int"];
@@ -43,7 +43,7 @@ digraph AST {
 16 -> 17;
 16 -> 18;
 16 -> 21;
-15 [shape=box, label="FuncDecl name='main'\ncode: \nmain:\npush BP\ni2i SP => BP\naddI SP, 0 => BP\nloadI 3 => r7\nstoreAI r7 => [BP-8]\nloadAI [BP-8] => r8\npush r8\nloadI 2 => r9\npush r9\ncall add\naddI SP, 16 => SP\ni2i RET => r10\ni2i r10 => RET\njump l4\nl4:\ni2i BP => SP\npop BP\nreturn\nlocalSize: 8\nsymbolTable: (empty)"];
+15 [shape=box, label="FuncDecl name='main'\ncode: \nmain:\npush BP\ni2i SP => BP\naddI SP, 8 => SP\nloadI 3 => r7\nstoreAI r7 => [BP-8]\nloadAI [BP-8] => r8\npush r8\nloadI 2 => r9\npush r9\ncall add\naddI SP, 16 => SP\ni2i RET => r10\ni2i r10 => RET\njump l4\nl4:\ni2i BP => SP\npop BP\nreturn\nlocalSize: 8\nsymbolTable: (empty)"];
 15 -> 16;
 0 [shape=box, label="Program\ncode: (...)\nstaticSize: 0\nsymbolTable: \n  print_int : (int) -> void\n  print_bool : (bool) -> void\n  print_str : (str) -> void\n  add : (int, int) -> int\n  main : () -> int"];
 0 -> 1;

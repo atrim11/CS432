@@ -149,7 +149,9 @@ void CodeGenVisitor_gen_funcdecl(NodeVisitor* visitor, ASTNode* node)
     EMIT1OP(LABEL, call_label(node->funcdecl.name));
     EMIT1OP(PUSH, base_register());
     EMIT2OP(I2I, stack_register(), base_register());
-    EMIT3OP(ADD_I, stack_register(), int_const(0), base_register());
+    // node->funccall.arguments->head->literal.integer;
+    // int local_space = node.funcdecl.
+    EMIT3OP(ADD_I, stack_register(), int_const(8), stack_register());
 
     /* Generate function body */
     ASTNode_copy_code(node, node->funcdecl.body);
@@ -164,7 +166,6 @@ void CodeGenVisitor_gen_funcdecl(NodeVisitor* visitor, ASTNode* node)
 
 void CodeGenVisitor_gen_block (NodeVisitor* visitor, ASTNode* node)
 {
-
     /* copy code from each statement */  
     FOR_EACH(ASTNode*, stmt, node->block.statements) {
         ASTNode_copy_code(node, stmt);
@@ -495,6 +496,7 @@ void CodeGenVisitor_gen_vardecl(NodeVisitor* visitor, ASTNode* node) {
     Symbol* var = lookup_symbol(node, node->vardecl.name);
 
     if (var->symbol_type == ARRAY_SYMBOL) {
+
         // Array space is reserved globally and should have space allocated during initialization
         int array_size = var->length;
         int element_size = 8; // Assuming 8 bytes per element (64-bit integers)

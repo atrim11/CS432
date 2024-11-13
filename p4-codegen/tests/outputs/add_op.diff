@@ -1,10 +1,10 @@
---- outputs/add_op.txt	2024-11-13 13:06:12.088820429 -0500
+--- outputs/add_op.txt	2024-11-13 13:31:23.953825918 -0500
 +++ expected/add_op.txt	2024-11-01 14:38:22.832944811 -0400
 @@ -1,15 +1,9 @@
  main:
 -  push BP
 -  i2i SP => BP
--  addI SP, 0 => BP
+-  addI SP, 8 => SP
    loadI 2 => r0
    loadI 3 => r1
    add r0, r1 => r2
@@ -38,74 +38,73 @@
 -other memory:
 -==========================
 -
--Executing: addI SP, 0 => BP
+-Executing: addI SP, 8 => SP
 -
 -==========================
--sp=65528 bp=65528 ret=-9999999
+-sp=65536 bp=65528 ret=-9999999
 -registers: 
--stack:  65528: -9999999
--other memory:
+-stack:
+-other memory:  65528: -9999999
 -==========================
 -
  Executing: loadI 2 => r0
  
  ==========================
--sp=65528 bp=65528 ret=-9999999
+-sp=65536 bp=65528 ret=-9999999
 +sp=65536 bp=-9999999 ret=-9999999
  registers:  r0=2
--stack:  65528: -9999999
-+stack:
- other memory:
+ stack:
+-other memory:  65528: -9999999
++other memory:
  ==========================
  
  Executing: loadI 3 => r1
  
  ==========================
--sp=65528 bp=65528 ret=-9999999
+-sp=65536 bp=65528 ret=-9999999
 +sp=65536 bp=-9999999 ret=-9999999
  registers:  r0=2 r1=3
--stack:  65528: -9999999
-+stack:
- other memory:
+ stack:
+-other memory:  65528: -9999999
++other memory:
  ==========================
  
  Executing: add r0, r1 => r2
  
  ==========================
--sp=65528 bp=65528 ret=-9999999
+-sp=65536 bp=65528 ret=-9999999
 +sp=65536 bp=-9999999 ret=-9999999
  registers:  r0=2 r1=3 r2=5
--stack:  65528: -9999999
-+stack:
- other memory:
+ stack:
+-other memory:  65528: -9999999
++other memory:
  ==========================
  
  Executing: i2i r2 => RET
  
  ==========================
--sp=65528 bp=65528 ret=5
+-sp=65536 bp=65528 ret=5
 -registers:  r0=2 r1=3 r2=5
--stack:  65528: -9999999
--other memory:
+-stack:
+-other memory:  65528: -9999999
 -==========================
 -
 -Executing: jump l0
 -
 -==========================
--sp=65528 bp=65528 ret=5
--registers:  r0=2 r1=3 r2=5
--stack:  65528: -9999999
--other memory:
+-sp=65536 bp=65528 ret=5
++sp=65536 bp=-9999999 ret=5
+ registers:  r0=2 r1=3 r2=5
+ stack:
+-other memory:  65528: -9999999
 -==========================
 -
 -Executing: i2i BP => SP
 -
 -==========================
 -sp=65528 bp=65528 ret=5
-+sp=65536 bp=-9999999 ret=5
- registers:  r0=2 r1=3 r2=5
+-registers:  r0=2 r1=3 r2=5
 -stack:  65528: -9999999
-+stack:
  other memory:
  ==========================
  
