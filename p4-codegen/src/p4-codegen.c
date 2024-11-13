@@ -19,15 +19,12 @@ typedef struct CodeGenData
     int while_count;
     int if_count;
 
-    Operand loop_label[10];
-    Operand body_label[10];
-    Operand end_label[10];
+    Operand loop_label[100];
+    Operand body_label[100];
+    Operand end_label[100];
 
-    Operand if_body_label[10];
-    Operand if_end_label[10];
-
-
-
+    Operand if_body_label[100];
+    Operand if_end_label[100];
 
     /* add any new desired state information (and clean it up in CodeGenData_free) */
 } CodeGenData;

@@ -1,33 +1,45 @@
+// a bunch of nested if statements with elses
 
-// def int main() {
-//     int a;
-//     int b;
-//     a = 1;
-//     b = 2;
-//     return a + b +  1;
+def int main() {
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+
+    a = 1;
+    b = 2;
+    c = 3;
+    d = 4;
+    e = 5;
+
+    if (a == 1) {
+        if (b == 2) {
+            if (c == 3) {
+                if (d == 4) {
+                    if (e == 5) {
+                        return 1;
+                    }
+                }
+            }
+        }
+    } else {
+        return 0;
+    }
+}
+// int a[10];
+// int g;
+
+// def int set(int x) {
+//     g = x;
+//     return x;
 // }
 
-// int arr[10];
-
-// def int main() {
-//     arr[0] = 1;
-//     arr[1] = 2;
-//     arr[2] = 3;
-//     return arr[0] + arr[1] + arr[2];
+// def int main() 
+// {
+//     return foo(set(3), set(4));
 // }
 
-
-int a[10];
-int g;
-
-def int set(int x) {
-    g = x;
-    return x;
-}
-
-def int main() 
-{
-    a[set(3)] = set(4);
-    return g;
-}
-
+// def int foo(int x, int y) {
+//     return x + y;
+// }
