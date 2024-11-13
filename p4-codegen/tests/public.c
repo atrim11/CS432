@@ -296,35 +296,39 @@ TEST_PROGRAM(Made_B_function_class_example, 4,
 
 TEST_PROGRAM(Made_B_complex_array_access, 5,
     "int arr[10]; int barr[10]; int carr[10]; def int main() { arr[0] = 1; arr[1] = 2; arr[2] = 3; barr[0] = 1; barr[1] = 2; barr[2] = 3; carr[0] = 0; carr[1] = 1; carr[2] = 2; return arr[barr[carr[0]]] + arr[barr[carr[1]]] + arr[barr[carr[2]]]; }")
-// def int main() {
-//     int a;
-//     int b;
-//     int c;
-//     int d;
-//     int e;
 
-//     a = 1;
-//     b = 2;
-//     c = 3;
-//     d = 4;
-//     e = 5;
-
-//     if (a == 1) {
-//         if (b == 2) {
-//             if (c == 3) {
-//                 if (d == 4) {
-//                     if (e == 5) {
-//                         return 1;
-//                     }
-//                 }
-//             }
-//         }
-//     } else {
-//         return 0;
-//     }
-// }
 TEST_MAIN(B_Nested_if_statements_galore, 1,
     "int a; int b; int c; int d; int e; a = 1; b = 2; c = 3; d = 4; e = 5; if (a == 1) { if (b == 2) { if (c == 3) { if (d == 4) { if (e == 5) { return 1; } } } } } else { return 0; }")
+// int a[10];
+// int g;
+
+// def int set(int x) {
+//     g = x;
+//     return x;
+// }
+
+// def int foo(int x, int y) {
+//     return x + y;
+// }
+
+// def int main() 
+// {
+//     if (set(3) == 3) {
+//         g = 99;
+//         if (set(98) == 4) {
+//             return 1;
+//         } else {
+//             if (foo(set(4), set(4)) == 8) {
+//                 return 10000;
+//             }
+//         }
+//     }
+// }
+
+TEST_PROGRAM(A_jumbled_together_stuff, 10000,
+    "int a[10]; int g; def int set(int x) { g = x; return x; } def int foo(int x, int y) { return x + y; } def int main() { if (set(3) == 3) { g = 99; if (set(98) == 4) { return 1; } else { if (foo(set(4), set(4)) == 8) { return 10000; } } } }")
+
+
 #endif
 
 /**
@@ -429,6 +433,8 @@ void public_tests (Suite *s)
     TEST(Made_B_function_class_example);
     TEST(Made_B_complex_array_access);
     TEST(B_Nested_if_statements_galore);
+
+    TEST(A_jumbled_together_stuff);
 
     suite_add_tcase (s, tc);
 }

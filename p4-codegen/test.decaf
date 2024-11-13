@@ -1,32 +1,32 @@
-// a bunch of nested if statements with elses
+// function calls mixed in with while loops mix in with global arrays
 
-def int main() {
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
+int a[10];
+int g;
 
-    a = 1;
-    b = 2;
-    c = 3;
-    d = 4;
-    e = 5;
+def int set(int x) {
+    g = x;
+    return x;
+}
 
-    if (a == 1) {
-        if (b == 2) {
-            if (c == 3) {
-                if (d == 4) {
-                    if (e == 5) {
-                        return 1;
-                    }
-                }
+def int foo(int x, int y) {
+    return x + y;
+}
+
+def int main() 
+{
+    if (set(3) == 3) {
+        g = 99;
+        if (set(98) == 4) {
+            return 1;
+        } else {
+            if (foo(set(4), set(4)) == 8) {
+                return 10000;
             }
         }
-    } else {
-        return 0;
     }
 }
+
+
 // int a[10];
 // int g;
 
