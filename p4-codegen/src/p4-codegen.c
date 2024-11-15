@@ -26,6 +26,7 @@ typedef struct CodeGenData
     Operand if_body_label[100];
     Operand if_end_label[100];
 
+
     /* add any new desired state information (and clean it up in CodeGenData_free) */
 } CodeGenData;
 
@@ -451,15 +452,21 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
             EMIT1OP(PRINT, arg_reg);
         }
     } else {
-        // Normal function call handling for other functions
+        //Lam (and mine) separate out the code copy and the EMIT into separate for loops. 
+        // that's the initial difference are you sure you're reversing them properly?
+
         FOR_EACH(ASTNode*, arg, node->funccall.arguments) {
             ASTNode_copy_code(node, arg);
-            EMIT1OP(PUSH, ASTNode_get_temp_reg(arg));
         }
+
+        for (int i = node->funccall.arguments->size; i >= 0; i--) {
+            Operand arg_reg = ASTNode_get_temp_reg(node->funccall.arguments->head);
+            EMIT1OP(PUSH, arg_reg);
+        }
+
         EMIT1OP(CALL, call_label(func_name));
         EMIT3OP(ADD_I, stack_register(), int_const(node->funccall.arguments->size * 8), stack_register());
 
-        // Set the return value to a temporary register
         Operand ret_reg = return_register();
         Operand temp_reg = virtual_register();
         EMIT2OP(I2I, ret_reg, temp_reg);
