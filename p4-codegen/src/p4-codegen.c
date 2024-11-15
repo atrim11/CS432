@@ -455,18 +455,48 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
         //Lam (and mine) separate out the code copy and the EMIT into separate for loops. 
         // that's the initial difference are you sure you're reversing them properly?
 
+        // FOR_EACH(ASTNode*, arg, node->funccall.arguments) {
+        //     ASTNode_copy_code(node, arg);
+        // }
+
+        // for (int i = node->funccall.arguments->size; i >= 0; i--) {
+        //     Operand arg_reg = ASTNode_get_temp_reg(node->funccall.arguments->head);
+        //     EMIT1OP(PUSH, arg_reg);
+        // }
+
+        // EMIT1OP(CALL, call_label(func_name));
+        // EMIT3OP(ADD_I, stack_register(), int_const(node->funccall.arguments->size * 8), stack_register());
+
+        // Operand ret_reg = return_register();
+        // Operand temp_reg = virtual_register();
+        // EMIT2OP(I2I, ret_reg, temp_reg);
+        // ASTNode_set_temp_reg(node, temp_reg);
+
+        ASTNode* args_array[node->funccall.arguments->size];
+        int index = 0;
+
+        // Traverse the argument list and copy each argument
         FOR_EACH(ASTNode*, arg, node->funccall.arguments) {
             ASTNode_copy_code(node, arg);
+            args_array[index++] = arg;
         }
 
-        for (int i = node->funccall.arguments->size; i >= 0; i--) {
-            Operand arg_reg = ASTNode_get_temp_reg(node->funccall.arguments->head);
+        // Push each argument in reverse order
+        for (int i = node->funccall.arguments->size - 1; i >= 0; i--) {
+            Operand arg_reg = ASTNode_get_temp_reg(args_array[i]);
+            if (arg_reg.id == -1) {
+                // Handle cases where a temporary register was not set properly
+                arg_reg = virtual_register();
+                EMIT2OP(LOAD_I, int_const(args_array[i]->literal.integer), arg_reg);
+            }
             EMIT1OP(PUSH, arg_reg);
         }
 
+        // Emit the function call
         EMIT1OP(CALL, call_label(func_name));
         EMIT3OP(ADD_I, stack_register(), int_const(node->funccall.arguments->size * 8), stack_register());
 
+        // Handle the return value
         Operand ret_reg = return_register();
         Operand temp_reg = virtual_register();
         EMIT2OP(I2I, ret_reg, temp_reg);

@@ -1,26 +1,26 @@
-// int data[5];
+int data[5];
 
-// def int compute(int x, int y) {
-//     return (x-y) + (x*y);
-// }
-
-// def int main() {
-//     int i;
-//     int result;
-//     i = 0;
-//     result = 0;
-
-//     while (i < 5) {
-//         data[i] = compute(i, i+ 1);
-//         result = result + data[i];
-//         i = i + 1;
-//     }
-
-//     return result;
-// }
-
+def int compute(int x, int y) {
+    return (x-y) + (x*y);
+}
 
 def int main() {
-    print_bool(false);
-    return 0;
+    int i;
+    int result;
+    i = 0;
+    result = 0;
+
+    while (i < 5) {
+        data[i] = compute(i, i+ 1);
+        result = result + data[i];
+        i = i + 1;
+    }
+
+    return result;
 }
+
+
+// def int main() {
+//     print_bool(false);
+//     return 0;
+// }
