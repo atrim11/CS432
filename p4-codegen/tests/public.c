@@ -328,26 +328,20 @@ TEST_MAIN(B_Nested_if_statements_galore, 1,
 TEST_PROGRAM(A_jumbled_together_stuff, 10000,
     "int a[10]; int g; def int set(int x) { g = x; return x; } def int foo(int x, int y) { return x + y; } def int main() { if (set(3) == 3) { g = 99; if (set(98) == 4) { return 1; } else { if (foo(set(4), set(4)) == 8) { return 10000; } } } }")
 
-// int data[5];
-
-// def int compute(int x, int y) {
-//     return (x*y) + (x-y);
+// def int add(int x, int y) {
+//     return x - y;
 // }
 
 // def int main() {
-//     int i;
-//     int result;
-//     i = 0;
-//     result = 0;
-
-//     while (i < 5) {
-//         data[i] = compute(i, i+1);
-//         result = result + data[i];
-//         i = i + 1;
-//     }
-
-//     return result;
+//     int a;
+//     int b;
+//     a = 10;
+//     b = 5;
+//     return add(a, b);
 // }
+
+TEST_PROGRAM(A_Funcall_ordering, 5,
+    "def int add(int x, int y) { return x - y; } def int main() { int a; int b; a = 10; b = 5; return add(a, b); }")
 
 TEST_PROGRAM(A_Array_sum_and_stuff, 35,
     "int data[5]; def int compute(int x, int y) { return (x*y) + (x-y); } def int main() { int i; int result; i = 0; result = 0; while (i < 5) { data[i] = compute(i, i+1); result = result + data[i]; i = i + 1; } return result; }")
@@ -441,10 +435,12 @@ void public_tests (Suite *s)
     TEST(A_array_init_sum);
     TEST(A_modulus_expression);
     TEST(A_whileloop_even_sum);
+    TEST(A_Funcall_ordering);
 
     TEST(A_Print_int_function);
     TEST(A_Print_str_function);
     // TEST(A_Print_bool_function);
+
 
     TEST(Made_B_conditional_if_else);
     TEST(Made_B_conditional_nested);

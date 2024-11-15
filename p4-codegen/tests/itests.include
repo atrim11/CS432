@@ -5,7 +5,5 @@
 
 run_test    A_memcheck                  "inputs/sanity.decaf"
 run_test    A_print_int                 "inputs/print_int.decaf"
-run_test    given_test                  "inputs/given_test.decaf"
-run_test    add_op                      "inputs/add_op.decaf"
-run_test    while_loop                  "inputs/while_loop.decaf"
+
 

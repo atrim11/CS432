@@ -626,13 +626,15 @@ void CodeGenVisitor_gen_vardecl(NodeVisitor* visitor, ASTNode* node) {
 #endif
 InsnList* generate_code (ASTNode* tree)
 {
-    // Null check - A Test Case
-    if (tree == NULL) {
-        return NULL;
-    }
+
 
     InsnList* iloc = InsnList_new();
-
+    
+    // Null check - A Test Case
+    if (tree == NULL) {
+        return iloc;
+    }
+    
     NodeVisitor* v = NodeVisitor_new();
     v->data = CodeGenData_new();
     v->dtor = (Destructor)CodeGenData_free;
