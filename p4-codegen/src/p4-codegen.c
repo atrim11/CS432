@@ -2,7 +2,7 @@
  * @file p4-codegen.c
  * @brief Compiler phase 4: code generation
  * @author Aidan Trimmer & Walker Todd
- * AI was used to help with testing, and filling in redamentary/repetitive code
+ * AI was used to help with making test cases, and filling in rudimentary/repetitive code
  */
 #include "p4-codegen.h"
 
@@ -515,7 +515,7 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
     if (strcmp(func_name, "print_int") == 0 || strcmp(func_name, "print_bool") == 0 || strcmp(func_name, "print_str") == 0) {
         // Generate code to handle printing
         Operand arg_reg = ASTNode_get_temp_reg(node->funccall.arguments->head);
-        // get the number of arguments
+
         if (strcmp(func_name, "print_str") == 0) {
             char* str = (char*)node->funccall.arguments->head->literal.string;
             EMIT1OP(PRINT, str_const(str));
@@ -525,7 +525,6 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
             EMIT1OP(PRINT, arg_reg);
         }
     } else {
-        //Lam (and mine) separate out the code copy and the EMIT into separate for loops. 
         ASTNode* args_array[node->funccall.arguments->size];
         int index = 0;
 
@@ -566,6 +565,8 @@ void CodeGenVisitor_gen_post_funccall(NodeVisitor* visitor, ASTNode* node)
  */
 void CodeGenVisitor_gen_post_location (NodeVisitor* visitor, ASTNode* node)
 {
+    // Check if the location is on the left-hand side of an assignment
+    // (fixing the register mis count issue)
     ASTNode *parent = (ASTNode*) ASTNode_get_attribute(node, "parent");
     if (parent != NULL && parent->type == ASSIGNMENT) {
         if (parent->assignment.location == node) {
@@ -608,16 +609,13 @@ void CodeGenVisitor_gen_vardecl(NodeVisitor* visitor, ASTNode* node) {
 
     if (var->symbol_type == ARRAY_SYMBOL) {
 
-        // Array space is reserved globally and should have space allocated during initialization
         int array_size = var->length;
-        int element_size = 8; // Assuming 8 bytes per element (64-bit integers)
+        int element_size = 8; 
         int total_size = array_size * element_size;
 
-        // Generate global space allocation (this may be a symbolic representation)
         Operand space = int_const(total_size);
         Operand base = var_base(node, var);
 
-        // Reserve space for the array (this may involve emitting specific instructions for the global section)
         EMIT3OP(ADD_I, stack_register(), space, stack_register());
     }
 }

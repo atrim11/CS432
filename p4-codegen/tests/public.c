@@ -213,8 +213,6 @@ TEST_PROGRAM(A_array_init_sum, 15,
     " sum = arr[0] + arr[1] + arr[2]; return sum; }")
 TEST_MAIN(A_modulus_expression, 1, 
     "int a; a = 10; return a % 3;")
-// Uncomment if print function implemented
-// TEST_MAIN(A_print_test, 10, "print(10); return 10;")
 
 //Couple arrays tests
 // Test array declaration and element access
@@ -240,11 +238,9 @@ TEST_PROGRAM(A_Array_sum, 6,
     "sum = arr[0] + arr[1] + arr[2]; "
     "return sum;}")
 
-// Test array out-of-bounds access (expecting error or some indication of failure)
-// Uncomment this line if the compiler has a way to handle or report errors for out-of-bounds access
+// Test out-of-bounds array access
 TEST_PROGRAM(Array_out_of_bounds, 0,
     "int arr[3]; def int main() { arr[3] = 5; return arr[4]; }")
-
 
 // modulus tests
 TEST_MAIN(A_Modulus_operator, 1,
@@ -299,34 +295,7 @@ TEST_PROGRAM(Made_B_complex_array_access, 5,
 
 TEST_MAIN(B_Nested_if_statements_galore, 1,
     "int a; int b; int c; int d; int e; a = 1; b = 2; c = 3; d = 4; e = 5; if (a == 1) { if (b == 2) { if (c == 3) { if (d == 4) { if (e == 5) { return 1; } } } } } else { return 0; }")
-// complicated function calls
-// def int call1(int x, int y) {
-//     return x + y;
-// }
 
-// def int call2(int x, int y) {
-//     return x - y;
-// }
-
-// def int call3(int x, int y) {
-//     return x * y;
-// }
-
-// def int call4(int x, int y) {
-//     return x / y;
-// }
-
-// def int call5(int x, int y) {
-//     return x % y;
-// }
-
-// def int main() {
-//     int a;
-//     int b;
-//     a = 10;
-//     b = 5;
-//     return call1(call2(call3(call4(call5(a, b), b), b), b), b);
-// }
 TEST_PROGRAM(A_functions_within_functions, 0,
     "def int call1(int x, int y) { return x + y; } def int call2(int x, int y) { return x - y; } def int call3(int x, int y) { return x * y; } def int call4(int x, int y) { return x / y; } def int call5(int x, int y) { return x % y; } def int main() { int a; int b; a = 10; b = 5; return call1(call2(call3(call4(call5(a, b), b), b), b), b); }")
 
