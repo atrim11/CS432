@@ -299,37 +299,25 @@ TEST_PROGRAM(Made_B_complex_array_access, 5,
 
 TEST_MAIN(B_Nested_if_statements_galore, 1,
     "int a; int b; int c; int d; int e; a = 1; b = 2; c = 3; d = 4; e = 5; if (a == 1) { if (b == 2) { if (c == 3) { if (d == 4) { if (e == 5) { return 1; } } } } } else { return 0; }")
-// int a[10];
-// int g;
-
-// def int set(int x) {
-//     g = x;
-//     return x;
-// }
-
-// def int foo(int x, int y) {
+// complicated function calls
+// def int call1(int x, int y) {
 //     return x + y;
 // }
 
-// def int main() 
-// {
-//     if (set(3) == 3) {
-//         g = 99;
-//         if (set(98) == 4) {
-//             return 1;
-//         } else {
-//             if (foo(set(4), set(4)) == 8) {
-//                 return 10000;
-//             }
-//         }
-//     }
+// def int call2(int x, int y) {
+//     return x - y;
 // }
 
-TEST_PROGRAM(A_jumbled_together_stuff, 10000,
-    "int a[10]; int g; def int set(int x) { g = x; return x; } def int foo(int x, int y) { return x + y; } def int main() { if (set(3) == 3) { g = 99; if (set(98) == 4) { return 1; } else { if (foo(set(4), set(4)) == 8) { return 10000; } } } }")
+// def int call3(int x, int y) {
+//     return x * y;
+// }
 
-// def int add(int x, int y) {
-//     return x - y;
+// def int call4(int x, int y) {
+//     return x / y;
+// }
+
+// def int call5(int x, int y) {
+//     return x % y;
 // }
 
 // def int main() {
@@ -337,8 +325,19 @@ TEST_PROGRAM(A_jumbled_together_stuff, 10000,
 //     int b;
 //     a = 10;
 //     b = 5;
-//     return add(a, b);
+//     return call1(call2(call3(call4(call5(a, b), b), b), b), b);
 // }
+TEST_PROGRAM(A_functions_within_functions, 0,
+    "def int call1(int x, int y) { return x + y; } def int call2(int x, int y) { return x - y; } def int call3(int x, int y) { return x * y; } def int call4(int x, int y) { return x / y; } def int call5(int x, int y) { return x % y; } def int main() { int a; int b; a = 10; b = 5; return call1(call2(call3(call4(call5(a, b), b), b), b), b); }")
+
+
+TEST_PROGRAM(A_jumbled_together_stuff, 10000,
+    "int a[10]; int g; def int set(int x) { g = x; return x; } def int foo(int x, int y) { return x + y; } def int main() { if (set(3) == 3) { g = 99; if (set(98) == 4) { return 1; } else { if (foo(set(4), set(4)) == 8) { return 10000; } } } }")
+
+TEST_MAIN(A_mod_simple1, 1, "int a; a = 5 % 2; return a;")
+TEST_MAIN(A_mod_simple2, 0, "int a; a = 4 % 2; return a;")
+TEST_MAIN(A_mod_simple3, 1, "int a; a = 3 % 2; return a;")
+TEST_MAIN(A_mod_simple4, 0, "int a; a = 2 % 2; return a;")
 
 TEST_PROGRAM(A_Funcall_ordering, 5,
     "def int add(int x, int y) { return x - y; } def int main() { int a; int b; a = 10; b = 5; return add(a, b); }")
@@ -427,6 +426,10 @@ void public_tests (Suite *s)
     TEST(A_Modulus_operator4);
     TEST(A_Modulus_operator5);
     TEST(A_Modulus_operator6);
+    TEST(A_mod_simple1);
+    TEST(A_mod_simple2);
+    TEST(A_mod_simple3);
+    TEST(A_mod_simple4);
 
     // function calls
     TEST(A_funccall_params1);
@@ -436,9 +439,11 @@ void public_tests (Suite *s)
     TEST(A_modulus_expression);
     TEST(A_whileloop_even_sum);
     TEST(A_Funcall_ordering);
+    TEST(A_functions_within_functions);
 
     TEST(A_Print_int_function);
     TEST(A_Print_str_function);
+    // Prints a 1 to the console which makes the 100% pass rate a 1100% pass rate.  Just annoying so I commented out.
     // TEST(A_Print_bool_function);
 
 
