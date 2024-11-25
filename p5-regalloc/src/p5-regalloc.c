@@ -117,3 +117,31 @@ void allocate_registers (InsnList* list, int num_physical_registers)
         printf("\n");
     }
 }
+
+void ensure(int vr)
+{
+    // if name[pr] == vr for some pr:              // if the vr is in a phys reg
+    //     return pr                               // then use it
+    // else
+    //     pr = allocate(vr)                       // otherwise, allocate a phys reg
+    //     if offset[vr] is valid:                 // if vr was spilled, load it
+    //         emit load into pr from offset[vr]
+    //     return pr                               // and use it
+}
+
+void allocate(int vr)
+{
+    //  if name[pr] == INVALID for some pr:         // if there's a free register
+    //     name[pr] = vr                           // then allocate it
+    //     return pr                               // and use it
+    // else:
+    //     find pr that maximizes dist(name[pr])   // otherwise, find register to spill
+    //     spill(pr)                               // spill value to stack
+    //     name[pr] = vr                           // reallocate it
+    //     return pr                               // and use it
+}
+
+void dist(int vr)
+{
+    // return number of instructions until vr is next used (INFINITY if no use)
+}
