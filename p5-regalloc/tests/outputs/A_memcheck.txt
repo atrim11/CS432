@@ -1,14 +1,3 @@
-allocating main:
-allocating push BP
-allocating i2i SP => BP
-allocating addI SP, 0 => SP
-allocating loadI 4 => r0
-allocating i2i r0 => RET read from r0
-allocating jump l0
-allocating l0:
-allocating i2i BP => SP
-allocating pop BP
-allocating return
 main:
   push BP
   i2i SP => BP
