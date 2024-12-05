@@ -168,7 +168,9 @@ void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
 
 // Calculate the distance to the next use of a virtual register
 int dist(int vr, ILOCInsn* current) {
+    
     int distance = 0;
+
     for (ILOCInsn* i = current; i != NULL; i = i->next, distance++) {
         ILOCInsn* read_regs = ILOCInsn_get_read_registers(i);
         for (int op = 0; op < 3; op++) {
@@ -183,6 +185,11 @@ int dist(int vr, ILOCInsn* current) {
 }
 
 void allocate_registers(InsnList* list, int num_physical_registers) {
+    // NULL insnlist
+    if (list == NULL) {
+        return;
+    }
+    
     reset_mappings(num_physical_registers);
     ILOCInsn* local_allocator = NULL; // Track local stack allocator instruction
 

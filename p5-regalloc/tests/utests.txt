@@ -1,4 +1,3 @@
 Running suite(s): Default
-81%: Checks: 11, Failures: 0, Errors: 2
-public.c:46:E:Public:B_spilled_regs:0: (after this point) Received signal 11 (Segmentation fault)
-private.c:3:E:Private:A_null_insnlist:0: (after this point) Received signal 11 (Segmentation fault)
+92%: Checks: 14, Failures: 0, Errors: 1
+public.c:67:E:Public:B_spilled_regs:0: (after this point) Received signal 11 (Segmentation fault)
