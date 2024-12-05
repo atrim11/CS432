@@ -14,7 +14,7 @@ int offset[MAX_VIRTUAL_REGS]; // Map virtual register ID to stack offset
 void reset_mappings(int num_physical_registers);
 int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator);
 int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator);
-void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator);
+void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int* offset, int* name);
 int dist(int vr, ILOCInsn* current);
 
 
@@ -154,13 +154,13 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
         }
     }
 
-    spill(spill_pr, prev_insn, local_allocator);
+    spill(spill_pr, prev_insn, local_allocator, offset, name);
     name[spill_pr] = vr;
     return spill_pr;
 }
 
 // Spill a physical register to the stack
-void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
+void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int* offset, int* name) {
     int vr = name[pr];
     offset[vr] = insert_spill(pr, prev_insn, local_allocator);
     name[pr] = INVALID;  // Mark as free
@@ -193,28 +193,34 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
     reset_mappings(num_physical_registers);
     ILOCInsn* local_allocator = NULL; // Track local stack allocator instruction
 
-    FOR_EACH(ILOCInsn*, i, list) {
-        if (i->op == CALL) {
-            // Spill all live registers before a function call
-            for (int pr = 0; pr < num_physical_registers; pr++) {
-                if (name[pr] != INVALID) {
-                    spill(pr, i, local_allocator);
-                }
-            }
+    FOR_EACH(ILOCInsn*, i, list) 
+    {
+        // printf("allocating ");
+        // ILOCInsn_print(i, stdout);
+        // function calling
+        if (i->op[0].type == CALL_LABEL) {
+            local_allocator = i;
         }
 
-        // Ensure all read virtual registers are allocated
+        //sure all read virtual registers are allocated
         ILOCInsn* read_regs = ILOCInsn_get_read_registers(i);
-        for (int op = 0; op < 3; op++) {
+        for (int op = 0; op < 3; op++) 
+        {
             Operand vr = read_regs->op[op];
             if (vr.type == VIRTUAL_REG) {
+                // printf(" read from ");
+                // Operand_print(vr, stdout);
+
                 int pr = ensure(vr.id, i, local_allocator);
                 replace_register(vr.id, pr, i);
+
+
                 if (dist(vr.id, i->next) == INT_MAX) {
                     name[pr] = INVALID;  // Free register if no future use
                 }
             }
         }
+
         free(read_regs);
 
         // Allocate physical register for written virtual register
@@ -222,6 +228,15 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         if (vr.type == VIRTUAL_REG) {
             int pr = allocate(vr.id, i, local_allocator);
             replace_register(vr.id, pr, i);
+        }
+
+
+        if (i->op->id == CALL) {
+            for (int pr = 0; pr < num_physical_registers; pr++) {
+                if (name[pr] != INVALID) {
+                    spill(pr, i, local_allocator, name, offset);
+                }
+            }
         }
     }
 }
