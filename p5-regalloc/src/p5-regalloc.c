@@ -7,10 +7,10 @@
 
 #define INVALID -1
 #define MAX_PHYSICAL_REGS 4
+#define INFINITY INT_MAX
 // Global and local data structures
 int name[MAX_PHYSICAL_REGS];  // Map physical register ID to virtual register ID
 int offset[MAX_VIRTUAL_REGS]; // Map virtual register ID to stack offset
-int active[MAX_VIRTUAL_REGS]; // Track whether a virtual register is active
 
 //
 void reset_mappings(int num_physical_registers);
@@ -91,59 +91,9 @@ void insert_load(int bp_offset, int pr, ILOCInsn* prev_insn)
     prev_insn->next = new_insn;
 }
 
-// void allocate_registers (InsnList* list, int num_physical_registers)
-// {
-//     // for each instruction i in program:
-//     FOR_EACH(ILOCInsn*, i, list)
-//     {
-//         printf("allocating ");
-//         ILOCInsn_print(i, stdout);
-
-//         // for each read vr in i:
-//         ILOCInsn* read_regs = ILOCInsn_get_read_registers(i);
-//         for (int op = 0; op < 3; op++)
-//         {
-//             Operand vr = read_regs->op[op];
-//             if (vr.type == VIRTUAL_REG)
-//             {
-//                 printf(" read from ");
-//                 Operand_print(vr, stdout);
-
-//                 //     pr = ensure(vr)                     // make sure vr is in a phys reg
-//                 int pr = vr.id; // TODO: CHANGE THIS CURRENTLY FAKE FROM CLASS
-//                 //     replace vr with pr in i             // change register id
-//                 replace_register(vr.id, pr, i);
-                
-//                 // "this is the part that lets us reuse registers"
-//                 //     if dist(vr) == INFINITY:            // if no future use
-//                 //         name[pr] = INVALID              // then free pr
-                
-//             }
-//         }
-        
-//         free(read_regs);
-        
-//         Operand vr = ILOCInsn_get_write_register(i);
-//         // for each written vr in i:
-//         //     pr = allocate(vr)                   // make sure phys reg is available
-//         int pr = vr.id; // TODO: CHANGE THIS CURRENTLY FAKE FROM CLASS
-//         //     replace vr with pr in i             // change register id and type
-//         replace_register(vr.id, pr, i);
-        
-//         printf("\n");
-//     }
-// }
-
-
 // Allocate a physical register for a virtual register
 int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
-    // Prioritize R0 for allocation if available
-    if (name[0] == INVALID) {
-        name[0] = vr;
-        return 0; // Use R0
-    }
 
-    // If R0 is in use, look for another free register
     for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) {
         if (name[pr] == INVALID) {
             name[pr] = vr;
@@ -152,8 +102,8 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
     }
 
     // Spill logic if all registers are in use
-    int max_dist = -1, spill_pr = -1;
-    for (int pr = 1; pr < MAX_PHYSICAL_REGS; pr++) { // Avoid spilling R0
+    int max_dist = -1, spill_pr = 0;
+    for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) { // Avoid spilling R0
         int current_vr = name[pr];
         int distance = dist(current_vr, prev_insn->next);
         if (distance > max_dist) {
@@ -162,15 +112,10 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
         }
     }
 
-    if (spill_pr != -1) {
         spill(spill_pr, prev_insn, local_allocator, offset, name);
         name[spill_pr] = vr;
         return spill_pr;
     }
-
-    fprintf(stderr, "Error: Unable to allocate register for vr=%d\n", vr);
-    exit(EXIT_FAILURE);
-}
 
 
 
@@ -210,8 +155,13 @@ int dist(int vr, ILOCInsn* current) {
 }
 
 void allocate_registers(InsnList* list, int num_physical_registers) {
+    if (list == NULL) {
+        return list;
+    }
+
     reset_mappings(num_physical_registers);
     ILOCInsn* local_allocator = NULL;
+    ILOCInsn* prev_insn = NULL;
 
     FOR_EACH(ILOCInsn*, i, list) {
         // Track the local allocator
@@ -224,7 +174,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         for (int op = 0; op < 3; op++) {
             Operand vr = read_regs->op[op];
             if (vr.type == VIRTUAL_REG) {
-                int pr = ensure(vr.id, i, local_allocator);
+                int pr = ensure(vr.id, prev_insn, local_allocator);
                 replace_register(vr.id, pr, i);
 
                 if (dist(vr.id, i->next) == INT_MAX) {
@@ -237,9 +187,25 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         // Allocate and reload write registers if necessary
         Operand vr = ILOCInsn_get_write_register(i);
         if (vr.type == VIRTUAL_REG) {
-            int pr = allocate(vr.id, i, local_allocator);
+            int pr = allocate(vr.id, prev_insn, local_allocator);
             replace_register(vr.id, pr, i);
         }
+
+        // spill any live registers before procedure calls
+        // if i is a CALL instruction:
+        //     for each pr where name[pr] != INVALID:
+        //         spill(pr)
+
+        if (i->op[0].type == CALL_LABEL) {
+            for (int pr = 0; pr < num_physical_registers; pr++) {
+                if (name[pr] != INVALID) {
+                    spill(pr, prev_insn, local_allocator, offset, name);
+                }
+            }
+        }
+        // save reference to i to facilitate spilling before next instruction
+        prev_insn = i;
+        
     }
 }
 
@@ -277,41 +243,6 @@ int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
     return pr;
 }
 
-void free_register(int pr) {
-    int vr = name[pr];
-    if (vr != INVALID) {
-        name[pr] = INVALID;   // Free the physical register
-        offset[vr] = INVALID; // Clear any associated spill slot
-        printf("Freeing pr=%d (vr=%d)\n", pr, vr);
-    }
-}
 
 
 
-// void ensure(int vr)
-// {
-//     // if name[pr] == vr for some pr:              // if the vr is in a phys reg
-//     //     return pr                               // then use it
-//     // else
-//     //     pr = allocate(vr)                       // otherwise, allocate a phys reg
-//     //     if offset[vr] is valid:                 // if vr was spilled, load it
-//     //         emit load into pr from offset[vr]
-//     //     return pr                               // and use it
-// }
-
-// void allocate(int vr)
-// {
-//     //  if name[pr] == INVALID for some pr:         // if there's a free register
-//     //     name[pr] = vr                           // then allocate it
-//     //     return pr                               // and use it
-//     // else:
-//     //     find pr that maximizes dist(name[pr])   // otherwise, find register to spill
-//     //     spill(pr)                               // spill value to stack
-//     //     name[pr] = vr                           // reallocate it
-//     //     return pr                               // and use it
-// }
-
-// void dist(int vr)
-// {
-//     // return number of instructions until vr is next used (INFINITY if no use)
-// }

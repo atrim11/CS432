@@ -74,11 +74,11 @@ TEST_PROGRAM(B_func_call1, 5,
         "def int add(int a, int b) { return a + b; } "
         "def int main() { return add(2,3); }")
 
-TEST_PROGRAM(B_func_call2, 17, 
+TEST_PROGRAM(B_func_call2, 14, 
         "def int add(int a, int b) { return a + b; } "
         "def int main() { return add(2,3) + add(4,5); }")
 
-TEST_PROGRAM(B_func_call3, 43, 
+TEST_PROGRAM(B_func_call3, 27, 
         "def int add(int a, int b) { return a + b; } "
         "def int main() { return add(2,3) + add(4,5) + add(6,7); }")
 
@@ -128,11 +128,11 @@ void public_tests (Suite *s)
         TEST(C_assign_multiple2);
 
 
-        // TEST(B_func_call);
+        TEST(B_func_call);
         TEST(B_spilled_regs);
-        // TEST(B_func_call1);
-        // TEST(B_func_call2);
-        // TEST(B_func_call3);
+        TEST(B_func_call1);
+        TEST(B_func_call2);
+        TEST(B_func_call3);
         // TEST(B_recursion);
         // TEST(B_recursion1);
         // TEST(B_recursion2);

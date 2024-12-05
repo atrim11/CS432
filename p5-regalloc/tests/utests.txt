@@ -1,4 +1,3 @@
 Running suite(s): Default
-85%: Checks: 14, Failures: 1, Errors: 1
-public.c:67:F:Public:B_spilled_regs:0: Assertion 'run_program("def int main() { " "  return (((1+2)+(3+4))+((5+6)+(7+8)))+" "         (((1+2)+(3+4))+((5+6)+(7+8))); }") == 72' failed: run_program("def int main() { " "  return (((1+2)+(3+4))+((5+6)+(7+8)))+" "         (((1+2)+(3+4))+((5+6)+(7+8))); }") == 73, 72 == 72
-private.c:3:E:Private:A_null_insnlist:0: (after this point) Received signal 11 (Segmentation fault)
+94%: Checks: 18, Failures: 1, Errors: 0
+public.c:81:F:Public:B_func_call3:0: Assertion 'run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7); }") == 27' failed: run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7); }") == 34, 27 == 27
