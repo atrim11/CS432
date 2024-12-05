@@ -1,3 +1,6 @@
 Running suite(s): Default
-94%: Checks: 18, Failures: 1, Errors: 0
-public.c:81:F:Public:B_func_call3:0: Assertion 'run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7); }") == 27' failed: run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7); }") == 34, 27 == 27
+80%: Checks: 20, Failures: 4, Errors: 0
+public.c:77:F:Public:B_func_call2:0: Assertion 'run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5); }") == 14' failed: run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5); }") == 18, 14 == 14
+public.c:81:F:Public:B_func_call3:0: Assertion 'run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7); }") == 27' failed: run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7); }") == 26, 27 == 27
+public.c:85:F:Public:B_func_call4:0: Assertion 'run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7) + add(8,9); }") == 44' failed: run_program("def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7) + add(8,9); }") == 34, 44 == 44
+public.c:90:F:Public:B_recursion:0: Assertion 'run_program("def int fib(int n) { " "  if (n <= 1) { return n; } " "  return fib(n-1) + fib(n-2); } " "def int main() { return fib(15); }") == 610' failed: run_program("def int fib(int n) { " "  if (n <= 1) { return n; } " "  return fib(n-1) + fib(n-2); } " "def int main() { return fib(15); }") == 128, 610 == 610

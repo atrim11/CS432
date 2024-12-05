@@ -82,20 +82,24 @@ TEST_PROGRAM(B_func_call3, 27,
         "def int add(int a, int b) { return a + b; } "
         "def int main() { return add(2,3) + add(4,5) + add(6,7); }")
 
+TEST_PROGRAM(B_func_call4, 44, 
+        "def int add(int a, int b) { return a + b; } "
+        "def int main() { return add(2,3) + add(4,5) + add(6,7) + add(8,9); }")
+
 // Recursion Tests
-TEST_PROGRAM(B_recursion, 120, 
+TEST_PROGRAM(B_recursion, 610, 
         "def int fib(int n) { "
         "  if (n <= 1) { return n; } "
         "  return fib(n-1) + fib(n-2); } "
         "def int main() { return fib(15); }")
 
-TEST_PROGRAM(B_recursion1, 140, 
+TEST_PROGRAM(B_recursion1, 987, 
         "def int fib(int n) { "
         "  if (n <= 1) { return n; } "
         "  return fib(n-1) + fib(n-2); } "
         "def int main() { return fib(16); }")
 
-TEST_PROGRAM(B_recursion2, 160,
+TEST_PROGRAM(B_recursion2, 1597,
         "def int fib(int n) { "
         "  if (n <= 1) { return n; } "
         "  return fib(n-1) + fib(n-2); } "
@@ -133,7 +137,9 @@ void public_tests (Suite *s)
         TEST(B_func_call1);
         TEST(B_func_call2);
         TEST(B_func_call3);
-        // TEST(B_recursion);
+        TEST(B_func_call4);
+
+        TEST(B_recursion);
         // TEST(B_recursion1);
         // TEST(B_recursion2);
 
