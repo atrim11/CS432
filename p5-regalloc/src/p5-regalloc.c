@@ -137,17 +137,23 @@ void insert_load(int bp_offset, int pr, ILOCInsn* prev_insn)
 
 // Allocate a physical register for a virtual register
 int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
-    // Look for a free register within the allowed range
+    // Prioritize R0 for allocation if available
+    if (name[0] == INVALID) {
+        name[0] = vr;
+        return 0; // Use R0
+    }
+
+    // If R0 is in use, look for another free register
     for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) {
         if (name[pr] == INVALID) {
             name[pr] = vr;
-            return pr;  // Free register found
+            return pr;
         }
     }
 
     // Spill logic if all registers are in use
     int max_dist = -1, spill_pr = -1;
-    for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) {
+    for (int pr = 1; pr < MAX_PHYSICAL_REGS; pr++) { // Avoid spilling R0
         int current_vr = name[pr];
         int distance = dist(current_vr, prev_insn->next);
         if (distance > max_dist) {
@@ -156,17 +162,16 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
         }
     }
 
-    // Spill the selected register
     if (spill_pr != -1) {
         spill(spill_pr, prev_insn, local_allocator, offset, name);
         name[spill_pr] = vr;
         return spill_pr;
     }
 
-    // Error handling if allocation fails
     fprintf(stderr, "Error: Unable to allocate register for vr=%d\n", vr);
     exit(EXIT_FAILURE);
 }
+
 
 
 
@@ -209,30 +214,27 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
     ILOCInsn* local_allocator = NULL;
 
     FOR_EACH(ILOCInsn*, i, list) {
-        // Detect the local allocator instruction
+        // Track the local allocator
         if (i->op[0].type == CALL_LABEL) {
             local_allocator = i;
         }
 
-        // Handle all read virtual registers
+        // Ensure all read registers are reloaded if spilled
         ILOCInsn* read_regs = ILOCInsn_get_read_registers(i);
         for (int op = 0; op < 3; op++) {
             Operand vr = read_regs->op[op];
             if (vr.type == VIRTUAL_REG) {
-                // Ensure the virtual register is allocated
                 int pr = ensure(vr.id, i, local_allocator);
                 replace_register(vr.id, pr, i);
 
-                // Free the physical register if it will no longer be used
                 if (dist(vr.id, i->next) == INT_MAX) {
-                    printf("Freeing pr=%d (vr=%d)\n", pr, vr.id);
                     name[pr] = INVALID;
                 }
             }
         }
         free(read_regs);
 
-        // Handle the write virtual register
+        // Allocate and reload write registers if necessary
         Operand vr = ILOCInsn_get_write_register(i);
         if (vr.type == VIRTUAL_REG) {
             int pr = allocate(vr.id, i, local_allocator);
@@ -257,27 +259,34 @@ void reset_mappings(int num_physical_registers) {
 
 // Ensure a virtual register is in a physical register
 int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
+    // Check if the virtual register is already in a physical register
     for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) {
         if (name[pr] == vr) {
             return pr;  // Virtual register already allocated
         }
     }
 
+    // Allocate a new physical register
     int pr = allocate(vr, prev_insn, local_allocator);
+
+    // Reload the spilled value, if necessary
     if (offset[vr] != INVALID) {
-        insert_load(offset[vr], pr, prev_insn); // Load spilled register
+        insert_load(offset[vr], pr, prev_insn);
     }
+
     return pr;
 }
 
 void free_register(int pr) {
     int vr = name[pr];
     if (vr != INVALID) {
-        active[vr] = 0; // Mark the virtual register as inactive
-        name[pr] = INVALID; // Free the physical register
-        fprintf(stderr, "Freeing pr=%d (vr=%d)\n", pr, vr);
+        name[pr] = INVALID;   // Free the physical register
+        offset[vr] = INVALID; // Clear any associated spill slot
+        printf("Freeing pr=%d (vr=%d)\n", pr, vr);
     }
 }
+
+
 
 // void ensure(int vr)
 // {
