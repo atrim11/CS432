@@ -100,9 +100,8 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
         }
     }
 
-    // Spill logic if all registers are in use
     int max_dist = -1, spill_pr = 0;
-    for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) { // Avoid spilling R0
+    for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) {
         int current_vr = name[pr];
         int distance = dist(current_vr, prev_insn->next);
         if (distance > max_dist) {
@@ -119,31 +118,24 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
 // Spill a physical register to the stack
 void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int* offset, int* name) {
     int vr = name[pr];
-    if (vr == INVALID) {
-        fprintf(stderr, "Error: Trying to spill an unallocated register R%d\n", pr);
-        exit(EXIT_FAILURE);
-    }
-
-    // Spill the register value to memory
     offset[vr] = insert_spill(pr, prev_insn, local_allocator);
-    name[pr] = INVALID;  // Mark the physical register as free
+    name[pr] = INVALID; 
 }
 
 
-// Calculate the distance to the next use of a virtual register
 int dist(int vr, ILOCInsn* current) {
     int distance = 0;
     for (ILOCInsn* i = current; i != NULL; i = i->next, distance++) {
         ILOCInsn* read_regs = ILOCInsn_get_read_registers(i);
         for (int op = 0; op < 3; op++) {
             if (read_regs->op[op].type == VIRTUAL_REG && read_regs->op[op].id == vr) {
-                free(read_regs);
-                return distance;  // Next use found
+                // free(read_regs);
+                return distance;  
             }
         }
         free(read_regs);
     }
-    return INT_MAX;  // No future use
+    return INT_MAX;  
 }
 
 void allocate_registers(InsnList* list, int num_physical_registers) {
@@ -197,9 +189,8 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
             
             // Reload spilled registers after a CALL if they are needed again
             for (int vr = 0; vr < MAX_VIRTUAL_REGS; vr++) {
-                if (offset[vr] != INVALID) {  // Check if the register was spilled
+                if (offset[vr] != INVALID) {  
                     int pr = ensure(vr, prev_insn, local_allocator);
-                    // No need to explicitly reload here as ensure handles it
                 }
             }
         }
@@ -226,14 +217,11 @@ void reset_mappings(int num_physical_registers) {
 int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
     for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) {
         if (name[pr] == vr) {
-            return pr;  // Virtual register is already in a physical register
+            return pr;  
         }
     }
 
-    // Allocate a new register if not already allocated
     int pr = allocate(vr, prev_insn, local_allocator);
-
-    // Reload the spilled value, if necessary
     if (offset[vr] != INVALID) {
         insert_load(offset[vr], pr, prev_insn);
     }
