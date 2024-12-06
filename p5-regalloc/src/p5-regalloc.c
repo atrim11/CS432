@@ -1,13 +1,13 @@
 /**
  * @file p5-regalloc.c
  * @brief Compiler phase 5: register allocation
+ * @author Aidan Trimmer & Walker Todd 
+ * AI was used to help with making test cases, and filling in rudimentary/repetitive code
  */
 #include "p5-regalloc.h"
-#include <limits.h>
 
 #define INVALID -1
-#define MAX_PHYSICAL_REGS 4
-#define INFINITY INT_MAX
+#define INFINITY 9900000
 
 // Global and local data structures
 int name[MAX_PHYSICAL_REGS];  // Map physical register ID to virtual register ID
@@ -123,9 +123,9 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_phy
 }
 
 // spill(pr):
-    // emit store from pr onto the stack at some offset x
-    // offset[name[pr]] = x
-    // name[pr] = INVALID
+// emit store from pr onto the stack at some offset x
+// offset[name[pr]] = x
+// name[pr] = INVALID
 void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
     int vr = name[pr];
     int bp_offset = insert_spill(pr, prev_insn, local_allocator);
@@ -133,7 +133,7 @@ void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
     name[pr] = INVALID;
 }
 
-
+// dist function
 int dist(int vr, ILOCInsn* current) {
     int distance = 0;
     for (ILOCInsn* i = current; i != NULL; i = i->next, distance++) {
@@ -146,12 +146,13 @@ int dist(int vr, ILOCInsn* current) {
         }
     ILOCInsn_free(read_regs);    
     }
-    return INT_MAX;  
+    return INFINITY;  
 }
 
+// allocate registers
 void allocate_registers(InsnList* list, int num_physical_registers) {
     if (list == NULL) {
-        return list;
+        return;
     }
 
     reset_mappings(num_physical_registers);
@@ -216,11 +217,11 @@ void reset_mappings(int num_physical_registers) {
     for (int i = 0; i < num_physical_registers; i++) {
         name[i] = INVALID;  // Mark all registers as free
     }
-    // for (int i = 0; i < num_physical_registers; i++) {
-    //     offset[i] = INVALID;  // Initialize all offsets to invalid
-    // }
-}
 
+    for (int i = 0; i < num_physical_registers; i++) {
+        offset[i] = INVALID;  // Initialize all offsets to invalid
+    }
+}
 
 // Ensure a virtual register is in a physical register
 int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_physical_registers) {
@@ -231,15 +232,10 @@ int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_physi
     }
 
     int pr = allocate(vr, prev_insn, local_allocator, num_physical_registers);
-    // if offset[vr] is valid:                 // if vr was spilled, load it
+    // if offset[vr] is valid:                 
+    // if vr was spilled, load it
     if (offset[vr] != INVALID) {
         insert_load(offset[vr], pr, prev_insn);
     }
-
     return pr;
 }
-
-
-
-
-
