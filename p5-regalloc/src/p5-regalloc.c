@@ -140,11 +140,11 @@ int dist(int vr, ILOCInsn* current) {
         ILOCInsn* read_regs = ILOCInsn_get_read_registers(i);
         for (int op = 0; op < 3; op++) {
             if (read_regs->op[op].type == VIRTUAL_REG && read_regs->op[op].id == vr) {
-                // free(read_regs);
-                return distance;  
+                ILOCInsn_free(read_regs);
+                return distance;
             }
         }
-        free(read_regs);
+    ILOCInsn_free(read_regs);    
     }
     return INT_MAX;  
 }
@@ -160,7 +160,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
 
     FOR_EACH(ILOCInsn*, i, list) {
         //    save reference to stack allocator instruction if i is a call label
-        if (i->form == CALL_LABEL) {
+        if (i->form == LABEL && i->op[0].type == CALL_LABEL) {
             local_allocator = i->next->next->next;
         }
 
@@ -181,7 +181,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
                 }
             }
         }
-        free(read_regs);
+        ILOCInsn_free(read_regs);
 
         // for each written vr in i:
         for (int op = 0; op < 3; op++) {
@@ -216,9 +216,9 @@ void reset_mappings(int num_physical_registers) {
     for (int i = 0; i < num_physical_registers; i++) {
         name[i] = INVALID;  // Mark all registers as free
     }
-    for (int i = 0; i < num_physical_registers; i++) {
-        offset[i] = INVALID;  // Initialize all offsets to invalid
-    }
+    // for (int i = 0; i < num_physical_registers; i++) {
+    //     offset[i] = INVALID;  // Initialize all offsets to invalid
+    // }
 }
 
 
