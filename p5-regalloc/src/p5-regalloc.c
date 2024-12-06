@@ -162,7 +162,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
 
     clear_reg(num_physical_registers);
     ILOCInsn* local_allocator = NULL;
-    ILOCInsn* prev_insn = NULL;
+    ILOCInsn* reference_to_i = NULL;
 
     FOR_EACH(ILOCInsn*, i, list) {
         //    save reference to stack allocator instruction if i is a call label
@@ -179,7 +179,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         for (int op = 0; op < 3; op++) {
             Operand vr = read_regs->op[op];
             if (vr.type == VIRTUAL_REG) {
-                int pr = ensure(vr.id, prev_insn, local_allocator, num_physical_registers);
+                int pr = ensure(vr.id, reference_to_i, local_allocator, num_physical_registers);
                 replace_register(vr.id, pr, i);
 
                 if (dist(vr.id, i->next) == INFINITY) {
@@ -193,7 +193,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         for (int op = 0; op < 3; op++) {
             Operand vr = i->op[op];
             if (vr.type == VIRTUAL_REG) {
-                int pr = allocate(vr.id, prev_insn, local_allocator, num_physical_registers);
+                int pr = allocate(vr.id, reference_to_i, local_allocator, num_physical_registers);
                 replace_register(vr.id, pr, i);
             }
         }
@@ -207,12 +207,12 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         if (i->form == CALL) {
             for (int pr = 0; pr < num_physical_registers; pr++) {
                 if (name[pr] != INVALID) {
-                    spill(pr, prev_insn, local_allocator);
+                    spill(pr, reference_to_i, local_allocator);
                 }
             }
         }
         // save reference to i to facilitate spilling before next instruction
-        prev_insn = i;
+        reference_to_i = i;
     }
 }
 

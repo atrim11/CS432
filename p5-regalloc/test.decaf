@@ -1,4 +1,145 @@
-// def int add(int a, int b) { return a + b; } " "def int main() { return add(2,3) + add(4,5) + add(6,7);
+// CS 432 PROJECT 0: DECAF PROGRAMMING
+// Julian Barrett
+// I used AI while creating edge cases for this solution.
 
-        def int add(int a, int b) { return a + b; } 
-        def int main() { return add(2,3) + add(4,5) + add(6,7); }
+// need to test for 1
+def int fact(int n)
+{
+    int p;
+    p = n;
+    while (n > 1) {
+        n = n - 1;
+        p = p * n;
+    }
+    return p;
+}
+
+def int fib(int n)
+{
+    if (n == 0) {
+        return 0;
+    } if (n == 1) {
+        return 1;
+    } else {
+        return fib(n - 1) + fib(n - 2);
+    }
+}
+
+def bool is_prime(int n)
+{
+    int p;
+    p = n / 2;
+
+    if (n <= 1) {
+        return false;
+    }
+    if (n == 2) {
+        return true;
+    }
+
+    while (p > 1) {
+        if (n % p == 0) {
+            return false;
+        }
+        p = p - 1;
+    }
+    return true;
+}
+
+// errors
+def int gcd(int a, int b)
+{
+    int p;
+    
+    if (a < b) {
+        p = a;
+    } else {
+        p = b;
+    }
+    while (p > 0) {
+        if ((a % p == 0) && (b % p == 0)) {
+            return p;
+        }
+        p = p - 1;
+    }
+    return 1;
+}
+
+int nums[100];
+
+def int sum_nums(int len)
+{
+    int i;
+    i = 0;
+    len = len - 1;
+    while (len >= 0) {
+        i = i + nums[len];
+        len = len - 1;
+    }
+    return i;
+}
+
+// get rid of for loop
+def void sort_nums(int len)
+{
+    int i;
+    int temp;
+    bool swapped;
+    swapped = true;
+
+    while (swapped) {
+        swapped = false;
+        i = 0;
+        while (i < len - 1) {
+            if (nums[i] > nums[i + 1]) {
+                // Swap nums[i] and nums[i + 1]
+                temp = nums[i];
+                nums[i] = nums[i + 1];
+                nums[i + 1] = temp;
+                swapped = true;
+            }
+            i = i + 1;
+        }
+    }
+}
+
+// think i did this one backwards
+def void draw_triangle(int base)
+{
+    int starter;
+    int i;
+
+    starter = 0;
+    if ((base % 2) == 1) {
+        starter = 1;
+    } else  {
+        starter = 2;
+    }
+//   #
+//  ###
+// #####
+    i = 0;
+    while (starter <= base) {
+        i = 0;
+        while (i < ((base - starter) / 2)) {
+            // print white spaces
+            print_str(" ");  
+            i = i + 1;
+        }
+
+        i = 0;
+        while (i < starter) {
+            print_str ("#");
+            i = i + 1; 
+        }
+
+        // i = 0;
+        starter = starter + 2;
+        print_str("\n");
+    }
+}
+
+def int main()
+{
+ 
+}
