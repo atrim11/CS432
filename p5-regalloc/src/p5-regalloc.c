@@ -8,6 +8,7 @@
 #define INVALID -1
 #define MAX_PHYSICAL_REGS 4
 #define INFINITY INT_MAX
+
 // Global and local data structures
 int name[MAX_PHYSICAL_REGS];  // Map physical register ID to virtual register ID
 int offset[MAX_VIRTUAL_REGS]; // Map virtual register ID to stack offset
@@ -16,7 +17,7 @@ int offset[MAX_VIRTUAL_REGS]; // Map virtual register ID to stack offset
 void reset_mappings(int num_physical_registers);
 int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator);
 int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator);
-void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int* offset, int* name);
+void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator);
 int dist(int vr, ILOCInsn* current);
 
 
@@ -110,13 +111,13 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
         }
     }
 
-    spill(spill_pr, prev_insn, local_allocator, offset, name);
+    spill(spill_pr, prev_insn, local_allocator);
     name[spill_pr] = vr;
     return spill_pr;
 }
 
 // Spill a physical register to the stack
-void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int* offset, int* name) {
+void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
     int vr = name[pr];
     offset[vr] = insert_spill(pr, prev_insn, local_allocator);
     name[pr] = INVALID; 
@@ -180,26 +181,17 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         //     for each pr where name[pr] != INVALID:
         //         spill(pr)
 
-        if (i->op->type == CALL) {
-            for (int pr = 0; pr < MAX_PHYSICAL_REGS; pr++) {
+        // Recursiveness Check
+        if (i->form == CALL) {
+            for (int pr = 0; pr < num_physical_registers; pr++) {
                 if (name[pr] != INVALID) {
-                    spill(pr, prev_insn, local_allocator, offset, name);
-                }
-            }
-            
-            // Reload spilled registers after a CALL if they are needed again
-            for (int vr = 0; vr < MAX_VIRTUAL_REGS; vr++) {
-                if (offset[vr] != INVALID) {  
-                    int pr = ensure(vr, prev_insn, local_allocator);
+                    spill(pr, prev_insn, local_allocator);
                 }
             }
         }
-        
         prev_insn = i;
     }
 }
-
-
 
 
 // Reset the register mappings and offsets
