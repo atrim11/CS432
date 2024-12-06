@@ -1,0 +1,7 @@
+Running suite(s): Default
+75%: Checks: 20, Failures: 0, Errors: 5
+public.c:67:E:Public:B_spilled_regs:0: (after this point) Received signal 11 (Segmentation fault)
+public.c:77:E:Public:B_func_call2:0: (after this point) Received signal 11 (Segmentation fault)
+public.c:81:E:Public:B_func_call3:0: (after this point) Received signal 11 (Segmentation fault)
+public.c:85:E:Public:B_func_call4:0: (after this point) Received signal 11 (Segmentation fault)
+public.c:90:E:Public:B_recursion:0: (after this point) Received signal 11 (Segmentation fault)
