@@ -1,2 +1,7 @@
 Running suite(s): Default
+WARNING: Potential uninitialized read from register R0
+WARNING: Potential uninitialized read from register R0
+WARNING: Potential uninitialized read from register R0
+WARNING: Potential uninitialized read from register R0
+WARNING: Potential uninitialized read from register R0
 100%: Checks: 20, Failures: 0, Errors: 0

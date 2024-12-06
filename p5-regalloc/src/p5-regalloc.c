@@ -101,25 +101,25 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_phy
             return pr;
         }
     }
-        //     find pr that maximizes dist(name[pr])   // otherwise, find register to spill
-        // spill(pr)                               // spill value to stack
-        // name[pr] = vr                           // reallocate it
-        // return pr                               // and use it
-    int spill_pr = 0;
-    int max_dist = 0;
+    // find pr that maximizes dist(name[pr])   // otherwise, find register to spill
+    // spill(pr)                               // spill value to stack
+    // name[pr] = vr                           // reallocate it
+    // return pr                               // and use it
+    int spill_temp = 0;
+    int dist_max = 0;
     for (int pr = 0; pr < num_physical_registers; pr++) {
         int d = dist(name[pr], prev_insn);
         // find pr that maximizes dist(name[pr])  
         // otherwise, find register to spill
-        if (d > max_dist) {
-            max_dist = d;
-            spill_pr = pr;
+        if (d > dist_max) {
+            dist_max = d;
+            spill_temp = pr;
         }
     }
 
-    spill(spill_pr, prev_insn, local_allocator);
-    name[spill_pr] = vr;
-    return spill_pr;
+    spill(spill_temp, prev_insn, local_allocator);
+    name[spill_temp] = vr;
+    return spill_temp;
 }
 
 // spill(pr):
@@ -136,16 +136,21 @@ void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator) {
 // dist function
 int dist(int vr, ILOCInsn* current) {
     int distance = 0;
-    for (ILOCInsn* i = current; i != NULL; i = i->next, distance++) {
+    ILOCInsn* i = current;
+    while (i != NULL) {
         ILOCInsn* read_regs = ILOCInsn_get_read_registers(i);
-        for (int op = 0; op < 3; op++) {
-            if (read_regs->op[op].type == VIRTUAL_REG && read_regs->op[op].id == vr) {
+        for (int op = 0; op < 3; op++) { // max of 3 operands
+            if (read_regs->op[op].id == vr) {
                 ILOCInsn_free(read_regs);
                 return distance;
             }
         }
-    ILOCInsn_free(read_regs);    
+        ILOCInsn_free(read_regs);
+
+        i = i->next;   // Move to the next instruction
+        distance++;    // Increment distance
     }
+
     return INFINITY;  
 }
 
@@ -165,11 +170,11 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
             local_allocator = i->next->next->next;
         }
 
-        //         for each read vr in i:
+        // for each read vr in i:
         // pr = ensure(vr)                     // make sure vr is in a phys reg
         // replace vr with pr in i             // change register id
         // if dist(vr) == INFINITY:            // if no future use
-        //     name[pr] = INVALID              // then free pr
+        // name[pr] = INVALID                  // then free pr
         ILOCInsn* read_regs = ILOCInsn_get_read_registers(i);
         for (int op = 0; op < 3; op++) {
             Operand vr = read_regs->op[op];
