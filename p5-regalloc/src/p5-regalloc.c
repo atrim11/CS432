@@ -14,9 +14,9 @@ int name[MAX_PHYSICAL_REGS];  // Map physical register ID to virtual register ID
 int offset[MAX_VIRTUAL_REGS]; // Map virtual register ID to stack offset
 
 //
-void clear_reg(int num_physical_registers);
-int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_physical_registers);
-int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_physical_registers);
+void clear_reg(int num_reg);
+int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_reg);
+int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_reg);
 void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator);
 int dist(int vr, ILOCInsn* current);
 
@@ -93,9 +93,9 @@ void insert_load(int bp_offset, int pr, ILOCInsn* prev_insn)
 }
 
 // Allocate a physical register for a virtual register
-int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_physical_registers) {
+int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_reg) {
     
-    for (int pr = 0; pr < num_physical_registers; pr++) {
+    for (int pr = 0; pr < num_reg; pr++) {
         if (name[pr] == INVALID) {
             name[pr] = vr;
             return pr;
@@ -107,7 +107,7 @@ int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_phy
     // return pr                               // and use it
     int spill_temp = 0;
     int dist_max = 0;
-    for (int pr = 0; pr < num_physical_registers; pr++) {
+    for (int pr = 0; pr < num_reg; pr++) {
         int d = dist(name[pr], prev_insn);
         // find pr that maximizes dist(name[pr])  
         // otherwise, find register to spill
@@ -155,12 +155,12 @@ int dist(int vr, ILOCInsn* current) {
 }
 
 // allocate registers
-void allocate_registers(InsnList* list, int num_physical_registers) {
+void allocate_registers(InsnList* list, int num_reg) {
     if (list == NULL) {
         return;
     }
 
-    clear_reg(num_physical_registers);
+    clear_reg(num_reg);
     ILOCInsn* local_allocator = NULL;
     ILOCInsn* reference_to_i = NULL;
 
@@ -179,7 +179,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         for (int op = 0; op < 3; op++) {
             Operand vr = read_regs->op[op];
             if (vr.type == VIRTUAL_REG) {
-                int pr = ensure(vr.id, reference_to_i, local_allocator, num_physical_registers);
+                int pr = ensure(vr.id, reference_to_i, local_allocator, num_reg);
                 replace_register(vr.id, pr, i);
 
                 if (dist(vr.id, i->next) == INFINITY) {
@@ -193,7 +193,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         for (int op = 0; op < 3; op++) {
             Operand vr = i->op[op];
             if (vr.type == VIRTUAL_REG) {
-                int pr = allocate(vr.id, reference_to_i, local_allocator, num_physical_registers);
+                int pr = allocate(vr.id, reference_to_i, local_allocator, num_reg);
                 replace_register(vr.id, pr, i);
             }
         }
@@ -205,7 +205,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
 
         // Recursiveness Check
         if (i->form == CALL) {
-            for (int pr = 0; pr < num_physical_registers; pr++) {
+            for (int pr = 0; pr < num_reg; pr++) {
                 if (name[pr] != INVALID) {
                     spill(pr, reference_to_i, local_allocator);
                 }
@@ -218,25 +218,25 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
 
 
 // Reset the register mappings and offsets
-void clear_reg(int num_physical_registers) {
-    for (int i = 0; i < num_physical_registers; i++) {
+void clear_reg(int num_reg) {
+    for (int i = 0; i < num_reg; i++) {
         name[i] = INVALID;  // Mark all registers as free
     }
 
-    for (int i = 0; i < num_physical_registers; i++) {
+    for (int i = 0; i < num_reg; i++) {
         offset[i] = INVALID;  // Initialize all offsets to invalid
     }
 }
 
 // Ensure a virtual register is in a physical register
-int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_physical_registers) {
-    for (int pr = 0; pr < num_physical_registers; pr++) {
+int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_reg) {
+    for (int pr = 0; pr < num_reg; pr++) {
         if (name[pr] == vr) {
             return pr;  
         }
     }
 
-    int pr = allocate(vr, prev_insn, local_allocator, num_physical_registers);
+    int pr = allocate(vr, prev_insn, local_allocator, num_reg);
     // if offset[vr] is valid:                 
     // if vr was spilled, load it
     if (offset[vr] != INVALID) {
