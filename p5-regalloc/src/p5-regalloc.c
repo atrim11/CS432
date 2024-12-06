@@ -14,7 +14,7 @@ int name[MAX_PHYSICAL_REGS];  // Map physical register ID to virtual register ID
 int offset[MAX_VIRTUAL_REGS]; // Map virtual register ID to stack offset
 
 //
-void reset_mappings(int num_physical_registers);
+void clear_reg(int num_physical_registers);
 int ensure(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_physical_registers);
 int allocate(int vr, ILOCInsn* prev_insn, ILOCInsn* local_allocator, int num_physical_registers);
 void spill(int pr, ILOCInsn* prev_insn, ILOCInsn* local_allocator);
@@ -160,7 +160,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
         return;
     }
 
-    reset_mappings(num_physical_registers);
+    clear_reg(num_physical_registers);
     ILOCInsn* local_allocator = NULL;
     ILOCInsn* prev_insn = NULL;
 
@@ -218,7 +218,7 @@ void allocate_registers(InsnList* list, int num_physical_registers) {
 
 
 // Reset the register mappings and offsets
-void reset_mappings(int num_physical_registers) {
+void clear_reg(int num_physical_registers) {
     for (int i = 0; i < num_physical_registers; i++) {
         name[i] = INVALID;  // Mark all registers as free
     }
